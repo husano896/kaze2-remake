@@ -5,6 +5,15 @@ body {
     --var-window-classic-bg: #443333;
     --var-window-classic-border-radius: 16px;
     --var-window-classic-border-color: #7B644D;
+    background: black;
+}
+.center {
+    text-align: center;
+}
+span,
+p,
+small {
+    white-space: pre-line;
 }
 
 .full-width {
@@ -12,7 +21,7 @@ body {
 }
 
 .full-height {
-    width: 100%;
+    height: 100%;
 }
 
 p,
@@ -55,6 +64,7 @@ ul {
 }
 
 .boxed-content {
+    box-sizing: border-box;
     border: 2px var(--var-window-classic-border-color) solid;
     border-radius: var(--var-window-classic-border-radius);
 }
@@ -77,6 +87,13 @@ ul {
     background: rgba(0, 0, 0, 0.25);
 }
 
+.gap {
+    gap: 8px;
+}
+.game-bg {
+    background: var(--var-window-classic-bg);
+}
+
 a {
     color: inherit;
 }
@@ -97,4 +114,18 @@ a:not(:hover) {
 .padding-large {
     padding: 16px;
     box-sizing: border-box;
+}
+
+.anim-fadeIn {
+    animation: fadeIn 3s steps(30);
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }

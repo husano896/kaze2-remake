@@ -19,9 +19,14 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/index/index-doc3/index-doc3.component').then(m => m.IndexDoc3Component)
     },
     {
+        path: 'credits',
+        loadComponent: () => import('./pages/index/credits/credits.component').then(m => m.CreditsComponent)
+    },
+    {
         path: 'game',
         loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule)
     },
+
     {
         path: '**',
         redirectTo: ''

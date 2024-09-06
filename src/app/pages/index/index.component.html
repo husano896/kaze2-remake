@@ -1,11 +1,12 @@
 <div class="container flex-column">
     <img alt="index_top" src="/assets/imgs/index/index_top.gif" />
     <div class="flex-row">
-        <div class="flex-column min-480 padding" style="background-color: #887766; word-break: keep-all; text-wrap: nowrap;">
+        <div class="flex-column min-480 padding"
+            style="background-color: #887766; word-break: keep-all; text-wrap: nowrap;">
             <img class="margin-auto" alt="char00" src="/assets/imgs/char00.gif" />
             <br />
             <small class="white">ポイルトップの街</small>
-            <span class="white" style="font-size: large;">病竜保護協会</span>
+            <span class="white" style="font-size: large;">{{"Noun.SickDragonProtectAssociation" | translate}}</span>
             <hr class="full-width" />
             <small>
                 【住所】<br>
@@ -26,9 +27,8 @@
             </small>
         </div>
         <div class="flex-column" style="padding-left:16px;padding-right: 16px;">
-            <br />
-            <b><!-- あ な た も 竜 を 救 っ て み ま せ ん か ？--> 你 也 想 試 試 看 救 救 龍 族 嗎 ？</b>
-            <small>あ な た も 竜 を 救 っ て み ま せ ん か ？</small>
+
+            <b><!-- あ な た も 竜 を 救 っ て み ま せ ん か ？--> {{"Index.Title" |translate | separateText}}</b>
             <br />
             <img class="full-width" alt="index_title" src="/assets/imgs/index/index_title.gif">
             <small>
@@ -36,33 +36,62 @@
                 　現在、奇病の流行によって親をなくした仔竜が全世界で急増しており、深刻な問題となっています。
                 そこで、私たち病竜保護協会では、地球上にもサイトを開き、ブラウザを通じて、そのような仔竜を
                 無償で世話していただけるボランティアを募集しています。
-                -->
-                現在，因奇特的疾病，導致親人過世的幼龍在全世界急速增加，成為嚴重的問題。
-                為此，我們病龍保護協會，在地球上建立了網站，透過瀏覽器，正為這樣的幼龍們尋找能無償給予幫忙的志願者們。
-                <br>
-                <br>
-                對各位的招募以及參與，我們由衷期待。
-                　<!-- 皆さんのご応募とご参加を、心よりお待ちしています。-->
+
+                皆さんのご応募とご参加を、心よりお待ちしています。-->
+                {{"Index.Description" |translate}}
                 <br>
             </small>
             <br>
+            <div class="flex-row full-width" style="justify-content: end;">
+                <app-language></app-language>
+            </div>
+            <br />
             <div class="boxed-content flex-row column-480" style="padding: 16px;">
 
-                <div class="flex-column full-width" >
+                <div class="flex-column full-width">
                     <ul style="list-style-type: none;">
-                        <li><a routerLink="index_doc/1"> <small>◆ 志願者網路是？<!-- ボランティアネットとは？--> </small></a></li>
-                        <li> <a routerLink="index_doc/2"> <small>◆ 網站發布的契機<!-- サイト公開のきっかけ--></small></a></li>
-                        <li> <a routerLink="index_doc/3"> <small>◆ 關於ポイルトップ<!--ポイルトップについて--></small></a></li>
+                        <li>
+                            <a routerLink="index_doc/1">
+                                <small>
+                                    <!-- ボランティアネットとは？-->
+                                    ◆ {{"Index.Link_VolunteerNet" | translate:{VolunteerNet:
+                                    ('Noun.VolunteerNet' | translate)} }}
+                                </small>
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="index_doc/2">
+                                <small>
+                                    <!-- サイト公開のきっかけ-->
+                                    ◆ {{"Index.Link_SitePublishMotivation" | translate}}
+                                </small>
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="index_doc/3">
+                                <small>
+                                    <!--ポイルトップについて-->
+                                    ◆ {{"Index.Link_Poirutoppu" | translate:{Poirutoppu:
+                                    ('Noun.Poirutoppu' | translate)} }}
+                                </small>
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
                 <div class="flex-column full-width" style="word-break: keep-all;text-wrap: nowrap;">
                     <ul style="list-style-type: none;">
-                        <li><small>● 從頭開始<!--は じ め か ら--></small></li>
-                        <li><small>● 接續進度<!-- 続 き か ら--> </small></li>
+                        <li><small>● {{'Index.Action_NewGame' | translate}}<!--は じ め か ら--></small></li>
+                        <li><small>● {{'Index.Action_Continue' | translate}}<!-- 続 き か ら--> </small></li>
+                        <li><small><a routerLink="credits">● CREDITS</a></small></li>
                     </ul>
                 </div>
             </div>
+            <br />
         </div>
+    </div>
+    <div class="flex-column center full-width">
+        <small>本サイトは<span style="color:red;">ファンメイドリメイク</span>です，公式サイトとは関係がありません。</small>
+        <a href="http://www.game-can.com/kaze2.htm" target="_blank"> 原作サイトへ</a>
     </div>
 </div>

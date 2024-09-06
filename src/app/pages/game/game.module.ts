@@ -19,6 +19,19 @@ const routes: Routes = [
     loadComponent: () => import('./delete/delete.component').then(m => m.DeleteComponent)
   },
   {
+    path: 'dialogue',
+    pathMatch: 'full',
+    loadComponent: () => import('./dialogue/dialogue.component').then(m => m.DialogueComponent)
+  },
+  {
+    path: 'battle',
+    loadComponent: () => import('./battle/battle.component').then(m => m.BattleComponent)
+  },
+  {
+    path: 'debug_events',
+    loadComponent: () => import('./debug-events/debug-events.component').then(m => m.DebugEventsComponent)
+  },
+  {
     path: '**',
     redirectTo: ''
   },

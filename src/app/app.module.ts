@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { LoadingComponent } from '../components/loading/loading.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -24,6 +24,9 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient]
       }
     })
+  ],
+  providers: [
+    provideHttpClient(withInterceptorsFromDi())
   ],
   bootstrap: [AppComponent]
 })
