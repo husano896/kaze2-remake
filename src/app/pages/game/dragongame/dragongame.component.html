@@ -1,0 +1,88 @@
+<div class="container flex-column" style="contain: content;">
+    <!-- 友好度 -->
+    <div id="LoveChk" class="flex-row full-width" style="font-size: 11pt; gap:32px; background: #444444;">
+        <p style="color: #88aaff">次回検査予定項目</p>
+        <p style="color: #ffaa77">友好度：
+            <span style="color:white;">Lv {{LoveBuff}} / {{HyoukaBuff}}</span>
+        </p>
+    </div>
+    <!-- 能力視窗 與 龍 -->
+    <div class="flex-row full-width">
+        <img class="full-width" alt="bg_home" src="/assets/imgs/bg_home.jpg" />
+        <div class="flex-row full-width" style="z-index: 1; position: absolute; justify-content: center;">
+            <div class="boxed-content flex-column dark-bg">
+                <table class="min-480" aria-describedby="status-parameters"
+                    style="word-break: keep-all; text-wrap: nowrap;">
+                    <thead>
+                        <th style="width: 48px;"></th>
+                        <th style="width: 132px"></th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>名前</td>
+                            <td>{{DragonName}}</td>
+                        </tr>
+                        <tr>
+                            <td>性別</td>
+                            <td>メス/オス</td>
+                        </tr>
+                        <tr>
+                            <td>Ｌｖ</td>
+                            <td>{{varNowLv}}</td>
+                        </tr>
+                        <tr>
+                            <td>生命</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>筋力</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>体格</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>瞬力</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>戦値</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>友好</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>属性</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>友好</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>状態</td>
+                            <td></td>
+                        </tr>
+                        <tr *ngIf="100 > 15">
+                            <td>竜死病</td>
+                            <td>15 / 100</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 龍CG-->
+            <div id="Ray1" class="full-width" style="height: 100%;">
+                <img alt="dragon-cg" src="/assets/imgs/dragon/nomal01.gif" />
+            </div>
+        </div>
+    </div>
+
+    <div id="Ray5" class="flex-row" style="text-align: center;justify-content: space-around;">
+        <small>Money: {{0}} シェル</small>
+        <small>Action: 24 ターン</small>
+        <small>Next Lv: 111 Exp</small>
+    </div>
+</div>

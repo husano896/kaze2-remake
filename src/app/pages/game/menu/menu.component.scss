@@ -1,0 +1,22 @@
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-image: url(/assets/imgs/bg_menu.jpg);
+    background-size: contain;
+    overflow: auto;
+    color: white;
+}
+
+img#logo_title {
+    animation: 3s cubic-bezier(0.075, 0.82, 0.165, 1) slideIn;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateY(-50%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}

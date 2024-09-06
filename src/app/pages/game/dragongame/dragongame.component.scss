@@ -1,0 +1,27 @@
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-image: url(/assets/imgs/bg_ryu.jpg);
+    background-size: cover;
+    background-position: bottom;
+    overflow: auto;
+    color: white;
+}
+
+img[alt="ドラゴン古代遺跡"] {
+    animation: 3s cubic-bezier(0.075, 0.82, 0.165, 1) slideIn;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateY(-50%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+table[aria-describedby="status-parameters"] td:nth-child(2) {
+    text-align: center;
+}
