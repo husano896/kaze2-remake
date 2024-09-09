@@ -1,4 +1,4 @@
-# Kaze2Remake
+# 竜の風詩2 "Dragon's Wind Poem 2" Remake
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.2.
 
@@ -6,22 +6,61 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+## Copyrights
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+This project is a **fan-made** project that not associated with the offical game [http://www.game-can.com/kaze2.htm].
 
-## Running end-to-end tests
+All assets are belong to their owners, and I got permission from Author (@GaryuTown on X) to remake this game.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Target
 
-## Further help
+Remake the game in Angular and support modern browsers (sorry IE) with Responsive Web Design(RWD).
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Mobile device support is also planned, and expected to provide 仔竜の風詩 like UI layouts.
+
+## Todo
+
+- [] Index
+  - [x] Docs1
+  - [x] Docs2
+  - [x] Docs3
+  - [] New game
+  - [] Continue
+  - [x] Credits
+- [] Game Menu
+  - Delete save
+- [] Game System
+  - [] Saving / Loading
+  - [] Items
+  - [] Skins
+  - [] Battle
+    - [] Battle point shop
+    - [] Battle system (originally in CGI)
+  - [] Gain in game money
+    - [] Minigame 1
+    - [] Minigame 2
+    - [] Minigame 3
+  - [] Dialogue system
+  - [] Maps
+- [] Events
+  - [] Opening
+  - [] Endings
+  - [] Progress
+  - [] Home events
+    - [] (1/100)
+  - [] Map Events
+    - [] Map 1
+    - [] Map 2
+    - [] Map 3
+- [] I18n
+  - [] Japanese (ja)
+  - [] Traditional Chinese (zh_hant)
+  - [] English (en) 
+- [] API
+  - [] Battle
+  - [] Save / Load
+  - [] Ranking...? (Low priority)

@@ -1,3 +1,5 @@
+@import './animations.scss';
+
 body {
     margin: 0;
     height: 100dvh;
@@ -5,11 +7,16 @@ body {
     --var-window-classic-bg: #443333;
     --var-window-classic-border-radius: 16px;
     --var-window-classic-border-color: #7B644D;
+    --var-button-classic-bg: rgba(127, 127, 127, 0.5);
+    --var-button-classic-border-color: gray;
     background: black;
+    user-select: none;
 }
+
 .center {
     text-align: center;
 }
+
 span,
 p,
 small {
@@ -90,6 +97,7 @@ ul {
 .gap {
     gap: 8px;
 }
+
 .game-bg {
     background: var(--var-window-classic-bg);
 }
@@ -116,16 +124,18 @@ a:not(:hover) {
     box-sizing: border-box;
 }
 
-.anim-fadeIn {
-    animation: fadeIn 3s steps(30);
+
+li {
+    margin-top: 8px;
 }
 
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
+button {
+    background: var(--var-button-classic-bg);
+    border: 1px var(--var-button-classic-border-color) solid;
+    color: white;
+    border-radius: 0;
+}
 
-    to {
-        opacity: 1;
-    }
+hr {
+    width: 100%;
 }

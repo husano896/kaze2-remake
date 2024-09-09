@@ -7,7 +7,7 @@
             <br />
             <small class="white">ポイルトップの街</small>
             <span class="white" style="font-size: large;">{{"Noun.SickDragonProtectAssociation" | translate}}</span>
-            <hr class="full-width" />
+            <hr />
             <small>
                 【住所】<br>
                 　〒A5-960-9631<br>
@@ -47,7 +47,27 @@
             </div>
             <br />
             <div class="boxed-content flex-row column-480" style="padding: 16px;">
+                <div class="flex-column full-width" style="word-break: keep-all;text-wrap: nowrap;">
+                    <ul style="list-style-type: none;">
+                        <li>
+                            <small>
+                                <a class="outline-text" routerLink="game">
+                                    ● {{'Index.Action_NewGame' |translate}}
+                                    <!--は じ め か ら-->
+                                    <!--二周目以降：？ ？ ？ ？ か ら -->
+                                </a>
+                            </small>
+                        </li>
+                        <li>
+                            <small>
+                                <a class="outline-text" routerLink="game">●
+                                    {{'Index.Action_Continue' |translate}}<!-- 続 き か ら-->
+                                </a>
+                            </small>
+                        </li>
 
+                    </ul>
+                </div>
                 <div class="flex-column full-width">
                     <ul style="list-style-type: none;">
                         <li>
@@ -76,16 +96,11 @@
                                 </small>
                             </a>
                         </li>
-                    </ul>
-                </div>
-
-                <div class="flex-column full-width" style="word-break: keep-all;text-wrap: nowrap;">
-                    <ul style="list-style-type: none;">
-                        <li><small>● {{'Index.Action_NewGame' | translate}}<!--は じ め か ら--></small></li>
-                        <li><small>● {{'Index.Action_Continue' | translate}}<!-- 続 き か ら--> </small></li>
                         <li><small><a routerLink="credits">● CREDITS</a></small></li>
                     </ul>
                 </div>
+
+
             </div>
             <br />
         </div>

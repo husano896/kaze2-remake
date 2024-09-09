@@ -12,24 +12,22 @@ button {
 
 div#bg {
     contain: content;
-    height: 50%;
+    width: 100%;
+    height: 100%;
     text-align: center;
     align-items: center;
-    background-size: cover;
-    background-position: bottom;
+    background-size: 75%;
+    background-position: center 10%;
+    background-repeat: no-repeat;
     background-color: rgba(0,0,0,1.0);
     background-blend-mode: color;
     justify-content: center;
     transition: 1.5s steps(15);
 }
 
-img#dragoncg {
-    height: 100%; 
-    margin: auto;
-    transition: 1.5s steps(15);
-}
-
 div#dialog {
     white-space: break-spaces;
     overflow-y: auto;
+    text-align: left;
+    transition: 1.5s steps(15);
 }

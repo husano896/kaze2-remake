@@ -1,3 +1,4 @@
+import { LocalStorageKey } from '@/app/entities/LocalStorageKey';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,5 +20,6 @@ export class LanguageComponent {
   }
   set language(v: string) {
     this.translateServ.use(v);
+    localStorage.setItem(LocalStorageKey.language, this.translateServ.currentLang);
   }
 }

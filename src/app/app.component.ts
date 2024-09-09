@@ -3,6 +3,7 @@ import { AppService } from './app.service';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageKey } from './entities/LocalStorageKey';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,9 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild('bgm') bgm!: ElementRef<HTMLAudioElement>;
+  @ViewChild('se') se!: ElementRef<HTMLAudioElement>;
+  @ViewChild('ambient') ambient!: ElementRef<HTMLAudioElement>;
+
   subscriptions: Array<Subscription> = [
 
   ]
@@ -30,9 +34,22 @@ export class AppComponent implements AfterViewInit {
       }
     }));
 
+    // 預設語言設定
     this.translateServ.setDefaultLang('zh-hant');
 
-    this.translateServ.use('zh-hant');
+    const localStorageLang = localStorage.getItem(LocalStorageKey.language);
+    if (localStorageLang) {
+      this.translateServ.use(localStorageLang);
+    }
+    else {
+      const navigatorLang = navigator.language;
+      if (navigatorLang.includes('ja')) {
+        this.translateServ.use('ja')
+      }
+    }
+
+    // 設定完後儲存到LocalStorage供下次進入網站使用
+    localStorage.setItem(LocalStorageKey.language, this.translateServ.currentLang);
     // Anti debugger
     /*
     setInterval(() => {
@@ -46,7 +63,8 @@ export class AppComponent implements AfterViewInit {
     */
   }
   ngAfterViewInit(): void {
-    this.appServ.Init(this.bgm);
+
+    this.appServ.Init({ bgmEl: this.bgm, seEl: this.se, ambientEl: this.ambient });
   }
 
   set loading(v: boolean) {

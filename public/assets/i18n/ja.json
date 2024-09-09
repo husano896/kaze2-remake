@@ -38,5 +38,331 @@
     },
     "Actions": {
         "PrevPage": "[＜- 前 ペ ー ジ へ 戻 る]"
+    },
+    "Data": {
+        "Skill": {
+            "0": {
+                "Title": "炎防壁術",
+                "Description": "炎属性による攻撃から防備"
+            },
+            "1": {
+                "Title": "風防壁術",
+                "Description": "風属性による攻撃から防備"
+            },
+            "2": {
+                "Title": "地防壁術",
+                "Description": "地属性による攻撃から防備"
+            },
+            "3": {
+                "Title": "水防壁術",
+                "Description": "水属性による攻撃から防備"
+            },
+            "4": {
+                "Title": "リフレックス",
+                "Description": "相手の技を反射する"
+            },
+            "5": {
+                "Title": "リプレス",
+                "Description": "相手と自分のＨＰを入替え"
+            },
+            "6": {
+                "Title": "スペウォール",
+                "Description": "技攻撃を無効化する"
+            },
+            "7": {
+                "Title": "ドレーン",
+                "Description": "相手のＨＰを吸収する"
+            },
+            "8": {
+                "Title": "リカーブ",
+                "Description": "小回復する"
+            },
+            "9": {
+                "Title": "再生の霧",
+                "Description": "大回復する"
+            },
+            "10": {
+                "Title": "ロスト",
+                "Description": "相手の素早さを減らす"
+            },
+            "11": {
+                "Title": "竜の風息",
+                "Description": "属性による風ブレス"
+            },
+            "12": {
+                "Title": "岩の砕息",
+                "Description": "属性による地ブレス"
+            },
+            "13": {
+                "Title": "竜の氷息",
+                "Description": "属性による水ブレス"
+            },
+            "14": {
+                "Title": "炎の吐息",
+                "Description": "属性による炎ブレス"
+            },
+            "15": {
+                "Title": "インフェルノ",
+                "Description": "筋力による無属性負怨弾"
+            },
+            "16": {
+                "Title": "メガラース",
+                "Description": "筋力による無属性真空波"
+            },
+            "17": {
+                "Title": "エンド･オブ･アイズ",
+                "Description": "筋力による無属性閃光撃"
+            },
+            "18": {
+                "Title": "ナイトメア･ハズ･ビガン",
+                "Description": "自己犠牲による一撃攻撃技"
+            }
+        },
+        "Item": {
+            "0": {
+                "Title": "不所持",
+                "Description": "なし"
+            },
+            "1": {
+                "Title": "タリスマン",
+                "Description": "<font color=#ffcc88>消費：</font>恐怖に打ち勝つ属性汎用石"
+            },
+            "2": {
+                "Title": "太陽の珠",
+                "Description": "<font color=#88ccff>永久：</font>孤竜が生みだした炎の結晶"
+            },
+            "3": {
+                "Title": "銀峰の雫",
+                "Description": "<font color=#88ccff>永久：</font>孤竜が生みだした水の結晶"
+            },
+            "4": {
+                "Title": "風の翼",
+                "Description": "<font color=#88ccff>永久：</font>孤竜が生みだした風の結晶"
+            },
+            "5": {
+                "Title": "大地の琥珀",
+                "Description": "<font color=#88ccff>永久：</font>孤竜が生みだした地の結晶"
+            },
+            "6": {
+                "Title": "ナーガ草",
+                "Description": "<font color=#ffcc88>消費：</font>重症薬の原料。回復力がある"
+            },
+            "7": {
+                "Title": "復活の玉",
+                "Description": "<font color=#ffcc88>消費：</font>竜の身代わりになる玉"
+            },
+            "8": {
+                "Title": "友情の証",
+                "Description": "<font color=#ffcc88>消費：</font>友との絆を深めるお守り"
+            },
+            "9": {
+                "Title": "精霊根",
+                "Description": "<font color=#ffcc88>消費：</font>体力を回復させる薬草"
+            },
+            "10": {
+                "Title": "召喚の杖",
+                "Description": "<font color=#88ffcc>特殊：</font>一瞬で地上へ帰還する魔具"
+            },
+            "11": {
+                "Title": "精霊の眼鏡",
+                "Description": "<font color=#88ccff>永久：</font>孤竜の内部構成を透かす魔具"
+            },
+            "12": {
+                "Title": "ＤＮＡ種",
+                "Description": "<font color=#ffcc88>消費：</font>秘めた能力を呼び覚ます種"
+            },
+            "13": {
+                "Title": "ユニコーン角",
+                "Description": "<font color=#ffcc88>消費：</font>様々な病に効く妙薬の原料"
+            },
+            "14": {
+                "Title": "光りキノコ",
+                "Description": "<font color=#ffcc88>消費：</font>力の溢れる不思議な茸"
+            },
+            "15": {
+                "Title": "精竜水",
+                "Description": "<font color=#88ffcc>特殊：</font>発作の特効薬"
+            },
+            "16": {
+                "Title": "誇りの賞状",
+                "Description": "<font color=#ffcc88>消費：</font>属性上昇数を２倍・調合用"
+            },
+            "17": {
+                "Title": "万物の素",
+                "Description": "<font color=#ffcc88>消費：</font>あらゆる属性の素・調合用"
+            },
+            "18": {
+                "Title": "生ケーキ",
+                "Description": "<font color=#ffcc88>消費：</font>竜が大好きな甘いお菓子"
+            },
+            "19": {
+                "Title": "虚無の塊",
+                "Description": "<font color=#ffcc88>消費：</font>全ての属性を無に帰す塊"
+            },
+            "20": {
+                "Title": "魔法のクジ",
+                "Description": "<font color=#ffcc88>消費：</font>数千～数シェル配当のクジ"
+            },
+            "21": {
+                "Title": "幻の秘石",
+                "Description": "<font color=#ffcc88>消費：</font>友好度のＬＶを１つあげる"
+            },
+            "22": {
+                "Title": "下手な似顔絵",
+                "Description": "<font color=#88ccff>永久：</font>孤竜が描いてくれた似顔絵"
+            },
+            "23": {
+                "Title": "抗生薬",
+                "Description": "<font color=#ffcc88>消費：</font>調合次第で様々な病気に有効"
+            },
+            "24": {
+                "Title": "催酔薬",
+                "Description": "<font color=#ffcc88>消費：</font>催眠/鎮痛/抗体維持に効用"
+            },
+            "25": {
+                "Title": "忌地への道標",
+                "Description": "<font color=#88ccff>永久：</font>病の治療のカギが記される"
+            },
+            "26": {
+                "Title": "Err26:危険コード",
+                "Description": "所持危険 報告して下さい"
+            },
+            "27": {
+                "Title": "Err27:危険コード",
+                "Description": "所持危険 報告して下さい"
+            },
+            "28": {
+                "Title": "Err28:危険コード",
+                "Description": "所持危険 報告して下さい"
+            },
+            "29": {
+                "Title": "Err29:危険コード",
+                "Description": "所持危険 報告して下さい"
+            },
+            "30": {
+                "Title": "Err30:危険コード",
+                "Description": "所持危険 報告して下さい"
+            },
+            "31": {
+                "Title": "Err31:危険コード",
+                "Description": "所持危険 報告して下さい"
+            },
+            "32": {
+                "Title": "ニステアの滴",
+                "Description": "<font color=#88ffcc>特殊：</font>泣き虫星・ニステアの涙"
+            },
+            "33": {
+                "Title": "水晶ランタン",
+                "Description": "<font color=#88ffcc>特殊：</font>水晶に水が詰まった発光水晶"
+            },
+            "34": {
+                "Title": "ささやかな財宝",
+                "Description": "<font color=#88ccff>永久：</font>砂金の塊。少量の価値がある"
+            }
+        },
+        "DragonType": {
+            "0": {
+                "Title": "不所持",
+                "Description": "元の姿に戻る[属性で変身可能]"
+            },
+            "1": {
+                "Title": "バルバチェイン",
+                "Description": "DNAの副産物"
+            },
+            "2": {
+                "Title": "ヴァンパネラ",
+                "Description": "古城に住まう吸血竜"
+            },
+            "3": {
+                "Title": "マンドレイク",
+                "Description": "植物に憑依し彷徨う霊"
+            },
+            "4": {
+                "Title": "DragonHeadBuck",
+                "Description": "暗き森に住まう魔獣"
+            },
+            "5": {
+                "Title": "管狐",
+                "Description": "大地に豊饒を運ぶ精霊獣"
+            },
+            "6": {
+                "Title": "パイロヒドラ",
+                "Description": "水の力を司る神獣"
+            },
+            "7": {
+                "Title": "トピリア",
+                "Description": "森を守護する精霊獣"
+            },
+            "8": {
+                "Title": "ジン",
+                "Description": "DNAの副産物"
+            },
+            "9": {
+                "Title": "ママルバーン",
+                "Description": "ドラゴンバレーに住む無邪気な竜"
+            },
+            "10": {
+                "Title": "ボルガノドン",
+                "Description": "炎の力を司る神獣"
+            },
+            "11": {
+                "Title": "ヘイズロック",
+                "Description": "地の力を司る神獣"
+            },
+            "12": {
+                "Title": "ケツァルコアトル",
+                "Description": "古代竜の怨念霊"
+            },
+            "13": {
+                "Title": "ゾンドドレイク",
+                "Description": "遺跡を守る守護霊"
+            },
+            "14": {
+                "Title": "バジリコック",
+                "Description": "DNAの副産物"
+            },
+            "15": {
+                "Title": "ショコラフッフール",
+                "Description": "カザリナ山に住まう心優しき竜"
+            },
+            "16": {
+                "Title": "ギガウインド",
+                "Description": "風の力を司る神獣"
+            },
+            "17": {
+                "Title": "フィオレッティ",
+                "Description": "中級クラスの契約加護印"
+            },
+            "18": {
+                "Title": "ラジェスト",
+                "Description": "伝説に語り継がれる戦竜"
+            },
+            "19": {
+                "Title": "幼竜",
+                "Description": "初心者向けの契約加護印"
+            },
+            "20": {
+                "Title": "児竜",
+                "Description": "入門クラスの契約加護印"
+            },
+            "21": {
+                "Title": "べトリブニス",
+                "Description": "父親の姿を再現する加護印"
+            }
+        },
+        "Love": {
+            "0": "冷酷",
+            "1": "疎遠",
+            "2": "知人",
+            "3": "許人",
+            "4": "近縁",
+            "5": "友達",
+            "6": "暖友",
+            "7": "親友",
+            "8": "親密",
+            "9": "溺愛",
+            "10": "真親",
+            "11": "一心同体"
+        }
     }
 }

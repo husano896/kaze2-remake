@@ -24,12 +24,21 @@ const routes: Routes = [
     loadComponent: () => import('./dialogue/dialogue.component').then(m => m.DialogueComponent)
   },
   {
+    path: 'ending',
+    pathMatch: 'full',
+    loadComponent: () => import('./ending/ending.component').then(m => m.EndingComponent)
+  },
+  {
     path: 'battle',
     loadComponent: () => import('./battle/battle.component').then(m => m.BattleComponent)
   },
   {
     path: 'debug_events',
     loadComponent: () => import('./debug-events/debug-events.component').then(m => m.DebugEventsComponent)
+  },
+  {
+    path: 'debug_audio',
+    loadComponent: () => import('./debug-audio/debug-audio.component').then(m => m.DebugAudioComponent)
   },
   {
     path: '**',

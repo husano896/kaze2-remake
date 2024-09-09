@@ -1,13 +1,13 @@
-<div class="container flex-column full-height">
+<div class="container flex-column full-height gap">
     <!-- 龍與背景-->
-    <div style="contain: content;">
-        <img #bg class="full-width" alt="bg_home" src="/assets/imgs/bg_home.jpg" />
-        <img alt="dragon-cg" src="/assets/imgs/dragon/nomal00.gif" style="position: absolute; height: 100%;" />
+    <div id="bg" #bg style="background-image: url(/assets/imgs/bg_home.jpg);">
+        <img #dragoncg id="dragoncg" alt="dragon-cg" src="/assets/imgs/dragon/nomal01.gif" style="opacity: 0;" />
     </div>
     <!-- SKIP -->
+    
     <button style="width: 100%;">N E X T ▼</button>
     <!-- 對話框 -->
-    <div class="boxed-content game-bg full-width" style="height: 100%; ">
+    <div id="dialog" #dialog class="boxed-content game-bg full-width padding" style="height: 50%; opacity: 0;">
 
     </div>
     <a href="/">SKIP</a>

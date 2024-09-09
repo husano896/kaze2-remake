@@ -1,3 +1,19 @@
-<div class="boxed-content game-bg full-width full-height flex-column" style="overflow: auto;">
-    <button (click)="goDialog('Ending1')">Dialogue</button>
+<div class="container">
+    <div class="boxed-content game-bg full-width full-height flex-column padding" style="overflow: auto;">
+        <h2>Event Test</h2>
+
+        <span>Event</span>
+        <hr />
+        <button (click)="goDialog('Opening')">Opening</button>
+        <br />
+        <br />
+
+        <span>Ending</span>
+        <hr />
+        <button (click)="goDialog('Ending1')">Ending 1</button>
+        
+        <br />
+        <br />
+        <a routerLink="../" style="text-align: center;">{{'Actions.PrevPage' | translate}}</a>
+    </div>
 </div>
