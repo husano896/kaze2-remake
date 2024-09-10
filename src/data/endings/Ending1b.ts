@@ -1,5 +1,5 @@
+import { EndingComponent } from "@/app/pages/game/ending/ending.component";
 import { firstValueFrom, timer } from "rxjs";
-import { EndingComponent } from "../pages/game/ending/ending.component";
 
 export async function Ending1b(component: EndingComponent) {
     component.setBG('badend');

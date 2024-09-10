@@ -1,5 +1,4 @@
-import { Injector } from "@angular/core";
-import { DialogueComponent } from "../pages/game/dialogue/dialogue.component";
+import { DialogueComponent } from "@/app/pages/game/dialogue/dialogue.component";
 import { delay, firstValueFrom, of, timer } from "rxjs";
 
 export async function Ending1(component: DialogueComponent) {

@@ -1,5 +1,5 @@
 import { AppService } from '@/app/app.service';
-import { Endings } from '@/app/endings';
+import { Endings } from '@/data/endings';
 import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Subject, firstValueFrom, timer } from 'rxjs';

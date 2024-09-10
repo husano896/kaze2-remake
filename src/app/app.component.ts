@@ -3,7 +3,7 @@ import { AppService } from './app.service';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { LocalStorageKey } from './entities/LocalStorageKey';
+import { LocalStorageKey } from '@/entities/LocalStorageKey';
 
 @Component({
   selector: 'app-root',
@@ -25,12 +25,10 @@ export class AppComponent implements AfterViewInit {
       console.log(e);
       if (e instanceof NavigationStart) {
         this.loading = true;
-        console.log(true)
       }
 
       if (e instanceof NavigationEnd || e instanceof NavigationCancel || e instanceof NavigationError) {
         this.loading = false;
-        console.log(false)
       }
     }));
 

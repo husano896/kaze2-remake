@@ -1,3 +1,4 @@
+import { SaveData } from '@/entities/SaveData';
 import { ElementRef, Injectable } from '@angular/core';
 
 @Injectable({
@@ -20,7 +21,9 @@ export class AppService {
   /** Debug旗標 */
   public debugEnabled?: boolean;
 
-  
+  /** 遊戲存檔 */
+  public saveData?: SaveData;
+
   constructor() {
     // 在網站生成階段時給予localhost Debug標籤才有效
     if (window.location.href.includes('localhost')) {
@@ -40,7 +43,7 @@ export class AppService {
   }
 
   async Dialog(): Promise<number> {
-    return new Promise((resolve)=>{
+    return new Promise((resolve) => {
 
     });
   }
@@ -89,5 +92,13 @@ export class AppService {
       document.querySelector('app-root')?.classList.remove('anim-fadeIn')
       resolve(0);
     }, 3000));
+  }
+
+  Save(data: SaveData) {
+
+  }
+
+  Load(data?: SaveData) {
+
   }
 }

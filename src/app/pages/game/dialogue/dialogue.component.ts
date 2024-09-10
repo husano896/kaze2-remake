@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Injector, OnDestroy, ViewChild, viewChild } from '@angular/core';
-import { Events } from '../../../events';
+import { Events } from '@/data/events';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { AppService } from '../../../app.service';
@@ -38,11 +38,13 @@ export class DialogueComponent implements AfterViewInit, OnDestroy {
     this.textInterval = setInterval(() => {
       if (this.pendingTexts.length > 0) {
         this.dialog.nativeElement.innerText += this.pendingTexts.shift();
-        this.dialog.nativeElement.scrollTo({top: this.dialog.nativeElement.scrollHeight});
+        this.dialog.nativeElement.scrollTo({ top: this.dialog.nativeElement.scrollHeight });
       } else {
         this.dialogComplete$.next(0);
       }
     }, 200);
+
+
   }
 
   async ngOnDestroy() {
@@ -53,7 +55,13 @@ export class DialogueComponent implements AfterViewInit, OnDestroy {
     this.setDialogOpticity(1);
     this.pendingTexts.push(...c);
   }
+  
+  FastForward() {
+    this.dialog.nativeElement.innerText += this.pendingTexts.join('');
+    this.dialog.nativeElement.scrollTo({ top: this.dialog.nativeElement.scrollHeight });
+    this.dialogComplete$.next(0);
 
+  }
   IsContentComplete() {
     return this.pendingTexts.length === 0
   }

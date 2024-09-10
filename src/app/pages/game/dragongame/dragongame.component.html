@@ -1,18 +1,31 @@
-<div class="container flex-column" style="contain: content;">
+<div class="container flex-column full-height">
     <!-- 友好度 -->
     <div id="LoveChk" class="flex-row full-width" style="font-size: 11pt; gap:32px; background: #444444;">
         <p style="color: #88aaff">次回検査予定項目</p>
         <p style="color: #ffaa77">友好度：
-            <span style="color:white;">Lv {{LoveBuff}} / {{HyoukaBuff}}</span>
+            <span style="color:white;">Lv {{loveBuff}}</span>
+        </p>
+        <p style="color: #ffaa77">目標：
+            <span style="color:white;">Lv {{hyoukaBuff}}</span>
         </p>
     </div>
     <!-- 能力視窗 與 龍 -->
-    <div class="flex-row full-width">
-        <img class="full-width" alt="bg_home" src="/assets/imgs/bg_home.jpg" />
-        <div class="flex-row full-width" style="z-index: 1; position: absolute; justify-content: center;">
-            <div class="boxed-content flex-column dark-bg">
-                <table class="min-480" aria-describedby="status-parameters"
-                    style="word-break: keep-all; text-wrap: nowrap;">
+    <div id="Ray2" class="flex-row full-width" style="contain: content;">
+        <!-- 通信機畫面 -->
+        <div id="Ray7" class="boxed-content game-bg padding">
+            システムの更新
+            <HR>
+            <small>
+                モジュールを組み込みます
+                <BR>
+                モジュールが実行されました■
+                <BR>
+            </small>
+        </div>
+        <!-- <img class="full-width" alt="bg_home" src="/assets/imgs/bg_home.jpg" />-->
+        <div class="flex-row full-width" style="z-index: 1; justify-content: center;">
+            <div class="boxed-content flex-column dark-bg min-480">
+                <table aria-describedby="status-parameters" style="word-break: keep-all; text-wrap: nowrap;">
                     <thead>
                         <th style="width: 48px;"></th>
                         <th style="width: 132px"></th>
@@ -20,55 +33,51 @@
                     <tbody>
                         <tr>
                             <td>名前</td>
-                            <td>{{DragonName}}</td>
+                            <td>{{dragonName}}</td>
                         </tr>
                         <tr>
                             <td>性別</td>
-                            <td>メス/オス</td>
+                            <td>{{stGender}}</td>
                         </tr>
                         <tr>
-                            <td>Ｌｖ</td>
-                            <td>{{varNowLv}}</td>
+                            <td>Lv</td>
+                            <td>{{stLv}}</td>
                         </tr>
                         <tr>
                             <td>生命</td>
-                            <td></td>
+                            <td>{{stHp}} / {{stMaxhp}}</td>
                         </tr>
                         <tr>
                             <td>筋力</td>
-                            <td></td>
+                            <td>{{stAt}}</td>
                         </tr>
                         <tr>
                             <td>体格</td>
-                            <td></td>
+                            <td>{{stDf}}</td>
                         </tr>
                         <tr>
                             <td>瞬力</td>
-                            <td></td>
+                            <td>{{stSpeed}}</td>
                         </tr>
                         <tr>
                             <td>戦値</td>
-                            <td></td>
+                            <td>{{stExp}}</td>
                         </tr>
                         <tr>
                             <td>友好</td>
-                            <td></td>
+                            <td>{{loveText | translate}}</td>
                         </tr>
                         <tr>
                             <td>属性</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>友好</td>
-                            <td></td>
+                            <td>{{stElement | translate}}</td>
                         </tr>
                         <tr>
                             <td>状態</td>
-                            <td></td>
+                            <td>{{stBio | translate}}</td>
                         </tr>
-                        <tr *ngIf="100 > 15">
+                        <tr *ngIf="numVisits > 15">
                             <td>竜死病</td>
-                            <td>15 / 100</td>
+                            <td>{{numVisits}} / 100</td>
                         </tr>
                     </tbody>
                 </table>
@@ -81,10 +90,35 @@
     </div>
 
     <!-- 行動, 金錢, NEXT條 -->
-    <div id="Ray5" class="flex-row" style="text-align: center;justify-content: space-around;">
-        <small>Money: {{0}} シェル</small>
-        <small>Action: 24 ターン</small>
-        <small>Next Lv: 111 Exp</small>
+    <div id="Ray5" class="flex-column full-height">
+        <div class="flex-row" style="text-align: center;justify-content: space-around;">
+            <small>Money: {{0}} シェル</small>
+            <small>Action: 24 ターン</small>
+            <small>Next Lv: 111 Exp</small>
+        </div>
+        <div class="flex-row column-480 full-width full-height">
+            <!-- 頭像-->
+            <div style="width: 25%">
+                <img class="full-width" alt="char-header" src="/assets/imgs/char00.gif" />
+            </div>
+            <!-- 對話-->
+            <div class="boxed-content full-height" style="width: 100%;">
+
+            </div>
+        </div>
     </div>
+    <!-- 對話-->
+    <div></div>
     <!-- 手機版用：功能選單 -->
+    <!-- 進行度100時不顯示-->
+    <div id="Ray8" class="dark-bg">
+        <ng-container *ngIf="numVisits < 100">
+            <button>ITEM</button>
+            <button>SHOP</button>
+            <button>EARN</button>
+            <button>BATTLE</button>
+            <button>MAP</button>
+        </ng-container>
+    </div>
+
 </div>

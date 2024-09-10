@@ -1,16 +1,95 @@
+import { AppService } from '@/app/app.service';
+import { EventFlag } from '@/data/EventFlag';
+import { DragonGameEvents } from '@/data/dragongame_events';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-dragongame',
   standalone: true,
-  imports: [CommonModule],
+  imports: [RouterModule, TranslateModule, CommonModule],
   templateUrl: './dragongame.component.html',
   styleUrl: './dragongame.component.scss'
 })
-export class DragongameComponent {
-  HyoukaBuff = 1;
-  LoveBuff = 1;
-  DragonName = '';
-  varNowLv = 1;
+export class DragongameComponent implements AfterViewInit {
+  constructor(private appServ: AppService) {
+
+  }
+  ngAfterViewInit(): void {
+    console.log(this.appServ);
+    const ev = DragonGameEvents;
+  }
+
+  //#region 需計算之數值
+  get loveBuff() {
+    return (this.appServ.saveData?.love || 0 / 100) + 1;
+  }
+
+  get loveText() {
+    return `Data.Love.${Math.round((this.appServ.saveData?.love || 0) / 100)}`;
+  }
+  get hyoukaBuff() {
+    // 進行度99時要求LV = 12, 100時的要求LV = 13, 但...
+    return Math.floor(this.numVisits / 10) + 3;
+  }
+  //#endregion
+
+  //#region 龍能力值
+
+  get stLv() {
+    return this.appServ.saveData?.lv || 0;
+  }
+  get stHp() {
+    return this.appServ.saveData?.hp || 0;
+  }
+  get stMaxhp() {
+    return this.appServ.saveData?.Maxhp || 0;
+  }
+
+  get stAt() {
+    return this.appServ.saveData?.at || 0;
+  }
+
+  get stDf() {
+    return this.appServ.saveData?.df || 0;
+  }
+  get stSpeed() {
+    return this.appServ.saveData?.speed || 0;
+  }
+
+  get stExp() {
+    return this.appServ.saveData?.exp || 0;
+  }
+  get stBio() {
+    return this.appServ.saveData?.bioText || '';
+  }
+
+  get stElement() {
+    return this.appServ.saveData?.elementText || '';
+  }
+  get stGender() {
+    return ((this.appServ.saveData?.ivent || 0) & EventFlag.性別) ? 'メス' : 'オス';
+  }
+  //#endregion
+
+  //#region 其他數值
+  
+  get numVisits() {
+    return this.appServ.saveData?.numVisits || 0;
+  }
+  get dragonName() {
+    return this.appServ.saveData?.dragonName || '';
+  }
+
+  get money() {
+    return this.appServ.saveData?.food || 0;
+  }
+
+  get turn() {
+    return this.appServ.saveData?.turn || 0;
+  }
+  //#endregion
 }
