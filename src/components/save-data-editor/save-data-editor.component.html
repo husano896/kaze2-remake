@@ -1,0 +1,87 @@
+<div *ngIf="opened" class="boxed-content flex-column padding gap game-bg full-height" style="text-align: center; overflow: auto;">
+    <span>Save Data Editor</span>
+    <hr class="full-width" />
+    <div class="flex-column gap" style="overflow: auto; height: 100%;">
+        <label>
+            DragonName
+            <input [(ngModel)]="data.dragonName" />
+        </label>
+        <label>
+            numVisits
+            <input [(ngModel)]="data.numVisits" type="number" min="0" />
+        </label>
+
+        <label>
+            love
+            <input [(ngModel)]="data.love" type="number" min="0" />
+        </label>
+
+        <label>
+            turn
+            <input [(ngModel)]="data.turn" type="number" min="0" max="100" />
+        </label>
+
+        <label>
+            Money(food)
+            <input [(ngModel)]="data.food" type="number" min="0" />
+        </label>
+
+        <label>
+            Maxhp
+            <input [(ngModel)]="data.Maxhp" type="number" min="1" />
+        </label>
+        <label>
+            hp
+            <input [(ngModel)]="data.hp" type="number" min="1" />
+        </label>
+        <label>
+            at
+            <input [(ngModel)]="data.at" type="number" min="1" />
+        </label>
+        <label>
+            df
+            <input [(ngModel)]="data.df" type="number" min="1" />
+        </label>
+        <label>
+            speed
+            <input [(ngModel)]="data.speed" type="number" min="1" />
+        </label>
+        <label>
+            element1
+            <input [(ngModel)]="data.element1" type="number" min="1" />
+        </label>
+        <label>
+            element2
+            <input [(ngModel)]="data.element2" type="number" min="1" />
+        </label>
+
+        <label>
+            ivent
+            <input [(ngModel)]="data.ivent" type="number" min="1" />
+        </label>
+
+        <label>
+            DragonChip1
+            <input [(ngModel)]="data.DragonChip1" type="number" min="1" />
+        </label>
+
+        <label>
+            DragonChip2
+            <input [(ngModel)]="data.DragonChip2" type="number" min="1" />
+        </label>
+
+        <label>
+            bio
+            <input [(ngModel)]="data.bio" type="number" min="0" />
+        </label>
+        <br />
+
+        <span>DisplayText</span>
+        <hr class="full-width" />
+        <span>Lv: {{data.lv}}</span>
+        <span>Bio: {{data.bioText}}</span>
+        <span>Element: {{data.elementText}}</span>
+    </div>
+    <button (click)="close()">Done</button>
+</div>
+<button *ngIf="!opened" (click)="opened = true;">S</button>

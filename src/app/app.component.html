@@ -4,8 +4,9 @@
 <audio #bgm autoplay loop></audio>
 <audio #se autoplay></audio>
 <audio #ambient autoplay loop></audio>
+
 <!-- 詢問視窗-->
-<div id="Ray8" (click)="$event.stopPropagation();">
+<div id="Ray8" (click)="$event.stopPropagation();" (keypress)="$event.stopPropagation();">
     <div class="container flex-column boxed-content game-bg">
         
     </div>

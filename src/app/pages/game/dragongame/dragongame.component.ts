@@ -1,4 +1,5 @@
 import { AppService } from '@/app/app.service';
+import { SaveDataEditorComponent } from '@/components/save-data-editor/save-data-editor.component';
 import { EventFlag } from '@/data/EventFlag';
 import { DragonGameEvents } from '@/data/dragongame_events';
 import { CommonModule } from '@angular/common';
@@ -10,22 +11,32 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-dragongame',
   standalone: true,
-  imports: [RouterModule, TranslateModule, CommonModule],
+  imports: [RouterModule, TranslateModule, CommonModule, SaveDataEditorComponent],
   templateUrl: './dragongame.component.html',
   styleUrl: './dragongame.component.scss'
 })
 export class DragongameComponent implements AfterViewInit {
+  content: string = '';
+
+  headerImg: string = '/assets/imgs/char00.gif';
   constructor(private appServ: AppService) {
 
   }
   ngAfterViewInit(): void {
     console.log(this.appServ);
     const ev = DragonGameEvents;
+    this.content = `Scripts.DragonGameEvents.Opening.3`;
   }
 
+  get contentFills() {
+    return {
+      yourName: 'アイ．フライ',
+      dragonName: this.dragonName
+    }
+  }
   //#region 需計算之數值
   get loveBuff() {
-    return (this.appServ.saveData?.love || 0 / 100) + 1;
+    return Math.round((this.appServ.saveData?.love || 0) / 100) + 1;
   }
 
   get loveText() {
@@ -76,14 +87,17 @@ export class DragongameComponent implements AfterViewInit {
   //#endregion
 
   //#region 其他數值
-  
+
   get numVisits() {
     return this.appServ.saveData?.numVisits || 0;
   }
   get dragonName() {
-    return this.appServ.saveData?.dragonName || '';
+    return this.appServ.saveData?.dragonName || '孤竜';
   }
 
+  get cgName() {
+    return this.appServ.saveData?.cgName || '/assets/imgs/dragon/nomal00.gif';
+  }
   get money() {
     return this.appServ.saveData?.food || 0;
   }

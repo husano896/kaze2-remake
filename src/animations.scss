@@ -1,10 +1,12 @@
 .anim-fadeIn {
     opacity: 1;
     animation: fadeIn 3s steps(30);
+    pointer-events: none;
 }
 .anim-fadeOut {
     opacity: 0;
     animation: fadeOut 3s steps(30);
+    pointer-events: none;
 }
 
 @keyframes fadeIn {

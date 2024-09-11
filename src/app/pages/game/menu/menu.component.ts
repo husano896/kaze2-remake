@@ -3,11 +3,12 @@ import { RouterModule } from '@angular/router';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { AppService } from '@/app/app.service';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [RouterModule, CommonModule, SeparateTextPipe],
+  imports: [RouterModule, CommonModule, TranslateModule, SeparateTextPipe],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })

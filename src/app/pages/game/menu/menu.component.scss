@@ -9,7 +9,7 @@
 }
 
 img#logo_title {
-    animation: 3s cubic-bezier(0.075, 0.82, 0.165, 1) slideIn;
+    animation: 3s cubic-bezier(0.075, 0.82, 0.165, 1) slideIn, 10s 3s ease-in-out floating infinite; 
 }
 
 @keyframes slideIn {
@@ -19,4 +19,21 @@ img#logo_title {
     to {
         transform: translateY(0);
     }
+}
+
+
+@keyframes floating {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+li {
+    margin-left:  var(--var-base-font-size);
 }

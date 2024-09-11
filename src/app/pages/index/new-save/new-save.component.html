@@ -1,0 +1,41 @@
+<div class="container flex-column" style="align-items: center;">
+    <img alt="index_top" src="/assets/imgs/index/index_top.gif" />
+    <br><br>
+    この登録書を出すと、量子ネットを介してデータを転送します。<br>
+    この情報をもとに、あなたの希望する竜をサーチすることになります。<br><br>
+
+    <b class="lage-font" style="color: #ffaa88">
+        {{'里親登録申請書' | translate |separateText}}
+    </b>
+    <br>
+    <form class="boxed-content flex-column gap padding-large" style="width: 100%; max-width: 360px;">
+
+        <label for="yourName">{{"名づけ親の名前" | translate | separateText}}</label>
+        <input type='text' id="yourName" name='yourName' formControlName="yourName" maxlength='6' required>
+
+        <label for="dragonName">{{"孤竜の名前" | translate | separateText}}</label>
+        <input type='text' id="dragonName" name='dragonName' formControlname='dragonName' maxlength='6' required>
+
+        <label for="">{{"お好きなパスワード" | translate | separateText}}</label>
+        <input type='password' id="password" name='password' formControlname='password' maxlength='64' minlength="8"
+            required>
+
+        <span>{{"希望する性別" | translate | separateText}}</span>
+        <div class="flex-row gap">
+            <input type='radio' name='gender' formControlname='gender' id="genderM" value='M'>
+            <label for="genderM">オス</label>
+            <input type='radio' name='gender' formControlname='gender' id="genderF" value='F'>
+            <label for="genderF">メス</label>
+        </div>
+        <hr />
+        <button [routerLink]="'..'">
+            {{"登録書を出す" | translate |separateText}}
+        </button>
+
+    </form>
+    <br />
+    <small>[パスワードは次回以降、必ず必要になるものです。忘れにくいものにしましょう]</small>
+    <br />
+    <a routerLink="..">{{"Actions.PrevPage" | translate | separateText}}</a>
+    <br />
+</div>

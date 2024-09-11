@@ -1,9 +1,11 @@
+import { LocalStorageKey } from '@/entities/LocalStorageKey';
 import { SaveData } from '@/entities/SaveData';
 import { ElementRef, Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AppService {
 
   /** 背景音樂元素 */
@@ -22,13 +24,14 @@ export class AppService {
   public debugEnabled?: boolean;
 
   /** 遊戲存檔 */
-  public saveData?: SaveData;
+  public saveData: SaveData = new SaveData();
 
   constructor() {
     // 在網站生成階段時給予localhost Debug標籤才有效
     if (window.location.href.includes('localhost')) {
       this.debugEnabled = true;
     }
+    this.Load();
   }
 
   isDebug(): boolean {
@@ -36,7 +39,11 @@ export class AppService {
   }
 
   /** 將生成的元素與Service綁定 */
-  Init({ bgmEl, seEl, ambientEl }: { bgmEl: ElementRef<HTMLAudioElement>, seEl: ElementRef<HTMLAudioElement>, ambientEl: ElementRef<HTMLAudioElement> }) {
+  Init({ bgmEl, seEl, ambientEl }: {
+    bgmEl: ElementRef<HTMLAudioElement>,
+    seEl: ElementRef<HTMLAudioElement>,
+    ambientEl: ElementRef<HTMLAudioElement>
+  }) {
     this.bgmEl = bgmEl;
     this.seEl = seEl;
     this.ambientEl = ambientEl;
@@ -94,11 +101,26 @@ export class AppService {
     }, 3000));
   }
 
-  Save(data: SaveData) {
-
+  Save() {
+    localStorage.setItem(LocalStorageKey.save, JSON.stringify(this.saveData));
+    console.log('[SaveData]存檔：', this.saveData);
   }
 
-  Load(data?: SaveData) {
+  Load() {
+    const s = localStorage.getItem(LocalStorageKey.save);
+    if (!s) {
+      return;
+    }
+    try {
+      const o = JSON.parse(s);
+      Object.entries(o).forEach(([key, v]) => {
+        (this.saveData as any)[key] = v;
+      });
 
+      console.log(`[SaveDate] 讀取存檔：`, this.saveData);
+    } catch (err) {
+      console.warn(`[SaveDate] 讀取存檔失敗：`, err);
+      this.saveData = new SaveData();
+    }
   }
 }

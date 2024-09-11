@@ -20,6 +20,6 @@ export class LanguageComponent {
   }
   set language(v: string) {
     this.translateServ.use(v);
-    localStorage.setItem(LocalStorageKey.language, this.translateServ.currentLang);
+    localStorage.setItem(LocalStorageKey.language, v);
   }
 }

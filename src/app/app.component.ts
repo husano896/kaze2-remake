@@ -22,19 +22,21 @@ export class AppComponent implements AfterViewInit {
 
     // 路由事件訂閱
     this.subscriptions.push(router.events.subscribe(e => {
-      console.log(e);
       if (e instanceof NavigationStart) {
         this.loading = true;
       }
 
       if (e instanceof NavigationEnd || e instanceof NavigationCancel || e instanceof NavigationError) {
         this.loading = false;
+
+        // 再找找看有沒有比較好的地方計算CG
+        this.appServ.saveData.PS_RyuCG();
+        this.appServ.Save();
       }
     }));
 
     // 預設語言設定
     this.translateServ.setDefaultLang('zh-hant');
-
     const localStorageLang = localStorage.getItem(LocalStorageKey.language);
     if (localStorageLang) {
       this.translateServ.use(localStorageLang);
@@ -47,7 +49,6 @@ export class AppComponent implements AfterViewInit {
     }
 
     // 設定完後儲存到LocalStorage供下次進入網站使用
-    localStorage.setItem(LocalStorageKey.language, this.translateServ.currentLang);
     // Anti debugger
     /*
     setInterval(() => {

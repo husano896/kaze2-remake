@@ -23,6 +23,14 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/index/credits/credits.component').then(m => m.CreditsComponent)
     },
     {
+        path: 'new_save',
+        loadComponent: () => import('./pages/index/new-save/new-save.component').then(m => m.NewSaveComponent)
+    },
+    {
+        path: 'login',
+        loadComponent: () => import('./pages/index/login/login.component').then(m => m.LoginComponent)
+    },
+    {
         path: 'game',
         loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule)
     },
