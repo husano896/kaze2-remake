@@ -2,8 +2,9 @@
     <img alt="index_top" src="/assets/imgs/index/index_top.gif" />
     <div class="flex-row column-reverse-480">
         <div class="flex-column padding" style="background-color: #887766; word-break: keep-all; text-wrap: nowrap;">
-            <img class="margin-auto" alt="char00" src="/assets/imgs/char00.gif" />
-            <br />
+            <div class="full-width">
+                <img class="margin-auto" alt="char00" src="/assets/imgs/char00.gif" />
+            </div>
             <small class="white">ポイルトップの街</small>
             <span class="white large">{{"Noun.SickDragonProtectAssociation" | translate}}</span>
             <hr />
@@ -26,7 +27,7 @@
             </small>
         </div>
         <div class="flex-column" style="padding-left:16px;padding-right: 16px;">
-
+            <br />
             <b><!-- あ な た も 竜 を 救 っ て み ま せ ん か ？--> {{"Index.Title" |translate | separateText}}</b>
             <br />
             <img class="full-width" alt="index_title" src="/assets/imgs/index/index_title.gif">
@@ -49,20 +50,17 @@
                 <div class="flex-column full-width" style="word-break: keep-all;text-wrap: nowrap;">
                     <ul>
                         <li>
-                            <small>
-                                <a class="outline-text" routerLink="new_save">
-                                    ● {{'Index.Action_NewGame' |translate}}
-                                    <!--は じ め か ら-->
-                                    <!--二周目以降：？ ？ ？ ？ か ら -->
-                                </a>
-                            </small>
+                            <a class="outline-text" routerLink="new_save">
+                                ● {{(newGamePlus ? 'Index.Action_NewGamePlus': 'Index.Action_NewGame' ) | translate |
+                                separateText}}
+                                <!--は じ め か ら-->
+                                <!--二周目以降：？ ？ ？ ？ か ら -->
+                            </a>
                         </li>
                         <li>
-                            <small>
-                                <a class="outline-text" routerLink="login">
-                                    ● {{'Index.Action_Continue' |translate}}<!-- 続 き か ら-->
-                                </a>
-                            </small>
+                            <a class="outline-text" routerLink="login">
+                                ● {{'Index.Action_Continue' |translate | separateText}}<!-- 続 き か ら-->
+                            </a>
                         </li>
 
                     </ul>
@@ -106,10 +104,10 @@
         </div>
     </div>
     <br />
-    <div class="flex-column center full-width">
+    <div class="flex-column center full-width padding-large">
         <small>本サイトは<span style="color:red;">ファンメイドリメイク</span>です，公式サイトとは関係がありません。</small>
         <br />
-        <small><a href="http://www.game-can.com/kaze2.htm" target="_blank">[＜原作サイトへ＞]</a></small>
+        <small><a href="http://www.game-can.com/kaze2.htm" target="_blank">[＜原作サイト＞]</a></small>
     </div>
     <br />
 </div>

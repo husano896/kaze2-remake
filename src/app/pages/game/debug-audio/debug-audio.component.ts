@@ -14,11 +14,15 @@ export class DebugAudioComponent implements OnDestroy {
   constructor(private router: Router, private appServ: AppService) {
 
   }
-  playBGM(bgm: string) {
+  playBGM(bgm?: string) {
     this.appServ.setBGM(bgm)
+  }
+  playSE(se?: string) {
+    this.appServ.setSE(se);
   }
 
   ngOnDestroy(): void {
-    this.appServ.setBGM('');
+    this.appServ.setBGM();
+    this.appServ.setSE();
   }
 }

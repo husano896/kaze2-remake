@@ -1,3 +1,4 @@
+import { AppService } from '@/app/app.service';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,9 +13,18 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  registerForm = new FormGroup({
+  constructor(private appServ: AppService) {
+
+  }
+  loginForm = new FormGroup({
     id: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
-
   })
+
+  Login() {
+    if (this.loginForm.value.id?.toLocaleLowerCase().includes('test') ||
+      this.loginForm.value.password?.toLocaleLowerCase().includes('test')) {
+      this.appServ.debug = true;
+    }
+  }
 }

@@ -4,6 +4,104 @@
     height: 100%;
 }
 
+/** 全局UI容器 */
+div.global-ui {
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    margin: auto;
+    overflow: hidden;
+    z-index: 10;
+    color: white;
+}
+
+div.global-ui>div.container {
+    contain: content;
+    height: 100%;
+}
+
+/** 創龍曆*/
+div#Ray1 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: black;
+    opacity: 0;
+    animation: Ray1ContainerFadeInOut 5s steps(25);
+
+    ::ng-deep img,
+    img {
+        opacity: 0;
+        animation: Ray1ImageFadeInOut 5s steps(25);
+
+    }
+}
+
+
+
+@keyframes Ray1ImageFadeInOut {
+    0% {
+        opacity: 0;
+    }
+
+    40% {
+        opacity: 1;
+    }
+
+    60% {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes Ray1ContainerFadeInOut {
+    0% {
+        opacity: 1;
+    }
+
+    60% {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/** 通信機UI*/
+div#Ray7 {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    z-index: 2;
+}
+
+div#Ray7:after {
+    content: '■';
+    animation: 1s Ray7Blinking linear infinite;
+}
+
+@keyframes Ray7Blinking {
+
+    0%, 50%,
+    100% {
+        visibility: visible;
+    }
+
+    25%, 75% {
+        visibility: hidden;
+    }
+}
+
+/** 詢問視窗 */
 div#Ray8 {
     display: none;
     width: 100%;
@@ -13,7 +111,14 @@ div#Ray8 {
     text-align: auto;
 }
 
-div#Ray8.active {
-    display: block;
-
+/** 錯誤顯示 */
+div#RayEX_ErrorHandler {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    margin: auto;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }

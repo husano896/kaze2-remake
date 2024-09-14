@@ -19,6 +19,11 @@ const routes: Routes = [
     loadComponent: () => import('./delete/delete.component').then(m => m.DeleteComponent)
   },
   {
+    path: 'begin',
+    pathMatch: 'full',
+    loadComponent: () => import('./begin/begin.component').then(m => m.BeginComponent)
+  },
+  {
     path: 'dialogue',
     pathMatch: 'full',
     loadComponent: () => import('./dialogue/dialogue.component').then(m => m.DialogueComponent)

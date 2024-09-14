@@ -1,40 +1,23 @@
+import { RootAnimations } from "@/app/app.service";
 import { EndingComponent } from "@/app/pages/game/ending/ending.component";
 import { firstValueFrom, timer } from "rxjs";
 
 export async function Ending1b(component: EndingComponent) {
-    component.setBG('badend');
-    component.Content(
-`一直以來…… 主人 …… 
-
-你說過會一直想見我，
-
-並且會再見到我對吧……。 
-
-會見到的……
-
-對…… 
-
-我…… 就快了……。
-
-比風還要輕……
-
-
-要去……
-
-
-你那裡……。
-`)
-    await firstValueFrom(component.dialogComplete$);
-    await firstValueFrom(timer(3000));
-    component.setDialogOpticity(0);
-    component.setBGOpticity(1);
-    component.startEndRoll();
-    await firstValueFrom(component.dialogComplete$);
-    await firstValueFrom(timer(3000));
-    component.appServ.fadeOut();
-    await firstValueFrom(timer(3000));
+    const { setBG, setBGOpticity, Content, setDialogOpticity, startEndRoll, router, appServ, dialogComplete$ } = component;
+    const { Wait } = appServ
+    setBG('badend');
+    Content(`Scripts.Ending1.4`)
+    await firstValueFrom(dialogComplete$);
+    await Wait(3000);
+    setDialogOpticity(0);
+    setBGOpticity(1);
+    appServ.Anim(RootAnimations.FadeIn);
+    startEndRoll();
+    await firstValueFrom(dialogComplete$);
+    await Wait(3000);
+    await appServ.Anim(RootAnimations.FadeOut);
 
     // TODO: 周目結束處理
-    component.router.navigate(['/']);
-    component.appServ.fadeIn();
+    router.navigate(['/']);
+    appServ.Anim(RootAnimations.FadeIn);
 }

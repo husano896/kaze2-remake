@@ -4,6 +4,7 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@ang
 import { Router, RouterModule } from '@angular/router';
 import { Subject, firstValueFrom, timer } from 'rxjs';
 import { Location } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ending',
@@ -20,9 +21,13 @@ export class EndingComponent implements AfterViewInit, OnDestroy {
   public dialogComplete$: Subject<any> = new Subject<any>();
   pendingTexts: string[] = [];
   textInterval?: any;
-  endrollProcess = -window.innerHeight / 2;
-  constructor(private location: Location, public router: Router, public appServ: AppService) {
+  endrollProcess = 0;
+  constructor(private location: Location,
+    public router: Router,
+    private translateServ: TranslateService,
+    public appServ: AppService) {
   }
+  
   async ngAfterViewInit() {
     console.log(this.bg.nativeElement);
 
@@ -35,8 +40,8 @@ export class EndingComponent implements AfterViewInit, OnDestroy {
         this.router.navigate(['/'])
         return;
       }
-      await firstValueFrom(timer(1000));
-      ev(this);
+      await this.appServ.Wait(1000);
+      ev.bind(this)(this);
 
     }
     this.textInterval = setInterval(() => {
@@ -53,30 +58,35 @@ export class EndingComponent implements AfterViewInit, OnDestroy {
     clearInterval(this.textInterval);
   }
 
-  Content(c: string) {
-    this.pendingTexts.push(...c);
+  Content = (c: string) => {
+    this.pendingTexts.push(...(
+      this.translateServ.instant(c, {
+        ...this.appServ.saveData.talkingGO,
+        ...this.appServ.saveData.talkingParam
+      })
+    ));
   }
 
-  setBG(bg: string) {
+  setBG = (bg: string) => {
     this.bg.nativeElement.style.backgroundImage = `url(/assets/imgs/bg/${bg}.jpg)`
   }
-  setBGOpticity(v: number) {
+  setBGOpticity = (v: number) => {
     this.bg.nativeElement.style.backgroundColor = `rgba(0,0,0,${1.0 - v})`;
   }
-  setDialogOpticity(v: number) {
+  setDialogOpticity = (v: number) => {
     this.dialog.nativeElement.style.opacity = String(v);
   }
 
-  startEndRoll() {
+  startEndRoll = () => {
     clearInterval(this.textInterval);
     this.endroll.nativeElement.style.opacity = `1`;
     this.textInterval = setInterval(() => {
       this.endroll.nativeElement.style.transform = `translateY(${this.endrollProcess}px)`;
-      this.endrollProcess -= 1;
-      if (this.endrollProcess < -2600) {
+      this.endrollProcess -= this.endroll.nativeElement.scrollHeight / 999;
+      if (this.endrollProcess < -this.endroll.nativeElement.scrollHeight * 2) {
         clearInterval(this.textInterval);
         this.dialogComplete$.next(0)
       }
-    }, 20)
+    }, 33)
   }
 }

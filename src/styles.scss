@@ -68,6 +68,11 @@ button {
     padding: calc(var(--var-base-font-size) * 0.25) calc(var(--var-base-font-size) * 0.2);
 }
 
+button:disabled {
+    background: #444444;
+    border: 1px transparent solid;
+}
+
 hr {
     box-sizing: border-box;
     width: 100%;
@@ -181,5 +186,10 @@ small {
 
 .padding-large {
     padding: calc(var(--var-base-font-size) * 0.5);
+    box-sizing: border-box;
+}
+
+.padding-xlarge {
+    padding: calc(var(--var-base-font-size));
     box-sizing: border-box;
 }

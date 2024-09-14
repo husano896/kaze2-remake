@@ -1,5 +1,5 @@
-import ev1 from "./ev1";
+import ev001 from "./ev001";
 
-export const DragonGameEvents = {
-    1: ev1
+export const DragonGameEvents: { [eventName: string]: Function } = {
+    // 1: ev001
 }

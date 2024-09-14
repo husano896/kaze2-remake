@@ -227,8 +227,8 @@ const D_go4 = new Array(
     "の", "の", "デシ", "のだ", "んだ", "");
 export class SaveData {
     /** 到訪次數 */
-    public dragonName: string = '';
-    public yourName: string = '';
+    public dragonName: string = '孤竜';
+    public yourName: string = 'アイ．フライ';
     public numVisits: number = -1;
     public love: number = 0;
     public turn: number = 24;
@@ -248,7 +248,7 @@ export class SaveData {
     public magic: any = '';
     public magicS: any = '';
     public exp: number = 0;
-
+    public lastLogin: number = 0;
     /** 異常狀態 */
     public bio: number = 0x0;
     public ID: any = '';
@@ -265,7 +265,6 @@ export class SaveData {
 
     /** 新存檔的初始化 */
     public Reset() {
-
         this.Maxhp = 10;
         this.hp = 10;
         this.df = 1;
@@ -276,6 +275,7 @@ export class SaveData {
         this.numVisits = 1;
         this.turn = 40;
         this.food = 50;
+        this.lastLogin = new Date().getTime();
     }
 
     static CalculateLV(maxhp: number, at: number, df: number, speed: number): number {
@@ -382,13 +382,14 @@ export class SaveData {
      * 計算使用的CG
      */
     PS_RyuCG() {
-        var fil = 'nomal01';
+        let fil = 'nomal01';
 
-        var ans = Math.floor((this.element1 + 5) / 10);
-        var ans2 = Math.floor((this.element2 + 5) / 10);
-        var ans3 = Math.abs(5 - ans);
-        var ans4 = Math.abs(5 - ans2);
+        const ans = Math.floor((this.element1 + 5) / 10);
+        const ans2 = Math.floor((this.element2 + 5) / 10);
+        const ans3 = Math.abs(5 - ans);
+        const ans4 = Math.abs(5 - ans2);
         console.log('nowLv', this.nowLv, 'ans', ans, 'ans2', ans2, 'ans3', ans3, 'ans4', ans4)
+        this.PS_Set(0);
         if ((this.nowLv >= 10) && (ans3 > ans4) && (ans <= 4)) {
             fil = "fir01";
             this.PS_Set(1);
@@ -681,6 +682,12 @@ export class SaveData {
         }
     }
 
+    get talkingParam() {
+        return {
+            dragonName: this.dragonName,
+            yourName: this.yourName
+        }
+    }
 
     get ans1() {
         // TODO: 要確認lv的變數
@@ -778,7 +785,7 @@ garyuMag = new String(magic) + "," + new String(magicS);
 garyuIvent = new String(ivent) + "," + new String(DragonChip1) + "," + new String(DragonChip2);
 
 // 31日後にクッキーを消去
-expire.setTime(expire.getTime() + (31 * 24 * 60 * 60 * 1000));
+expire.setTime(expire.getTime() + (31 * 24 * 60 * 60 * 1000);
 setCookie("@garyuname", yourName, expire);//ユーザー名
 setCookie("@garyudragon", garyuPass, expire);//ドラゴン名/パスワード/ID
 setCookie("@garyu_visits", numVisits, expire);//訪問回数

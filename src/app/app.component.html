@@ -1,14 +1,59 @@
 <!-- 全站用指示器-->
 <app-loading *ngIf="loading"></app-loading>
 <!-- 聲音-->
-<audio #bgm autoplay loop></audio>
-<audio #se autoplay></audio>
-<audio #ambient autoplay loop></audio>
+<audio #bgm loop></audio>
+<audio #se></audio>
+<audio #messageSE loop src="/assets/audio/se/snd04.wav"></audio>
+<audio #ambient loop></audio>
 
-<!-- 詢問視窗-->
-<div id="Ray8" (click)="$event.stopPropagation();" (keypress)="$event.stopPropagation();">
-    <div class="container flex-column boxed-content game-bg">
-        
+<div class="global-ui">
+    <div class="container">
+        <!-- 創龍曆 -->
+        <div id='Ray1' *ngIf="Ray1Open">
+            <!-- 創龍曆XXXX年 -->
+            <div class="flex-row">
+                <!-- 創龍曆 -->
+                <img src='/assets/imgs/font01.gif'>
+                <app-number-to-image [number]="year"></app-number-to-image>
+                <!-- 數字 -->
+                <img src='/assets/imgs/font11.gif'>
+            </div>
+            <br />
+            <!-- XXX龍月X日-->
+
+            <div class="flex-row">
+                <!-- 龍名-->
+                <img src="/assets/imgs/{{monthImageName}}.gif" />
+                <!-- 月 -->
+                <img src='/assets/imgs/font02.gif'>
+                <app-number-to-image [number]="day"></app-number-to-image>
+                <img src='/assets/imgs/font03.gif'>
+            </div>
+        </div>
+
+        <!-- 通信機畫面 -->
+        <div id="Ray7" class="boxed-content game-bg padding-large" *ngIf="noticeContent.length > 0">
+            {{noticeTitle}}
+            <hr *ngIf="noticeTitle.length > 0">
+            <small>
+                {{noticeContent}}
+            </small>
+        </div>
+
+        <!-- 詢問視窗 -->
+        <div id="Ray8" (click)="$event.stopPropagation();" (keypress)="$event.stopPropagation();">
+            <div class="flex-column boxed-content game-bg">
+
+            </div>
+        </div>
+        <!-- 錯誤顯示 -->
+        <div id="RayEX_ErrorHandler boxed-content dark-bg" *ngIf="error">
+            <span>ERROR</span>
+            <small>
+                {{error | json}}
+            </small>
+            <button (click)="error = null;" (keypress)="error= null;">OK</button>
+        </div>
     </div>
 </div>
 <router-outlet></router-outlet>

@@ -1,0 +1,505 @@
+<HTML>
+
+<HEAD>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=x-sjis">
+    <meta http-equiv='Page-Exit' content='blendTrans()'>
+    <META HTTP-EQUIV="imagetoolbar" CONTENT="no">
+    <TITLE>牙竜の街～竜の牧場～</TITLE>
+</HEAD>
+
+<BODY TEXT="#ffffff" LINK="#ffccaa" VLINK="#ffccaa" BGCOLOR="#000000" onSelectStart="return false"
+    oncontextmenu="return false" ondragstart='return false'>
+    <style type="text/css">
+        <!--
+        textarea,
+        input,
+        select {
+            border: 1px solid #333333;
+            background-color: #333333;
+            color: #ffffff;
+            font-size: 14;
+        }
+        -->
+    </style>
+    <SCRIPT LANGUAGE="JavaScript" SRC="main.js"></SCRIPT>
+    <SCRIPT LANGUAGE="JavaScript" SRC="sub.js"></SCRIPT>
+    <SCRIPT LANGUAGE="JavaScript" SRC="layer.js"></SCRIPT>
+    <DIV ID='BG' STYLE='position:absolute;top:8px;left:0px; visibility:hidden;'>
+        <IMG width=100% src='image/bg_welcome.jpg' border=0>
+    </DIV>
+    <SCRIPT LANGUAGE="JavaScript">
+        var moto;
+        var varTimID;		// インターバルタイマID
+        var varTimID2;		// インターバルタイマID
+        var MonsterMx;		// 敵キャラ表示座標
+        var MonsterMy;
+        var MonsterSx = 600;// 敵キャラ移動用
+        var MonsterSy = 0;
+        var Shock2 = 0;		// 敵揺れカウンタ
+
+        DataLoad();
+        parent.MUSIC.location.href = 'music00.html';
+        if (ivent & 1) parent.ANBIENT.location.replace('snd16.html');
+
+
+        // 孤竜容姿決定パラメータ
+        PS_RyuCG();
+
+        ans1 = expire.getMonth() + 1;
+        ans = expire.getDate();
+        ans2 = ans1 * 100 + ans;
+
+        if ((ans2 >= 116) && (ans2 <= 229)) {
+            lank2 = "<IMG src='image/font04.gif'>";
+            if (ans1 == 1) ans3 = ans - 15; if (ans1 == 2) ans3 = 15 + ans;
+        }
+        if ((ans2 >= 301) && (ans2 <= 415)) {
+            lank2 = "<IMG src='image/font05.gif'>";
+            if (ans1 == 3) ans3 = ans; if (ans1 == 4) ans3 = 31 + ans;
+        }
+        if ((ans2 >= 416) && (ans2 <= 531)) {
+            lank2 = "<IMG src='image/font06.gif'>";
+            if (ans1 == 4) ans3 = ans - 15; if (ans1 == 5) ans3 = 15 + ans;
+        }
+        if ((ans2 >= 601) && (ans2 <= 715)) {
+            lank2 = "<IMG src='image/font07.gif'>";
+            if (ans1 == 6) ans3 = ans; if (ans1 == 7) ans3 = 30 + ans;
+        }
+        if ((ans2 >= 716) && (ans2 <= 831)) {
+            lank2 = "<IMG src='image/font08.gif'>";
+            if (ans1 == 7) ans3 = ans - 15; if (ans1 == 8) ans3 = 15 + ans;
+        }
+        if ((ans2 >= 901) && (ans2 <= 1015)) {
+            lank2 = "<IMG src='image/font09.gif'>";
+            if (ans1 == 9) ans3 = ans; if (ans1 == 10) ans3 = 30 + ans;
+        }
+        if ((ans2 >= 1016) && (ans2 <= 1130)) {
+            lank2 = "<IMG src='image/font09.gif'>";
+            if (ans1 == 10) ans3 = ans - 15; if (ans1 == 11) ans3 = 15 + ans;
+        }
+        if ((ans2 >= 1201) || (ans2 <= 115)) {
+            lank2 = "<IMG src='image/font10.gif'>";
+            if (ans1 == 12) ans3 = ans; if (ans1 == 1) ans3 = 31 + ans;
+        }
+        ans2 = parseInt(expire.getYear()); if (ans2 > 2000) ans2 -= 2000; ans2 += 966;
+
+        with (document) {
+            write("<DIV ID = 'Ray0' STYLE='position:absolute;top:0px;left:0px; visibility: hidden;'> ");
+            write("<IMG src='image/dragon/" + fil + ".gif' width=360 height=336 border=0>");
+            write("</DIV>");
+
+            write("<DIV ID = 'Ray1' STYLE='position:absolute;top:250px;left:0px; visibility: hidden;'> ");
+            write("<TABLE width=100% border=0><TR><TD><CENTER><IMG src='image/font01.gif'>");
+            write(PS_FontImage(ans2) + "<IMG src='image/font11.gif'><BR>" + lank2 + "<IMG src='image/font02.gif'>" + PS_FontImage(ans3) + "<IMG src='image/font03.gif'></CENTER></TD></TR></TABLE>");
+            write("</DIV>");
+
+            write("<DIV ID = 'Ray2' STYLE='position:absolute;top:220px;left:40px; visibility: hidden;'> ");
+            write("<TABLE border=1><TR><TD>");
+            write("<IMG src='image/char04.gif' name=BigIcon></CENTER></TD></TR></TABLE>");
+            write("</DIV>");
+
+            write("<DIV ID = 'Ray7' STYLE='position:absolute;top:100;left:20px; visibility:visible;'></DIV>");
+            write("<DIV ID = 'Ray8' STYLE='position:absolute;top:100;left:20px; visibility:visible;'></DIV>");
+        }
+
+
+
+    </SCRIPT>
+
+
+    <DIV ID='Ray3' STYLE='position:absolute;top:350px;left:40px; visibility: hidden;'>
+        <CENTER>
+            <TABLE cellSpacing=0 cellPadding=0 width=70% border=0>
+                <TR>
+                    <TD>
+                        <TABLE cellSpacing=0 cellPadding=0 width=100% border=0>
+                            <TR>
+                                <TD width=100%>
+                                    <TABLE cellSpacing=0 cellPadding=0 border=0>
+                                        <TR>
+                                            <TD width=16> <IMG width=16 height=16 src='image/linez1.gif' border=0></TD>
+                                            <TD width=100%><IMG width=100% height=16 src='image/linez2.gif' border=0>
+                                            </TD>
+                                            <TD width=16><IMG width=16 height=16 src='image/linez3.gif' border=0></TD>
+                                        </TR>
+                                        <TR>
+                                            <TD height=100%><IMG width=16 height=100% src='image/linez8.gif' border=0>
+                                            </TD>
+                                            <TD>
+                                                <TABLE cellSpacing=0 cellPadding=0 width=100% border=0>
+                                                    <TR>
+                                                        <TD bgcolor=#333333 width=100%>
+                                                            <CENTER>
+                                                                <FORM NAME='MENUS'>
+                                                                    <INPUT TYPE='button' name='Btn' VALUE='N E X T ▼'
+                                                                        onclick="PS_Next();" onFocus='this.blur()'><BR>
+                                                                    <INPUT type='text' name='message1' size='80'
+                                                                        readonly value=''>
+                                                                    <INPUT type='text' name='message2' size='80'
+                                                                        readonly>
+                                                                    <INPUT type='text' name='message3' size='80'
+                                                                        readonly>
+                                                                    <INPUT type='text' name='message4' size='80'
+                                                                        readonly>
+                                                                    <INPUT type='text' name='message5' size='80'
+                                                                        readonly>
+                                                                    <INPUT type='text' name='message6' size='80'
+                                                                        readonly>
+                                                                    <INPUT type='text' name='message7' size='80'
+                                                                        readonly>
+                                                                </FORM>
+                                                            </CENTER>
+                                                            <TABLE cellSpacing=0 cellPadding=5 width=90% border=0>
+                                                                <FORM NAME='FoodForm'>
+                                                                </FORM>
+                                                            </TABLE>
+                                                        </TD>
+                                                    </TR>
+                                                </TABLE>
+                                            </TD>
+                                            <TD height=100%><IMG width=16 height=100% src='image/linez4.gif' border=0>
+                                            </TD>
+                                        </TR>
+                                        <TR>
+                                            <TD width=16> <IMG width=16 height=16 src='image/linez7.gif' border=0></TD>
+                                            <TD width=100%><IMG width=100% height=16 src='image/linez6.gif' border=0>
+                                            </TD>
+                                            <TD width=16> <IMG width=16 height=16 src='image/linez5.gif' border=0></TD>
+                                        </TR>
+                                    </TABLE>
+                                </TD>
+                                <TD></TD>
+                            </TR>
+                        </TABLE>
+                    </TD>
+                </TR>
+            </TABLE>
+        </CENTER>
+        <A HREF='JavaScript:PS_Skip()' onFocus='this.blur()' border=0><small>SKIP</small></A>
+    </DIV>
+
+    <SCRIPT LANGUAGE='JavaScript'>
+        var MsgLop = 1;		// メッセージループ用
+        var RenMAX = 5;		// 連続攻撃回数最大上限
+        var msgBuff = "";
+        var msgFlg = 0;
+        var varBaseFaice = "";
+        var varFaice = "";
+
+        varMsg = new Array("", "", "", "", "");
+
+        PS_OP_Ivent();		// メッセージ表示のリフレッシュ
+
+
+        // 孤竜CGの表示
+        MonsterMx = 300 - (DragonWidth / 2);		// 表示中心位置を求める
+        MonsterMy = 5;
+        moveLAYER('Ray0', MonsterMx, MonsterMy);
+        // PS_MonScroll();
+
+
+
+        var IventCnt = 0;
+
+        // メッセージ表示ルーチン ========================================================================================
+        function PS_OP_Ivent() {
+
+            switch (IventCnt) {
+                case 1:
+                    fadeOpacity('Ray1', 1, 1);
+                    showLAYER('Ray1');
+                    break;
+                case 10:
+                    // if(ivent & 1) parent.MUSIC.location.href='music01.html';
+                    fadeOpacity('Ray1', 0, 0);
+                    break;
+                case 12:
+                    fadeOpacity('BG', 1, 1);
+                    showLAYER('BG');
+                    break;
+                case 20:
+                    fadeOpacity('Ray2', 1, 1);
+                    showLAYER('Ray2');
+                    showLAYER('Ray3');
+                    if (ivent & 1) parent.SND.location.replace('snd04.html');
+                    varBaseFaice = "char04.gif";
+                    varFaice = "char04a.gif";
+                    msgFlg = 1;
+                    varMsg[0] = "ふぅふぅ…" + DragonName + "、どこに行ったんっすかねぇ…。";
+                    varMsg[1] = "やっと里親希望の信号を受け取ったっすのに。";
+                    varMsg[2] = "…確か、今日は外れの草原で昼寝するって言ってたっすよね。";
+                    varMsg[3] = "この辺に間違いないはずなんっすが…。";
+                    varMsg[4] = "";
+                    varMsg[5] = "";
+                    break;
+                case 24:
+                    document.MENUS.Btn.disabled = true;
+                    fadeOpacity('Ray0', 1, 1);
+                    showLAYER('Ray0');
+                    varBaseFaice = "";
+                    varFaice = "";
+                    document.MENUS.message7.value = "";
+                    document.MENUS.message6.value = "";
+                    document.MENUS.message5.value = "";
+                    document.MENUS.message4.value = "";
+                    document.MENUS.message3.value = "";
+                    document.MENUS.message2.value = "";
+                    document.MENUS.message1.value = "";
+                    break;
+                case 30:
+                    msgFlg = 1;
+                    if (ivent & 1) parent.SND.location.replace('snd04.html');
+                    varMsg[0] = "孤竜：ニエルサン…？";
+                    varMsg[1] = "孤竜：どうした" + go03 + "？　まさか「さとおや」っていうのが見つかった" + go03 + "？";
+                    varMsg[2] = "孤竜：……きゅぅぅ…。";
+                    varMsg[3] = "孤竜：" + my + "まだ心の準備ができてない" + go01 + "。";
+                    break;
+                case 32:
+                    fadeOpacity('Ray0', 0, 0);
+                    msgFlg = 1;
+                    self.document.BigIcon.src = 'image/char09.gif';
+                    varBaseFaice = "char09.gif";
+                    varFaice = "char09a.gif";
+                    if (ivent & 1) parent.SND.location.replace('snd04.html');
+                    varMsg[0] = "あっ……。";
+                    break;
+                case 33:
+                    msgFlg = 1;
+                    varMsg[1] = "[" + DragonName + "は 突然の知らせに戸惑い 驚いて街の方へ逃げていった]";
+                    break;
+                case 34:
+                    msgFlg = 1;
+                    if (ivent & 1) parent.SND.location.replace('snd04.html');
+                    varBaseFaice = "char04.gif";
+                    varFaice = "char04a.gif";
+                    self.document.BigIcon.src = 'image/char04.gif';
+                    varMsg[0] = "ちょ…。まさか逃げるとは思ってなかったっす。";
+                    varMsg[1] = "いきなり初対面で印象悪いっすねぇ…もうっ。";
+                    varMsg[2] = "ま、まぁ…そのうち慣れてくると期待するっすか。";
+                    break;
+                case 36:
+                    msgFlg = 1;
+                    if (ivent & 1) parent.SND.location.replace('snd04.html');
+                    varBaseFaice = "char01.gif";
+                    varFaice = "char01a.gif";
+                    self.document.BigIcon.src = 'image/char04.gif';
+                    varMsg[0] = "さて…と……。";
+                    varMsg[1] = "そういえば、まだボクの事説明してなかったっすね。ボクはニエルっていうっす。";
+                    varMsg[2] = "病竜保護協会に仕え、あの街で毎日竜の世話をしてる者っすよ。";
+                    varMsg[3] = "さっきの子が、これから育成することになる竜なんっすが…。";
+                    varMsg[4] = "先に、竜舎のほうから紹介しておこうっすかね。";
+                    varMsg[5] = "こちらっす！";
+                    break;
+                case 38:
+                    document.MENUS.Btn.disabled = true;
+                    hideLAYER('BG');
+                    outputLAYER('BG', "<IMG width=100% src='image/bg_home.jpg' border=0>");
+                    fadeOpacity('BG', 1, 1);
+                    showLAYER('BG');
+                    if (ivent & 1) parent.MUSIC.location.href = 'music21.html';
+                    break;
+                case 44:
+                    msgFlg = 1;
+                    if (ivent & 1) parent.SND.location.replace('snd04.html');
+                    self.document.BigIcon.src = 'image/char01.gif';
+                    varBaseFaice = "char01.gif";
+                    varFaice = "char01a.gif";
+                    varMsg[0] = "ちょっと小汚いっすかね？　今日から、ここであの子の面倒を見るっすよ。";
+                    varMsg[1] = "訪ねては お話したり、餌をあげたり……出来ることは限られるっすが";
+                    varMsg[2] = "なんせ人手不足で困ってる街っす。一生懸命飼育に励んでもらいたいっすね♪";
+                    varMsg[3] = "あ！ 無論 " + yourName + " さんも、地球の生活があるっすから キミが来れない時は";
+                    varMsg[4] = "ボクが 最低限の餌や飼育をしておくっすから 時間があるときにきてくださいっすね。";
+                    varMsg[5] = "孤竜が育つと、試合や冒険にもいけるっすから 先ずは それを目標に頑張ろうっす。";
+                    break;
+                case 47:
+                    document.MENUS.Btn.disabled = true;
+                    fadeOpacity('Ray0', 1, 1);
+                    msgFlg = 1;
+                    varBaseFaice = "";
+                    varFaice = "";
+                    if (ivent & 1) parent.SND.location.replace('snd04.html');
+                    varMsg[0] = "孤竜：きゅうぅぅ～…。";
+                    break;
+                case 49:
+                    msgFlg = 1;
+                    self.document.BigIcon.src = 'image/char04.gif';
+                    varBaseFaice = "char04.gif";
+                    varFaice = "char04a.gif";
+                    if (ivent & 1) parent.SND.location.replace('snd04.html');
+                    varMsg[0] = "あ…" + DragonName + " 全く どこに行ってたっすか？";
+                    varMsg[1] = "改めて紹介するっすよ。 この通信機に映っているのが" + yourName + " さんっす。";
+                    varMsg[2] = "……きゅぅぅ…（おどおど）";
+                    varMsg[3] = "ふぅ…普段はもう少し ワンパクなんっすが。　まぁ、これも何かの機会っす。";
+                    varMsg[4] = "まずは 餌でもあげて お互いを知り合ったほうがいいかも知れないっすね。";
+                    varMsg[5] = "今から" + yourName + " さんに育成モジュールを送るっすね。";
+                    break;
+                case 52:
+                    document.MENUS.Btn.disabled = true;
+                    self.document.BigIcon.src = 'image/char01a.gif';
+                    varBaseFaice = "";
+                    varFaice = "";
+                    if (ivent & 1) parent.SND.location.replace('snd07.html');
+                    PS_Command('Ray7', "システムの更新<HR><small>モジュールを組み込みます■<BR></small>");
+                    break;
+                case 65:
+                    document.MENUS.Btn.disabled = true;
+                    PS_Command('Ray7', "システムの更新<HR><small>モジュールを組み込みます<BR>モジュールが実行されました■<BR></small>");
+                    break;
+                case 75:
+                    document.MENUS.Btn.disabled = true;
+                    location.href = 'dragongame.html';
+                    break;
+
+            }
+            IventCnt++;
+            if (msgFlg) {
+                clearTimeout(varTimID2);
+                PS_MsgCmd();
+            } else {
+                varTimID2 = setTimeout("PS_OP_Ivent()", 300);
+            }
+        }
+
+
+
+        // メッセージ表示ルーチン ========================================================================================
+        function PS_MsgCmd() {
+            var varI = 0;
+            var varB = "";
+            var varP1;
+            var varP2;
+
+            document.MENUS.Btn.disabled = false;
+
+            // バッファの中からメッセージを取り出す
+            do {
+                msgBuff = varMsg[varI]; varI++;
+            } while ((msgBuff == "") && (varI < 6))
+
+            // 表示すべき文字が在れば表示処理
+            if (msgBuff != "") {
+                // 新しいメッセージがあれば改行する
+                if (MsgLop == 0) {
+                    // if (ivent & 1) parent.SND.location.reload();
+                    document.MENUS.message7.value = document.MENUS.message6.value;
+                    document.MENUS.message6.value = document.MENUS.message5.value;
+                    document.MENUS.message5.value = document.MENUS.message4.value;
+                    document.MENUS.message4.value = document.MENUS.message3.value;
+                    document.MENUS.message3.value = document.MENUS.message2.value;
+                    document.MENUS.message2.value = document.MENUS.message1.value;
+                }
+
+                // メッセージの表示
+                varB = msgBuff.substring(0, MsgLop);
+                document.MENUS.message1.value = varB;
+                if (MsgLop < msgBuff.length) {
+                    MsgLop++;
+                    varTimID = setTimeout("PS_MsgCmd()", 60);
+                } else {
+                    if (varBaseFaice) self.document.BigIcon.src = 'image/' + varFaice;
+                    varMsg[varI - 1] = "";
+                    MsgLop = 0;
+                    document.MENUS.Btn.disabled = false;
+                    if (ivent & 1) parent.SND.location.replace('snd00.html');
+                }
+            } else {
+                if (varBaseFaice) self.document.BigIcon.src = 'image/' + varFaice;
+                if (ivent & 1) parent.SND.location.replace('snd00.html');
+                msgFlg = 0;
+                PS_OP_Ivent();
+            }
+        }
+
+
+
+        // 次のページへ
+        function PS_Next() {
+            var varI = 0;
+
+            //	document.MENUS.Btn.disabled = true;
+
+            if (MsgLop) {
+                // バッファの中からメッセージを取り出す
+                do {
+                    msgBuff = varMsg[varI]; varI++;
+                } while ((msgBuff == "") && (varI < 6))
+                document.MENUS.message1.value = msgBuff;
+                varMsg[varI - 1] = "";
+                MsgLop = 0;
+                clearTimeout(varTimID);
+                clearTimeout(varTimID2);
+                varTimID = setTimeout("PS_MsgCmd()", 100);
+                document.MENUS.Btn.disabled = true;
+            } else {
+                if (varBaseFaice) self.document.BigIcon.src = 'image/' + varBaseFaice;
+                clearTimeout(varTimID);
+                if (ivent & 1) parent.SND.location.replace('snd04.html');
+                document.MENUS.Btn.disabled = false;
+                PS_MsgCmd();
+            }
+        }
+
+
+        // 特殊キー入力割込み
+        function PS_KeyDOWN(theEvent) {
+            var i = event.keyCode;
+            if ((Math.abs(i) == 8) || (Math.abs(i) == 17) || (Math.abs(i) == 18) || (Math.abs(i) == 114)) {
+                ivent |= 16384;
+                DataSave();
+                alert("[ 禁止キー入力確認 ]\nこの入力キーはゲームを異常動作させます。");
+                location.href = "index99.html";
+            }
+        }
+        document.onkeydown = PS_KeyDOWN;
+
+
+        function PS_Skip() {
+            PS_Command('Ray8', "注 意<HR><small>現在のイベントをスキップします。<br>よろしいですか？<BR><P ALIGN=right><A HREF='dragongame.html' onFocus='this.blur()' border=0><IMG src='image/btn_ok.gif' border=0></A>　<A HREF='JavaScript:alertEnd()' onFocus='this.blur()' border=0><IMG src='image/btn_no.gif' border=0></A></P><BR></small>");
+        }
+
+
+        // アラートレイヤー終了処理
+        function alertEnd() {
+            hideLAYER('Ray8');
+        }
+
+
+        // 孤竜返答用アラート表示
+        function PS_Command(idName, msg) {
+            var i = "<CENTER><TABLE cellSpacing=0 cellPadding=0 width=280 border=0><TR><TD><TABLE cellSpacing=0 cellPadding=0 width=100%  border=0><TR><TD width=100%><TABLE cellSpacing=0 cellPadding=0 border=0><TR><TD width=16>  <IMG width=16   height=16 src='image/line1.gif' border=0></TD><TD width=100%><IMG width=100% height=16 src='image/line2.gif' border=0></TD><TD width=16><IMG width=16   height=16 src='image/line3.gif' border=0></TD></TR><TR><TD height=100%><IMG width=16 height=100% src='image/line8.gif' border=0></TD><TD><TABLE cellSpacing=0 cellPadding=0 width=100% border=0><TR><TD width=100%><TABLE cellSpacing=0 cellPadding=0 width=100% border=0>";
+            var j = "</TABLE></TD></TR></TABLE></TD><TD height=100%><IMG width=16 height=100% src='image/line4.gif' border=0></TD></TR><TR><TD width=16>  <IMG width=16   height=16 src='image/line7.gif' border=0></TD><TD width=100%><IMG width=100% height=16 src='image/line6.gif' border=0></TD><TD width=16>  <IMG width=16   height=16 src='image/line5.gif' border=0></TD></TR></TABLE></TD> <TD></TD> </TR></TABLE></TD></TR></TABLE></CENTER>";
+
+            showLAYER(idName);
+            if (document.getElementById) { //NN6,Mozilla,IE5用
+                document.getElementById(idName).style.backgroundColor = "#443333";
+                document.getElementById(idName).innerHTML = i + msg + j;
+            } else if (document.all) {       //IE4用
+                document.all(idName).style.backgroundColor = "#443333";
+                document.all(idName).innerHTML = i + msg + j;
+            } else if (document.layers) {    //NN4用
+                document.layers[idName].style.backgroundColor = "#443333";
+                document.layers[idName].innerHTML = i + msg + j;
+            }
+        }
+
+
+        // 敵が画面端から出現 ==========================================================================================
+        function PS_MonScroll() {
+            var x, y;
+
+            MonsterSx = MonsterSx - (MonsterSx / 16);
+
+            moveLAYER('Ray0', MonsterMx + MonsterSx, MonsterMy);
+
+            if (MonsterSx > 0) {
+                setTimeout("PS_MonScroll()", 4);
+            } else {
+                moveLAYER('Ray0', MonsterMx, MonsterMy);	// 敵を指定位置に固定
+                MonsterSx = 2;
+            }
+        }
+
+    </SCRIPT>
+</BODY>
+
+</HTML>

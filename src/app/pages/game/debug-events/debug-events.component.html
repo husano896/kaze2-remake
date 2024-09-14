@@ -1,19 +1,23 @@
 <div class="container">
-    <div class="boxed-content game-bg full-width full-height flex-column padding" style="overflow: auto;">
+    <div class="boxed-content game-bg full-width full-height flex-column padding-large gap" style="overflow: auto;">
         <h2>Event Test</h2>
 
         <span>Event</span>
         <hr />
-        <button (click)="goDialog('Opening')">Opening</button>
-        <br />
+        <button (click)="goDialog('Opening')" [disabled]="waiting">Opening</button>
         <br />
 
         <span>Ending</span>
         <hr />
-        <button (click)="goDialog('Ending1')">Ending 1</button>
-        
+        <button (click)="goDialog('Ending1')" [disabled]="waiting">Ending 1</button>
+
         <br />
+
+        <span>Global events</span>
+        <hr />
+        <button (click)="Ray1Test()" [disabled]="waiting">Dragon calendar</button>
+        <button (click)="noticeTest(0)" [disabled]="waiting">Notice - System Update</button>
         <br />
-        <a routerLink="../" style="text-align: center;">{{'Actions.PrevPage' | translate}}</a>
+        <a *ngIf="!waiting" routerLink="../" style="text-align: center;">{{'Actions.PrevPage' | translate}}</a>
     </div>
 </div>

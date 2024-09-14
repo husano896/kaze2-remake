@@ -1,4 +1,4 @@
-import { NgModule, isDevMode } from '@angular/core';
+import { ErrorHandler, NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
@@ -8,7 +8,9 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { ApiService } from './api';
+import { ApiService } from '@/api';
+import { NumberToImageComponent } from '@/components/number-to-image/number-to-image.component';
+import { AppService } from './app.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -18,6 +20,7 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     BrowserModule,
     LoadingComponent,
+    NumberToImageComponent,
     RouterModule.forRoot(routes),
     TranslateModule.forRoot({
       loader: {
@@ -35,6 +38,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
+    { provide: ErrorHandler, useClass: AppService },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiService,

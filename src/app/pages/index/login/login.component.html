@@ -8,7 +8,7 @@
     <br>
     <small>ゲームを続けるのに必要な情報を入力下さい。</small>
     <br />
-    <form class="boxed-content flex-column gap padding-large" style="width: 100%; max-width: 360px;">
+    <form [formGroup]="loginForm" class="boxed-content flex-column gap padding-large" style="width: 100%; max-width: 360px;">
 
         <label for="id">{{"ID" | translate | separateText}}</label>
         <input id="id" name='id' formControlName="id" maxlength='32' required>
@@ -17,11 +17,11 @@
         <input type='password' id="password" name='password' formControlname='password' maxlength='64' minlength="8"
             required>
         <hr />
-        <button routerLink="/game">
+        <button routerLink="/game" (click)="Login()">
             {{"ログインする" | translate | separateText}}
         </button>
 
-        <button routerLink="/game">
+        <button routerLink="/game" (click)="Login()">
             {{"Sign In With Google" | translate}}
         </button>
         <br>

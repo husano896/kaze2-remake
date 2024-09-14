@@ -1,20 +1,26 @@
 <div class="container">
-    <div class="boxed-content game-bg full-width full-height flex-column padding gap" style="overflow: auto;">
+    <div class="boxed-content game-bg full-width full-height flex-column padding-large gap" style="overflow: auto;">
         <h2>Audio Test</h2>
 
         <span>BGM</span>
         <hr />
-        <button (click)="playBGM('tam06')">tam06</button>
-        <button (click)="playBGM('tam09')">tam09</button>
+        <button (click)="playBGM('music01')">music01</button>
+        <button (click)="playBGM('music03')">music03</button>
+        <button (click)="playBGM('music21')">music21</button>
         <button (click)="playBGM('midnight')">midnight</button>
         <button (click)="playBGM('powder')">powder</button>
         <button (click)="playBGM('victim')">victim</button>
         <button (click)="playBGM('ryu_kazauta')">ryu_kazauta</button>
         <button (click)="playBGM('桜舞風')">桜舞風</button>
+        <button (click)="playBGM()">STOP</button>
         <br />
         <br />
         <span>SE</span>
         <hr />
+        <button (click)="playSE('snd01')">snd01</button>
+        <button (click)="playSE('snd04')">snd04</button>
+        <button (click)="playSE('snd16')">snd16</button>
+        <button (click)="playSE()">STOP</button>
         <br />
         <br />
         <a routerLink="../" style="text-align: center;">{{'Actions.PrevPage' | translate}}</a>

@@ -9,6 +9,7 @@
         "Link_SitePublishMotivation": "網站發布的契機",
         "Link_Poirutoppu": "關於{{Poirutoppu}}",
         "Action_NewGame": "從頭開始",
+        "Action_NewGamePlus": "從？？？？開始",
         "Action_Continue": "接續進度"
     },
     "IndexDoc1": {
@@ -76,7 +77,7 @@
             },
             "5": {
                 "Title": "リプレス",
-                "Description": "相手と自分のＨＰを入替え"
+                "Description": "將自己與對手的ＨＰ交換"
             },
             "6": {
                 "Title": "スペウォール",
@@ -84,7 +85,7 @@
             },
             "7": {
                 "Title": "ドレーン",
-                "Description": "相手のＨＰを吸収する"
+                "Description": "吸收對手的ＨＰ"
             },
             "8": {
                 "Title": "リカーブ",
@@ -134,7 +135,7 @@
         "Item": {
             "0": {
                 "Title": "不所持",
-                "Description": "なし"
+                "Description": "無"
             },
             "1": {
                 "Title": "タリスマン",
@@ -161,7 +162,7 @@
                 "Description": "<font color=#ffcc88>消費：</font>重症薬の原料。回復力がある"
             },
             "7": {
-                "Title": "復活の玉",
+                "Title": "復活之玉",
                 "Description": "<font color=#ffcc88>消費：</font>竜の身代わりになる玉"
             },
             "8": {
@@ -170,15 +171,15 @@
             },
             "9": {
                 "Title": "精霊根",
-                "Description": "<font color=#ffcc88>消費：</font>体力を回復させる薬草"
+                "Description": "<font color=#ffcc88>消費：</font>讓體力恢復的薬草"
             },
             "10": {
                 "Title": "召喚の杖",
-                "Description": "<font color=#88ffcc>特殊：</font>一瞬で地上へ帰還する魔具"
+                "Description": "<font color=#88ffcc>特殊：</font>瞬間返回至地上之魔具"
             },
             "11": {
-                "Title": "精霊の眼鏡",
-                "Description": "<font color=#88ccff>永久：</font>孤竜の内部構成を透かす魔具"
+                "Title": "精霊的眼鏡",
+                "Description": "<font color=#88ccff>永久：</font>看清孤龍內部構成的魔具"
             },
             "12": {
                 "Title": "ＤＮＡ種",
@@ -194,7 +195,7 @@
             },
             "15": {
                 "Title": "精竜水",
-                "Description": "<font color=#88ffcc>特殊：</font>発作の特効薬"
+                "Description": "<font color=#88ffcc>特殊：</font>發作的特效藥"
             },
             "16": {
                 "Title": "誇りの賞状",
@@ -233,8 +234,8 @@
                 "Description": "<font color=#ffcc88>消費：</font>催眠/鎮痛/抗体維持に効用"
             },
             "25": {
-                "Title": "忌地への道標",
-                "Description": "<font color=#88ccff>永久：</font>病の治療のカギが記される"
+                "Title": "往禁地之道標",
+                "Description": "<font color=#88ccff>永久：</font>記錄著治好病的關鍵"
             },
             "26": {
                 "Title": "Err26:危険コード",
@@ -276,11 +277,11 @@
         "DragonType": {
             "0": {
                 "Title": "不所持",
-                "Description": "元の姿に戻る[属性で変身可能]"
+                "Description": "變回原先姿態[依元素屬性變更]"
             },
             "1": {
                 "Title": "バルバチェイン",
-                "Description": "DNAの副産物"
+                "Description": "DNA的副産物"
             },
             "2": {
                 "Title": "ヴァンパネラ",
@@ -375,17 +376,23 @@
             "8": "親密",
             "9": "溺愛",
             "10": "真親",
-            "11": "一心同体"
+            "11": "一心同體"
         }
     },
     "Scripts": {
-        "Opening": {},
+        "Opening1": {},
+        "Opening2": {},
         "DragonGameEvents": {
             "Opening": {
                 "3": "ふぅふぅ。遅れて申し訳ないっす。{{yourName}}さん。\r\n\r\n旅先から戻ってきたばかりで、まだ落ち着いていないんっすよ。ん……？　どうかしたっす？\r\n\r\nボクの顔にでも何か付いてるっすか？　まぁ…まぁいいっす。\r\n\r\nさて、先ほど書いて貰った登録書より、条件に一致するような子を探してきたんっすが\r\n\r\nちょっと 今 機嫌よくないみたいんっす…。　上手く馴染んでくれればいいんっすがね。\r\n\r\n… {{dragonName}} …。さぁ！ こっちに来るっす。\r\n\r\n"
             }
         },
-        "Ending1": {},
+        "Ending1": {
+            "1" : "主人 ………… 主人 …………\r\n之前我們聊過了……死亡是什麼樣的感覺……死後會去往何處…… \r\n那裡呢……一定是所有想要離開這個世界的生物， 包括龍、人、鳥類、動物、草木……所有的生物都會前往的地方……\r\n而且，會一直……變得幸福的地方……。\r\n",
+            "2" : "但是，一定…………不只有那樣而已…………。\r\n再一次回來…………然後，也許再一次變成好朋友…………r\n相信會那樣的…………也想要你這樣相信…………。\r\n",
+            "3" : "所以，世界就是......死去......和重生......週而復始......。",
+            "4" : "一直以來…… 主人 ……\r\n\r\n你說過會一直想見我，\r\n\r\n並且會再見到我對吧……。\r\n\r\n會見到的……\r\n\r\n對……\r\n \r\n我…… 就快了……。\r\n\r\n比風還要輕……\r\n\r\n\r\n要去到……\r\n\r\n\r\n你的身邊……"
+        },
         "Ending2": {}
     }
 }

@@ -3,7 +3,7 @@ import { SaveDataEditorComponent } from '@/components/save-data-editor/save-data
 import { EventFlag } from '@/data/EventFlag';
 import { DragonGameEvents } from '@/data/dragongame_events';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -15,24 +15,50 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './dragongame.component.html',
   styleUrl: './dragongame.component.scss'
 })
-export class DragongameComponent implements AfterViewInit {
+export class DragongameComponent implements OnInit, AfterViewInit {
   content: string = '';
 
   headerImg: string = '/assets/imgs/char00.gif';
   constructor(private appServ: AppService) {
 
   }
-  ngAfterViewInit(): void {
-    console.log(this.appServ);
-    const ev = DragonGameEvents;
+  ngOnInit(): void {
     this.content = `Scripts.DragonGameEvents.Opening.3`;
+    this.appServ.setLastLogin();
+  }
+
+  ngAfterViewInit(): void {
+
+    this.appServ.setAmbient('snd16');
+    this.appServ.setBGM('music21')
+    const ev = DragonGameEvents[this.appServ.saveData.numVisits];
+    if (!ev) {
+      console.warn(`[Dragongame] 尚未對應進行度 = ${this.appServ.saveData.numVisits}之事件！`)
+      return;
+    }
+
+    ev.bind(this)(this);
+  }
+
+  isAudioON(): boolean {
+    if (!this.appServ.bgmEl) {
+      return false;
+    }
+    return !this.appServ.bgmEl.nativeElement.muted;
+  }
+
+  toggleAudio() {
+    if (!this.appServ.bgmEl || !this.appServ.seEl || !this.appServ.ambientEl || !this.appServ.messageSEEl) {
+      return;
+    }
+    this.appServ.bgmEl.nativeElement.muted = this.isAudioON();
+    this.appServ.ambientEl.nativeElement.muted = this.isAudioON();
+    this.appServ.seEl.nativeElement.muted = this.isAudioON();
+    this.appServ.messageSEEl.nativeElement.muted = this.isAudioON();
   }
 
   get contentFills() {
-    return {
-      yourName: 'アイ．フライ',
-      dragonName: this.dragonName
-    }
+    return this.appServ.saveData;
   }
   //#region 需計算之數值
   get loveBuff() {

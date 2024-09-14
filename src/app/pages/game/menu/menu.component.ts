@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { AppService } from '@/app/app.service';
@@ -12,24 +12,38 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })
-export class MenuComponent {
+export class MenuComponent implements AfterViewInit {
   constructor(private appServ: AppService) {
 
   }
-  isDebug() {
-    return this.appServ.isDebug()
+  ngAfterViewInit(): void {
+    this.appServ.setBGM()
+    this.appServ.setAmbient()
+    this.appServ.setMessageSE()
+    this.appServ.setSE();
+  }
+  resetLoginTime() {
+    this.appServ.setLastLogin(new Date().getTime() - 3600000);
+  }
+
+  get debug() {
+    return this.appServ.debug;
+  }
+
+  get waitM() {
+    return this.appServ.waitTimeMinutes;
   }
   isAudioON(): boolean {
     if (!this.appServ.bgmEl) {
       return false;
     }
-    return this.appServ.bgmEl.nativeElement.volume > 0;
+    return !this.appServ.bgmEl.nativeElement.muted;
   }
 
   toggleAudio() {
     if (!this.appServ.bgmEl) {
       return;
     }
-    this.appServ.bgmEl.nativeElement.volume = this.isAudioON() ? 0 : 1;
+    this.appServ.bgmEl.nativeElement.muted = this.isAudioON();
   }
 }

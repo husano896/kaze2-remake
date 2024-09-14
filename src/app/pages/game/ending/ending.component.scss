@@ -31,3 +31,15 @@ div#dialog {
     text-align: left;
     transition: 1.5s steps(15);
 }
+
+@keyframes waving {
+    0% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(0.8)
+    }
+    to {
+        filter: brightness(1);
+    }
+}

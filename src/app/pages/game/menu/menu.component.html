@@ -1,17 +1,24 @@
 <div class="container flex-column" style="align-items: center;z-index: 1;">
     <img id="logo_title" alt="ドラゴン古代遺跡" src="/assets/imgs/logo_title.gif" />
     <br />
-    <div class="boxed-content flex-column dark-bg padding-large"
-        style="width: 50%; min-width: fit-content;box-sizing: border-box;z-index: 1;">
+    <div class="boxed-content flex-column dark-bg padding-xlarge"
+        style="min-width: fit-content;box-sizing: border-box;z-index: 1;">
         <ul>
-            <li><a routerLink="dragongame">{{"Game.Menu.StartGame" | translate | separateText}}<!--街 へ 行 く--></a></li>
+            <li><a routerLink="begin">{{"Game.Menu.StartGame" | translate | separateText}}<!--街 へ 行 く--></a></li>
+            <small>Last login：{{waitM}} minutes ago
+                <a *ngIf="debug" routerLink="." (click)="resetLoginTime()">[Reset
+                    Time]</a>
+            </small>
+
+
             <!-- 有存檔後才有的選項-->
             <li><a routerLink="delete">{{"Game.Menu.Retire" | translate | separateText}}<!--仔 竜 を 自 然 に 帰 す--></a></li>
-            <li><a (click)="toggleAudio()">{{"Game.Menu.Audio" | translate | separateText}}：{{isAudioON() ? 'ON'
-                    :'OFF'}}
+            <li><a (click)="toggleAudio()">
+                    {{"Game.Menu.Audio" | translate | separateText}}：
+                    {{isAudioON() ? 'ON':'OFF'}}
                     <!--音 楽 再 生 の 設 定(現在：MUSIC ON)--></a></li>
             <li><a routerLink="/">{{"Game.Menu.Leave" | translate | separateText}}<!--ゲ ー ム を 終 わ る--></a></li>
-            <ng-container *ngIf="isDebug()">
+            <ng-container *ngIf="debug">
                 <br />
                 <span>Test Menu</span>
                 <hr />
