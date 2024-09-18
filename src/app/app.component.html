@@ -8,26 +8,28 @@
 
 <div class="global-ui">
     <div class="container">
+        <div id="RayDebug">
+        </div>
         <!-- 創龍曆 -->
         <div id='Ray1' *ngIf="Ray1Open">
             <!-- 創龍曆XXXX年 -->
             <div class="flex-row">
                 <!-- 創龍曆 -->
-                <img src='/assets/imgs/font01.gif'>
+                <img alt="dragon-calendar" src='/assets/imgs/font01.gif'>
                 <app-number-to-image [number]="year"></app-number-to-image>
                 <!-- 數字 -->
-                <img src='/assets/imgs/font11.gif'>
+                <img alt="year" src='/assets/imgs/font11.gif'>
             </div>
             <br />
             <!-- XXX龍月X日-->
 
             <div class="flex-row">
                 <!-- 龍名-->
-                <img src="/assets/imgs/{{monthImageName}}.gif" />
+                <img alt="monthName" src="/assets/imgs/{{monthImageName}}.gif" />
                 <!-- 月 -->
-                <img src='/assets/imgs/font02.gif'>
+                <img alt="month" src='/assets/imgs/font02.gif'>
                 <app-number-to-image [number]="day"></app-number-to-image>
-                <img src='/assets/imgs/font03.gif'>
+                <img alt="day" src='/assets/imgs/font03.gif'>
             </div>
         </div>
 
@@ -41,18 +43,46 @@
         </div>
 
         <!-- 詢問視窗 -->
-        <div id="Ray8" (click)="$event.stopPropagation();" (keypress)="$event.stopPropagation();">
-            <div class="flex-column boxed-content game-bg">
-
+        <div id="Ray8" *ngIf="confirmContent" (click)="$event.stopPropagation();"
+            (keypress)="$event.stopPropagation();">
+            <div class="flex-column boxed-content game-bg padding-large gap">
+                <ng-container *ngIf="confirmTitle">
+                    <b>{{confirmTitle}}</b>
+                    <hr />
+                </ng-container>
+                <span>{{confirmContent}}</span>
+                <br />
+                <div class="flex-row gap-large" style="justify-content: end; padding-left: var(--var-base-font-size);">
+                    <a (click)="ConfirmResult(0);confirmContent = ''" *ngIf="confirmStyle">
+                        <img class="full-width" alt="NO" src="/assets/imgs/btn_no.gif" />
+                    </a>
+                    <a (click)="ConfirmResult(1);confirmContent = ''">
+                        <img class="full-width" alt="OK" src="/assets/imgs/btn_ok.gif" />
+                    </a>
+                </div>
             </div>
         </div>
         <!-- 錯誤顯示 -->
-        <div id="RayEX_ErrorHandler boxed-content dark-bg" *ngIf="error">
-            <span>ERROR</span>
-            <small>
-                {{error | json}}
-            </small>
-            <button (click)="error = null;" (keypress)="error= null;">OK</button>
+
+        <!-- TODO: 遊戲選項 -->
+        <div *ngIf="settingsOn" id="RaySettings">
+            <div class="boxed-content game-bg flex-column padding-large" style="margin: auto;">
+                <hr />
+                <div class="flex-row gap-large" style="justify-content: end;">
+                    <a (click)="settingsOn=false">
+                        <img class="full-width" alt="OK" src="/assets/imgs/btn_ok.gif" />
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="RayEX_ErrorHandler" class="boxed-content dark-bg" *ngIf="error.length > 0">
+            <div class="boxed-content game-bg" style="margin: auto;">
+                <span>ERROR</span>
+                <small>
+                    {{error | json}}
+                </small>
+                <button (click)="error = [];" (keypress)="error= [];">OK</button>
+            </div>
         </div>
     </div>
 </div>

@@ -22,6 +22,10 @@ export class DialogueComponent implements AfterViewInit, OnDestroy {
   public dialogComplete$: Subject<any> = new Subject<any>();
   pendingTexts: string[] = [];
   textInterval?: any;
+
+  /** 跳過事件的Callback, 若未設定時則無法跳過 */
+  skipCallBack?: Function;
+
   constructor(private location: Location,
     public router: Router,
     public appServ: AppService,
@@ -53,6 +57,11 @@ export class DialogueComponent implements AfterViewInit, OnDestroy {
     clearInterval(this.textInterval);
   }
 
+  onSkipClick() {
+    if (!this.skipCallBack) {
+      
+    }
+  }
   SetInterval(interval: number = 100) {
     if (this.textInterval) {
       clearInterval(this.textInterval);
@@ -73,6 +82,11 @@ export class DialogueComponent implements AfterViewInit, OnDestroy {
       }
     }, interval);
   }
+
+  SetSkipCallback(callback: Function) {
+
+  }
+  
   Face = (c: string) => {
     this.face.nativeElement.src = `/assets/imgs/${c}.gif`;
   }

@@ -65,6 +65,23 @@ div#Ray8>button:hover {
 div#Ray8>button:active {
     filter: brightness(0.8);
 }
+div#dialog {
+    white-space: break-spaces;
+    overflow-y: auto;
+    transition: 0.25 ease-out;
+    filter: brightness(1);
+}
+
+div#dialog:active {
+    filter: brightness(0.9);
+}
+
+span#continue-icon {
+    position: absolute;
+    right: calc(var(--var-base-font-size));
+    bottom: calc(var(--var-base-font-size));
+    animation: 1s blinking ease-out infinite;
+}
 
 @media screen and (max-width: 480px) {}
 
@@ -80,4 +97,20 @@ img[alt="dragon-cg"] {
 
 tr td {
     font-size: 100%;
+}
+
+
+@keyframes blinking {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
 }

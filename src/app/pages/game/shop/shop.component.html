@@ -1,0 +1,53 @@
+<div class="container flex-column gap-large padding gap-large full-height">
+    <!-- 分頁-->
+    <div id="RayTab" class="flex-row gap-large">
+        <button (click)="tab = 'item';selectedItem = null">餌をやる</button>
+        <button (click)="tab = 'food';selectedItem = null">道具購入</button>
+    </div>
+    <!-- 分頁內容 -->
+    <div id="RayTabContent" class="flex-column padding-large full-height full-width gap-large" style="overflow: auto;">
+        <ng-container *ngIf="tab === 'food'">
+            <b>仔竜に与える料理を選択してください。</b>
+            <div class="padding-large gap full-width full-height game-bg boxed-content" style="overflow: auto;">
+                <label *ngFor="let i of foodsCosts; let index = index"
+                    class="flex-row boxed-content padding gap-large game-bg" [ngClass]="{selected: selectedItem === i}"
+                    (click)="selectedItem = i" (keypress)="selectedItem = i">
+                    <input type="checkbox" />
+                    <div class="flex-column">
+                        <p>{{('Data.Food.' + (index) + '') | translate}}</p>
+                        <small>{{i}} シェル</small>
+                        <!-- 不夠錢的原版是顯示為問號 -->
+                    </div>
+                </label>
+            </div>
+            <div class="flex-row">
+                <small>高[<span color=#00ff00>★ ☆ ◎ ○ ― △ ×</span>]低</small>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="tab === 'item'">
+            <b>購入できるアイテム一覧です。</b>
+
+            <div class="padding-large gap full-width full-height game-bg boxed-content" style="overflow: auto;">
+                <label *ngFor="let i of items; let index = index"
+                    class="flex-row boxed-content padding gap-large game-bg" [ngClass]="{selected: selectedItem === i}"
+                    (click)="selectedItem = i" (keypress)="selectedItem = i">
+                    <input type="checkbox" name="selectedItem" />
+                    <div class="flex-column">
+                        <p>{{('Data.Item.' + (i.id) + '.Title') | translate}}</p>
+                        <small [innerHTML]="('Data.Item.' + (i.id) + '.Description') | translate"></small>
+                        <small>{{i.cost}} シェル</small>
+
+                        <!-- 不夠錢的原版是顯示為問號 -->
+                    </div>
+                </label>
+            </div>
+        </ng-container>
+    </div>
+    <!-- 已選中的項目-->
+    <hr />
+    <!-- 動作-->
+    <div id="RayActions" class="flex-row gap-large" style="justify-content: space-between;">
+        <button routerLink="../dragongame">{{"Actions.Back" | translate | separateText}}</button>
+        <button [disabled]="!selectedItem" routerLink="../dragongame">{{tab === 'food' ? '餌を与える' : '商品を購入する'}}</button>
+    </div>
+</div>

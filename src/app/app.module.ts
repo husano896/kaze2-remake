@@ -21,7 +21,11 @@ export function createTranslateLoader(http: HttpClient) {
     BrowserModule,
     LoadingComponent,
     NumberToImageComponent,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, {
+      urlUpdateStrategy: "eager",
+      paramsInheritanceStrategy: 'always',
+      onSameUrlNavigation: 'reload'
+    }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

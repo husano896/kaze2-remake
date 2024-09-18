@@ -22,8 +22,17 @@ export class MenuComponent implements AfterViewInit {
     this.appServ.setMessageSE()
     this.appServ.setSE();
   }
+
   resetLoginTime() {
     this.appServ.setLastLogin(new Date().getTime() - 3600000);
+  }
+
+  toggleAudio() {
+    this.appServ.toggleAudio();
+  }
+
+  get isAudioON(): boolean {
+    return this.appServ.isAudioON();
   }
 
   get debug() {
@@ -32,18 +41,5 @@ export class MenuComponent implements AfterViewInit {
 
   get waitM() {
     return this.appServ.waitTimeMinutes;
-  }
-  isAudioON(): boolean {
-    if (!this.appServ.bgmEl) {
-      return false;
-    }
-    return !this.appServ.bgmEl.nativeElement.muted;
-  }
-
-  toggleAudio() {
-    if (!this.appServ.bgmEl) {
-      return;
-    }
-    this.appServ.bgmEl.nativeElement.muted = this.isAudioON();
   }
 }

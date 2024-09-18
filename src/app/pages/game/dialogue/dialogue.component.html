@@ -17,6 +17,6 @@
             (click)="FastForward()" (keyPress)="FastForward()">
         </div>
         <span id="continue-icon" class="large-font" *ngIf="isWaiting()">▼</span>
-        <a routerLink="/">SKIP</a>
+        <a (click)="onSkipClick()">SKIP</a>
     </div>
 </div>

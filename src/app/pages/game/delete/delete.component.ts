@@ -1,6 +1,7 @@
+import { LocalStorageKey } from '@/entities/LocalStorageKey';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-delete',
@@ -10,5 +11,11 @@ import { RouterModule } from '@angular/router';
   styleUrl: './delete.component.scss'
 })
 export class DeleteComponent {
-
+  constructor(private router: Router){}
+  Delete() {
+    localStorage.removeItem(LocalStorageKey.save);
+    this.router.navigate(['/']).then(()=>{
+      location.reload();
+    })
+  }
 }

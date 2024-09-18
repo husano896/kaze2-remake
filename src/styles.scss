@@ -172,7 +172,14 @@ small {
 }
 
 .gap {
-    gap: 8px;
+    gap: calc(var(--var-base-font-size) * 0.25);
+}
+.gap-large {
+    gap: calc(var(--var-base-font-size) * 0.5);
+}
+
+.gap-xlarge {
+    gap: var(--var-base-font-size);
 }
 
 .game-bg {
@@ -192,4 +199,15 @@ small {
 .padding-xlarge {
     padding: calc(var(--var-base-font-size));
     box-sizing: border-box;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #443333;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(192, 192, 192, 0.75);
+    border-radius: 4px;
 }

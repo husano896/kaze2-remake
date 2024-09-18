@@ -4,6 +4,7 @@ import { LocalStorageKey } from '@/entities/LocalStorageKey';
 import { SaveData } from '@/entities/SaveData';
 import { ChangeDetectorRef, ElementRef, ErrorHandler, Injectable, ɵformatRuntimeError } from '@angular/core';
 import { Router } from '@angular/router';
+import { SwPush, SwUpdate } from '@angular/service-worker';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, timer } from 'rxjs';
 
@@ -42,17 +43,39 @@ export class AppService implements ErrorHandler {
   /** 創龍曆展示中 */
   public Ray1Open: boolean = false;
 
+  public settingsOn?: boolean;
+  // Ray7對應
   public noticeTitle: string = '';
   public noticeContent: string = '';
 
-  public error: any;
+  // Ray8對應
+  public confirmTitle: string = '';
+  public confirmContent: string = '';
+  public confirmStyle?: boolean;
+  private confirmResolver?: Function;
+  //
+  public error: any[] = [];
 
-  constructor(private translateServ: TranslateService, private router: Router) {
+  constructor(
+    private translateServ: TranslateService,
+    private router: Router,
+    private swUpdate: SwUpdate) {
+
     // 在網站生成階段時給予localhost Debug標籤才有效
     if (window.location.href.includes('localhost')) {
       this.debug = true;
     }
-    this.Load();
+    this.saveData = SaveData.Load();
+
+    this.swUpdate.versionUpdates.subscribe((ev) => {
+      if (ev.type === 'VERSION_DETECTED') {
+        alert('New version detected')
+      }
+      if (ev.type === 'VERSION_READY') {
+        alert('New version installed, refreshing.')
+        location.reload()
+      }
+    })
   }
 
   handleError = (error: any) => {
@@ -61,10 +84,17 @@ export class AppService implements ErrorHandler {
     if (error?.code === -100) {
       return;
     }
-    console.log(error.code, error.messge);
-    alert('An error has occurred, returning to homepage.');
-    this.error = error;
-    this.router.navigate(['/'])
+    if (this.error.length === 0) {
+      alert('An error has occurred, returning to homepage.');
+      this.router.navigate(['/'])
+    }
+    this.error.push(error);
+    console.log(this.error);
+
+    this.bgmEl?.nativeElement.pause();
+    this.seEl?.nativeElement.pause();
+    this.ambientEl?.nativeElement.pause();
+    this.messageSEEl?.nativeElement.pause();
   }
 
   /** 將生成的元素與Service綁定 */
@@ -81,19 +111,13 @@ export class AppService implements ErrorHandler {
     bgmEl.nativeElement.volume = 0.5;
     seEl.nativeElement.volume = 0.4;
     ambientEl.nativeElement.volume = 0.3;
-    
+
     console.log(`[AppService] 綁定聲音元素：\r\n`,
       'BGM', bgmEl, '\r\n',
       'SE', seEl, '\r\n',
       'Ambient', ambientEl, '\r\n',
-      '[AppService] 自體', this, '\r\n'
+      'this', this, '\r\n'
     )
-  }
-
-  Dialog = async () => {
-    return new Promise((resolve) => {
-
-    });
   }
 
   setMessageSE(v?: boolean) {
@@ -101,6 +125,7 @@ export class AppService implements ErrorHandler {
       return;
     }
     if (v) {
+      this.messageSEEl.nativeElement.currentTime = 0;
       if (this.messageSEEl.nativeElement.paused) {
         this.messageSEEl.nativeElement.play()
       }
@@ -108,12 +133,26 @@ export class AppService implements ErrorHandler {
       this.messageSEEl.nativeElement.pause();
     }
   }
+
   // Ray7對應
   setNotice = (title?: string, content?: string) => {
-    this.noticeTitle = title ?? '';
-    this.noticeContent = content ?? '';
+    this.noticeTitle = title ? this.translateServ.instant(title) : '';
+    this.noticeContent = content ? this.translateServ.instant(content) : '';
   }
 
+  // Ray8對應
+  Confirm = async (title: string, content: string, style?: boolean) => {
+    this.confirmTitle = title;
+    this.confirmContent = content;
+    this.confirmStyle = style;
+    return new Promise(resolve => {
+      this.confirmResolver = resolve;
+    })
+  }
+
+  ConfirmResult(res?: number) {
+    this.confirmResolver?.(res);
+  }
 
   setBGM = (bgm?: string | null | undefined) => {
     if (!this.bgmEl?.nativeElement) {
@@ -189,28 +228,6 @@ export class AppService implements ErrorHandler {
   Wait = async (time: number) => {
     return firstValueFrom(timer(time))
   }
-  Save = () => {
-    localStorage.setItem(LocalStorageKey.save, JSON.stringify(this.saveData));
-    console.log('[SaveData]存檔：', this.saveData);
-  }
-
-  Load = () => {
-    const s = localStorage.getItem(LocalStorageKey.save);
-    if (!s) {
-      return;
-    }
-    try {
-      const o = JSON.parse(s);
-      Object.entries(o).forEach(([key, v]) => {
-        (this.saveData as any)[key] = v;
-      });
-
-      console.log(`[SaveDate] 讀取存檔：`, this.saveData);
-    } catch (err) {
-      console.warn(`[SaveDate] 讀取存檔失敗：`, err);
-      this.saveData = new SaveData();
-    }
-  }
 
   t = (key: string, param?: any) => {
     return this.translateServ.get(key, {
@@ -248,4 +265,22 @@ export class AppService implements ErrorHandler {
   get waitTimeHours() {
     return Math.floor(this.waitTimeMinutes / 60);
   }
+
+  isAudioON(): boolean {
+    if (!this.bgmEl) {
+      return false;
+    }
+    return !this.bgmEl.nativeElement.muted;
+  }
+
+  toggleAudio() {
+    if (!this.bgmEl || !this.seEl || !this.ambientEl || !this.messageSEEl) {
+      return;
+    }
+    this.bgmEl.nativeElement.muted = this.isAudioON();
+    this.ambientEl.nativeElement.muted = this.bgmEl.nativeElement.muted;
+    this.seEl.nativeElement.muted = this.bgmEl.nativeElement.muted;
+    this.messageSEEl.nativeElement.muted = this.bgmEl.nativeElement.muted;
+  }
+
 }

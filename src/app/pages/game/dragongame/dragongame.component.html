@@ -13,20 +13,20 @@
     <div id="Ray2" class="flex-row full-width full-height" style="contain: content; max-height: 50dvh;">
 
         <div id="RayEX1" class="flex-row" style="position: absolute; right: 16px;top:16px;z-index: 2;">
-
             <div class="gap flex-row">
                 <!-- 音樂-->
                 <button (click)="toggleAudio()"><i class="fa-solid fa-music"></i></button>
                 <!-- 圖書館-->
                 <button><i class="fa-solid fa-book"></i></button>
                 <!-- 存檔 -->
-                <a routerLink=".."><button><i class="fa-solid fa-floppy-disk"></i></button></a>
+                <a (click)="Save()"><button><i class="fa-solid fa-floppy-disk"></i></button></a>
             </div>
         </div>
         <!-- <img class="full-width" alt="bg_home" src="/assets/imgs/bg_home.jpg" />-->
         <div class="flex-row full-width" style="z-index: 1; justify-content: space-between;">
-            <div class="boxed-content flex-column dark-bg min-480 padding-large">
-                <table aria-describedby="status-parameters" style="word-break: keep-all; text-wrap: nowrap;">
+            <div class="boxed-content flex-column dark-bg min-480 padding-large" style="height: fit-content;">
+                <table class="small-font" aria-describedby="status-parameters"
+                    style="word-break: keep-all; text-wrap: nowrap;">
                     <thead>
                         <th></th>
                         <th></th>
@@ -91,17 +91,21 @@
     </div>
 
     <!-- 行動, 金錢, NEXT條 -->
-    <div id="Ray5" class="flex-column full-height padding-large" style="min-height: 30dvh;">
+    <div id="Ray5" class="flex-column full-height padding-large" style="min-height: 30dvh; contain: content;">
 
         <div class="flex-row column-480 full-width full-height gap">
             <!-- 頭像-->
             <div class="flex-column" style="width: 25%;justify-content: center;">
-                <img class="full-width" alt="char-header" [src]="headerImg" />
+                <img #face class="full-width" alt="char-header" src="/assets/imgs/char00.gif" />
             </div>
             <!-- 對話-->
-            <div class="boxed-content full-height padding" style="width: 100%;overflow: auto;white-space: pre-line;">
-                {{content | translate:contentFills }}
+            <div id="dialog" #dialog class="boxed-content full-height padding"
+                style="width: 100%;overflow: auto;white-space: pre-line;" (click)="FastForward()"
+                (keypress)="FastForward()">
+                {{content | translate:talkingParam }}
             </div>
+
+            <span id="continue-icon" class="large-font" *ngIf="isWaiting()">▼</span>
         </div>
     </div>
     <!-- 手機版用：功能選單 -->
@@ -109,15 +113,15 @@
     <div id="Ray8" class="dark-bg full-width padding-large">
         <div class="flex-row" style="text-align: center;justify-content: space-around;">
             <small>Money: {{money}} シェル</small>
-            <small>Action: {{turn}} ターン</small>
+            <small>Action: <span [ngStyle]="{color: turn > 0 ? 'inherit' : 'red'}"> {{turn}} ターン </span> </small>
             <!-- <small>Next Lv: 111 Exp</small>-->
         </div>
         <div class="gap flex-row" *ngIf="numVisits < 100">
-            <button><i class="fa-solid fa-boxes-stacked"></i></button>
-            <button><i class="fa-solid fa-shop"></i></button>
-            <button><i class="fa-solid fa-sack-dollar"></i></button>
-            <button><i class="fa-solid fa-burst"></i></button>
-            <button><i class="fa-solid fa-map"></i></button>
+            <button routerLink="../inventory" [disabled]="!turn"><i class="fa-solid fa-boxes-stacked"></i></button>
+            <button routerLink="../shop" [disabled]="!turn"><i class="fa-solid fa-shop"></i></button>
+            <button (click)="GoToEarn()"><i class="fa-solid fa-sack-dollar"></i></button>
+            <button (click)="GoToBattle()"><i class="fa-solid fa-burst"></i></button>
+            <button (click)="GoToMap()"><i class="fa-solid fa-map"></i></button>
         </div>
     </div>
 

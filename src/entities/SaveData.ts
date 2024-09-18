@@ -1,3 +1,4 @@
+import { LocalStorageKey } from "./LocalStorageKey";
 
 const varItmCod = 65;		// アイテムコード
 
@@ -285,7 +286,30 @@ export class SaveData {
     public NextProgress() {
         this.lv = SaveData.CalculateLV(this.Maxhp, this.at, this.df, this.speed);
     }
+    public Save() {
+        localStorage.setItem(LocalStorageKey.save, JSON.stringify(this));
+        console.log('[SaveData]存檔：', this);
+    }
 
+    public static Load() {
+        const s = localStorage.getItem(LocalStorageKey.save);
+        if (!s) {
+            return new SaveData();
+        }
+        try {
+            const save = new SaveData();
+            const o = JSON.parse(s);
+            Object.entries(o).forEach(([key, v]) => {
+                (save as any)[key] = v;
+            });
+
+            console.log(`[SaveDate] 讀取存檔：`, save);
+            return save;
+        } catch (err) {
+            console.warn(`[SaveDate] 讀取存檔失敗：`, err);
+        }
+        return new SaveData();
+    }
     get bioText() {
         var ans: string[] = [];
         if (this.hp < (this.Maxhp / 8)) {
@@ -685,7 +709,8 @@ export class SaveData {
     get talkingParam() {
         return {
             dragonName: this.dragonName,
-            yourName: this.yourName
+            yourName: this.yourName,
+            ...this.talkingGO
         }
     }
 
@@ -715,14 +740,6 @@ export class SaveData {
     varOverLv = Math.floor(ans1 / 16.8) + 1;	// レベル上限
     varNextLv = (Math.floor(ans1 / 12) + 1) * 12 - ans1;
     */
-    /** TODO: 將遊戲存檔自Base64讀取 */
-    private static FromBase64() {
-
-    }
-    /** TODO: 將遊戲存檔寫出成Base64 */
-    private ToBase64(): string {
-        return '';
-    }
 
     /** 轉換方法：顯示成文字時會自動呼叫 */
     toString() {

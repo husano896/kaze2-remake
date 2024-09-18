@@ -61,7 +61,7 @@ div#dialog:active {
 span#continue-icon {
     position: absolute;
     right: calc(var(--var-base-font-size));
-    bottom: calc(var(--var-base-font-size));
+    bottom: 0;
     animation: 1s blinking ease-out infinite;
 }
 

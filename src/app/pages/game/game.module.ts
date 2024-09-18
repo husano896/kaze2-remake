@@ -10,27 +10,22 @@ const routes: Routes = [
   },
   {
     path: 'dragongame',
-    pathMatch: 'full',
     loadComponent: () => import('./dragongame/dragongame.component').then(m => m.DragongameComponent)
   },
   {
     path: 'delete',
-    pathMatch: 'full',
     loadComponent: () => import('./delete/delete.component').then(m => m.DeleteComponent)
   },
   {
     path: 'begin',
-    pathMatch: 'full',
     loadComponent: () => import('./begin/begin.component').then(m => m.BeginComponent)
   },
   {
     path: 'dialogue',
-    pathMatch: 'full',
     loadComponent: () => import('./dialogue/dialogue.component').then(m => m.DialogueComponent)
   },
   {
     path: 'ending',
-    pathMatch: 'full',
     loadComponent: () => import('./ending/ending.component').then(m => m.EndingComponent)
   },
   {
@@ -44,6 +39,14 @@ const routes: Routes = [
   {
     path: 'debug_audio',
     loadComponent: () => import('./debug-audio/debug-audio.component').then(m => m.DebugAudioComponent)
+  },
+  {
+    path: 'shop',
+    loadComponent: () => import('./shop/shop.component').then(m => m.ShopComponent)
+  },
+  {
+    path: 'inventory',
+    loadComponent: () => import('./inventory/inventory.component').then(m => m.InventoryComponent)
   },
   {
     path: '**',
