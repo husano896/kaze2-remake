@@ -5,7 +5,7 @@
 <audio #se></audio>
 <audio #messageSE loop src="/assets/audio/se/snd04.wav"></audio>
 <audio #ambient loop></audio>
-
+<!-- 全局UI -->
 <div class="global-ui">
     <div class="container">
         <div id="RayDebug">
@@ -66,21 +66,47 @@
 
         <!-- TODO: 遊戲選項 -->
         <div *ngIf="settingsOn" id="RaySettings">
-            <div class="boxed-content game-bg flex-column padding-large" style="margin: auto;">
+            <div class="boxed-content game-bg flex-column padding-large gap" style="margin: auto;">
+                <b style="text-align: center;">- SETTINGS -</b>
+
+                <div class="flex-column gap" style="overflow: auto;">
+                    <span>Language</span>
+                    <hr />
+                    <app-language></app-language>
+                    <a href="https://docs.google.com/spreadsheets/d/174XiqkVygaFVGWgWDkcL3GSSBeXTtAf4J6uAhldkK60/edit?usp=sharing"
+                        target="_blank">
+                        ゲームを翻訳します(Google Sheet)
+                    </a>
+                    <br>
+                    <span>Audio</span>
+                    <hr />
+                    <button (click)="toggleAudio()">
+                        {{"Game.Menu.Audio" | translate}}：
+                        {{isAudioON ? 'ON':'OFF'}}
+                        <!--音 楽 再 生 の 設 定(現在：MUSIC ON)--></button>
+                    <br />
+                    <span>データ再インストール</span>
+                    <hr />
+                    <span>データは破損したら、このボタンを押してください。</span>
+                    <button (click)="ForceUpdate()">Force update</button>
+                    <br />
+                </div>
                 <hr />
                 <div class="flex-row gap-large" style="justify-content: end;">
-                    <a (click)="settingsOn=false">
+                    <a (click)="settingsOn=false;">
                         <img class="full-width" alt="OK" src="/assets/imgs/btn_ok.gif" />
                     </a>
                 </div>
             </div>
         </div>
         <div id="RayEX_ErrorHandler" class="boxed-content dark-bg" *ngIf="error.length > 0">
-            <div class="boxed-content game-bg" style="margin: auto;">
+            <div class="boxed-content game-bg flex-column padding-large" style="margin: auto;">
                 <span>ERROR</span>
-                <small>
+                <hr />
+                <small style="white-space: break-spaces;">
                     {{error | json}}
                 </small>
+                <hr />
                 <button (click)="error = [];" (keypress)="error= [];">OK</button>
             </div>
         </div>

@@ -42,9 +42,6 @@
                 <br>
             </small>
             <br>
-            <div class="flex-row full-width" style="justify-content: end;">
-                <app-language></app-language>
-            </div>
             <br />
             <div class="boxed-content flex-row column-480" style="padding: 16px;">
                 <div class="flex-column full-width" style="word-break: keep-all;text-wrap: nowrap;">
@@ -62,7 +59,11 @@
                                 ● {{'Index.Action_Continue' |translate | separateText}}<!-- 続 き か ら-->
                             </a>
                         </li>
-
+                        <li>
+                            <a class="outline-text" (click)="settingsOn = true;">
+                                ● SETTINGS<!-- 続 き か ら-->
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <hr class="max-480" />
@@ -98,12 +99,13 @@
                     </ul>
                 </div>
 
-
             </div>
             <br />
         </div>
     </div>
     <br />
+
+
     <div class="flex-column center full-width padding-large">
         <small>本サイトは<span style="color:red;">ファンメイドリメイク</span>です，公式サイトとは関係がありません。</small>
         <br />
@@ -111,3 +113,4 @@
     </div>
     <br />
 </div>
+

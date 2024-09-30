@@ -16,7 +16,9 @@
         <div id="dialog" #dialog class="boxed-content game-bg full-width padding-large full-height" style="opacity: 0;"
             (click)="FastForward()" (keyPress)="FastForward()">
         </div>
-        <span id="continue-icon" class="large-font" *ngIf="isWaiting()">▼</span>
-        <a (click)="onSkipClick()">SKIP</a>
+        <!-- 提示玩家該繼續點擊的圖示-->
+        <span id="continue-icon" class="large-font"
+            [ngClass]="{waiting:isWaiting() && dialog.innerText.length > 0}">▼</span>
+        <a (click)="onSkipClick()" *ngIf="dialog.innerText.length > 0">SKIP</a>
     </div>
 </div>

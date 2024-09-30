@@ -4,10 +4,10 @@ import { firstValueFrom } from "rxjs";
 
 export const Ending1 = async (component: DialogueComponent) => {
     console.log(this as any);
-    const { setBG, setDragonCG, setBGOpticity, setDragonCGOpticity, Content, setDialogOpticity, router, appServ, dialogComplete$ } = component;
+    const { setBG, setDragonCG, setBGOpticity, setDragonCGOpticity, Content, setDialogOpticity, router, appServ, dialogComplete$, SetContentCompleted } = component;
     const { Anim, Wait } = appServ
 
-    appServ.setBGM('victim')
+    appServ.setBGM('music22')
     setBG('welcome')
     setDragonCG('nomal00');
     setDragonCGOpticity(1);
@@ -22,6 +22,7 @@ export const Ending1 = async (component: DialogueComponent) => {
     await Content(`Scripts.Ending1.1`)
     await Content(`Scripts.Ending1.2`)
     await Content(`Scripts.Ending1.3`)
+    SetContentCompleted()
     await firstValueFrom(dialogComplete$);
     await Anim(RootAnimations.FadeOut);
     router.navigate(['/game/ending'], { state: { ending: 'Ending1b' } });

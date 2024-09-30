@@ -40,7 +40,10 @@ div#Ray2>img {
 div#Ray2>img[src=""] {
     display: none;
 }
+// 表情
+div#Ray6 {
 
+}
 img#dragoncg {
     height: 100%;
     margin: auto;
@@ -63,6 +66,11 @@ span#continue-icon {
     right: calc(var(--var-base-font-size));
     bottom: 0;
     animation: 1s blinking ease-out infinite;
+    visibility: hidden;
+}
+
+span#continue-icon.waiting {
+    visibility: visible;
 }
 
 @keyframes blinking {

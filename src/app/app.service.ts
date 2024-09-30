@@ -1,10 +1,9 @@
 import { EventFlag } from '@/data/EventFlag';
 import { snd } from '@/data/snd';
-import { LocalStorageKey } from '@/entities/LocalStorageKey';
 import { SaveData } from '@/entities/SaveData';
-import { ChangeDetectorRef, ElementRef, ErrorHandler, Injectable, ɵformatRuntimeError } from '@angular/core';
+import { ElementRef, ErrorHandler, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { SwPush, SwUpdate } from '@angular/service-worker';
+import { SwUpdate } from '@angular/service-worker';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, timer } from 'rxjs';
 
@@ -17,19 +16,21 @@ export enum RootAnimations {
   providedIn: 'root'
 })
 
-export class AppService implements ErrorHandler {
 
+// 語言更新：https://script.google.com/macros/s/AKfycbzLoAh5UiwgocMpwopJsRTpQkhBlbsqatHJxvk1BTd3vqxS3VG8B5S14tNjBNvsyQ35/exec
+export class AppService implements ErrorHandler {
+  static registered: boolean;
   /** 背景音樂元素 */
-  public bgmEl?: ElementRef<HTMLAudioElement>;
+  public static bgmEl?: ElementRef<HTMLAudioElement>;
 
   /** 效果音元素 */
-  public seEl?: ElementRef<HTMLAudioElement>;
+  public static seEl?: ElementRef<HTMLAudioElement>;
 
   /** 環境音元素 */
-  public ambientEl?: ElementRef<HTMLAudioElement>;
+  public static ambientEl?: ElementRef<HTMLAudioElement>;
 
   /** 對話音元素 */
-  public messageSEEl?: ElementRef<HTMLAudioElement>;
+  public static messageSEEl?: ElementRef<HTMLAudioElement>;
 
   /** 讀取旗標 */
   public loading: boolean = true;
@@ -54,12 +55,35 @@ export class AppService implements ErrorHandler {
   public confirmStyle?: boolean;
   private confirmResolver?: Function;
   //
-  public error: any[] = [];
+  private static error: any[] = [];
 
   constructor(
     private translateServ: TranslateService,
     private router: Router,
     private swUpdate: SwUpdate) {
+
+    // 因為ErrorHandler也會註冊實例，避免重複註冊
+    if (!AppService.registered) {
+      this.swUpdate.unrecoverable.subscribe(ev => {
+
+        if (ev.type === 'UNRECOVERABLE_STATE') {
+          this.ForceUpdate().then(() => {
+            alert('Local version broken, refreshing.')
+            location.reload()
+          });
+        }
+      })
+      this.swUpdate.versionUpdates.subscribe((ev) => {
+        if (ev.type === 'VERSION_DETECTED') {
+          alert('New version detected')
+        }
+        else if (ev.type === 'VERSION_READY') {
+          alert('New version installed, refreshing.')
+          location.reload()
+        }
+      })
+      AppService.registered = true;
+    }
 
     // 在網站生成階段時給予localhost Debug標籤才有效
     if (window.location.href.includes('localhost')) {
@@ -67,36 +91,60 @@ export class AppService implements ErrorHandler {
     }
     this.saveData = SaveData.Load();
 
-    this.swUpdate.versionUpdates.subscribe((ev) => {
-      if (ev.type === 'VERSION_DETECTED') {
-        alert('New version detected')
-      }
-      if (ev.type === 'VERSION_READY') {
-        alert('New version installed, refreshing.')
-        location.reload()
-      }
-    })
   }
 
   handleError = (error: any) => {
     console.error(error);
+
     // NG0100: ExpressionChangedAfterItHasBeenCheckedError
     if (error?.code === -100) {
       return;
     }
+
+    AppService.bgmEl?.nativeElement.pause();
+    // AppService.seEl?.nativeElement.pause();
+    AppService.ambientEl?.nativeElement.pause();
+    AppService.messageSEEl?.nativeElement.pause();
+    this.setSE('snd12');
     if (this.error.length === 0) {
       alert('An error has occurred, returning to homepage.');
       this.router.navigate(['/'])
     }
     this.error.push(error);
-    console.log(this.error);
+    console.error(this.error);
 
-    this.bgmEl?.nativeElement.pause();
-    this.seEl?.nativeElement.pause();
-    this.ambientEl?.nativeElement.pause();
-    this.messageSEEl?.nativeElement.pause();
   }
 
+  //#region 因從ErrorHandler跟providedIn root的service為兩個實例, 將error存成靜態
+  set error(v) {
+    AppService.error = v;
+  }
+  get error() {
+    return AppService.error;
+  }
+  //#endregion
+
+  /* 強制更新 */
+  async ForceUpdate() {
+    const removalPromises: Promise<any>[] = [];
+
+    // 清除所有Cache
+    if ('caches' in window) {
+      const cacheKeys = await caches.keys();
+      cacheKeys.forEach(key => {
+        removalPromises.push(caches.delete(key));
+      });
+    }
+    // 解除所有ServiceWorker
+    if (window.navigator && navigator.serviceWorker) {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      registrations.forEach(r => {
+        removalPromises.push(r.unregister());
+      });
+    }
+    await Promise.all(removalPromises);
+    location.href = '/';
+  }
   /** 將生成的元素與Service綁定 */
   Init = ({ bgmEl, seEl, ambientEl, messageSEEl }: {
     bgmEl: ElementRef<HTMLAudioElement>,
@@ -104,10 +152,10 @@ export class AppService implements ErrorHandler {
     ambientEl: ElementRef<HTMLAudioElement>,
     messageSEEl: ElementRef<HTMLAudioElement>,
   }) => {
-    this.bgmEl = bgmEl;
-    this.seEl = seEl;
-    this.ambientEl = ambientEl;
-    this.messageSEEl = messageSEEl;
+    AppService.bgmEl = bgmEl;
+    AppService.seEl = seEl;
+    AppService.ambientEl = ambientEl;
+    AppService.messageSEEl = messageSEEl;
     bgmEl.nativeElement.volume = 0.5;
     seEl.nativeElement.volume = 0.4;
     ambientEl.nativeElement.volume = 0.3;
@@ -121,16 +169,16 @@ export class AppService implements ErrorHandler {
   }
 
   setMessageSE(v?: boolean) {
-    if (!this.messageSEEl) {
+    if (!AppService.messageSEEl) {
       return;
     }
     if (v) {
-      this.messageSEEl.nativeElement.currentTime = 0;
-      if (this.messageSEEl.nativeElement.paused) {
-        this.messageSEEl.nativeElement.play()
+      if (AppService.messageSEEl.nativeElement.paused) {
+        AppService.messageSEEl.nativeElement.currentTime = 0;
+        AppService.messageSEEl.nativeElement.play()
       }
-    } else if (!this.messageSEEl.nativeElement.paused) {
-      this.messageSEEl.nativeElement.pause();
+    } else if (!AppService.messageSEEl.nativeElement.paused) {
+      AppService.messageSEEl.nativeElement.pause();
     }
   }
 
@@ -141,10 +189,10 @@ export class AppService implements ErrorHandler {
   }
 
   // Ray8對應
-  Confirm = async (title: string, content: string, style?: boolean) => {
+  Confirm = async (title: string, content: string, confirmStyle?: boolean) => {
     this.confirmTitle = title;
     this.confirmContent = content;
-    this.confirmStyle = style;
+    this.confirmStyle = confirmStyle;
     return new Promise(resolve => {
       this.confirmResolver = resolve;
     })
@@ -155,29 +203,31 @@ export class AppService implements ErrorHandler {
   }
 
   setBGM = (bgm?: string | null | undefined) => {
-    if (!this.bgmEl?.nativeElement) {
+    if (!AppService.bgmEl?.nativeElement) {
       return;
     }
     if (!bgm?.length) {
-      if (!this.bgmEl.nativeElement.paused) {
-        this.bgmEl?.nativeElement.pause()
+      if (!AppService.bgmEl.nativeElement.paused) {
+        AppService.bgmEl?.nativeElement.pause()
       }
       return;
     }
-    this.bgmEl.nativeElement.src = `/assets/audio/bgm/${bgm}.mp3`
-    this.bgmEl.nativeElement.play();
+    if (!AppService.bgmEl.nativeElement.src.includes(bgm)) {
+      AppService.bgmEl.nativeElement.src = `/assets/audio/bgm/${bgm}.mp3`
+      AppService.bgmEl.nativeElement.play();
+    }
 
   }
 
   setSE = (se?: string | null | undefined) => {
-    if (!this.seEl?.nativeElement) {
+    if (!AppService.seEl?.nativeElement) {
       return;
     }
 
     if (!se?.length) {
 
-      if (!this.seEl.nativeElement.paused) {
-        this.seEl?.nativeElement.pause()
+      if (!AppService.seEl.nativeElement.paused) {
+        AppService.seEl?.nativeElement.pause()
       }
       return;
     }
@@ -187,21 +237,21 @@ export class AppService implements ErrorHandler {
       console.warn('尚未支援的音效：', se)
       return;
     }
-    this.seEl.nativeElement.src = `/assets/audio/se/${s.f}`
-    this.seEl.nativeElement.currentTime = 0;
-    this.seEl.nativeElement.loop = s.loop;
-    this.seEl.nativeElement.play();
+    AppService.seEl.nativeElement.src = `/assets/audio/se/${s.f}`
+    AppService.seEl.nativeElement.currentTime = 0;
+    AppService.seEl.nativeElement.loop = s.loop;
+    AppService.seEl.nativeElement.play();
 
   }
 
   setAmbient = (am?: string | null | undefined) => {
-    if (!this.ambientEl?.nativeElement) {
+    if (!AppService.ambientEl?.nativeElement) {
       return;
     }
 
     if (!am?.length) {
-      if (!this.ambientEl.nativeElement.paused) {
-        this.ambientEl?.nativeElement.pause()
+      if (!AppService.ambientEl.nativeElement.paused) {
+        AppService.ambientEl?.nativeElement.pause()
       }
       return;
     }
@@ -212,10 +262,10 @@ export class AppService implements ErrorHandler {
       return;
     }
 
-    if (this.ambientEl) {
-      this.ambientEl.nativeElement.src = `/assets/audio/se/${s.f}`
-      this.ambientEl.nativeElement.play();
-      this.ambientEl.nativeElement.loop = s.loop;
+    if (AppService.ambientEl) {
+      AppService.ambientEl.nativeElement.src = `/assets/audio/se/${s.f}`
+      AppService.ambientEl.nativeElement.play();
+      AppService.ambientEl.nativeElement.loop = s.loop;
     }
   }
 
@@ -230,7 +280,7 @@ export class AppService implements ErrorHandler {
   }
 
   t = (key: string, param?: any) => {
-    return this.translateServ.get(key, {
+    return this.translateServ.instant(key, {
       ...this.saveData.talkingGO,
       ...this.saveData.talkingParam,
       ...(param ? param : {})
@@ -267,20 +317,26 @@ export class AppService implements ErrorHandler {
   }
 
   isAudioON(): boolean {
-    if (!this.bgmEl) {
+    if (!AppService.bgmEl) {
       return false;
     }
-    return !this.bgmEl.nativeElement.muted;
+    return !AppService.bgmEl.nativeElement.muted;
   }
 
   toggleAudio() {
-    if (!this.bgmEl || !this.seEl || !this.ambientEl || !this.messageSEEl) {
+    if (!AppService.bgmEl || !AppService.seEl || !AppService.ambientEl || !AppService.messageSEEl) {
       return;
     }
-    this.bgmEl.nativeElement.muted = this.isAudioON();
-    this.ambientEl.nativeElement.muted = this.bgmEl.nativeElement.muted;
-    this.seEl.nativeElement.muted = this.bgmEl.nativeElement.muted;
-    this.messageSEEl.nativeElement.muted = this.bgmEl.nativeElement.muted;
+    AppService.bgmEl.nativeElement.muted = this.isAudioON();
+    AppService.ambientEl.nativeElement.muted = AppService.bgmEl.nativeElement.muted;
+    AppService.seEl.nativeElement.muted = AppService.bgmEl.nativeElement.muted;
+    AppService.messageSEEl.nativeElement.muted = AppService.bgmEl.nativeElement.muted;
+    if (AppService.bgmEl.nativeElement.paused) {
+      AppService.bgmEl.nativeElement.play()
+    }
+    if (AppService.ambientEl.nativeElement.paused) {
+      AppService.ambientEl.nativeElement.play()
+    }
   }
 
 }

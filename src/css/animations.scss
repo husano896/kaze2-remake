@@ -1,0 +1,59 @@
+.anim-fadeIn {
+    opacity: 1;
+    animation-name: fadeIn;
+    animation-timing-function: steps(30);
+    /** 預設三秒*/
+    animation-duration: 3s;
+    pointer-events: none;
+}
+
+.anim-fadeOut {
+    opacity: 0;
+    animation-timing-function: steps(30);
+    animation: fadeOut 3s steps(30);
+    /** 預設三秒*/
+    animation-duration: 3s;
+    pointer-events: none;
+}
+
+.anim-blinking {
+    animation-name: blinking;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+    animation-iteration-count: infinite;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes blinking {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}

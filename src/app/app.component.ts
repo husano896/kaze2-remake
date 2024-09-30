@@ -82,7 +82,13 @@ export class AppComponent implements OnInit, AfterViewInit {
     }, 1000)
     */
   }
+
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    // 初始化與綁定聲音元素
+    this.appServ.Init({ bgmEl: this.bgm, seEl: this.se, ambientEl: this.ambient, messageSEEl: this.messageSE });
   }
 
   calculateDate() {
@@ -138,12 +144,22 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
     this.day = ans3;
   }
-  ngAfterViewInit(): void {
-    // 初始化與綁定聲音元素
-    this.appServ.Init({ bgmEl: this.bgm, seEl: this.se, ambientEl: this.ambient, messageSEEl: this.messageSE });
+
+  ForceUpdate() {
+    if (window.confirm('Force update?')) {
+      this.appServ.loading = true;
+      this.appServ.ForceUpdate();
+    }
   }
 
+  toggleAudio() {
+    this.appServ.toggleAudio();
+  }
 
+  get isAudioON(): boolean {
+    return this.appServ.isAudioON();
+  }
+  
   set loading(v: boolean) {
     this.appServ.loading = v;
   }

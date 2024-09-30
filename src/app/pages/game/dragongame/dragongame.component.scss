@@ -9,11 +9,19 @@
     color: white;
 }
 
-/** 育成背景 */
+/** 孤龍 */
 div#Ray1 {
     width: 100%;
     height: 100%;
     text-align: center;
+}
+
+@media screen and (max-width:480px) {
+
+    div#Ray1 {
+        position: absolute;
+    }
+
 }
 
 /** Home */
@@ -35,7 +43,8 @@ div#Ray8 {
     gap: 8px;
     box-sizing: border-box;
     padding-top: 8px;
-    padding-bottom: 16px;
+    /** 避開手機端的死角*/
+    padding-bottom: 32px;
     container-type: inline-size;
 }
 
@@ -65,11 +74,13 @@ div#Ray8>button:hover {
 div#Ray8>button:active {
     filter: brightness(0.8);
 }
+
 div#dialog {
-    white-space: break-spaces;
-    overflow-y: auto;
     transition: 0.25 ease-out;
     filter: brightness(1);
+    width: 100%;
+    overflow: auto;
+    white-space: pre-line;
 }
 
 div#dialog:active {
@@ -80,13 +91,13 @@ span#continue-icon {
     position: absolute;
     right: calc(var(--var-base-font-size));
     bottom: calc(var(--var-base-font-size));
-    animation: 1s blinking ease-out infinite;
 }
 
 @media screen and (max-width: 480px) {}
 
 table[aria-describedby="status-parameters"] td:nth-child(2) {
-    text-align: center;
+    text-align: end;
+    min-width: 60px;
 }
 
 img[alt="dragon-cg"] {
@@ -99,18 +110,31 @@ tr td {
     font-size: 100%;
 }
 
+button,
+#dialog {
+    cursor: pointer;
+}
 
-@keyframes blinking {
-    0% {
-        opacity: 1;
+div#RayEX_SelectMiniGame {
+    position: absolute;
+    z-index: 2;
+    margin: auto;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    pointer-events: all;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+div#DragonGame.disableAllActions {
+
+    div#RayEX1,
+    div#Ray1,
+    div#Ray8 {
+        visibility: hidden;
+        pointer-events: none;
     }
 
-    50% {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
 
 }

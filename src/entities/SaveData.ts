@@ -226,6 +226,7 @@ const D_go3 = new Array(
 const D_go4 = new Array(
     "ミュ", "のぉ", "のぉ", "のかな", "のかな", "",
     "の", "の", "デシ", "のだ", "んだ", "");
+
 export class SaveData {
     /** 到訪次數 */
     public dragonName: string = '孤竜';
@@ -244,10 +245,13 @@ export class SaveData {
     public element1: number = 50;
     public element2: number = 50;
     public ivent: number = 0x0;
+    /** 持有的變身加護印 */
     public DragonChip1: number = 0x0;
+    /** 目前使用契約加護印變身中的種族 */
     public DragonChip2: number = 0x0;
     public magic: any = '';
     public magicS: any = '';
+    
     public exp: number = 0;
     public lastLogin: number = 0;
     /** 異常狀態 */
@@ -328,10 +332,8 @@ export class SaveData {
         if (this.bio & 32) ans.push("重症");
         if (this.bio & 64) ans.push("眠酔");
         if (this.bio & 128) ans.push("発作");
-        // ...
-        if (this.numVisits == 100) {
+        if (this.numVisits == 100 || this.bio & 256) {
             // 本傳中並沒有bio = 256的判定
-            // this.bio = 256;
             return "竜死病";
         }
         return ans.join(',');
@@ -762,22 +764,37 @@ export class SaveData {
             this.item[22] = varItemFlg;
         }
         this.numVisits = -1;
-        this.Maxhp = Math.round(this.Maxhp / 5);
+        if (clearFlag) {
+            this.Maxhp = Math.round(this.Maxhp / 3);
+            this.df = Math.round(this.df / 3);
+            this.at = Math.round(this.at / 3);
+            this.speed = Math.round(this.speed / 3);
+            if (this.DragonChip1 & 32) this.DragonChip1 -= 32; // 4神獣をリストから削除
+            if (this.DragonChip1 & 512) this.DragonChip1 -= 512;
+            if (this.DragonChip1 & 1024) this.DragonChip1 -= 1024;
+            if (this.DragonChip1 & 32768) this.DragonChip1 -= 32768;
+
+        } else {
+            this.Maxhp = Math.round(this.Maxhp / 5);
+            this.df = Math.round(this.df / 5);
+            this.at = Math.round(this.at / 5);
+            this.speed = Math.round(this.speed / 5);
+
+            this.DragonChip1 = 0;
+            // 失敗的情況錢回歸200
+            this.food = 200;
+            this.magicS = 0;
+            this.magic = 0;
+        }
+
         this.hp = this.Maxhp;
-        this.df = Math.round(this.df / 5);
-        this.at = Math.round(this.at / 5);
-        this.speed = Math.round(this.speed / 5);
         this.love = 100;
-        this.food = 200;
         this.turn = 100;
         this.element1 = 50;
         this.element2 = 50;
         this.bio = 0;
         this.ivent = 256;
-        this.DragonChip1 = 0;
         this.DragonChip2 = 0;
-        this.magicS = 0;
-        this.magic = 0;
     }
 }
 

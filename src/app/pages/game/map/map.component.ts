@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { AppService } from '@/app/app.service';
+import { AfterViewInit, Component } from '@angular/core';
 
 @Component({
   selector: 'app-map',
@@ -7,6 +8,13 @@ import { Component } from '@angular/core';
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss'
 })
-export class MapComponent {
+export class MapComponent implements AfterViewInit {
 
+  constructor(private appServ: AppService) {
+
+  }
+  
+  ngAfterViewInit(): void {
+      this.appServ.setBGM('music13')
+  }
 }

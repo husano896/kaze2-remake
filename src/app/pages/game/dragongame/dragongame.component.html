@@ -1,11 +1,11 @@
-<div class="container flex-column full-height">
+<div id="DragonGame" [ngClass]="{disableAllActions: disableAllActions}" class="container flex-column full-height">
     <!-- 友好度 -->
     <div id="LoveChk" class="flex-row full-width small-font" style="gap:16px; background: #444444;">
         <p style="color: #88aaff">次回検査予定項目</p>
         <p style="color: #ffaa77">友好度：
-            <span style="color:white;">Lv {{loveBuff}}</span>
+            <span style="color:white;">Lv {{loveBuff}} <span class="max-480">/ {{hyoukaBuff}}</span> </span>
         </p>
-        <p style="color: #ffaa77">目標：
+        <p style="color: #ffaa77" class="min-480">目標：
             <span style="color:white;">Lv {{hyoukaBuff}}</span>
         </p>
     </div>
@@ -14,17 +14,16 @@
 
         <div id="RayEX1" class="flex-row" style="position: absolute; right: 16px;top:16px;z-index: 2;">
             <div class="gap flex-row">
-                <!-- 音樂-->
-                <button (click)="toggleAudio()"><i class="fa-solid fa-music"></i></button>
+                <!-- 設定-->
+                <button (click)="settingsOn = !settingsOn"><i class="fa-solid fa-gears"></i></button>
                 <!-- 圖書館-->
                 <button><i class="fa-solid fa-book"></i></button>
                 <!-- 存檔 -->
                 <a (click)="Save()"><button><i class="fa-solid fa-floppy-disk"></i></button></a>
             </div>
         </div>
-        <!-- <img class="full-width" alt="bg_home" src="/assets/imgs/bg_home.jpg" />-->
         <div class="flex-row full-width" style="z-index: 1; justify-content: space-between;">
-            <div class="boxed-content flex-column dark-bg min-480 padding-large" style="height: fit-content;">
+            <div class="boxed-content flex-column dark-bg padding-large" style="height: fit-content;">
                 <table class="small-font" aria-describedby="status-parameters"
                     style="word-break: keep-all; text-wrap: nowrap;">
                     <thead>
@@ -33,51 +32,51 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>名前</td>
+                            <td>{{'Game.DragonGame.DragonName' | translate}}</td>
                             <td>{{dragonName}}</td>
                         </tr>
-                        <tr>
-                            <td>性別</td>
+                        <tr class="min-480">
+                            <td>{{'Game.DragonGame.Gender' | translate}}</td>
                             <td>{{stGender}}</td>
                         </tr>
-                        <tr>
+                        <tr class="min-480">
                             <td>Lv</td>
                             <td>{{stLv}}</td>
                         </tr>
                         <tr>
-                            <td>生命</td>
-                            <td>{{stHp}} / {{stMaxhp}}</td>
+                            <td>{{'Game.DragonGame.Maxhp' | translate}}</td>
+                            <td [ngStyle]="{color: stMaxhp / 8 > stHp ? 'red' : 'inherit' }" >{{stHp}} / {{stMaxhp}}</td>
                         </tr>
-                        <tr>
-                            <td>筋力</td>
+                        <tr class="min-480">
+                            <td>{{'Game.DragonGame.At' | translate}}</td>
                             <td>{{stAt}}</td>
                         </tr>
-                        <tr>
-                            <td>体格</td>
+                        <tr class="min-480">
+                            <td>{{'Game.DragonGame.Df' | translate}}</td>
                             <td>{{stDf}}</td>
                         </tr>
-                        <tr>
-                            <td>瞬力</td>
+                        <tr class="min-480">
+                            <td>{{'Game.DragonGame.Spd' | translate}}</td>
                             <td>{{stSpeed}}</td>
                         </tr>
-                        <tr>
-                            <td>戦値</td>
+                        <tr class="min-480">
+                            <td>{{'Game.DragonGame.Exp' | translate}}</td>
                             <td>{{stExp}}</td>
                         </tr>
                         <tr>
-                            <td>友好</td>
+                            <td>{{'Game.DragonGame.Love' | translate}}</td>
                             <td>{{loveText | translate}}</td>
                         </tr>
-                        <tr>
-                            <td>属性</td>
+                        <tr class="min-480">
+                            <td>{{'Game.DragonGame.Element' | translate}}</td>
                             <td>{{stElement | translate}}</td>
                         </tr>
                         <tr>
-                            <td>状態</td>
-                            <td>{{stBio | translate}}</td>
+                            <td>{{'Game.DragonGame.Bio' | translate}}</td>
+                            <td [ngStyle]="{color: stBio ? 'red' : 'inherit' }">{{stBioText | translate}}</td>
                         </tr>
                         <tr *ngIf="numVisits > 15">
-                            <td>竜死病</td>
+                            <td>{{'Game.DragonGame.Progress' | translate}}</td>
                             <td>{{numVisits}} / 100</td>
                         </tr>
                     </tbody>
@@ -91,21 +90,20 @@
     </div>
 
     <!-- 行動, 金錢, NEXT條 -->
-    <div id="Ray5" class="flex-column full-height padding-large" style="min-height: 30dvh; contain: content;">
+    <div id="Ray5" class="flex-column full-height padding-large" style="min-height: 25dvh; contain: content;">
 
         <div class="flex-row column-480 full-width full-height gap">
             <!-- 頭像-->
             <div class="flex-column" style="width: 25%;justify-content: center;">
-                <img #face class="full-width" alt="char-header" src="/assets/imgs/char00.gif" />
+                <img #face class="full-width boxed-content dark-bg" alt="char-header" src="/assets/imgs/char00.gif" />
             </div>
             <!-- 對話-->
-            <div id="dialog" #dialog class="boxed-content full-height padding"
-                style="width: 100%;overflow: auto;white-space: pre-line;" (click)="FastForward()"
+            <div id="dialog" #dialog class="boxed-content full-height padding" (click)="FastForward()"
                 (keypress)="FastForward()">
-                {{content | translate:talkingParam }}
+                {{content}}
             </div>
 
-            <span id="continue-icon" class="large-font" *ngIf="isWaiting()">▼</span>
+            <span id="continue-icon" class="large-font anim-blinking" *ngIf="isWaiting() && !contentCompleted">▼</span>
         </div>
     </div>
     <!-- 手機版用：功能選單 -->
@@ -125,5 +123,9 @@
         </div>
     </div>
 
+    <!-- 選擇賺錢方式Dialog -->
+    <div id="RayEX_SelectMiniGame game-bg boxed-content ">
+
+    </div>
 </div>
 <app-save-data-editor></app-save-data-editor>

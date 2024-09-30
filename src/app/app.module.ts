@@ -11,6 +11,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { ApiService } from '@/api';
 import { NumberToImageComponent } from '@/components/number-to-image/number-to-image.component';
 import { AppService } from './app.service';
+import { LanguageComponent } from '@/components/language/language.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -21,6 +22,7 @@ export function createTranslateLoader(http: HttpClient) {
     BrowserModule,
     LoadingComponent,
     NumberToImageComponent,
+    LanguageComponent,
     RouterModule.forRoot(routes, {
       urlUpdateStrategy: "eager",
       paramsInheritanceStrategy: 'always',
@@ -41,6 +43,7 @@ export function createTranslateLoader(http: HttpClient) {
     })
   ],
   providers: [
+    AppService,
     provideHttpClient(withInterceptorsFromDi()),
     { provide: ErrorHandler, useClass: AppService },
     {

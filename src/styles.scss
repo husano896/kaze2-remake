@@ -1,88 +1,11 @@
-@import './animations.scss';
-
-body {
-    margin: 0;
-    height: 100dvh;
-    --var-window-classic-bg: #443333;
-    --var-window-classic-border-radius: 16px;
-    --var-window-classic-border-color: #7B644D;
-    --var-button-classic-bg: rgba(127, 127, 127, 0.5);
-    --var-button-classic-border-color: gray;
-    --var-base-font-size: min(2.5dvh, 5dvw);
-    background: black;
-    user-select: none;
-    font-size: var(--var-base-font-size);
-}
-
-button {
-    font-size: var(--var-base-font-size);
-}
-
-textarea,
-input,
-select {
-    border: 1px solid #000000;
-    background-color: #444444;
-    color: #ffffff;
-    font-size: var(--var-base-font-size);
-}
+@import './css/variables.scss';
+@import './css/animations.scss';
+@import './css/native-overrides.scss';
 
 img[alt="index_top"] {
     width: 100%
 }
 
-span,
-p,
-small {
-    white-space: pre-line;
-}
-
-p,
-ul {
-    padding: 0;
-    margin: 0;
-}
-
-
-a {
-    color: inherit;
-}
-
-a:hover {
-    color: lightgreen;
-}
-
-a:not(:hover) {
-    text-decoration: none;
-}
-
-li {
-    margin-top: 8px;
-}
-
-button {
-    background: var(--var-button-classic-bg);
-    border: 1px var(--var-button-classic-border-color) solid;
-    color: white;
-    border-radius: 0;
-    padding: calc(var(--var-base-font-size) * 0.25) calc(var(--var-base-font-size) * 0.2);
-}
-
-button:disabled {
-    background: #444444;
-    border: 1px transparent solid;
-}
-
-hr {
-    box-sizing: border-box;
-    width: 100%;
-}
-
-small {
-    font-size: calc(var(--var-base-font-size) * 0.8);
-}
-
-/** 內建元素覆蓋到此結束*/
 .small-font {
     font-size: calc(var(--var-base-font-size) * 0.8);
 }
@@ -94,7 +17,6 @@ small {
 .center {
     text-align: center;
 }
-
 
 .full-width {
     width: 100%;
@@ -174,6 +96,7 @@ small {
 .gap {
     gap: calc(var(--var-base-font-size) * 0.25);
 }
+
 .gap-large {
     gap: calc(var(--var-base-font-size) * 0.5);
 }

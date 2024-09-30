@@ -14,10 +14,15 @@ import { EventFlag } from '@/data/EventFlag';
   styleUrl: './index.component.scss'
 })
 export class IndexComponent {
-  constructor (private appServ: AppService) {
+  constructor(private appServ: AppService) {
   }
 
   get newGamePlus() {
     return this.appServ.newGamePlus;
   }
+
+  set settingsOn(v: boolean) {
+    this.appServ.settingsOn = v;
+  }
+
 }

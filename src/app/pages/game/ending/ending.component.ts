@@ -2,14 +2,14 @@ import { AppService } from '@/app/app.service';
 import { Endings } from '@/data/endings';
 import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { Subject, firstValueFrom, timer } from 'rxjs';
-import { Location } from '@angular/common';
-import { TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs';
+import { CommonModule, Location } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ending',
   standalone: true,
-  imports: [RouterModule],
+  imports: [CommonModule, RouterModule, TranslateModule],
   templateUrl: './ending.component.html',
   styleUrl: './ending.component.scss'
 })
@@ -22,12 +22,13 @@ export class EndingComponent implements AfterViewInit, OnDestroy {
   pendingTexts: string[] = [];
   textInterval?: any;
   endrollProcess = 0;
+  goodEnding?: boolean
   constructor(private location: Location,
     public router: Router,
     private translateServ: TranslateService,
     public appServ: AppService) {
   }
-  
+
   async ngAfterViewInit() {
     console.log(this.bg.nativeElement);
 
@@ -67,6 +68,9 @@ export class EndingComponent implements AfterViewInit, OnDestroy {
     ));
   }
 
+  Clear = () => {
+    this.dialog.nativeElement.innerText = '';
+  }
   setBG = (bg: string) => {
     this.bg.nativeElement.style.backgroundImage = `url(/assets/imgs/bg/${bg}.jpg)`
   }
@@ -82,11 +86,11 @@ export class EndingComponent implements AfterViewInit, OnDestroy {
     this.endroll.nativeElement.style.opacity = `1`;
     this.textInterval = setInterval(() => {
       this.endroll.nativeElement.style.transform = `translateY(${this.endrollProcess}px)`;
-      this.endrollProcess -= this.endroll.nativeElement.scrollHeight / 999;
-      if (this.endrollProcess < -this.endroll.nativeElement.scrollHeight * 2) {
+      this.endrollProcess -= this.endroll.nativeElement.scrollHeight / 2000;
+      if (this.endrollProcess < -this.endroll.nativeElement.scrollHeight - this.endroll.nativeElement.clientHeight) {
         clearInterval(this.textInterval);
         this.dialogComplete$.next(0)
       }
-    }, 33)
+    }, 30)
   }
 }

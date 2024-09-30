@@ -11,28 +11,36 @@
             <b>使用するアイテムを選択してください。</b>
 
             <div class="padding-large gap full-width full-height game-bg boxed-content" style="overflow: auto;">
-                <label *ngFor="let i of items" class="flex-row boxed-content padding gap-large game-bg"
-                    [ngClass]="{selected: selectedItem === i}" (click)="selectedItem = i" (keypress)="selectedItem = i">
-                    <input type="radio" name="selectedItem" />
-                    <div class="flex-column">
-                        <p>{{('Data.Item.' + (i) + '.Title') | translate}}</p>
-                        <small [innerHTML]="('Data.Item.' + (i) + '.Description') | translate"></small>
-                    </div>
-                </label>
+                <!-- TODO: 沒有的ITEM就改為不顯示而非變暗 -->
+                <ng-container *ngFor="let i of items; let index = index">
+                    <label class="flex-row boxed-content padding gap-large game-bg"
+                        [ngClass]="{selected: selectedItem === index}">
+                        <input type="radio" name="selectedItem" [value]="index" [(ngModel)]="selectedItem"
+                            (ngModelChange)="onSelectedItemChange($event)" /> <!-- [disabled]="i <= 0"  -->
+                        <div class="flex-column">
+                            <p>{{('Data.Item.' + (index) + '.Title') | translate}}</p>
+                            <small [innerHTML]="('Data.Item.' + (index) + '.Description') | translate"></small>
+                        </div>
+                    </label>
+                </ng-container>
             </div>
         </ng-container>
         <ng-container *ngIf="tab === 'skin'">
             <b>契約済み一覧です。変更したい姿を選択して下さい。</b>
 
             <div class="padding-large gap full-width full-height game-bg boxed-content" style="overflow: auto;">
-                <label *ngFor="let i of skins" class="flex-row boxed-content padding gap-large game-bg"
-                    [ngClass]="{selected: selectedItem === i}" (click)="selectedItem = i" (keypress)="selectedItem = i">
-                    <input type="radio" name="selectedItem" />
-                    <div class="flex-column">
-                        <p>{{('Data.DragonType.' + (i) + '.Title') | translate}}</p>
-                        <small [innerHTML]="('Data.DragonType.' + (i) + '.Description') | translate"></small>
-                    </div>
-                </label>
+                <!-- TODO: 沒有的ITEM就改為不顯示而非變暗 -->
+                <ng-container *ngFor="let i of skins; let index = index">
+                    <label class="flex-row boxed-content padding gap-large game-bg"
+                        [ngClass]="{selected: selectedItem === i}">
+                        <input type="radio" name="selectedItem" [value]="index" [(ngModel)]="selectedItem"
+                            (ngModelChange)="onSelectedItemChange($event)" />
+                        <div class="flex-column">
+                            <p>{{('Data.DragonType.' + (i) + '.Title') | translate}}</p>
+                            <small [innerHTML]="('Data.DragonType.' + (i) + '.Description') | translate"></small>
+                        </div>
+                    </label>
+                </ng-container>
             </div>
         </ng-container>
     </div>
@@ -41,6 +49,6 @@
     <!-- 動作-->
     <div id="RayActions" class="flex-row gap-large" style="justify-content: space-between;">
         <button routerLink="../dragongame">{{"Actions.Back" | translate | separateText}}</button>
-        <button [disabled]="!selectedItem" (click)="tab = 'skin'">使用</button>
+        <button [disabled]="selectedItem === null" (click)="useItem()">使用</button>
     </div>
 </div>

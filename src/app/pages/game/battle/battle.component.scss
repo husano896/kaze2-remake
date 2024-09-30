@@ -1,0 +1,20 @@
+.health-bar {
+    /** 範圍 0~100 */
+    --var-health: 100;
+    min-width: 200px;
+    min-height: 20px;
+    border: 1px solid black;
+    background: gray;
+    .progress-bar {
+        transition: 1s ease-in-out;
+        display: list-item;
+        width: calc(1% * var(--var-health));
+        height: 100%;
+        background: linear-gradient(90deg, black 0%, #66BB6A 75%) no-repeat;
+        filter: hue-rotate(calc(1deg * var(--var-health) - 100deg)) saturate(calc(1 + calc((100 - var(--var-health))*0.05)));
+    }
+}
+
+.health-bar.danger {
+    border: 1px solid red;
+}

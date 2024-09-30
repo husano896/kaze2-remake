@@ -10,6 +10,14 @@
 
     <div #endroll class="flex-column full-width" ID='endroll'
         style='overflow: hidden;opacity: 0;align-items: center; text-align: center;'>
+        <small *ngIf="goodEnding">
+            {{'Scripts.Ending2.51' | translate}}
+            <br />
+            <br />
+            <br />
+            <br />
+        </small>
+        <br />
         <B>
             <span class="large-font">- 竜 の 風 詩 ２ -</span>
         </B>
@@ -21,7 +29,7 @@
         <br>
         <br>
 
-        <div class="small-font">
+        <div class="small-font" style="text-shadow: 0px 0px 4px 4px black;">
             <span style="color:#ff8800">∮ 世 界 設 計 / 基 本 構 成 ∮</span><br>
             竜の風詩 第3章<br>
             <br>
@@ -111,10 +119,12 @@
             <span style="color:#ff8800">∮ 企 画 / 制 作 ∮</span><br>
             リンドブルムプロジェクト<br>
             <br />
-            <hr />
             <br />
-            <span style="color:#ff8800">∮ リメイク ∮</span><br>
+            <br />
+            <br />
+            <span style="color:#ff8800">HTML5でリメイク</span><br>
             アイ．フライ<br>
+            <br />
         </div>
 
     </div>

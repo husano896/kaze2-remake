@@ -1,0 +1,83 @@
+body {
+    margin: 0;
+    height: 100dvh;
+    font-size: var(--var-base-font-size);
+}
+
+* {
+    user-select: none;
+}
+
+button {
+    font-size: var(--var-base-font-size);
+}
+
+textarea,
+input,
+select {
+    border: 1px solid #000000;
+    background-color: #444444;
+    color: #ffffff;
+    font-size: var(--var-base-font-size);
+}
+
+/** 就算沒連結，作為按鈕用的<a>也給予鼠標*/
+a {
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+span,
+p,
+small {
+    white-space: pre-line;
+}
+
+p,
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+
+a {
+    color: inherit;
+}
+
+a:hover {
+    color: lightgreen;
+}
+
+a:not(:hover) {
+    text-decoration: none;
+}
+
+li {
+    margin-top: 8px;
+}
+
+button {
+    background: var(--var-button-classic-bg);
+    border: 1px var(--var-button-classic-border-color) solid;
+    color: white;
+    border-radius: 0;
+    padding: calc(var(--var-base-font-size) * 0.25) calc(var(--var-base-font-size) * 0.2);
+}
+
+button:disabled {
+    background: #444444;
+    border: 1px transparent solid;
+    filter: brightness(0.5);
+}
+
+hr {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+small {
+    font-size: calc(var(--var-base-font-size) * 0.8);
+}

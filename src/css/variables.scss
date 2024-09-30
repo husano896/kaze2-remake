@@ -1,0 +1,10 @@
+body {
+    --var-window-classic-bg: #443333;
+    --var-window-classic-border-radius: 16px;
+    --var-window-classic-border-color: #7B644D;
+    --var-button-classic-bg: rgba(127, 127, 127, 0.5);
+    --var-button-classic-border-color: gray;
+    --var-base-font-size: min(2.5dvh, 4.5dvw);
+    background: black;
+    font-size: var(--var-base-font-size);
+}
