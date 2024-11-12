@@ -1,7 +1,8 @@
 <div class="flex-row gap" >
-    <small>言語 Language</small>
+    <small>{{'Settings.Language.Title' | translate}} Language</small>
     <select [(ngModel)]="language">
-        <option>zh-hant</option>
-        <option>ja</option>
+        <option value="ja">日本語 (ja)</option>
+        <option value="zh-hant">繁體中文 (zh-hant)</option>
+        <option value="en">English (en)</option>
     </select>
 </div>

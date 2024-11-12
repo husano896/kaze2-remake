@@ -5,7 +5,7 @@ import { firstValueFrom, timer } from "rxjs";
 // varBaseFaice為說完話後的頭圖
 export const Opening = async (component: DialogueComponent) => {
     console.log(this)
-    const { setBG, setDragonCG, setBGOpticity, SetSkipCallback, setDragonCGOpticity, Face, Content, ClearContent, router, appServ, dialogStart$ } = component;
+    const { setBG, setDragonCG, setBGOpticity, setDialogOpticity, SetSkipCallback, setDragonCGOpticity, Face, Content, ClearContent, router, appServ, dialogStart$ } = component;
     const { toggleRay1, setNotice, Wait } = appServ
 
     const skip = () => {
@@ -19,6 +19,7 @@ export const Opening = async (component: DialogueComponent) => {
 
     // 20
     Face('char04');
+    setDialogOpticity(1)
     await Content(`Scripts.Opening1.1`)
     Face('char04a');
     await firstValueFrom(dialogStart$);

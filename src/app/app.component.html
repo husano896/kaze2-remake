@@ -12,6 +12,10 @@
         </div>
         <!-- 創龍曆 -->
         <div id='Ray1' *ngIf="Ray1Open">
+            @if (isProgressLoveChk) {
+                <img alt="dragon-calendar" src='/assets/imgs/font14.gif'>
+            }
+            @else {
             <!-- 創龍曆XXXX年 -->
             <div class="flex-row">
                 <!-- 創龍曆 -->
@@ -22,7 +26,6 @@
             </div>
             <br />
             <!-- XXX龍月X日-->
-
             <div class="flex-row">
                 <!-- 龍名-->
                 <img alt="monthName" src="/assets/imgs/{{monthImageName}}.gif" />
@@ -31,15 +34,14 @@
                 <app-number-to-image [number]="day"></app-number-to-image>
                 <img alt="day" src='/assets/imgs/font03.gif'>
             </div>
+            }
         </div>
 
         <!-- 通信機畫面 -->
         <div id="Ray7" class="boxed-content game-bg padding-large" *ngIf="noticeContent.length > 0">
             {{noticeTitle}}
             <hr *ngIf="noticeTitle.length > 0">
-            <small>
-                {{noticeContent}}
-            </small>
+            <small> {{noticeContent}}</small>
         </div>
 
         <!-- 詢問視窗 -->
@@ -62,32 +64,41 @@
                 </div>
             </div>
         </div>
-        <!-- 錯誤顯示 -->
-
-        <!-- TODO: 遊戲選項 -->
-        <div *ngIf="settingsOn" id="RaySettings">
+        <!-- 遊戲設定-->
+        <div *ngIf="settingsOn" id="RaySettings" (click)="$event.stopPropagation();"
+            (keypress)="$event.stopPropagation();">
             <div class="boxed-content game-bg flex-column padding-large gap" style="margin: auto;">
                 <b style="text-align: center;">- SETTINGS -</b>
 
                 <div class="flex-column gap" style="overflow: auto;">
-                    <span>Language</span>
+                    <span>{{'Settings.Language.Title' | translate}}</span>
                     <hr />
                     <app-language></app-language>
                     <a href="https://docs.google.com/spreadsheets/d/174XiqkVygaFVGWgWDkcL3GSSBeXTtAf4J6uAhldkK60/edit?usp=sharing"
                         target="_blank">
-                        ゲームを翻訳します(Google Sheet)
+                        {{'Settings.Language.HelpTranslate' | translate}}
                     </a>
                     <br>
                     <span>Audio</span>
                     <hr />
                     <button (click)="toggleAudio()">
                         {{"Game.Menu.Audio" | translate}}：
-                        {{isAudioON ? 'ON':'OFF'}}
-                        <!--音 楽 再 生 の 設 定(現在：MUSIC ON)--></button>
+                        {{isAudioON ? 'ON':'OFF'}}</button>
                     <br />
-                    <span>データ再インストール</span>
+                    <div class="flex-row gap">
+                        <span>Text speed</span>
+                        <select [(ngModel)]="textSpeed">
+                            <option [value]="0">不等待</option>
+                            <option [value]="0.25">快</option>
+                            <option [value]="0.5">略快</option>
+                            <option [value]="1">一般</option>
+                            <option [value]="1.5">略慢</option>
+                            <option [value]="2">慢</option>
+                        </select>
+                    </div>
+                    <span>{{'Settings.Reinstall.Title' | translate}}</span>
                     <hr />
-                    <span>データは破損したら、このボタンを押してください。</span>
+                    <span>{{'Settings.Reinstall.Description' | translate}}</span>
                     <button (click)="ForceUpdate()">Force update</button>
                     <br />
                 </div>
@@ -99,6 +110,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- 錯誤顯示 -->
         <div id="RayEX_ErrorHandler" class="boxed-content dark-bg" *ngIf="error.length > 0">
             <div class="boxed-content game-bg flex-column padding-large" style="margin: auto;">
                 <span>ERROR</span>

@@ -1,11 +1,11 @@
 <div id="DragonGame" [ngClass]="{disableAllActions: disableAllActions}" class="container flex-column full-height">
     <!-- 友好度 -->
     <div id="LoveChk" class="flex-row full-width small-font" style="gap:16px; background: #444444;">
-        <p style="color: #88aaff">次回検査予定項目</p>
-        <p style="color: #ffaa77">友好度：
+        <p style="color: #88aaff">{{'Game.DragonGame.NextCheckItems' | translate}}</p>
+        <p style="color: #ffaa77">{{'Game.DragonGame.LoveLV' | translate}}：
             <span style="color:white;">Lv {{loveBuff}} <span class="max-480">/ {{hyoukaBuff}}</span> </span>
         </p>
-        <p style="color: #ffaa77" class="min-480">目標：
+        <p style="color: #ffaa77" class="min-480">{{'Game.DragonGame.Target' | translate}}：
             <span style="color:white;">Lv {{hyoukaBuff}}</span>
         </p>
     </div>
@@ -15,15 +15,17 @@
         <div id="RayEX1" class="flex-row" style="position: absolute; right: 16px;top:16px;z-index: 2;">
             <div class="gap flex-row">
                 <!-- 設定-->
-                <button (click)="settingsOn = !settingsOn"><i class="fa-solid fa-gears"></i></button>
+                <button (click)="settingsOn = !settingsOn" [disabled]="!isAbleToLeave"><i
+                        class="fa-solid fa-gears"></i></button>
                 <!-- 圖書館-->
-                <button><i class="fa-solid fa-book"></i></button>
+                <button (click)="Save()" [disabled]="!isAbleToLeave"><i class="fa-solid fa-book"></i></button>
                 <!-- 存檔 -->
-                <a (click)="Save()"><button><i class="fa-solid fa-floppy-disk"></i></button></a>
+                <button (click)="Save()" [disabled]="!isAbleToLeave"><i class="fa-solid fa-floppy-disk"></i></button>
             </div>
         </div>
-        <div class="flex-row full-width" style="z-index: 1; justify-content: space-between;">
-            <div class="boxed-content flex-column dark-bg padding-large" style="height: fit-content;">
+        <div id="Ray3" class="flex-row full-width" style="z-index: 1; justify-content: space-between;">
+            <!-- 能力表 -->
+            <div class="boxed-content flex-column dark-bg padding-large" style="height: fit-content; z-index: 1;">
                 <table class="small-font" aria-describedby="status-parameters"
                     style="word-break: keep-all; text-wrap: nowrap;">
                     <thead>
@@ -45,7 +47,7 @@
                         </tr>
                         <tr>
                             <td>{{'Game.DragonGame.Maxhp' | translate}}</td>
-                            <td [ngStyle]="{color: stMaxhp / 8 > stHp ? 'red' : 'inherit' }" >{{stHp}} / {{stMaxhp}}</td>
+                            <td [ngStyle]="{color: stMaxhp / 8 > stHp ? 'red' : 'inherit' }">{{stHp}} / {{stMaxhp}}</td>
                         </tr>
                         <tr class="min-480">
                             <td>{{'Game.DragonGame.At' | translate}}</td>
@@ -65,7 +67,7 @@
                         </tr>
                         <tr>
                             <td>{{'Game.DragonGame.Love' | translate}}</td>
-                            <td>{{loveText | translate}}</td>
+                            <td [ngStyle]="{color: isInAfraidBio ? 'red' : 'inherit' }">{{loveText | translate}}</td>
                         </tr>
                         <tr class="min-480">
                             <td>{{'Game.DragonGame.Element' | translate}}</td>
@@ -75,7 +77,7 @@
                             <td>{{'Game.DragonGame.Bio' | translate}}</td>
                             <td [ngStyle]="{color: stBio ? 'red' : 'inherit' }">{{stBioText | translate}}</td>
                         </tr>
-                        <tr *ngIf="numVisits > 15">
+                        <tr *ngIf="numVisits >= 15">
                             <td>{{'Game.DragonGame.Progress' | translate}}</td>
                             <td>{{numVisits}} / 100</td>
                         </tr>
@@ -83,10 +85,28 @@
                 </table>
             </div>
             <!-- 龍CG-->
-            <div id="Ray1">
+            <div id="Ray1" class="anim-fadeIn" [ngClass]="{pet: petDaDragon}"
+                (click)="$event.preventDefault();petDragon();" (keypress)="$event.preventDefault();">
                 <img alt="dragon-cg" [src]="cgName" />
+                <img alt="dragon-emoji" *ngIf="emoji" src="/assets/imgs/mark_{{emoji}}.gif"
+                    style="position: absolute; right:15%; top: 15%;" />
+            </div> 
+            <!-- 選項-->
+            <div id="Ray4" class="flex-column dark-bg boxed-content padding-large"
+                *ngIf="options && options.length > 0">
+                <span>{{'Scripts.AnswerTitle' | translate}}</span>
+                <hr />
+                <div class="flex-column gap-large">
+                    <ul style="padding-left: 16px;">
+                        <li *ngFor="let o of options;let index = index;" (click)="onOptionClick(index, o)"
+                            (keyPress)="onOptionClick(index, o)">
+                            <a>{{o}}</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
+
     </div>
 
     <!-- 行動, 金錢, NEXT條 -->
@@ -95,7 +115,8 @@
         <div class="flex-row column-480 full-width full-height gap">
             <!-- 頭像-->
             <div class="flex-column" style="width: 25%;justify-content: center;">
-                <img #face class="full-width boxed-content dark-bg" alt="char-header" src="/assets/imgs/char00.gif" />
+                <img class="full-width boxed-content dark-bg" alt="char-header"
+                    [src]="faceSrc || '/assets/imgs/char00.gif'" />
             </div>
             <!-- 對話-->
             <div id="dialog" #dialog class="boxed-content full-height padding" (click)="FastForward()"
@@ -110,19 +131,37 @@
     <!-- 進行度100時不顯示-->
     <div id="Ray8" class="dark-bg full-width padding-large">
         <div class="flex-row" style="text-align: center;justify-content: space-around;">
-            <small>Money: {{money}} シェル</small>
-            <small>Action: <span [ngStyle]="{color: turn > 0 ? 'inherit' : 'red'}"> {{turn}} ターン </span> </small>
+            <small>Money: {{money}} {{'Noun.ShellMoney' | translate}}</small>
+            <small>Action:
+                <span [ngStyle]="{color: turn > 0 ? 'inherit' : 'red'}">
+                    {{turn}} {{'Noun.Turn' | translate}}
+                </span>
+            </small>
             <!-- <small>Next Lv: 111 Exp</small>-->
         </div>
         <div class="gap flex-row" *ngIf="numVisits < 100">
-            <button routerLink="../inventory" [disabled]="!turn"><i class="fa-solid fa-boxes-stacked"></i></button>
-            <button routerLink="../shop" [disabled]="!turn"><i class="fa-solid fa-shop"></i></button>
-            <button (click)="GoToEarn()"><i class="fa-solid fa-sack-dollar"></i></button>
-            <button (click)="GoToBattle()"><i class="fa-solid fa-burst"></i></button>
-            <button (click)="GoToMap()"><i class="fa-solid fa-map"></i></button>
+            <button routerLink="../inventory" [disabled]="!turn || !isAbleToLeave">
+                <i class="fa-solid fa-boxes-stacked"></i>
+            </button>
+            <button routerLink="../shop" [disabled]="!turn || !isAbleToLeave">
+                <i class="fa-solid fa-shop"></i>
+            </button>
+            <button (click)="GoToEarn()" [disabled]="!turn || !isAbleToLeave">
+                <i class="fa-solid fa-sack-dollar"></i>
+            </button>
+            <button (click)="GoToBattle()" [disabled]="!turn || !isAbleToLeave">
+                <i class="fa-solid fa-burst"></i>
+            </button>
+            <button (click)="GoToMap()" [disabled]="!turn || !isAbleToLeave">
+                <i class="fa-solid fa-map"></i>
+            </button>
         </div>
     </div>
 
+    <!-- 指向按鈕時的說明文字 -->
+    <div id="doc">
+
+    </div>
     <!-- 選擇賺錢方式Dialog -->
     <div id="RayEX_SelectMiniGame game-bg boxed-content ">
 

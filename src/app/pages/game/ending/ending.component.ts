@@ -23,10 +23,11 @@ export class EndingComponent implements AfterViewInit, OnDestroy {
   textInterval?: any;
   endrollProcess = 0;
   goodEnding?: boolean
-  constructor(private location: Location,
-    public router: Router,
-    private translateServ: TranslateService,
-    public appServ: AppService) {
+
+  constructor(private readonly location: Location,
+    public readonly router: Router,
+    private readonly translateServ: TranslateService,
+    public readonly appServ: AppService) {
   }
 
   async ngAfterViewInit() {
@@ -37,9 +38,8 @@ export class EndingComponent implements AfterViewInit, OnDestroy {
 
       const ev = Endings[state.ending];
       if (!ev) {
-        alert('未指定Event!')
         this.router.navigate(['/'])
-        return;
+        throw new Error('[Ending] 未指定Event或不存在！');
       }
       await this.appServ.Wait(1000);
       ev.bind(this)(this);

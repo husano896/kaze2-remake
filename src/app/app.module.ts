@@ -12,6 +12,8 @@ import { ApiService } from '@/api';
 import { NumberToImageComponent } from '@/components/number-to-image/number-to-image.component';
 import { AppService } from './app.service';
 import { LanguageComponent } from '@/components/language/language.component';
+import { AppErrorHandler } from './app.error.handler';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -23,10 +25,14 @@ export function createTranslateLoader(http: HttpClient) {
     LoadingComponent,
     NumberToImageComponent,
     LanguageComponent,
+    FormsModule,
     RouterModule.forRoot(routes, {
       urlUpdateStrategy: "eager",
       paramsInheritanceStrategy: 'always',
-      onSameUrlNavigation: 'reload'
+      onSameUrlNavigation: 'reload',
+      enableViewTransitions: true,
+      scrollPositionRestoration: 'top',
+
     }),
     TranslateModule.forRoot({
       loader: {
@@ -45,7 +51,7 @@ export function createTranslateLoader(http: HttpClient) {
   providers: [
     AppService,
     provideHttpClient(withInterceptorsFromDi()),
-    { provide: ErrorHandler, useClass: AppService },
+    { provide: ErrorHandler, useClass: AppErrorHandler },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiService,

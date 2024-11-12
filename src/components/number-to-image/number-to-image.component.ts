@@ -13,7 +13,6 @@ export class NumberToImageComponent {
   @Input() number: number = 0;
 
   numberToStringArray() {
-    console.log(this.number)
     return [...String(this.number)]
   }
 }

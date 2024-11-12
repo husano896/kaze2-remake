@@ -29,7 +29,9 @@ div#dialog {
     white-space: break-spaces;
     overflow-y: auto;
     text-align: left;
-    transition: 1.5s steps(15);
+    transition: 3s steps(15);
+    /** 要留給做漸變用的*/
+    opacity: 1;
 }
 
 @keyframes waving {

@@ -24,7 +24,6 @@ div#bg {
     background-blend-mode: color;
     justify-content: center;
     transition: 1.5s steps(15);
-    
 }
 
 div#Ray2 {
@@ -37,8 +36,8 @@ div#Ray2>img {
     border: 1px solid gray;
 }
 
-div#Ray2>img[src=""] {
-    display: none;
+img[src=""] {
+    visibility: hidden;
 }
 // 表情
 div#Ray6 {
@@ -51,9 +50,9 @@ img#dragoncg {
 }
 
 div#dialog {
-    white-space: break-spaces;
+    white-space: pre-line;
     overflow-y: auto;
-    transition: 0.25 ease-out;
+    transition: 0.25s ease-out;
     filter: brightness(1);
 }
 
@@ -64,7 +63,7 @@ div#dialog:active {
 span#continue-icon {
     position: absolute;
     right: calc(var(--var-base-font-size));
-    bottom: 0;
+    bottom: 32px;
     animation: 1s blinking ease-out infinite;
     visibility: hidden;
 }
@@ -86,4 +85,8 @@ span#continue-icon.waiting {
         opacity: 1;
     }
 
+}
+
+a#skip.disabled {
+    visibility: hidden;
 }

@@ -1,9 +1,11 @@
 import { SaveDataEditorComponent } from '@/components/save-data-editor/save-data-editor.component';
+import { BioFlag } from '@/data/BioFlag';
 import { EventFlag } from '@/data/EventFlag';
+import { ItemID } from '@/data/ItemID';
 import { DragonGameEvents } from '@/data/dragongame_events';
 import { DialogueSystem } from '@/entities/DialogueSystem';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnDestroy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -14,9 +16,12 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './dragongame.component.html',
   styleUrl: './dragongame.component.scss'
 })
-export class DragongameComponent extends DialogueSystem implements  OnDestroy, AfterViewInit {
+
+export class DragongameComponent extends DialogueSystem implements OnDestroy, AfterViewInit {
 
   public disableAllActions?: boolean;
+  public petDaDragon!: boolean;
+
   constructor(injector: Injector,
     public router: Router) {
     super(injector);
@@ -24,21 +29,8 @@ export class DragongameComponent extends DialogueSystem implements  OnDestroy, A
 
   override ngAfterViewInit(): void {
 
-    // TODO: 環境音跟音樂應綁在進行度
+    // 環境音
     this.appServ.setAmbient('snd16');
-
-    // TODO: 特別事件檢查
-
-    const varSysMsg = [
-      this.SpecialEventCheck(),
-      this.BioEventCheck(),
-      this.LoveCheck(),
-      this.ElementItemCheck()
-    ].join('\r\n').trim();
-
-    if (varSysMsg) {
-      this.appServ.Confirm('', varSysMsg)
-    }
 
     const ev = DragonGameEvents[this.saveData.numVisits];
     if (!ev) {
@@ -49,146 +41,234 @@ export class DragongameComponent extends DialogueSystem implements  OnDestroy, A
       ev.bind(this)(this);
     }
 
+    // 特別事件於主線後檢查
+    const varSysMsg = [
+      this.SpecialEventCheck(),
+      this.BioEventCheck(),
+      this.LoveCheck(),
+      this.ElementItemCheck()
+    ].join('\r\n').trim();
+
+    // 計算完狀態後，設定龍CG圖
+    this.appServ.saveData.PS_RyuCG();
+    if (varSysMsg) {
+      this.appServ.Confirm('', varSysMsg)
+    }
     this.appServ.setLastLogin();
     super.ngAfterViewInit();
+
   }
 
-  //#region 育成操作
-  GoToEarn() {
-    if (this.saveData.turn <= 0) {
-      this.appServ.Confirm('注意', '尚未實作');
+  async petDragon() {
+    if (this.petDaDragon) {
       return;
     }
-    this.appServ.Confirm('注意', '尚未實作');
+    this.petDaDragon = true;
+    await this.appServ.Wait(100);
+    this.petDaDragon = false;
+  }
+  //#region 育成操作
+
+  /** 是否可進行其他動作，通常為有劇情或選項發生時 */
+  get isAbleToLeave() {
+    if (this.options && this.options.length > 0) {
+      return false;
+    }
+    return true;
+  }
+
+  GoToEarn() {
+    if (!this.isAbleToLeave) {
+      return;
+    }
+    if (this.saveData.turn <= 0) {
+      this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), '尚未實作');
+      return;
+    }
+    this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), '尚未實作');
   }
 
   GoToBattle() {
-
-    if (this.saveData.turn <= 0) {
-      this.appServ.Confirm('注意', '尚未實作');
+    if (!this.isAbleToLeave) {
       return;
     }
-    this.appServ.Confirm('注意', '尚未實作');
+    if (this.saveData.turn <= 0) {
+      this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), '尚未實作');
+      return;
+    }
+    this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), '尚未實作');
   }
 
   GoToMap() {
-
-    if (this.saveData.turn <= 0) {
-      this.appServ.Confirm('注意', '尚未實作');
+    if (!this.isAbleToLeave) {
       return;
     }
-    this.appServ.Confirm('注意', '尚未實作');
+    if (this.saveData.turn <= 0) {
+      this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), '尚未實作');
+      return;
+    }
+    this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), '尚未實作');
   }
   //#endregion
 
   //#region 啟動時事件檢查
   // TODO: 特別事件檢查
-  SpecialEventCheck() {
-    var varSysMsg = '';
+  SpecialEventCheck(): string {
+    var varSysMsg = [];
     // 月份範圍為0~11, 日範圍為1~31
     var date = `${new Date().getMonth() + 1}${new Date().getDate()}`
     // 期間イベントフラグのリセット
     if ((date == "1223") || (date == "1222") || (date == "1230") || (date == "1231")) {
-      if (this.saveData.ivent & 2048) this.saveData.ivent ^= 2048;
+      if (this.saveData.ivent & EventFlag.期間限定) this.saveData.ivent ^= EventFlag.期間限定;
     }
 
     // 期間限定イベント
     if (!(this.saveData.ivent & 2048)) {
       if ((date == "1224") || (date == "1225")) {
-        varSysMsg += "メリークリスマス！<BR>そちらの世界の風習にちなみ、病竜保護協会から プレゼントとして " + this.translateServ.instant('Data.Item.18') + " を贈らせていただきます。<BR><BR>病竜保護協会一同<BR><BR>";
-        this.saveData.item[18] += 1;
-        this.saveData.ivent = (this.saveData.ivent | 2048);
+        // 聖誕快樂
+        varSysMsg.push(this.t('Scripts.Confirm.MerryChirstmas'),
+          { ...this.saveData.talkingParam, varItemName: this.t('Data.Item.18.Title') });
+        this.saveData.item[ItemID.生ケーキ] += 1;
+        this.saveData.ivent = (this.saveData.ivent | EventFlag.期間限定);
       }
 
       if ((date == "11") || (date == "0101")) {
-        varSysMsg += "明けましておめでとうございます。そちらの世界でも祝日のようですね。<BR>そちらの風習にちなみ、病竜保護協会から 80 シェルをお贈りいたします。<BR><BR>病竜保護協会一同<BR><BR>";
+        // 新年快樂
+        varSysMsg.push(this.t('Scripts.Confirm.HappyNewYear'));
         this.saveData.food += 80;
-        this.saveData.ivent = (this.saveData.ivent | 2048);
+        this.saveData.ivent = (this.saveData.ivent | EventFlag.期間限定);
       }
     }
-    return varSysMsg;
+    return varSysMsg.join('\r\n');
   }
   // TODO: 狀態事件確認
-  BioEventCheck() {
+  BioEventCheck(): string {
 
-    var varSysMsg = '';
-    if ((this.saveData.bio & 8) && (this.appServ.waitTimeMinutes > 10)) { // 風邪の進行
-      varSysMsg += "病状報告: 風邪の症状により\n生命力が低下しています。<BR>";
-      this.saveData.hp -= 25; if (this.saveData.hp < 0) this.saveData.hp = 1;
+    if (this.appServ.waitTimeMinutes >= 60) {
+      // 発作の発生
+      if ([10, 52].includes(this.appServ.saveData.numVisits)) {
+        this.appServ.saveData.bio |= BioFlag.発作;
+      }
+
+      if (this.saveData.bio & BioFlag.発作) {
+        // 発作の自然治癒
+        if ([13, 55].includes(this.appServ.saveData.numVisits)) {
+          this.appServ.saveData.bio ^= BioFlag.発作;
+        }
+      }
+    }
+    console.log('waitMinutes', this.appServ.waitTimeMinutes);
+    var varSysMsg = [];
+    if ((this.saveData.bio & BioFlag.風邪) && (this.appServ.waitTimeMinutes > 10)) { // 風邪の進行
+      varSysMsg.push(this.t('Scripts.Confirm.Bio.Kaze'));
+      this.saveData.hp -= 25;
     }
 
-    if ((this.saveData.bio & 64) && (this.appServ.waitTimeMinutes > 30)) {// 麻酔の効果切れ
-      if (this.saveData.bio & 8) {
-        varSysMsg += "病状報告: 麻酔が切れました。<br>十分な休息により風邪が完治しました。<BR>";
-        this.saveData.bio ^= 8;
+    if ((this.saveData.bio & BioFlag.眠酔) && (this.appServ.waitTimeMinutes > 30)) {// 麻酔の効果切れ
+      if (this.saveData.bio & BioFlag.風邪) {
+        varSysMsg.push(this.t('Scripts.Confirm.Bio.KazeSleep'));
+        this.saveData.bio ^= BioFlag.風邪;
       } else {
-        varSysMsg += "状態報告: 麻酔が切れ、孤竜が目覚めました。<br>体力が回復しました。<BR>";
+        varSysMsg.push(this.t('Scripts.Confirm.Bio.Sleep'));
       }
       this.saveData.hp = this.saveData.Maxhp;
-      this.saveData.bio ^= 64;
+      this.saveData.bio ^= BioFlag.眠酔;
     }
 
-    if ((this.appServ.waitTimeMinutes > 70) && (this.saveData.bio & 32)) {// 重症の症状
-      varSysMsg += "病状報告： " + this.saveData.dragonName + " は、重症による影響でステータスが低下しています。<BR>";
-      varSysMsg += `${this.translateServ.instant('Game.DragonGame.Maxhp')}:- 1　　　　${this.translateServ.instant('Game.DragonGame.At')}:- 1　　　　${this.translateServ.instant('Game.DragonGame.Df')}:- 1<BR>`;
-      this.saveData.hp -= 10;
+    if ((this.appServ.waitTimeMinutes > 70) && (this.saveData.bio & BioFlag.重症)) {// 重症の症状
+      varSysMsg.push(this.t('Scripts.Confirm.Bio.SeriousGoing', { ...this.talkingParam }));
+      varSysMsg.push(`
+${this.t('Game.DragonGame.Maxhp')}:- 1
+${this.t('Game.DragonGame.At')}:- 1
+${this.t('Game.DragonGame.Df')}:- 1`);
+      // 文字沒有標不該扣
+      // this.saveData.hp -= 10;
       this.saveData.Maxhp -= 1;
       this.saveData.at -= 1;
       this.saveData.df -= 1;
     }
 
-    if ((this.saveData.bio & 1) && (this.saveData.hp > 2) && (this.saveData.hp >= (this.saveData.Maxhp / 8))) { // 衰弱の治癒
-      varSysMsg += "病状報告： 体力が十分に回復したため、衰弱が完治しました。<BR>";
-      this.saveData.bio ^= 1;
+    if ((this.saveData.bio & BioFlag.衰弱) && (this.saveData.hp > 2) && (this.saveData.hp >= (this.saveData.Maxhp / 8))) { // 衰弱の治癒
+      varSysMsg.push(this.t('Scripts.Confirm.Bio.RecoverFromWeak'));
+      this.saveData.bio ^= BioFlag.衰弱;
     }
 
     if (
       this.appServ.waitTimeMinutes > 70 &&
       this.saveData.bio &&
       (Math.round(Math.random() * 10) == 1) &&
-      !(this.saveData.bio & 32) && !(this.saveData.bio & 128)) { // 重症発症
-      varSysMsg += "病状報告： 現在かかっている病気が悪化し、「重症」に陥りました。<BR>";
-      this.saveData.bio ^= 32;
+      !(this.saveData.bio & BioFlag.重症) && !(this.saveData.bio & BioFlag.発作)) { // 重症発症
+      varSysMsg.push(this.t('Scripts.Confirm.Bio.BecomeSerious'));
+      this.saveData.bio ^= BioFlag.重症;
     }
-    return varSysMsg;
+
+    // 避免超過最大HP的情況
+    this.saveData.hp = Math.max(1, Math.min(this.saveData.hp, this.saveData.Maxhp));
+    return varSysMsg.join('\r\n');
   }
 
-  LoveCheck() {
+  LoveCheck(): string {
+    let varSysMsg = []
+    // 友好度の変動---------------------------------------------------------------------------------
+    if (this.appServ.waitTimeMinutes <= 60) {
+      this.appServ.saveData.love += 1;
+    }
+    // 期間離しによる友好度の減退
+    if (this.appServ.saveData.ivent & 2) {
+      this.appServ.saveData.ivent ^= 2;
+      varSysMsg.push(this.t('Scripts.Confirm.BackFromDeposit'));
+    } else {
+      // 超過42小時未拜訪時的友好度低下
+      let ans = 42 - Math.floor(this.appServ.waitTimeMinutes / 60);
+      if (ans < -10) ans = -10;
+      if (ans < 0) {
+        this.appServ.saveData.love += ans;
+        varSysMsg.push(this.t('Scripts.Confirm.LoveDownFromIdle', { love: Math.abs(ans) }));
+      }
+    }
 
-    let varSysMsg = ''
-    return varSysMsg;
+    // 恐怖症的友好度在begin.html變更
+    if ((this.appServ.saveData.bio & 16) && (this.appServ.waitTimeMinutes >= 30)) {
+      varSysMsg.push(this.t('Scripts.Confirm.LoveDownFromAfraid'));
+    }
+
+    return varSysMsg.join('\r\n');
   }
   /**
    * 元素上限生成變身時確認
    * @returns 
    */
-  ElementItemCheck() {
-    let varSysMsg = ''
-    if ((this.saveData.element1 <= 0) && !this.saveData.item[2]) {
-      this.saveData.item[2]++;
-      varSysMsg += this.translateServ.instant('Scripts.Confirm.ElementMaxFire',
-        { ...this.saveData.talkingParam, varItemName: this.translateServ.instant('Data.Item.2.Title') })
+  ElementItemCheck(): string {
+    let varSysMsg = []
+    if ((this.saveData.element1 <= 0) && !this.saveData.item[ItemID.太陽の珠]) {
+      this.saveData.item[ItemID.太陽の珠]++;
+      varSysMsg.push(this.t('Scripts.Confirm.ElementMaxFire',
+        { ...this.saveData.talkingParam, varItemName: this.t('Data.Item.2.Title') }));
     }
-    else if ((this.saveData.element1 >= 100) && !this.saveData.item[3]) {
-      this.saveData.item[3]++;
-      varSysMsg += this.translateServ.instant('Scripts.Confirm.ElementMaxWater',
-        { ...this.saveData.talkingParam, varItemName: this.translateServ.instant('Data.Item.3.Title') })
+    else if ((this.saveData.element1 >= 100) && !this.saveData.item[ItemID.銀峰の雫]) {
+      this.saveData.item[ItemID.銀峰の雫]++;
+      varSysMsg.push(this.t('Scripts.Confirm.ElementMaxWater',
+        { ...this.saveData.talkingParam, varItemName: this.t('Data.Item.3.Title') }));
     }
 
-    if ((this.saveData.element2 <= 0) && !this.saveData.item[4]) {
-      this.saveData.item[4]++;
-      varSysMsg += this.translateServ.instant('Scripts.Confirm.ElementMaxWind',
-        { ...this.saveData.talkingParam, varItemName: this.translateServ.instant('Data.Item.4.Title') })
+    if ((this.saveData.element2 <= 0) && !this.saveData.item[ItemID.風の翼]) {
+      this.saveData.item[ItemID.風の翼]++;
+      varSysMsg.push(this.t('Scripts.Confirm.ElementMaxWind',
+        { ...this.saveData.talkingParam, varItemName: this.t('Data.Item.4.Title') }));
     }
-    else if ((this.saveData.element2 >= 100) && !this.saveData.item[5]) {
-      this.saveData.item[5]++;
-      varSysMsg += this.translateServ.instant('Scripts.Confirm.ElementMaxEarth',
-        { ...this.saveData.talkingParam, varItemName: this.translateServ.instant('Data.Item.5.Title') })
+    else if ((this.saveData.element2 >= 100) && !this.saveData.item[ItemID.大地の琥珀]) {
+      this.saveData.item[ItemID.大地の琥珀]++;
+      varSysMsg.push(this.t('Scripts.Confirm.ElementMaxEarth',
+        { ...this.saveData.talkingParam, varItemName: this.t('Data.Item.5.Title') }));
     }
-    return varSysMsg;
+    return varSysMsg.join('\r\n');
   }
 
   //#endregion
+
+  t = (key: string, obj?: {}) => {
+    return this.translateServ.instant(key, obj)
+  }
 
   //#region 系統操作
   isAudioON(): boolean {
@@ -199,11 +279,16 @@ export class DragongameComponent extends DialogueSystem implements  OnDestroy, A
     this.appServ.toggleAudio();
   }
 
+  Library() {
+    this.appServ.loading = true;
+    this.router.navigate(['/game/library'], { replaceUrl: true });
+  }
+
   async Save() {
     this.appServ.loading = true;
     // TODO: 存檔API
     await Promise.resolve()
-    this.router.navigate(['/game']);
+    this.router.navigate(['/game'], { replaceUrl: true });
   }
   //#endregion
 
@@ -215,7 +300,7 @@ export class DragongameComponent extends DialogueSystem implements  OnDestroy, A
   get saveData() {
     return this.appServ.saveData;
   }
-  
+
   //#region 需計算之數值
   get loveBuff() {
     return Math.round((this.saveData?.love || 0) / 100) + 1;
@@ -260,6 +345,11 @@ export class DragongameComponent extends DialogueSystem implements  OnDestroy, A
 
   get stBio() {
     return this.saveData?.bio;
+  }
+
+  // 是否於恐怖症
+  get isInAfraidBio() {
+    return this.saveData?.bio & BioFlag.恐怖;
   }
 
   get stBioText() {

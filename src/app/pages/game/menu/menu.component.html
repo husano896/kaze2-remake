@@ -17,7 +17,10 @@
                     {{"Game.Menu.Audio" | translate | separateText}}：
                     {{isAudioON ? 'ON':'OFF'}}
                     <!--音 楽 再 生 の 設 定(現在：MUSIC ON)--></a></li>
-            <li><a routerLink="/">{{"Game.Menu.Leave" | translate | separateText}}<!--ゲ ー ム を 終 わ る--></a></li>
+            <li><a routerLink="/">
+                    {{"Game.Menu.Leave" | translate | separateText}}<!--ゲ ー ム を 終 わ る-->
+                </a>
+            </li>
             <ng-container *ngIf="debug">
                 <br />
                 <span>Test Menu</span>

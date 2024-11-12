@@ -1,4 +1,33 @@
 <div class="container flex-column gap-large padding gap-large full-height">
+    <!-- 現在角色數值-->
+    <table class="game-bg">
+        <tr>
+            <th colspan="4"></th>
+        </tr>
+        <tr>
+            <td>Lv</td>
+            <td>{{stLv}}</td>
+            <td>{{'Game.DragonGame.Element' | translate}}</td>
+            <td>{{stElement | translate}}</td>
+        </tr>
+        <tr>
+            <td>{{'Game.DragonGame.Maxhp' | translate}}</td>
+            <td [ngStyle]="{color: stMaxhp / 8 > stHp ? 'red' : 'inherit' }">{{stHp}} / {{stMaxhp}}</td>
+            <td>{{'Game.DragonGame.At' | translate}}</td>
+            <td>{{stAt}}</td>
+        </tr>
+        <tr>
+            <td>{{'Game.DragonGame.Df' | translate}}</td>
+            <td>{{stDf}}</td>
+            <td>{{'Game.DragonGame.Spd' | translate}}</td>
+            <td>{{stSpeed}}</td>
+        <tr>
+            <td>{{'Game.DragonGame.Bio' | translate}}</td>
+            <td [ngStyle]="{color: stBio ? 'red' : 'inherit' }">{{stBioText | translate}}</td>
+            <td>{{'Game.DragonGame.Love' | translate}}</td>
+            <td colspan="3" [ngStyle]="{color: isInAfraidBio ? 'red' : 'inherit' }">{{loveText | translate}}</td>
+        </tr>
+    </table>
     <!-- 分頁-->
     <div id="RayTab" class="flex-row gap-large">
         <button (click)="tab = 'item';selectedItem = null">所持物</button>
@@ -8,7 +37,7 @@
     <!-- 分頁內容 -->
     <div id="RayTabContent" class="flex-column padding-large full-height full-width gap-large" style="overflow: auto;">
         <ng-container *ngIf="tab === 'item'">
-            <b>使用するアイテムを選択してください。</b>
+            <b class="min-480">使用するアイテムを選択してください。</b>
 
             <div class="padding-large gap full-width full-height game-bg boxed-content" style="overflow: auto;">
                 <!-- TODO: 沒有的ITEM就改為不顯示而非變暗 -->
@@ -26,7 +55,7 @@
             </div>
         </ng-container>
         <ng-container *ngIf="tab === 'skin'">
-            <b>契約済み一覧です。変更したい姿を選択して下さい。</b>
+            <b class="min-480">契約済み一覧です。変更したい姿を選択して下さい。</b>
 
             <div class="padding-large gap full-width full-height game-bg boxed-content" style="overflow: auto;">
                 <!-- TODO: 沒有的ITEM就改為不顯示而非變暗 -->

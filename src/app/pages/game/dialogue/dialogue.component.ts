@@ -18,7 +18,7 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
   /** 跳過事件的Callback, 若未設定時則無法跳過 */
   skipCallBack?: Function;
 
-  constructor(injector: Injector, private location: Location,
+  constructor(injector: Injector, private readonly location: Location,
     public router: Router) {
     super(injector);
   }
@@ -37,12 +37,11 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
         }, 20)
       }
       else {
-        alert('未指定Event或找不到Event!')
-        this.router.navigate(['/']);
+        this.router.navigate(['/'], { replaceUrl: true });
+        throw new Error('[ERROR] 未指定Event或找不到Event!')
       }
     }
     super.ngAfterViewInit();
-
   }
 
   async onSkipClick() {

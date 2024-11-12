@@ -1,5 +1,6 @@
 import { EventFlag } from '@/data/EventFlag';
 import { snd } from '@/data/snd';
+import { LocalStorageKey } from '@/entities/LocalStorageKey';
 import { SaveData } from '@/entities/SaveData';
 import { ElementRef, ErrorHandler, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -16,21 +17,23 @@ export enum RootAnimations {
   providedIn: 'root'
 })
 
-
 // 語言更新：https://script.google.com/macros/s/AKfycbzLoAh5UiwgocMpwopJsRTpQkhBlbsqatHJxvk1BTd3vqxS3VG8B5S14tNjBNvsyQ35/exec
-export class AppService implements ErrorHandler {
-  static registered: boolean;
+export class AppService {
+
+  /** Service用, 被註冊的次數 */
+  public static registeredTimes: number = 0;
+
   /** 背景音樂元素 */
-  public static bgmEl?: ElementRef<HTMLAudioElement>;
+  public bgmEl?: ElementRef<HTMLAudioElement>;
 
   /** 效果音元素 */
-  public static seEl?: ElementRef<HTMLAudioElement>;
+  public seEl?: ElementRef<HTMLAudioElement>;
 
   /** 環境音元素 */
-  public static ambientEl?: ElementRef<HTMLAudioElement>;
+  public ambientEl?: ElementRef<HTMLAudioElement>;
 
   /** 對話音元素 */
-  public static messageSEEl?: ElementRef<HTMLAudioElement>;
+  public messageSEEl?: ElementRef<HTMLAudioElement>;
 
   /** 讀取旗標 */
   public loading: boolean = true;
@@ -44,7 +47,6 @@ export class AppService implements ErrorHandler {
   /** 創龍曆展示中 */
   public Ray1Open: boolean = false;
 
-  public settingsOn?: boolean;
   // Ray7對應
   public noticeTitle: string = '';
   public noticeContent: string = '';
@@ -54,16 +56,20 @@ export class AppService implements ErrorHandler {
   public confirmContent: string = '';
   public confirmStyle?: boolean;
   private confirmResolver?: Function;
+
+  /** 設定 */
+  public settingsOn?: boolean;
+
   //
-  private static error: any[] = [];
+  public error: any[] = [];
 
   constructor(
-    private translateServ: TranslateService,
-    private router: Router,
-    private swUpdate: SwUpdate) {
+    private readonly translateServ: TranslateService,
+    private readonly router: Router,
+    private readonly swUpdate: SwUpdate) {
 
     // 因為ErrorHandler也會註冊實例，避免重複註冊
-    if (!AppService.registered) {
+    if (!AppService.registeredTimes) {
       this.swUpdate.unrecoverable.subscribe(ev => {
 
         if (ev.type === 'UNRECOVERABLE_STATE') {
@@ -82,9 +88,11 @@ export class AppService implements ErrorHandler {
           location.reload()
         }
       })
-      AppService.registered = true;
+      AppService.registeredTimes += 1;
     }
-
+    else {
+      console.warn('[AppService] 服務嘗試被重複註冊！')
+    }
     // 在網站生成階段時給予localhost Debug標籤才有效
     if (window.location.href.includes('localhost')) {
       this.debug = true;
@@ -92,37 +100,6 @@ export class AppService implements ErrorHandler {
     this.saveData = SaveData.Load();
 
   }
-
-  handleError = (error: any) => {
-    console.error(error);
-
-    // NG0100: ExpressionChangedAfterItHasBeenCheckedError
-    if (error?.code === -100) {
-      return;
-    }
-
-    AppService.bgmEl?.nativeElement.pause();
-    // AppService.seEl?.nativeElement.pause();
-    AppService.ambientEl?.nativeElement.pause();
-    AppService.messageSEEl?.nativeElement.pause();
-    this.setSE('snd12');
-    if (this.error.length === 0) {
-      alert('An error has occurred, returning to homepage.');
-      this.router.navigate(['/'])
-    }
-    this.error.push(error);
-    console.error(this.error);
-
-  }
-
-  //#region 因從ErrorHandler跟providedIn root的service為兩個實例, 將error存成靜態
-  set error(v) {
-    AppService.error = v;
-  }
-  get error() {
-    return AppService.error;
-  }
-  //#endregion
 
   /* 強制更新 */
   async ForceUpdate() {
@@ -152,10 +129,10 @@ export class AppService implements ErrorHandler {
     ambientEl: ElementRef<HTMLAudioElement>,
     messageSEEl: ElementRef<HTMLAudioElement>,
   }) => {
-    AppService.bgmEl = bgmEl;
-    AppService.seEl = seEl;
-    AppService.ambientEl = ambientEl;
-    AppService.messageSEEl = messageSEEl;
+    this.bgmEl = bgmEl;
+    this.seEl = seEl;
+    this.ambientEl = ambientEl;
+    this.messageSEEl = messageSEEl;
     bgmEl.nativeElement.volume = 0.5;
     seEl.nativeElement.volume = 0.4;
     ambientEl.nativeElement.volume = 0.3;
@@ -169,16 +146,16 @@ export class AppService implements ErrorHandler {
   }
 
   setMessageSE(v?: boolean) {
-    if (!AppService.messageSEEl) {
+    if (!this.messageSEEl) {
       return;
     }
     if (v) {
-      if (AppService.messageSEEl.nativeElement.paused) {
-        AppService.messageSEEl.nativeElement.currentTime = 0;
-        AppService.messageSEEl.nativeElement.play()
+      if (this.messageSEEl.nativeElement.paused) {
+        this.messageSEEl.nativeElement.currentTime = 0;
+        this.messageSEEl.nativeElement.play()
       }
-    } else if (!AppService.messageSEEl.nativeElement.paused) {
-      AppService.messageSEEl.nativeElement.pause();
+    } else if (!this.messageSEEl.nativeElement.paused) {
+      this.messageSEEl.nativeElement.pause();
     }
   }
 
@@ -203,31 +180,36 @@ export class AppService implements ErrorHandler {
   }
 
   setBGM = (bgm?: string | null | undefined) => {
-    if (!AppService.bgmEl?.nativeElement) {
+    if (!this.bgmEl?.nativeElement) {
       return;
     }
     if (!bgm?.length) {
-      if (!AppService.bgmEl.nativeElement.paused) {
-        AppService.bgmEl?.nativeElement.pause()
+      if (!this.bgmEl.nativeElement.paused) {
+        this.bgmEl.nativeElement.src = '';
+        this.bgmEl?.nativeElement.pause()
       }
       return;
     }
-    if (!AppService.bgmEl.nativeElement.src.includes(bgm)) {
-      AppService.bgmEl.nativeElement.src = `/assets/audio/bgm/${bgm}.mp3`
-      AppService.bgmEl.nativeElement.play();
+    if (!this.bgmEl.nativeElement.src.includes(bgm) || this.bgmEl.nativeElement.paused) {
+      this.bgmEl.nativeElement.src = `/assets/audio/bgm/${bgm}.mp3`
+      this.bgmEl.nativeElement.currentTime = 0;
+      this.bgmEl.nativeElement.play();
+      this.bgmEl.nativeElement.onload = (() => {
+        this.bgmEl?.nativeElement.play();
+      }).bind(this)
     }
 
   }
 
   setSE = (se?: string | null | undefined) => {
-    if (!AppService.seEl?.nativeElement) {
+    if (!this.seEl?.nativeElement) {
       return;
     }
 
     if (!se?.length) {
 
-      if (!AppService.seEl.nativeElement.paused) {
-        AppService.seEl?.nativeElement.pause()
+      if (!this.seEl.nativeElement.paused) {
+        this.seEl?.nativeElement.pause()
       }
       return;
     }
@@ -237,21 +219,21 @@ export class AppService implements ErrorHandler {
       console.warn('尚未支援的音效：', se)
       return;
     }
-    AppService.seEl.nativeElement.src = `/assets/audio/se/${s.f}`
-    AppService.seEl.nativeElement.currentTime = 0;
-    AppService.seEl.nativeElement.loop = s.loop;
-    AppService.seEl.nativeElement.play();
+    this.seEl.nativeElement.src = `/assets/audio/se/${s.f}`
+    this.seEl.nativeElement.currentTime = 0;
+    this.seEl.nativeElement.loop = s.loop;
+    this.seEl.nativeElement.play();
 
   }
 
   setAmbient = (am?: string | null | undefined) => {
-    if (!AppService.ambientEl?.nativeElement) {
+    if (!this.ambientEl?.nativeElement) {
       return;
     }
 
     if (!am?.length) {
-      if (!AppService.ambientEl.nativeElement.paused) {
-        AppService.ambientEl?.nativeElement.pause()
+      if (!this.ambientEl.nativeElement.paused) {
+        this.ambientEl?.nativeElement.pause()
       }
       return;
     }
@@ -262,10 +244,10 @@ export class AppService implements ErrorHandler {
       return;
     }
 
-    if (AppService.ambientEl) {
-      AppService.ambientEl.nativeElement.src = `/assets/audio/se/${s.f}`
-      AppService.ambientEl.nativeElement.play();
-      AppService.ambientEl.nativeElement.loop = s.loop;
+    if (this.ambientEl) {
+      this.ambientEl.nativeElement.src = `/assets/audio/se/${s.f}`
+      this.ambientEl.nativeElement.play();
+      this.ambientEl.nativeElement.loop = s.loop;
     }
   }
 
@@ -315,28 +297,46 @@ export class AppService implements ErrorHandler {
   get waitTimeHours() {
     return Math.floor(this.waitTimeMinutes / 60);
   }
-
+  /** 是否為檢診日 */
+  get isProgressLoveChk() {
+    return (
+      this.saveData?.numVisits % 10 === 0 &&
+      ![0, 10, 100].includes(this.saveData?.numVisits)
+    )
+  }
   isAudioON(): boolean {
-    if (!AppService.bgmEl) {
+    if (!this.bgmEl) {
       return false;
     }
-    return !AppService.bgmEl.nativeElement.muted;
+    return !this.bgmEl.nativeElement.muted;
   }
 
   toggleAudio() {
-    if (!AppService.bgmEl || !AppService.seEl || !AppService.ambientEl || !AppService.messageSEEl) {
+    if (!this.bgmEl || !this.seEl || !this.ambientEl || !this.messageSEEl) {
       return;
     }
-    AppService.bgmEl.nativeElement.muted = this.isAudioON();
-    AppService.ambientEl.nativeElement.muted = AppService.bgmEl.nativeElement.muted;
-    AppService.seEl.nativeElement.muted = AppService.bgmEl.nativeElement.muted;
-    AppService.messageSEEl.nativeElement.muted = AppService.bgmEl.nativeElement.muted;
-    if (AppService.bgmEl.nativeElement.paused) {
-      AppService.bgmEl.nativeElement.play()
+    this.bgmEl.nativeElement.muted = this.isAudioON();
+    this.ambientEl.nativeElement.muted = this.bgmEl.nativeElement.muted;
+    this.seEl.nativeElement.muted = this.bgmEl.nativeElement.muted;
+    this.messageSEEl.nativeElement.muted = this.bgmEl.nativeElement.muted;
+    if (this.bgmEl.nativeElement.paused) {
+      this.bgmEl.nativeElement.play()
     }
-    if (AppService.ambientEl.nativeElement.paused) {
-      AppService.ambientEl.nativeElement.play()
+    if (this.ambientEl.nativeElement.paused) {
+      this.ambientEl.nativeElement.play()
     }
   }
 
+  get textSpeed() {
+    const c = localStorage.getItem(LocalStorageKey.textSpeed) || "3";
+    try {
+      return Number(c)
+    }
+    catch (err) {
+      return 3;
+    }
+  }
+  set textSpeed(v: number) {
+    localStorage.setItem(LocalStorageKey.textSpeed, String(v));
+  }
 }

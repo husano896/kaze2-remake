@@ -71,6 +71,6 @@ export async function Ending2b(component: EndingComponent) {
     // 80
     // TODO: 周目結束處理
     appServ.setNotice()
-    router.navigate(['/']);
+    router.navigate(['/'], { replaceUrl: true });
     appServ.Anim(RootAnimations.FadeIn);
 }

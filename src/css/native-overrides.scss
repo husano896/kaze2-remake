@@ -21,13 +21,11 @@ select {
     font-size: var(--var-base-font-size);
 }
 
-/** 就算沒連結，作為按鈕用的<a>也給予鼠標*/
-a {
-    cursor: pointer;
-}
-
-a:hover {
-    text-decoration: underline;
+textarea.ng-touched.ng-invalid,
+input.ng-touched.ng-invalid,
+select.ng-touched.ng-invalid {
+    border: 1px solid red;
+    background-color: #440000;
 }
 
 span,
@@ -42,13 +40,24 @@ ul {
     margin: 0;
 }
 
+img[src=""] {
+    visibility: hidden;
+}
 
+/** 就算沒連結，作為按鈕用的<a>也給予鼠標*/
 a {
     color: inherit;
+    cursor: pointer;
 }
 
 a:hover {
+
+    text-decoration: underline;
     color: lightgreen;
+}
+
+a.disabled, a:disabled {
+    color: gray;
 }
 
 a:not(:hover) {

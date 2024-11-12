@@ -33,8 +33,9 @@ export class ShopComponent {
   constructor(private router: Router, private appServ: AppService) {
 
   }
-  useItem() {
-    this.router.navigate(['..', 'dragongame'])
+  async onSubmit() {
+    await this.appServ.Confirm('商店', '功能尚未實作完成，之後再回來看看吧！')
+    this.router.navigate(['/game/dragongame'], { replaceUrl: true })
   }
   // 能力上昇率を表示
   PS_Mark(varUp: number) {

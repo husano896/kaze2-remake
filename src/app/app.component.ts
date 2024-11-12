@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { AppService } from './app.service';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { Subscription, catchError } from 'rxjs';
@@ -44,6 +44,15 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.appServ.saveData.PS_RyuCG();
         this.appServ.saveData.Save();
         this.messageSE?.nativeElement?.pause();
+
+        // 避免遊戲中直接打叉離開
+        window.onbeforeunload = (ev) => {
+          if (window.location.href.includes('/game/')) {
+            ev.preventDefault();
+            return '是否離開？'
+          }
+          return;
+        }
       }
     }));
 
@@ -159,7 +168,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   get isAudioON(): boolean {
     return this.appServ.isAudioON();
   }
-  
+
   set loading(v: boolean) {
     this.appServ.loading = v;
   }
@@ -192,7 +201,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   get confirmStyle() {
     return this.appServ.confirmStyle;
   }
-  
+
   get confirmTitle() {
     return this.appServ.confirmTitle;
   }
@@ -214,5 +223,25 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   set settingsOn(v) {
     this.appServ.settingsOn = v;
+  }
+
+  get textSpeed() {
+    return this.appServ.textSpeed;
+  }
+
+  set textSpeed(v: number) {
+    this.appServ.textSpeed = v;
+  }
+
+  get isProgressLoveChk() {
+    return this.appServ.isProgressLoveChk;
+  }
+
+  @HostListener('document:contextmenu', ['$event'])
+  onContextMenu($event: Event) {
+    if (this.appServ.debug) {
+      return;
+    }
+    $event.preventDefault();
   }
 }

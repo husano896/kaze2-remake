@@ -1,8 +1,8 @@
 import { AppService } from '@/app/app.service';
 import { EventFlag } from '@/data/EventFlag';
+import { DragonGameEvents } from '@/data/dragongame_events';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-begin',
@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrl: './begin.component.scss'
 })
 export class BeginComponent implements OnInit, AfterViewInit {
-  constructor(private appServ: AppService, private router: Router, private translateServ: TranslateService) {
+  constructor(private appServ: AppService, private router: Router,) {
 
   }
   ngOnInit(): void {
@@ -48,24 +48,28 @@ export class BeginComponent implements OnInit, AfterViewInit {
     }
 
     // 超過60分鐘了！
-
-    this.appServ.saveData.numVisits++;
+    let skipDragonGameEvent = false;
     this.appServ.saveData.turn += 24;
-
-    /*
+    if (DragonGameEvents[this.appServ.saveData.numVisits + 1]) {
+      // 若該次事件已經製作完畢則進行劇情推進
+      this.appServ.saveData.numVisits++;
+      if (this.appServ.saveData.ivent & EventFlag.回答事件) {
+        this.appServ.saveData.ivent ^= EventFlag.回答事件;
+      }
+    } else {
+      // 否則不做劇情推進
+      skipDragonGameEvent = true;
+    }
+    
   // 友好度檢查還沒做
   // 如果進行度為10的倍數，進行友好度檢查
-  if ((this.appServ.saveData.numVisits % 10) === 0 && this.appServ.saveData.numVisits > 0) {
-    this.router.navigate(['/game/love_check'])
+  if (this.appServ.isProgressLoveChk) {
+    this.router.navigate(['/game/dialogue'], { state: { event: 'LoveChk' } });
     return;
   }
-*/
+
 
     this.appServ.setAmbient('snd16');
-    if (this.appServ.saveData.ivent & EventFlag.回答事件) {
-      this.appServ.saveData.ivent ^= EventFlag.回答事件;
-    }
-
     // 進行度100時龍死病......。
     if (this.appServ.saveData.numVisits >= 100) {
       this.appServ.saveData.numVisits = 100;
@@ -95,6 +99,11 @@ export class BeginComponent implements OnInit, AfterViewInit {
 
     this.router.navigate(['/game/dragongame'])
     this.appServ.setNotice();
+    if (skipDragonGameEvent) {
+      this.appServ.Confirm(
+        this.appServ.t('Scripts.Confirm.Title.Caution'), 
+        `The next event ${this.appServ.saveData.numVisits + 1} is still in WIP! \r\nNext visit event won't be triggered.`)
+    }
   }
 
 }
