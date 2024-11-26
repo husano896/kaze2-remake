@@ -71,6 +71,7 @@
                 <b style="text-align: center;">- SETTINGS -</b>
 
                 <div class="flex-column gap" style="overflow: auto;">
+                    <!-- 語言-->
                     <span>{{'Settings.Language.Title' | translate}}</span>
                     <hr />
                     <app-language></app-language>
@@ -79,21 +80,23 @@
                         {{'Settings.Language.HelpTranslate' | translate}}
                     </a>
                     <br>
+                    <!-- 聲音 -->
                     <span>Audio</span>
                     <hr />
                     <button (click)="toggleAudio()">
-                        {{"Game.Menu.Audio" | translate}}：
+                        {{"Settings.Audio.Title" | translate}}：
                         {{isAudioON ? 'ON':'OFF'}}</button>
                     <br />
+                    <!-- 文字速度-->
                     <div class="flex-row gap">
-                        <span>Text speed</span>
+                        <span>{{'Settings.TextSpeed.Title' | translate}}</span>
                         <select [(ngModel)]="textSpeed">
-                            <option [value]="0">不等待</option>
-                            <option [value]="0.25">快</option>
-                            <option [value]="0.5">略快</option>
-                            <option [value]="1">一般</option>
-                            <option [value]="1.5">略慢</option>
-                            <option [value]="2">慢</option>
+                            <option [value]="0">{{'Settings.TextSpeed.Value.Instant' | translate}}</option>
+                            <option [value]="0.25">{{'Settings.TextSpeed.Value.Fastest' | translate}}</option>
+                            <option [value]="0.5">{{'Settings.TextSpeed.Value.Faster' | translate}}</option>
+                            <option [value]="1">{{'Settings.TextSpeed.Value.Normal' | translate}}</option>
+                            <option [value]="1.5">{{'Settings.TextSpeed.Value.Slower' | translate}}</option>
+                            <option [value]="2">{{'Settings.TextSpeed.Value.Slowest' | translate}}</option>
                         </select>
                     </div>
                     <span>{{'Settings.Reinstall.Title' | translate}}</span>
@@ -112,7 +115,7 @@
         </div>
 
         <!-- 錯誤顯示 -->
-        <div id="RayEX_ErrorHandler" class="boxed-content dark-bg" *ngIf="error.length > 0">
+        <div id="RayEX_ErrorHandler" class="boxed-content transparant-dark-bg" *ngIf="error.length > 0">
             <div class="boxed-content game-bg flex-column padding-large" style="margin: auto;">
                 <span>ERROR</span>
                 <hr />

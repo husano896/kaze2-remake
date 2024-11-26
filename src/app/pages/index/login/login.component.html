@@ -17,11 +17,11 @@
         <input type='password' id="password" name='password' formControlname='password' maxlength='64' minlength="8"
             required>
         <hr />
-        <button routerLink="/game" (click)="Login()">
+        <button type="button" (click)="Login()">
             {{"ログインする" | translate | separateText}}
         </button>
 
-        <button routerLink="/game" (click)="Login()">
+        <button type="button"  (click)="Login()">
             {{"Sign In With Google" | translate}}
         </button>
         <br>

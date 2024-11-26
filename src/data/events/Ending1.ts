@@ -25,7 +25,7 @@ export const Ending1 = async (component: DialogueComponent) => {
     SetContentCompleted()
     await firstValueFrom(dialogComplete$);
     await Anim(RootAnimations.FadeOut);
-    router.navigate(['/game/ending'], { state: { ending: 'Ending1b' } });
+    router.navigate(['/game/ending'], { state: { ending: 'Ending1b' }, replaceUrl: true });
 
     await Anim(RootAnimations.FadeIn);
 }

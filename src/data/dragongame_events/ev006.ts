@@ -3,10 +3,11 @@ import { EventFlag } from "../EventFlag";
 
 const ev006 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted } = component
+    const { appServ, Face, Content, SetContentCompleted, Emoji, hideLayer } = component
 
     appServ.setBGM('music20')
     if (appServ.waitTimeMinutes >= 60) {
+        hideLayer('Ray1');
         Face('char04');
         /**
         そういえば、前に渡したサザムの実、{{dragonName}} の部屋に
@@ -21,6 +22,7 @@ const ev006 = async (component: DragongameComponent) => {
     } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
         appServ.saveData.ivent |= EventFlag.回答事件;
         Face('char00');
+        Emoji(6)
         /*
         きゅう…？ なんだか、なつかしい匂いがする{{go01}}。
         そこの実……それ、{{my}}にくれない？
@@ -32,6 +34,7 @@ const ev006 = async (component: DragongameComponent) => {
         await Content(`Scripts.Ev006.2`)
     } else {
         Face('char00');
+        Emoji(6);
         // お母さん……。
         await Content(`Scripts.Ev006.3`)
     }

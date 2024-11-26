@@ -10,7 +10,7 @@ const Miss = async (component: DialogueComponent) => {
         if (skipped) {
             return;
         }
-        router.navigate(['/game/dragongame'])
+        router.navigate(['/game/dragongame'], { replaceUrl: true })
         skipped = true;
     }
     SetSkipCallback(skipCallBack)
@@ -21,8 +21,8 @@ const Miss = async (component: DialogueComponent) => {
     setBGOpticity(0)
     setDragonCGOpticity(0)
     setDialogOpticity(1)
-    await Content('Game.Miss')
+    await Content('Scripts.Miss')
     skipCallBack();
 }
 
-export default Miss
+export { Miss }

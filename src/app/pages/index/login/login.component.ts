@@ -2,7 +2,7 @@ import { AppService } from '@/app/app.service';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -13,7 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  constructor(private appServ: AppService) {
+  constructor(private appServ: AppService, private router:Router) {
 
   }
   loginForm = new FormGroup({
@@ -26,5 +26,6 @@ export class LoginComponent {
       this.loginForm.value.password?.toLocaleLowerCase().includes('test')) {
       this.appServ.debug = true;
     }
+    this.router.navigate(['/game'], {replaceUrl:true})
   }
 }

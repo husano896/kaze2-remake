@@ -1,57 +1,80 @@
 <div class="container flex-column gap-large padding gap-large full-height">
     <!-- 分頁-->
     <div id="RayTab" class="flex-row gap-large">
-        <button (click)="tab = 'item';selectedItem = null">{{'Game.Shop.Item.Title' | translate}}</button>
-        <button (click)="tab = 'food';selectedItem = null">{{'Game.Shop.Food.Title' | translate}}</button>
+        <button (click)="tab = 'item';selectedItems=[];selectedFood=-1;">{{'Game.Shop.Item.Title' | translate}}</button>
+        <button (click)="onTabClick('food')"
+            [ngClass]="{ready: readyToEat}">{{'Game.Shop.Food.Title' | translate}}</button>
     </div>
     <!-- 分頁內容 -->
     <div id="RayTabContent" class="flex-column padding-large full-height full-width gap-large" style="overflow: auto;">
+        <!-- 食物 -->
         <ng-container *ngIf="tab === 'food'">
             <b>{{'Game.Shop.Food.Description' | translate}}</b>
             <div class="padding-large gap full-width full-height game-bg boxed-content" style="overflow: auto;">
-                <label *ngFor="let i of foodsCosts; let index = index"
-                    class="flex-row boxed-content padding gap-large game-bg" [ngClass]="{selected: selectedItem === i}"
-                    (click)="selectedItem = i" (keypress)="selectedItem = i">
-                    <input type="checkbox" />
+                @for (cost of foodsCosts; track $index; let index = $index) {
+                <label class="flex-row boxed-content padding gap-large game-bg" [ngClass]="{disabled: money < cost}">
+                    @if (moneyWhenEntered >= cost || debug) {
+                    <input type="radio" [value]="index" [(ngModel)]="selectedFood" [disabled]="money < cost" />
                     <div class="flex-column">
                         <p>{{('Data.Food.' + (index) + '') | translate}}</p>
-                        <small>{{i}} {{'Noun.ShellMoney' | translate}}</small>
+                        <small>{{cost}} {{'Noun.ShellMoney' | translate}}</small>
                         <!-- 不夠錢的原版是顯示為問號 -->
                     </div>
+                    }
+                    @else {
+                    <span>???</span>
+                    }
                 </label>
+                }
+
             </div>
-            <div class="flex-row">
-                <small>{{'Game.Shop.Food.Level.High' | translate}}
-                    [<span color=#00ff00>★ ☆ ◎ ○ ― △ ×</span>]
-                    {{'Game.Shop.Food.Level.Low' | translate}}
-                </small>
-            </div>
+            <small>{{'Game.Shop.Food.Level.High' | translate}}
+                [<span color=#00ff00>★ ☆ ◎ ○ ― △ ×</span>]
+                {{'Game.Shop.Food.Level.Low' | translate}}
+            </small>
         </ng-container>
+        <!-- 道具-->
         <ng-container *ngIf="tab === 'item'">
             <b>{{'Game.Shop.Item.Description' | translate}}</b>
 
             <div class="padding-large gap full-width full-height game-bg boxed-content" style="overflow: auto;">
                 <label *ngFor="let i of items; let index = index"
-                    class="flex-row boxed-content padding gap-large game-bg" [ngClass]="{selected: selectedItem === i}"
-                    (click)="selectedItem = i" (keypress)="selectedItem = i">
-                    <input type="checkbox" name="selectedItem" />
+                    class="flex-row boxed-content padding gap-large game-bg"
+                    [ngClass]="{disabled: (!selectedItems[index] && money - totalCost < i.cost) || ownItems[i.id]>= 9}">
+                    @if (moneyWhenEntered >= i.cost || debug) {
+                    <input type="checkbox" [(ngModel)]="selectedItems[index]"
+                        [disabled]="(!selectedItems[index] && money - totalCost < i.cost) || ownItems[i.id]>= 9" />
                     <div class="flex-column">
-                        <p>{{('Data.Item.' + (i.id) + '.Title') | translate}}</p>
+                        <p> {{('Data.Item.' + (i.id) + '.Title') | translate}} (持有：{{ownItems[i.id] || 0}})</p>
                         <small [innerHTML]="('Data.Item.' + (i.id) + '.Description') | translate"></small>
                         <small>{{i.cost}} {{'Noun.ShellMoney' | translate}}</small>
-
-                        <!-- 不夠錢的原版是顯示為問號 -->
+                        @if (ownItems[i.id]>= 9) {
+                        <small style="color: red;">持有數量已達上限</small>
+                        }
                     </div>
+                    }
+                    @else {
+                    <!-- 不夠錢的原版是顯示為問號 -->
+                    <span>???</span>
+                    }
                 </label>
             </div>
         </ng-container>
+        <small class="flex-row" style="text-align: end;">
+            購入額
+            <span style="color:#dd9900">{{totalCost}}</span>
+            {{'Noun.ShellMoney' | translate}}　
+            所持金 <span style="color:#dd9900"> {{money}} </span>
+            {{'Noun.ShellMoney' | translate}}
+            残 <span style="color:#dd9900"> {{turn}} </span> {{'Noun.Turn' | translate}}
+        </small>
     </div>
     <!-- 已選中的項目-->
     <hr />
     <!-- 動作-->
     <div id="RayActions" class="flex-row gap-large" style="justify-content: space-between;">
-        <button routerLink="../dragongame">{{"Actions.Back" | translate | separateText}}</button>
-        <button [disabled]="!selectedItem" (click)="onSubmit()">
+        <button routerLink="../dragongame" replaceUrl="true">{{"Actions.Back" | translate | separateText}}</button>
+        <button [disabled]="totalCost <= 0" (click)="onSubmit()">
             {{(tab === 'food' ? 'Game.Shop.Food.Action' : 'Game.Shop.Item.Action') | translate}}
         </button>
     </div>

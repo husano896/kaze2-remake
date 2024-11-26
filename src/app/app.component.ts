@@ -47,7 +47,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
         // 避免遊戲中直接打叉離開
         window.onbeforeunload = (ev) => {
-          if (window.location.href.includes('/game/')) {
+          if (window.location.href.includes('/game/') && !window.location.href.includes('delete') && !window.location.href.includes('gameover')) {
             ev.preventDefault();
             return '是否離開？'
           }
@@ -237,6 +237,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     return this.appServ.isProgressLoveChk;
   }
 
+  // 防止右鍵
   @HostListener('document:contextmenu', ['$event'])
   onContextMenu($event: Event) {
     if (this.appServ.debug) {

@@ -205,6 +205,15 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
         return this.pendingTexts.length === 0
     }
 
+    hideLayer = (layer: string) => {
+        const el = document.querySelector(`#${layer}`) as HTMLElement
+        if (el) {
+            el.style.visibility = 'hidden';
+        } else {
+            console.warn(`[hideLayer]指定的Layer ${layer}不存在！`)
+            console.trace();
+        }
+    }
     /** 講話參數, 用於日文句尾稱呼 */
     get talkingParam() {
         return this.appServ.saveData.talkingParam;

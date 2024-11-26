@@ -2,7 +2,7 @@ import { AppService } from '@/app/app.service';
 import { Endings } from '@/data/endings';
 import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, firstValueFrom } from 'rxjs';
 import { CommonModule, Location } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -66,6 +66,7 @@ export class EndingComponent implements AfterViewInit, OnDestroy {
         ...this.appServ.saveData.talkingParam
       })
     ));
+    return firstValueFrom(this.dialogComplete$);
   }
 
   Clear = () => {

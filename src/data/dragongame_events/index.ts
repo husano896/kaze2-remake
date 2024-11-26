@@ -13,7 +13,17 @@ import ev012 from "./ev012";
 import ev013 from "./ev013";
 import ev014 from "./ev014";
 import ev015 from "./ev015";
+import ev016 from "./ev016";
+import ev017 from "./ev017";
+import ev018 from "./ev018";
+import ev019 from "./ev019";
+import ev020 from "./ev020";
+import ev021 from "./ev021";
+import ev022 from "./ev022";
+
 import ev097 from "./ev097";
+import ev098 from "./ev098";
+import ev099 from "./ev099";
 import ev100 from "./ev100";
 import { PostEventAfterDragonGameEvent } from './postEv';
 
@@ -43,15 +53,33 @@ const DragonGameEvents: { [eventName: string]: Function } = {
     14: ev014,
     /** 発作の原因 */
     15: ev015,
+    // 16
+    16: ev016,
+    /** 衝撃の告白 */
+    17: ev017,
+    // 18
+    18: ev018,
+    // 19
+    19: ev019,
+    /** 悩む孤竜 */
+    20: ev020,
+    // 21
+    21: ev021,
+    /** 22: 孤竜の不安 */
+    22: ev022,
     // 52: TODO: 發作發生
-    // 13: TODO: 發作自然治癒
     // 55: TODO: 發作自然治癒
     /**「わずかな灯火」*/
     97: ev097,
     //#region BAD END確認
+    /** 想いの絵 */
+    98: ev098,
+    /** いつか見た夢 */
+    99: ev099,
     /**「去り逝く者」 */
-    100: ev100
+    100: ev100,
     //#endregion
+    postEv: PostEventAfterDragonGameEvent
 }
 
-export { DragonGameEvents, PostEventAfterDragonGameEvent };
+export { DragonGameEvents };

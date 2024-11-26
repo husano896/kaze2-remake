@@ -64,6 +64,7 @@ div#Ray4 {
     opacity: 1;
     animation: Ray4 ease-out;
 }
+
 /** 行動, 金錢, NEXT條*/
 div#Ray5 div.boxed-content {
     background: #333333;
@@ -88,6 +89,12 @@ div#Ray8 button {
     font-weight: 800;
     font-size: 125%;
 }
+
+
+div#Ray8 button.ready {
+    color: yellow;
+}
+
 
 div#RayEX1 button {
     width: 100%;

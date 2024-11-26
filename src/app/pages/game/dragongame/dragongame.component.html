@@ -18,14 +18,16 @@
                 <button (click)="settingsOn = !settingsOn" [disabled]="!isAbleToLeave"><i
                         class="fa-solid fa-gears"></i></button>
                 <!-- 圖書館-->
-                <button (click)="Save()" [disabled]="!isAbleToLeave"><i class="fa-solid fa-book"></i></button>
+                <button routerLink="/game/library" [replaceUrl]="true" [disabled]="!isAbleToLeave"><i
+                        class="fa-solid fa-book"></i></button>
                 <!-- 存檔 -->
                 <button (click)="Save()" [disabled]="!isAbleToLeave"><i class="fa-solid fa-floppy-disk"></i></button>
             </div>
         </div>
         <div id="Ray3" class="flex-row full-width" style="z-index: 1; justify-content: space-between;">
             <!-- 能力表 -->
-            <div class="boxed-content flex-column dark-bg padding-large" style="height: fit-content; z-index: 1;">
+            <div class="boxed-content flex-column transparant-dark-bg padding-large"
+                style="height: fit-content; z-index: 1;">
                 <table class="small-font" aria-describedby="status-parameters"
                     style="word-break: keep-all; text-wrap: nowrap;">
                     <thead>
@@ -90,9 +92,9 @@
                 <img alt="dragon-cg" [src]="cgName" />
                 <img alt="dragon-emoji" *ngIf="emoji" src="/assets/imgs/mark_{{emoji}}.gif"
                     style="position: absolute; right:15%; top: 15%;" />
-            </div> 
+            </div>
             <!-- 選項-->
-            <div id="Ray4" class="flex-column dark-bg boxed-content padding-large"
+            <div id="Ray4" class="flex-column transparant-dark-bg boxed-content padding-large"
                 *ngIf="options && options.length > 0">
                 <span>{{'Scripts.AnswerTitle' | translate}}</span>
                 <hr />
@@ -115,7 +117,7 @@
         <div class="flex-row column-480 full-width full-height gap">
             <!-- 頭像-->
             <div class="flex-column" style="width: 25%;justify-content: center;">
-                <img class="full-width boxed-content dark-bg" alt="char-header"
+                <img class="full-width boxed-content transparant-dark-bg" alt="char-header"
                     [src]="faceSrc || '/assets/imgs/char00.gif'" />
             </div>
             <!-- 對話-->
@@ -129,7 +131,7 @@
     </div>
     <!-- 手機版用：功能選單 -->
     <!-- 進行度100時不顯示-->
-    <div id="Ray8" class="dark-bg full-width padding-large">
+    <div id="Ray8" class="transparant-dark-bg full-width padding-large">
         <div class="flex-row" style="text-align: center;justify-content: space-around;">
             <small>Money: {{money}} {{'Noun.ShellMoney' | translate}}</small>
             <small>Action:
@@ -137,13 +139,14 @@
                     {{turn}} {{'Noun.Turn' | translate}}
                 </span>
             </small>
-            <!-- <small>Next Lv: 111 Exp</small>-->
+            <small>Next Lv: {{stNextLv}} Exp</small>
         </div>
         <div class="gap flex-row" *ngIf="numVisits < 100">
-            <button routerLink="../inventory" [disabled]="!turn || !isAbleToLeave">
+            <button [replaceUrl]="true" routerLink="../inventory" [disabled]="!turn || !isAbleToLeave">
                 <i class="fa-solid fa-boxes-stacked"></i>
             </button>
-            <button routerLink="../shop" [disabled]="!turn || !isAbleToLeave">
+            <button [replaceUrl]="true" routerLink="../shop" [disabled]="!turn || !isAbleToLeave"
+                [ngClass]="{ready: readyToEat}">
                 <i class="fa-solid fa-shop"></i>
             </button>
             <button (click)="GoToEarn()" [disabled]="!turn || !isAbleToLeave">
@@ -163,8 +166,11 @@
 
     </div>
     <!-- 選擇賺錢方式Dialog -->
-    <div id="RayEX_SelectMiniGame game-bg boxed-content ">
+    <div id="RayEX_SelectEarn transparant-dark-bg">
 
     </div>
+
+    @if (debug) {
+    <app-save-data-editor></app-save-data-editor>
+    }
 </div>
-<app-save-data-editor></app-save-data-editor>

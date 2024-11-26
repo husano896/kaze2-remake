@@ -1,1 +1,46 @@
-<p>library works!</p>
+<div class="container flex-column gap-large padding gap-large">
+
+  <!-- 點菜單，手機版時為浮動 -->
+  <div id="Ray6" class="transparant-dark-bg padding boxed-content">
+    <div>
+      <button routerLink="../dragongame" style="padding: 8px 24px">
+        {{"Actions.Back" | translate | separateText}}
+      </button>
+    </div>
+    <div class="flex-column gap full-width" style="overflow: auto;">
+      <span style="color:#88aaff">參照可能項目</span>
+      <div class="flex-row"
+        style="flex-wrap: wrap; gap: 16px; justify-content: space-between; width: calc(100% - 16px);">
+        <!-- AS -->
+        <div>
+          @for (index of [1,2,3,4,5,6,7,8]; track $index;) {
+          <a (click)="displayItem = 'AS' + index">{{('Game.Help.AS' + index + '.Title') | translate}}</a>
+          <br />
+          }
+        </div>
+        <!-- QS -->
+        <div>
+          @for (index of [1,2,3,4,5,6,7,8]; track $index;) {
+          <a (click)="displayItem = 'QS' + index">{{('Game.Help.QS' + index + '.Title') | translate}}</a>
+          <br />
+          }
+        </div>
+        <!-- BS -->
+        <div>
+          @for (index of [1,2,3,4,5,6,7]; track $index;) {
+          <a (click)="displayItem = 'BS' + index">{{('Game.Help.BS' + index + '.Title') | translate}}</a>
+          <br />
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  @if (displayItem) {
+  <div id="Doc" class="flex-column boxed-content game-bg padding">
+    <h2>{{('Game.Help.' + displayItem + '.Title') | translate}}</h2>
+    <hr />
+    <br />
+    {{('Game.Help.' + displayItem + '.Content') | translate}}
+  </div>
+  }
+</div>

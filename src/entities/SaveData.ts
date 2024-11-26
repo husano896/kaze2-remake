@@ -1,10 +1,16 @@
+import { EventFlag } from "@/data/EventFlag";
 import { LocalStorageKey } from "./LocalStorageKey";
+import { ItemID } from "@/data/ItemID";
+import { BioFlag } from "@/data/BioFlag";
 
 const varItmCod = 65;		// アイテムコード
 
 const ITEM_SIZE = 35;
 
 const DragonTypes = [
+    {
+
+    },
     {
         "name": "バルバチェイン",
         "hp": 0,
@@ -235,8 +241,8 @@ export class SaveData {
     public love: number = 0;
     public turn: number = 24;
     public food: number = 0;
-    public item: Array<number> = new Array(ITEM_SIZE);
-    public Nowlv: number = 0;
+    public item: Array<number> = new Array(ITEM_SIZE).fill(0);
+
     public Maxhp: number = 0;
     public hp: number = 0;
     public at: number = 0;
@@ -251,25 +257,26 @@ export class SaveData {
     public DragonChip2: number = 0x0;
     public magic: any = '';
     public magicS: any = '';
-    
+
     public exp: number = 0;
     public lastLogin: number = 0;
     /** 異常狀態 */
     public bio: number = 0x0;
     public ID: any = '';
-
     public cgName: string = '/assets/imgs/dragon/nomal01.gif';
     /** 日文使用：依照角色等級與屬性改變說話方式 */
     public talkingGO: any = {};
-    /** 當前Turn的Lv, 猜測應該於下一個進行度時重新計算 */
-    public lv: number = 1;
+
+    /** LV偏差值, 原程式內叫lv，一週目時為0, 二週目之後以通關前的屬性決定等級偏差 */
+    public lvOffset: number = 0;
 
     constructor() {
         this.Reset();
     }
 
-    /** 新存檔的初始化 */
+    /** 新存檔的初始化, 來自於new.html */
     public Reset() {
+
         this.Maxhp = 10;
         this.hp = 10;
         this.df = 1;
@@ -283,13 +290,6 @@ export class SaveData {
         this.lastLogin = new Date().getTime();
     }
 
-    static CalculateLV(maxhp: number, at: number, df: number, speed: number): number {
-        return (maxhp + at + df + speed - 10);
-    }
-
-    public NextProgress() {
-        this.lv = SaveData.CalculateLV(this.Maxhp, this.at, this.df, this.speed);
-    }
     public Save() {
         localStorage.setItem(LocalStorageKey.save, JSON.stringify(this));
         console.log('[SaveData]存檔：', this);
@@ -306,7 +306,12 @@ export class SaveData {
             Object.entries(o).forEach(([key, v]) => {
                 (save as any)[key] = v;
             });
-
+            // 存檔的內容確認與修正
+            for (let i = 0; i < save.item.length; i++) {
+                if (!save.item[i]) {
+                    save.item[i] = 0;
+                }
+            }
             console.log(`[SaveDate] 讀取存檔：`, save);
             return save;
         } catch (err) {
@@ -314,29 +319,29 @@ export class SaveData {
         }
         return new SaveData();
     }
-    get bioText() {
+    get bioText(): string[] {
         var ans: string[] = [];
         if (this.hp < (this.Maxhp / 8)) {
-            ans = ["疲労"];
+            ans = [`Data.Bio.Tired`];
         }
         else {
-            ans = ["健康"];
+            ans = [`Data.Bio.Normal`];
         }
         // 窩不健康
-        if (this.bio) ans = [];
-        if (this.bio & 1) ans = ["衰弱"];
-        if (this.bio & 2) ans.push("破傷");
-        if (this.bio & 4) ans.push("育障");
-        if (this.bio & 8) ans.push("風邪");
-        if (this.bio & 16) ans.push("恐怖");
-        if (this.bio & 32) ans.push("重症");
-        if (this.bio & 64) ans.push("眠酔");
-        if (this.bio & 128) ans.push("発作");
-        if (this.numVisits == 100 || this.bio & 256) {
-            // 本傳中並沒有bio = 256的判定
-            return "竜死病";
+        if (this.bio) {
+            ans = [];
         }
-        return ans.join(',');
+
+        for (let i = 0; i <= 7; i++) {
+            if (this.bio & (1 << i))
+                ans.push(`Data.Bio.${1 << i}`);
+        }
+
+        // 本傳中並沒有bio = 256的判定
+        if (this.bio & 256 || this.numVisits == 100) {
+            return ["Data.Bio.256"];
+        }
+        return ans;
     }
 
     get elementText() {
@@ -379,27 +384,9 @@ export class SaveData {
 
         if (this.element1 == 50 && this.element2 == 50) lank2 = "ノーマル";
 
-        if (this.DragonChip2 & 1) lank2 = DragonTypes[1].name;
-        if (this.DragonChip2 & 2) lank2 = DragonTypes[2].name;
-        if (this.DragonChip2 & 4) lank2 = DragonTypes[3].name;
-        if (this.DragonChip2 & 8) lank2 = DragonTypes[4].name;
-        if (this.DragonChip2 & 16) lank2 = DragonTypes[5].name;
-        if (this.DragonChip2 & 32) lank2 = DragonTypes[6].name;
-        if (this.DragonChip2 & 64) lank2 = DragonTypes[7].name;
-        if (this.DragonChip2 & 128) lank2 = DragonTypes[8].name;
-        if (this.DragonChip2 & 256) lank2 = DragonTypes[9].name;
-        if (this.DragonChip2 & 512) lank2 = DragonTypes[10].name;
-        if (this.DragonChip2 & 1024) lank2 = DragonTypes[11].name;
-        if (this.DragonChip2 & 2048) lank2 = DragonTypes[12].name;
-        if (this.DragonChip2 & 4096) lank2 = DragonTypes[13].name;
-        if (this.DragonChip2 & 8192) lank2 = DragonTypes[14].name;
-        if (this.DragonChip2 & 16384) lank2 = DragonTypes[15].name;
-        if (this.DragonChip2 & 32768) lank2 = DragonTypes[16].name;
-        if (this.DragonChip2 & 65536) lank2 = DragonTypes[17].name;
-        if (this.DragonChip2 & 131072) lank2 = DragonTypes[18].name;
-        if (this.DragonChip2 & 262144) lank2 = DragonTypes[19].name;
-        if (this.DragonChip2 & 524288) lank2 = DragonTypes[20].name;
-        if (this.DragonChip2 & 1048576) lank2 = DragonTypes[21].name;
+        for (let i = 1; i <= 21; i++) {
+            if (this.DragonChip2 & (1 << i)) lank2 = `Data.DragonType.${i}.Title`;
+        }
         return lank2;
     }
 
@@ -409,6 +396,16 @@ export class SaveData {
      */
     PS_RyuCG() {
         let fil = 'nomal01';
+
+        // レベル計算
+        const ans1 = (this.Maxhp + this.at + this.df + this.speed) - 10 - this.lvOffset;
+
+
+        /*
+        this.nowLv = Math.floor(ans1 / 12) + 1;
+        this.varOverLv = Math.floor(ans1 / 16.8) + 1;	// レベル上限
+        this.varNextLv = (Math.floor(ans1 / 12) + 1) * 12 - ans1;
+*/
 
         const ans = Math.floor((this.element1 + 5) / 10);
         const ans2 = Math.floor((this.element2 + 5) / 10);
@@ -685,7 +682,7 @@ export class SaveData {
             this.yourName + "君",
             this.yourName,
             this.yourName);
-        if (this.ivent & 8) {
+        if (this.ivent & EventFlag.性別) {
             this.talkingGO = {
                 my: Drgon_my[varSet],
                 you: Drgon_you[varSet],
@@ -717,14 +714,14 @@ export class SaveData {
     }
 
     get ans1() {
-        // TODO: 要確認lv的變數
-        return (this.Maxhp + this.at + this.df + this.speed) - 10; //- this.lv;
+        return (this.Maxhp + this.at + this.df + this.speed) - 10 - this.lvOffset;
     }
 
+    /** 現在LV */
     get nowLv() {
         return Math.floor(this.ans1 / 12) + 1;
     }
-
+    /** LV上限, 飽食度概念二週目後消滅 */
     get overLv() {
         return Math.floor(this.ans1 / 16.8) + 1;	// レベル上限
     }
@@ -733,15 +730,7 @@ export class SaveData {
         return (Math.floor(this.ans1 / 12) + 1) * 12 - this.ans1;
     }
     //#endregion
-    /*
-        // レベル計算
-    ans1 = (Maxhp + at + df + speed) - 10 - lv;
 
-
-    this.nowLv = Math.floor(ans1 / 12) + 1;
-    varOverLv = Math.floor(ans1 / 16.8) + 1;	// レベル上限
-    varNextLv = (Math.floor(ans1 / 12) + 1) * 12 - ans1;
-    */
 
     /** 轉換方法：顯示成文字時會自動呼叫 */
     toString() {
@@ -754,14 +743,14 @@ export class SaveData {
     */
     NewGamePlus(clearFlag: boolean) {
 
-        const varItemFlg = this.item[22];	// 下手な似顔絵の個数を保存
+        const varItemFlg = this.item[ItemID.下手な似顔絵];	// 下手な似顔絵の個数を保存
 
         // アイテム欄をリセット
         this.item = new Array(ITEM_SIZE).fill(0);
 
         // 下手な似顔絵の個数を復活
         if (varItemFlg) {
-            this.item[22] = varItemFlg;
+            this.item[ItemID.下手な似顔絵] = varItemFlg;
         }
         this.numVisits = -1;
         if (clearFlag) {
@@ -796,6 +785,34 @@ export class SaveData {
         this.ivent = 256;
         this.DragonChip2 = 0;
     }
+
+    /** 是否啟用現代化調整開關 */
+    get modern() {
+        return false;
+    }
+
+    //#region 加強畫面顯示
+
+    /**
+     * 是否可以進食
+     */
+    get readyToEat() {
+        if ((this.numVisits == 96) || (this.numVisits >= 98)) {
+            return false;
+        }
+
+        if (this.bio & BioFlag.衰弱 || this.bio & BioFlag.眠酔 || this.bio & BioFlag.発作) {
+            return false;
+        }
+
+        if (this.turn <= 0) {
+            return false;
+        }
+
+        return this.overLv <= this.numVisits || this.ivent & EventFlag.周目通關
+    }
+    //#endregion
+
 }
 
 /*

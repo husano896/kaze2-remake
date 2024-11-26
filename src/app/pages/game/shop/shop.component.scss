@@ -20,6 +20,16 @@ div#RayActions button {
     line-height: 0;
 }
 
-div#RayTabContent label.selected {
+div#RayTab button.ready {
+    color: yellow;
+}
+
+
+label.selected,
+label:active {
     filter: brightness(1.5);
+}
+
+label.disabled {
+    filter: brightness(0.5);
 }

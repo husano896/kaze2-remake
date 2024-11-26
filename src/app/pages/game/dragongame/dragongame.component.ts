@@ -1,3 +1,4 @@
+import { RootAnimations } from '@/app/app.service';
 import { SaveDataEditorComponent } from '@/components/save-data-editor/save-data-editor.component';
 import { BioFlag } from '@/data/BioFlag';
 import { EventFlag } from '@/data/EventFlag';
@@ -5,7 +6,7 @@ import { ItemID } from '@/data/ItemID';
 import { DragonGameEvents } from '@/data/dragongame_events';
 import { DialogueSystem } from '@/entities/DialogueSystem';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, Injector, OnDestroy } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -17,18 +18,47 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './dragongame.component.scss'
 })
 
-export class DragongameComponent extends DialogueSystem implements OnDestroy, AfterViewInit {
+export class DragongameComponent extends DialogueSystem implements OnDestroy, OnInit, AfterViewInit {
 
   public disableAllActions?: boolean;
   public petDaDragon!: boolean;
-
   constructor(injector: Injector,
+    private changeDetectionRef: ChangeDetectorRef,
     public router: Router) {
     super(injector);
   }
+  ngOnInit(): void {
+    //#region 數值的檢查修正
+    const save = this.appServ.saveData;
+    this.appServ.saveData.numVisits = Math.max(1, Math.min(save.numVisits, 100))
+    if (save.hp <= 0) {
+      // ごく稀に破傷風をもらう
+      if (Math.round(Math.random() * 10) == 1) {
+        save.bio |= BioFlag.破傷;
+      }
+      if (Math.round(Math.random() * 10) == 1) {
+        save.bio |= BioFlag.育障;
+      } else {
+        save.bio |= BioFlag.衰弱;
+      }
+    }
+
+    this.appServ.saveData.Maxhp = Math.max(1, Math.min(save.numVisits, 9999))
+    this.appServ.saveData.hp = Math.max(1, Math.min(save.hp, save.Maxhp))
+    this.appServ.saveData.at = Math.max(1, Math.min(save.at, 9999))
+    this.appServ.saveData.df = Math.max(1, Math.min(save.df, 9999))
+    this.appServ.saveData.speed = Math.max(1, Math.min(save.speed, 9999))
+    this.appServ.saveData.love = Math.max(1, Math.min(save.love, 1100))
+    this.appServ.saveData.turn = Math.max(0, Math.min(save.turn, 99999))
+    this.appServ.saveData.food = Math.max(0, Math.min(save.food, 99999))
+    this.appServ.saveData.element1 = Math.max(-9999, Math.min(save.element1, 9999))
+    this.appServ.saveData.element2 = Math.max(-9999, Math.min(save.element2, 9999))
+    this.appServ.saveData.exp = Math.max(0, Math.min(save.exp, 999999))
+    //#endregion 
+  }
 
   override ngAfterViewInit(): void {
-
+    this.appServ.Anim(RootAnimations.FadeIn, 300);
     // 環境音
     this.appServ.setAmbient('snd16');
 
@@ -49,6 +79,9 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, Af
       this.ElementItemCheck()
     ].join('\r\n').trim();
 
+    // 主線後觸發事件，如狀態文字，發作恢復
+    DragonGameEvents['postEv'].bind(this)(this)
+
     // 計算完狀態後，設定龍CG圖
     this.appServ.saveData.PS_RyuCG();
     if (varSysMsg) {
@@ -56,6 +89,7 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, Af
     }
     this.appServ.setLastLogin();
     super.ngAfterViewInit();
+    this.changeDetectionRef.detectChanges();
 
   }
 
@@ -74,6 +108,9 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, Af
     if (this.options && this.options.length > 0) {
       return false;
     }
+    if (this.disableAllActions) {
+      return false;
+    }
     return true;
   }
 
@@ -82,10 +119,10 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, Af
       return;
     }
     if (this.saveData.turn <= 0) {
-      this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), '尚未實作');
+      this.appServ.Confirm(this.t('Scripts.Confirm.Action.NoTurn'), this.t('Scripts.Confirm.Title.Caution'));
       return;
     }
-    this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), '尚未實作');
+    this.router.navigate(['/game/earn01'], { replaceUrl: true });
   }
 
   GoToBattle() {
@@ -93,10 +130,10 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, Af
       return;
     }
     if (this.saveData.turn <= 0) {
-      this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), '尚未實作');
+      this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), this.t('Scripts.Confirm.Title.Caution'));
       return;
     }
-    this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), '尚未實作');
+    this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), this.t('Scripts.Confirm.Title.Caution'));
   }
 
   GoToMap() {
@@ -214,8 +251,8 @@ ${this.t('Game.DragonGame.Df')}:- 1`);
       this.appServ.saveData.love += 1;
     }
     // 期間離しによる友好度の減退
-    if (this.appServ.saveData.ivent & 2) {
-      this.appServ.saveData.ivent ^= 2;
+    if (this.appServ.saveData.ivent & EventFlag.孤龍寄養) {
+      this.appServ.saveData.ivent ^= EventFlag.孤龍寄養;
       varSysMsg.push(this.t('Scripts.Confirm.BackFromDeposit'));
     } else {
       // 超過42小時未拜訪時的友好度低下
@@ -319,7 +356,11 @@ ${this.t('Game.DragonGame.Df')}:- 1`);
   //#region 龍能力值
 
   get stLv() {
-    return this.saveData?.lv || 0;
+    return this.saveData?.nowLv || 1;
+  }
+
+  get stNextLv() {
+    return this.saveData?.nextLv || 1;
   }
   get stHp() {
     return this.saveData?.hp || 0;
@@ -353,14 +394,16 @@ ${this.t('Game.DragonGame.Df')}:- 1`);
   }
 
   get stBioText() {
-    return this.saveData?.bioText || '';
+    return (this.saveData?.bioText || []).map(bio => this.t(bio)).join(',');
   }
 
   get stElement() {
     return this.saveData?.elementText || '';
   }
   get stGender() {
-    return ((this.saveData?.ivent || 0) & EventFlag.性別) ? 'メス' : 'オス';
+    return this.t(
+      ((this.saveData?.ivent || 0) & EventFlag.性別) ? 'Game.DragonGame.Female' : 'Game.DragonGame.Male'
+    );
   }
   //#endregion
 
@@ -385,12 +428,20 @@ ${this.t('Game.DragonGame.Df')}:- 1`);
   }
   //#endregion
 
+  //#region 加強畫面顯示
+  get readyToEat() {
+    return this.saveData.readyToEat
+  }
   //#region 設定
   get settingsOn() {
     return this.appServ.settingsOn
   }
   set settingsOn(v) {
     this.appServ.settingsOn = v;
+  }
+
+  get debug() {
+    return this.appServ.debug;
   }
   //#endregion
 }

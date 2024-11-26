@@ -1,4 +1,23 @@
-<p>battle works!</p>
-<div class="health-bar" [ngClass]="{danger: true}">
-    <div class="progress-bar"></div>
+<div class="container flex-column full-height gap">
+    <!-- 龍與背景-->
+    <div id="bg" #bg style="background-image: url(/assets/imgs/bg_home.jpg);">
+        <img #dragoncg id="dragoncg" alt="dragon-cg" src="/assets/imgs/dragon/nomal01.gif" style="opacity: 0;" />
+        <div id="Ray2">
+            <img alt="face" [src]="faceSrc || ''" />
+        </div>
+    </div>
+
+    <!-- 臉 -->
+    <!-- 對話框 -->
+    <div class="flex-column full-width padding-large"
+        style="height: 100%; contain: content; overflow: auto;padding-bottom: 16px;">
+        <div id="dialog" #dialog class="boxed-content game-bg full-width padding-large full-height" style="opacity: 0;"
+            (click)="FastForward()" (keyPress)="FastForward()">
+            {{content}}
+        </div>
+        <!-- 提示玩家該繼續點擊的圖示-->
+        <span id="continue-icon" class="large-font"
+            [ngClass]="{waiting:isWaiting() && dialog.innerText.length > 0 && !contentCompleted}">▼</span>
+        <a id="skip" (click)="onEscapeClick()">Escape</a>
+    </div>
 </div>

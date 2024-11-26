@@ -3,7 +3,7 @@ import { EventFlag } from "../EventFlag";
 
 const ev005 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, Options, EmojiAndAdjustLove } = component
+    const { appServ, Face, Content, SetContentCompleted, Options, EmojiAndAdjustLove, Emoji } = component
 
     appServ.setBGM('music21')
     if (appServ.waitTimeMinutes >= 60) {
@@ -64,6 +64,10 @@ const ev005 = async (component: DragongameComponent) => {
         await Content(`Scripts.Ev005.2`)
         Face('char01a');
     } else {
+        Emoji(6)
+        /**
+         * きゅきゅ…？　なんだか懐かしい香りがする...
+         */
         await Content(`Scripts.Ev005.3`)
     }
     SetContentCompleted()

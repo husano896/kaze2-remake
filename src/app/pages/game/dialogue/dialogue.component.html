@@ -19,6 +19,6 @@
         <span id="continue-icon" class="large-font"
             [ngClass]="{waiting:isWaiting() && dialog.innerText.length > 0 && !contentCompleted}">▼</span>
         <a id="skip" (click)="onSkipClick()"
-            [ngClass]="{disabled: !skipCallBack || contentCompleted || dialog.innerText.length > 0}">SKIP</a>
+            [ngClass]="{disabled: !skipCallBack}">SKIP</a>
     </div>
 </div>

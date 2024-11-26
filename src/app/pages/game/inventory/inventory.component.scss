@@ -20,10 +20,31 @@ div#RayActions button {
     line-height: 0;
 }
 
-div#RayTabContent label.selected {
+label.selected,
+label:active {
     filter: brightness(1.5);
+}
+label.disabled {
+    filter: brightness(0.5);
 }
 
 div#RayTabContent label.notOwned {
     filter: brightness(0.5);
+    overflow: auto;
+}
+
+div#RayStatus {
+    overflow: auto;
+    word-break: keep-all;
+    min-width: fit-content;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    div {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
 }

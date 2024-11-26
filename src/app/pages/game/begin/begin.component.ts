@@ -1,6 +1,8 @@
 import { AppService } from '@/app/app.service';
+import { BioFlag } from '@/data/BioFlag';
 import { EventFlag } from '@/data/EventFlag';
 import { DragonGameEvents } from '@/data/dragongame_events';
+import { SaveData } from '@/entities/SaveData';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
@@ -35,7 +37,7 @@ export class BeginComponent implements OnInit, AfterViewInit {
     }
 
     // 因為恐怖症降低好感, 注意這發生在檢查友好度之前...!!
-    if ((this.appServ.saveData.bio & 16) && (minutesSinceLastLogin >= 30)) {
+    if ((this.appServ.saveData.bio & BioFlag.恐怖) && (minutesSinceLastLogin >= 30)) {
       // 好痛
       this.appServ.saveData.love -= 65;
     }
@@ -60,20 +62,26 @@ export class BeginComponent implements OnInit, AfterViewInit {
       // 否則不做劇情推進
       skipDragonGameEvent = true;
     }
-    
-  // 友好度檢查還沒做
-  // 如果進行度為10的倍數，進行友好度檢查
-  if (this.appServ.isProgressLoveChk) {
-    this.router.navigate(['/game/dialogue'], { state: { event: 'LoveChk' } });
-    return;
-  }
+
+    // 友好度檢查還沒做
+    // 如果進行度為10的倍數，進行友好度檢查
+    if (this.appServ.isProgressLoveChk) {
+      this.router.navigate(['/game/dialogue'], { state: { event: 'LoveChk' } });
+      return;
+    }
 
 
     this.appServ.setAmbient('snd16');
+
+    // 発作の発生
+    if ([10, 52].includes(this.appServ.saveData.numVisits)) {
+      this.appServ.saveData.bio |= BioFlag.発作;
+    }
+
     // 進行度100時龍死病......。
     if (this.appServ.saveData.numVisits >= 100) {
       this.appServ.saveData.numVisits = 100;
-      this.appServ.saveData.bio = 256;
+      this.appServ.saveData.bio = BioFlag.竜死病;
     }
 
     // 顯示日期與開場
@@ -101,7 +109,7 @@ export class BeginComponent implements OnInit, AfterViewInit {
     this.appServ.setNotice();
     if (skipDragonGameEvent) {
       this.appServ.Confirm(
-        this.appServ.t('Scripts.Confirm.Title.Caution'), 
+        this.appServ.t('Scripts.Confirm.Title.Caution'),
         `The next event ${this.appServ.saveData.numVisits + 1} is still in WIP! \r\nNext visit event won't be triggered.`)
     }
   }

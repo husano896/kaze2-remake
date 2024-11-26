@@ -9,6 +9,10 @@ const routes: Routes = [
     loadComponent: () => import('./menu/menu.component').then(m => m.MenuComponent)
   },
   {
+    path: 'library',
+    loadComponent: () => import('./library/library.component').then(m => m.LibraryComponent)
+  },
+  {
     path: 'dragongame',
     loadComponent: () => import('./dragongame/dragongame.component').then(m => m.DragongameComponent)
   },
@@ -47,6 +51,14 @@ const routes: Routes = [
   {
     path: 'inventory',
     loadComponent: () => import('./inventory/inventory.component').then(m => m.InventoryComponent)
+  },
+  {
+    path: 'earn01',
+    loadComponent: () => import('./earn01/earn01.component').then(m => m.Earn01Component)
+  },
+  {
+    path: 'gameover',
+    loadComponent: () => import('./gameover/gameover.component').then(m => m.GameoverComponent)
   },
   {
     path: '**',

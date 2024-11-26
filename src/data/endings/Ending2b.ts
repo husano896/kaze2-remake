@@ -9,18 +9,15 @@ export async function Ending2b(component: EndingComponent) {
     component.goodEnding = true;
     setBG('goodend');
 
-    Content(`Scripts.Ending2.48`)
-    await firstValueFrom(dialogComplete$);
+    await Content(`Scripts.Ending2.48`)
     await Wait(3000);
 
     Clear()
-    Content(`Scripts.Ending2.49`)
-    await firstValueFrom(dialogComplete$);
+    await Content(`Scripts.Ending2.49`)
     await Wait(3000);
 
     Clear()
-    Content(`Scripts.Ending2.50`)
-    await firstValueFrom(dialogComplete$);
+    await Content(`Scripts.Ending2.50`)
     await Wait(3000);
     await appServ.Anim(RootAnimations.FadeOut);
     setDialogOpticity(0);
@@ -30,7 +27,7 @@ export async function Ending2b(component: EndingComponent) {
     await firstValueFrom(dialogComplete$);
     setBGOpticity(0);
     setDialogOpticity(0);
-
+    await Wait(3000);
     // 1
     appServ.setNotice('Scripts.Notice.SystemDown.Title', 'Scripts.Notice.SystemDown.01')
     await Wait(1800);
@@ -69,7 +66,8 @@ export async function Ending2b(component: EndingComponent) {
     await Wait(3000);
 
     // 80
-    // TODO: 周目結束處理
+    // 周目結束處理
+    appServ.saveData.NewGamePlus(true)
     appServ.setNotice()
     router.navigate(['/'], { replaceUrl: true });
     appServ.Anim(RootAnimations.FadeIn);

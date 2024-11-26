@@ -16,7 +16,9 @@ export async function Ending1b(component: EndingComponent) {
     await firstValueFrom(dialogComplete$);
     await appServ.Anim(RootAnimations.FadeOut);
 
-    // TODO: 周目結束處理
+    // 周目結束處理
+    appServ.saveData.NewGamePlus(false)
+    
     router.navigate(['/'], { replaceUrl: true });
     appServ.Anim(RootAnimations.FadeIn);
 }

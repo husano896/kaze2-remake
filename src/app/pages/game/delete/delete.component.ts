@@ -11,11 +11,9 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './delete.component.scss'
 })
 export class DeleteComponent {
-  constructor(private router: Router){}
+  constructor(private router: Router) { }
   Delete() {
     localStorage.removeItem(LocalStorageKey.save);
-    this.router.navigate(['/']).then(()=>{
-      location.reload();
-    })
+    location.href = '/'
   }
 }

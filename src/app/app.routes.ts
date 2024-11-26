@@ -34,7 +34,11 @@ export const routes: Routes = [
         path: 'game',
         loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule)
     },
-
+    /** Google OAuth 要求 */
+    {
+        path: 'service',
+        loadChildren: () =>  import('./pages/service/service.component').then(c => c.ServiceComponent)
+    },
     {
         path: '**',
         redirectTo: ''

@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-image: url(/assets/imgs/bg_ryu.jpg);
+  background-size: cover;
+  background-position: bottom;
+  overflow: hidden;
+  color: white;
+  padding: 8px 8px 32px 8px;
+  box-sizing: border-box;
+}
+
+/** 拉霸獲勝時的閃爍 */
+#slotResult.win {
+  animation: 1s blinking infinite;
+}

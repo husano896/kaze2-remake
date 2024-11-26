@@ -1,0 +1,55 @@
+<div class="container flex-column gap-large padding-large gap-large full-height"
+  style="align-items: center; contain: content;">
+  <div class="flex-row full-width" style="justify-content: space-between; position: absolute; top: 0;">
+    <div>
+      <button id="Back" routerLink="../dragongame" [replaceUrl]="true" [disabled]="rollingInterval">{{"Actions.Back" | translate | separateText}}</button>
+    </div>
+  </div>
+  <span style="color: #ffaa88; padding-top: 32px;">{{"街の資金配給所" | translate | separateText}}</span>
+  <div class="padding-large gap full-width dark-bg boxed-content flex-column"
+    style="text-align: center; align-items: center;">
+    <b style="color: #ffaa99;">スロット値に応じて 育成資金を 街から支給しています。 </b>
+    <br />
+    <div class="flex-row gap">
+      <p>
+        <i class="fa-solid fa-coins"></i>
+        {{money}}{{'Noun.ShellMoney' | translate}}
+      </p>
+      <br />
+      <p>
+        <i class="fa-solid fa-battery-full"></i>
+        {{turn}} {{'Noun.Turn' | translate}}
+      </p>
+    </div>
+    <h2 id="slotResult" [ngClass]="{'win' : !!winResult}">
+      [{{moji[val[0]]}} {{moji[val[1]]}} {{moji[val[2]]}}]
+    </h2>
+    <button id="Push" class="padding-large" type="button" [disabled]="turn <= 0 && !rollingInterval" (click)="onStartClick()">PUSH</button>
+  </div>
+  <!-- 倍率 -->
+
+  <div class="padding-large gap full-width dark-bg boxed-content flex-column"
+    style="text-align: center; align-items: center; overflow: auto; box-sizing: border-box;">
+    <details>
+      <summary style="color: #ffaa88;">
+        {{"倍率" | translate | separateText}}</summary>
+      <ul>
+        <li>７ ７ ７ ・・？？？</li>
+        <li>&#64; &#64; &#64; ・・×200</li>
+        <li>A A A ・・×150</li>
+        <li># # # ・・×100</li>
+        <li>? ? ? ・・×50</li>
+        <li>* * * ・・×35</li>
+        <li>O O O ・・×25</li>
+        <li>７ ７ _ ／ _ ７ ７ ・・×10</li>
+        <li>&#64; &#64; _ ／ _ &#64; &#64; ・・×10</li>
+        <li>A A _ ／ _ A A ・・×10</li>
+        <li># # _ ／ _ # # ・・×10</li>
+        <li>? ? _ ／ _ ? ? ・・×10</li>
+        <li>* * _ ／ _ * * ・・×10</li>
+        <li>O O _ ／ _ O O ・・×10</li>
+        <li>O __ __ ・・ＲＥＰＬＡＹ</li>
+      </ul>
+    </details>
+  </div>
+</div>

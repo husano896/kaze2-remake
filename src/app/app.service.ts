@@ -1,3 +1,4 @@
+import { BioFlag } from '@/data/BioFlag';
 import { EventFlag } from '@/data/EventFlag';
 import { snd } from '@/data/snd';
 import { LocalStorageKey } from '@/entities/LocalStorageKey';
@@ -65,7 +66,6 @@ export class AppService {
 
   constructor(
     private readonly translateServ: TranslateService,
-    private readonly router: Router,
     private readonly swUpdate: SwUpdate) {
 
     // 因為ErrorHandler也會註冊實例，避免重複註冊
@@ -74,17 +74,17 @@ export class AppService {
 
         if (ev.type === 'UNRECOVERABLE_STATE') {
           this.ForceUpdate().then(() => {
-            alert('Local version broken, refreshing.')
+            alert(this.translateServ.instant('ServiceWorker.UnRecoverable'))
             location.reload()
           });
         }
       })
       this.swUpdate.versionUpdates.subscribe((ev) => {
         if (ev.type === 'VERSION_DETECTED') {
-          alert('New version detected')
+          alert(this.translateServ.instant('ServiceWorker.VersionDetected'))
         }
         else if (ev.type === 'VERSION_READY') {
-          alert('New version installed, refreshing.')
+          alert(this.translateServ.instant('ServiceWorker.VersionReady'))
           location.reload()
         }
       })
@@ -94,7 +94,7 @@ export class AppService {
       console.warn('[AppService] 服務嘗試被重複註冊！')
     }
     // 在網站生成階段時給予localhost Debug標籤才有效
-    if (window.location.href.includes('localhost')) {
+    if (window.location.search.includes('localhost')) {
       this.debug = true;
     }
     this.saveData = SaveData.Load();
@@ -193,7 +193,11 @@ export class AppService {
     if (!this.bgmEl.nativeElement.src.includes(bgm) || this.bgmEl.nativeElement.paused) {
       this.bgmEl.nativeElement.src = `/assets/audio/bgm/${bgm}.mp3`
       this.bgmEl.nativeElement.currentTime = 0;
-      this.bgmEl.nativeElement.play();
+      try {
+        this.bgmEl.nativeElement.play();
+      } finally {
+
+      }
       this.bgmEl.nativeElement.onload = (() => {
         this.bgmEl?.nativeElement.play();
       }).bind(this)
@@ -252,9 +256,14 @@ export class AppService {
   }
 
   Anim = async (animName: string, length = 3000) => {
-    document.querySelector('app-root')?.classList.add(`anim-${animName}`)
+    const root = document.querySelector('app-root') as HTMLElement;
+    if (!root) {
+      return;
+    }
+    root.classList.add(`anim-${animName}`)
+    root.style.animationDuration = `${length}ms`;
     await this.Wait(length)
-    document.querySelector('app-root')?.classList.remove(`anim-${animName}`)
+    root.classList.remove(`anim-${animName}`)
   };
 
   Wait = async (time: number) => {
@@ -339,4 +348,6 @@ export class AppService {
   set textSpeed(v: number) {
     localStorage.setItem(LocalStorageKey.textSpeed, String(v));
   }
+
+
 }

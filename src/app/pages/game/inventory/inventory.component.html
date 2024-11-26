@@ -1,83 +1,126 @@
 <div class="container flex-column gap-large padding gap-large full-height">
-    <!-- 現在角色數值-->
-    <table class="game-bg">
-        <tr>
-            <th colspan="4"></th>
-        </tr>
-        <tr>
-            <td>Lv</td>
-            <td>{{stLv}}</td>
-            <td>{{'Game.DragonGame.Element' | translate}}</td>
-            <td>{{stElement | translate}}</td>
-        </tr>
-        <tr>
-            <td>{{'Game.DragonGame.Maxhp' | translate}}</td>
-            <td [ngStyle]="{color: stMaxhp / 8 > stHp ? 'red' : 'inherit' }">{{stHp}} / {{stMaxhp}}</td>
-            <td>{{'Game.DragonGame.At' | translate}}</td>
-            <td>{{stAt}}</td>
-        </tr>
-        <tr>
-            <td>{{'Game.DragonGame.Df' | translate}}</td>
-            <td>{{stDf}}</td>
-            <td>{{'Game.DragonGame.Spd' | translate}}</td>
-            <td>{{stSpeed}}</td>
-        <tr>
-            <td>{{'Game.DragonGame.Bio' | translate}}</td>
-            <td [ngStyle]="{color: stBio ? 'red' : 'inherit' }">{{stBioText | translate}}</td>
-            <td>{{'Game.DragonGame.Love' | translate}}</td>
-            <td colspan="3" [ngStyle]="{color: isInAfraidBio ? 'red' : 'inherit' }">{{loveText | translate}}</td>
-        </tr>
-    </table>
+
     <!-- 分頁-->
     <div id="RayTab" class="flex-row gap-large">
-        <button (click)="tab = 'item';selectedItem = null">所持物</button>
-        <!-- 姿變更在無Turn時無法使用 -->
-        <button [disabled]="turn === 0" (click)="tab = 'skin';selectedItem = null">姿變更</button>
+        <button [disabled]="disabled" (click)="tab = 'item';selectedItems = [];selectedSkin=-1;">所持物</button>
+        <button [disabled]="disabled" (click)="tab = 'skin';selectedItems = [];selectedSkin=-1;">姿變更</button>
     </div>
-    <!-- 分頁內容 -->
-    <div id="RayTabContent" class="flex-column padding-large full-height full-width gap-large" style="overflow: auto;">
-        <ng-container *ngIf="tab === 'item'">
-            <b class="min-480">使用するアイテムを選択してください。</b>
 
-            <div class="padding-large gap full-width full-height game-bg boxed-content" style="overflow: auto;">
-                <!-- TODO: 沒有的ITEM就改為不顯示而非變暗 -->
-                <ng-container *ngFor="let i of items; let index = index">
-                    <label class="flex-row boxed-content padding gap-large game-bg"
-                        [ngClass]="{selected: selectedItem === index}">
-                        <input type="radio" name="selectedItem" [value]="index" [(ngModel)]="selectedItem"
-                            (ngModelChange)="onSelectedItemChange($event)" /> <!-- [disabled]="i <= 0"  -->
-                        <div class="flex-column">
-                            <p>{{('Data.Item.' + (index) + '.Title') | translate}}</p>
-                            <small [innerHTML]="('Data.Item.' + (index) + '.Description') | translate"></small>
-                        </div>
-                    </label>
-                </ng-container>
-            </div>
-        </ng-container>
-        <ng-container *ngIf="tab === 'skin'">
-            <b class="min-480">契約済み一覧です。変更したい姿を選択して下さい。</b>
+    <div class="flex-row full-height full-width" style="overflow: auto; gap: 8px;">
+        <!-- 分頁內容 -->
+        <div id="RayTabContent" class="flex-column full-height full-width gap-large">
+            <ng-container *ngIf="tab === 'item'">
+                <b class="min-480">{{turn > 0 ? '使用するアイテムを選択してください。' : ('Scripts.Confirm.Action.NoTurn' | translate)}}
+                </b>
+                <div class="flex-row full-width full-height gap" style="overflow: hidden;">
+                    <div class="padding-large gap full-width full-height game-bg boxed-content" style="overflow: auto;">
+                        @if (isNoItem && !debug) {
+                        <span>沒有道具。</span>
+                        }
+                        <ng-container *ngFor="let i of items; let index = index">
+                            @if ((i > 0 || debug) && index > 0) {
+                            <label class="flex-row boxed-content padding gap-large game-bg"
+                                [ngClass]="{notOwned: i <= 0}">
+                                <input type="checkbox" [(ngModel)]="selectedItems[index]"
+                                    (ngModelChange)="onSelectedItemChange($event)" />
+                                <div class="flex-column">
+                                    <p>{{i}}x {{('Data.Item.' + (index) + '.Title') | translate}}</p>
+                                    <small [innerHTML]="('Data.Item.' + (index) + '.Description') | translate"></small>
+                                </div>
+                            </label>
+                            }
+                        </ng-container>
+                    </div>
+                    <ng-container *ngTemplateOutlet="status"></ng-container>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="tab === 'skin'">
+                <b class="min-480">{{turn > 0 ? '契約済み一覧です。変更したい姿を選択して下さい。' : ('Scripts.Confirm.Action.NoTurn' |
+                    translate)}}
+                </b>
 
-            <div class="padding-large gap full-width full-height game-bg boxed-content" style="overflow: auto;">
-                <!-- TODO: 沒有的ITEM就改為不顯示而非變暗 -->
-                <ng-container *ngFor="let i of skins; let index = index">
-                    <label class="flex-row boxed-content padding gap-large game-bg"
-                        [ngClass]="{selected: selectedItem === i}">
-                        <input type="radio" name="selectedItem" [value]="index" [(ngModel)]="selectedItem"
-                            (ngModelChange)="onSelectedItemChange($event)" />
-                        <div class="flex-column">
-                            <p>{{('Data.DragonType.' + (i) + '.Title') | translate}}</p>
-                            <small [innerHTML]="('Data.DragonType.' + (i) + '.Description') | translate"></small>
-                        </div>
-                    </label>
-                </ng-container>
-            </div>
-        </ng-container>
+                <div class="flex-row full-width full-height gap" style="overflow: hidden;">
+                    <div class="padding-large gap full-width full-height game-bg boxed-content" style="overflow: auto;">
+                        <ng-container *ngFor="let dragonChip of skins; let index = index">
+
+                            <label class="flex-row boxed-content padding gap-large game-bg" style="align-items:center"
+                                [ngClass]="{disabled:!getOwnDragonChip(dragonChip) }">
+                                @if (debug || getOwnDragonChip(dragonChip)) {
+                                @if (dragonChip2 === dragonChip) {
+                                    <!-- 已正在套用中的外觀-->
+                                <i class="fa-solid fa-circle-check"></i>
+                                }
+                                @else {
+                                <input type="radio" name="selectedItem" [value]="dragonChip" [(ngModel)]="selectedSkin"
+                                    (ngModelChange)="onSelectedItemChange($event)" />
+                                }
+                                <div class="flex-column">
+                                    <p>{{('Data.DragonType.' + (index) + '.Title') | translate}}</p>
+                                    <small
+                                        [innerHTML]="('Data.DragonType.' + (index) + '.Description') | translate"></small>
+                                </div>
+
+                                }
+                                @else {
+                                <span>???</span>
+                                }
+                            </label>
+
+                        </ng-container>
+                    </div>
+                    <ng-container *ngTemplateOutlet="status"></ng-container>
+                </div>
+            </ng-container>
+        </div>
+
     </div>
-    <!-- 已選中的項目-->
     <hr />
     <!-- 動作-->
     <div id="RayActions" class="flex-row gap-large" style="justify-content: space-between;">
-        <button routerLink="../dragongame">{{"Actions.Back" | translate | separateText}}</button>
-        <button [disabled]="selectedItem === null" (click)="useItem()">使用</button>
+        <button routerLink="../dragongame" [disabled]="disabled">{{"Actions.Back" | translate | separateText}}</button>
+        <button [disabled]="!selectedItemsCount || turn <= 0 || disabled" (click)="useItem()">
+            {{tab === 'item' ? '使用' : '變更'}}
+        </button>
     </div>
 </div>
+<ng-template #status>
+    <!-- 現在角色數值-->
+    <div class="game-bg boxed-content padding" id="RayStatus">
+
+        <div>
+            <small>Lv</small>
+            <small>{{stLv}}</small>
+        </div>
+        <div>
+            <small>{{'Game.DragonGame.Element' | translate}}</small>
+            <small>{{stElement | translate}}</small>
+        </div>
+        <div>
+            <small>{{'Game.DragonGame.Maxhp' | translate}}</small>
+            <small [ngStyle]="{color: stMaxhp / 8 > stHp ? 'red' : 'inherit' }">{{stHp}} / {{stMaxhp}}</small>
+        </div>
+        <div>
+            <small>{{'Game.DragonGame.At' | translate}}</small>
+            <small>{{stAt}}</small>
+        </div>
+        <div>
+            <small>{{'Game.DragonGame.Df' | translate}}</small>
+            <small>{{stDf}}</small>
+        </div>
+        <div>
+            <small>{{'Game.DragonGame.Spd' | translate}}</small>
+            <small>{{stSpeed}}</small>
+        </div>
+        <div>
+            <small>{{'Game.DragonGame.Bio' | translate}}</small>
+            <small [ngStyle]="{color: stBio ? 'red' : 'inherit' }">{{stBioText | translate}}</small>
+        </div>
+
+        <div>
+            <small>{{'Game.DragonGame.Love' | translate}}</small>
+            <small [ngStyle]="{color: isInAfraidBio ? 'red' : 'inherit' }">
+                {{loveText | translate}}
+            </small>
+        </div>
+    </div>
+</ng-template>
