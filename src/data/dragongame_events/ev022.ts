@@ -31,25 +31,25 @@ const ev022 = async (component: DragongameComponent) => {
         appServ.saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
-                // [高興]
+                // [生氣]
                 EmojiAndAdjustLove(12)
                 // じゃぁ、どうして{{my}} を拾ってくれた{{go04}}…？
                 await Content(`Scripts.Ev022.1.1.Reply`)
                 break;
             case 1:
-                // [理解不能]
+                // [高興]
                 EmojiAndAdjustLove(14)
                 // {{you}}……助けてほしい{{go01}}…。 お願い、{{my}}のそばにいてほしい{{go01}}…。
                 await Content(`Scripts.Ev022.1.2.Reply`)
                 break;
             case 2:
-                // [驚訝] + 表情
+                // [生氣]
                 EmojiAndAdjustLove(12)
                 // 怖い{{go01}}……。 {{you}}は{{my}}を助けてくれない{{go03}}？
                 await Content(`Scripts.Ev022.1.3.Reply`)
                 break;
             case 3:
-                // [沮喪] + 表情
+                // [理解不能]
                 EmojiAndAdjustLove(13)
                 // うぅ……そ、そうだよね。
                 await Content(`Scripts.Ev022.1.4.Reply`)

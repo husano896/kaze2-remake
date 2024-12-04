@@ -2,6 +2,7 @@
 @import './css/animations.scss';
 @import './css/native-overrides.scss';
 
+
 img[alt="index_top"] {
     width: 100%
 }
@@ -11,7 +12,7 @@ img[alt="index_top"] {
 }
 
 .large-font {
-    font-size: calc(var(--var-base-font-size) * 1.2);
+    font-size: calc(var(--var-base-font-size) * 1.25);
 }
 
 .center {
@@ -89,8 +90,9 @@ img[alt="index_top"] {
     }
 }
 .dark-bg {
-    background: #333333
+    background: var(--var-dark-bg);
 }
+
 .transparant-dark-bg {
     background: rgba(0, 0, 0, 0.5);
 }

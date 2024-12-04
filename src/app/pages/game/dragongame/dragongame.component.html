@@ -18,10 +18,13 @@
                 <button (click)="settingsOn = !settingsOn" [disabled]="!isAbleToLeave"><i
                         class="fa-solid fa-gears"></i></button>
                 <!-- 圖書館-->
-                <button routerLink="/game/library" [replaceUrl]="true" [disabled]="!isAbleToLeave"><i
-                        class="fa-solid fa-book"></i></button>
+                <button routerLink="/game/library" [replaceUrl]="true" [disabled]="!isAbleToLeave"
+                    (pointerenter)="doc='Game.DragonGame.HoverDoc13'" (pointerleave)="doc=''">
+                    <i class="fa-solid fa-book"></i>
+                </button>
                 <!-- 存檔 -->
-                <button (click)="Save()" [disabled]="!isAbleToLeave"><i class="fa-solid fa-floppy-disk"></i></button>
+                <button (click)="Save()" [disabled]="!isAbleToLeave" (pointerenter)="doc='Game.DragonGame.HoverDoc14'"
+                    (pointerleave)="doc=''"><i class="fa-solid fa-floppy-disk"></i></button>
             </div>
         </div>
         <div id="Ray3" class="flex-row full-width" style="z-index: 1; justify-content: space-between;">
@@ -43,43 +46,45 @@
                             <td>{{'Game.DragonGame.Gender' | translate}}</td>
                             <td>{{stGender}}</td>
                         </tr>
-                        <tr class="min-480">
+                        <tr (pointerenter)="doc='Game.DragonGame.HoverDoc15'" (pointerleave)="doc=''">
                             <td>Lv</td>
                             <td>{{stLv}}</td>
                         </tr>
-                        <tr>
+                        <tr (pointerenter)="doc='Game.DragonGame.HoverDoc16'" (pointerleave)="doc=''">
                             <td>{{'Game.DragonGame.Maxhp' | translate}}</td>
                             <td [ngStyle]="{color: stMaxhp / 8 > stHp ? 'red' : 'inherit' }">{{stHp}} / {{stMaxhp}}</td>
                         </tr>
-                        <tr class="min-480">
+                        <tr class="min-480" (pointerenter)="doc='Game.DragonGame.HoverDoc17'" (pointerleave)="doc=''">
                             <td>{{'Game.DragonGame.At' | translate}}</td>
                             <td>{{stAt}}</td>
                         </tr>
-                        <tr class="min-480">
+                        <tr class="min-480" (pointerenter)="doc='Game.DragonGame.HoverDoc18'" (pointerleave)="doc=''">
                             <td>{{'Game.DragonGame.Df' | translate}}</td>
                             <td>{{stDf}}</td>
                         </tr>
-                        <tr class="min-480">
+                        <tr class="min-480" (pointerenter)="doc='Game.DragonGame.HoverDoc19'" (pointerleave)="doc=''">
                             <td>{{'Game.DragonGame.Spd' | translate}}</td>
                             <td>{{stSpeed}}</td>
                         </tr>
-                        <tr class="min-480">
+                        <tr class="min-480" (pointerenter)="doc='Game.DragonGame.HoverDoc20'" (pointerleave)="doc=''">
                             <td>{{'Game.DragonGame.Exp' | translate}}</td>
                             <td>{{stExp}}</td>
                         </tr>
-                        <tr>
+                        <tr (pointerenter)="doc= isInAfraidBio ? 'Game.DragonGame.HoverDoc12' :'Game.DragonGame.HoverDoc22'"
+                            (pointerleave)="doc=''">
                             <td>{{'Game.DragonGame.Love' | translate}}</td>
                             <td [ngStyle]="{color: isInAfraidBio ? 'red' : 'inherit' }">{{loveText | translate}}</td>
                         </tr>
-                        <tr class="min-480">
+                        <tr class="min-480" (pointerenter)="doc='Game.DragonGame.HoverDoc23'" (pointerleave)="doc=''">
                             <td>{{'Game.DragonGame.Element' | translate}}</td>
                             <td>{{stElement | translate}}</td>
                         </tr>
-                        <tr>
+                        <tr (pointerenter)="doc='Game.DragonGame.HoverDoc24'" (pointerleave)="doc=''">
                             <td>{{'Game.DragonGame.Bio' | translate}}</td>
                             <td [ngStyle]="{color: stBio ? 'red' : 'inherit' }">{{stBioText | translate}}</td>
                         </tr>
-                        <tr *ngIf="numVisits >= 15">
+                        <tr *ngIf="numVisits >= 15" (pointerenter)="doc='Game.DragonGame.HoverDoc25'"
+                            (pointerleave)="doc=''">
                             <td>{{'Game.DragonGame.Progress' | translate}}</td>
                             <td>{{numVisits}} / 100</td>
                         </tr>
@@ -121,7 +126,7 @@
                     [src]="faceSrc || '/assets/imgs/char00.gif'" />
             </div>
             <!-- 對話-->
-            <div id="dialog" #dialog class="boxed-content full-height padding" (click)="FastForward()"
+            <div id="dialog" #dialog class="boxed-content full-height padding large-font dark-bg" (click)="FastForward()"
                 (keypress)="FastForward()">
                 {{content}}
             </div>
@@ -133,43 +138,80 @@
     <!-- 進行度100時不顯示-->
     <div id="Ray8" class="transparant-dark-bg full-width padding-large">
         <div class="flex-row" style="text-align: center;justify-content: space-around;">
-            <small>Money: {{money}} {{'Noun.ShellMoney' | translate}}</small>
-            <small>Action:
+            <small (pointerenter)="doc='Game.DragonGame.HoverDoc26'" (pointerleave)="doc=''">Money: {{money}}
+                {{'Noun.ShellMoney' | translate}}</small>
+            <small (pointerenter)="doc='Game.DragonGame.HoverDoc27'" (pointerleave)="doc=''">Action:
                 <span [ngStyle]="{color: turn > 0 ? 'inherit' : 'red'}">
                     {{turn}} {{'Noun.Turn' | translate}}
                 </span>
             </small>
-            <small>Next Lv: {{stNextLv}} Exp</small>
+            <small (pointerenter)="doc='Game.DragonGame.HoverDoc28'" (pointerleave)="doc=''">Next Lv: {{stNextLv}}
+                Exp</small>
         </div>
         <div class="gap flex-row" *ngIf="numVisits < 100">
-            <button [replaceUrl]="true" routerLink="../inventory" [disabled]="!turn || !isAbleToLeave">
+            <button [replaceUrl]="true" routerLink="../inventory" [disabled]="!isAbleToLeave"
+                (pointerenter)="doc='Game.DragonGame.HoverDoc09'" (pointerleave)="doc=''">
                 <i class="fa-solid fa-boxes-stacked"></i>
             </button>
             <button [replaceUrl]="true" routerLink="../shop" [disabled]="!turn || !isAbleToLeave"
-                [ngClass]="{ready: readyToEat}">
+                [ngClass]="{ready: readyToEat}" (pointerenter)="doc='Game.DragonGame.HoverDoc02'"
+                (pointerleave)="doc=''">
                 <i class="fa-solid fa-shop"></i>
             </button>
-            <button (click)="GoToEarn()" [disabled]="!turn || !isAbleToLeave">
+            <button (click)="GoToEarn()" [disabled]="!turn || !isAbleToLeave"
+                (pointerenter)="doc='Game.DragonGame.HoverDoc03'" (pointerleave)="doc=''">
                 <i class="fa-solid fa-sack-dollar"></i>
             </button>
-            <button (click)="GoToBattle()" [disabled]="!turn || !isAbleToLeave">
+            @if (numVisits >= 3) {
+            <button (click)="GoToBattle()" [disabled]="!turn || !isAbleToLeave"
+                (pointerenter)="doc='Game.DragonGame.HoverDoc11'" (pointerleave)="doc=''">
                 <i class="fa-solid fa-burst"></i>
             </button>
-            <button (click)="GoToMap()" [disabled]="!turn || !isAbleToLeave">
+            }
+            @if (numVisits >= 7) {
+            <button (click)="GoToMap()" [disabled]="!isAbleToLeave" (pointerenter)="doc='Game.DragonGame.HoverDoc10'"
+                (pointerleave)="doc=''">
                 <i class="fa-solid fa-map"></i>
             </button>
+            }
         </div>
     </div>
 
     <!-- 指向按鈕時的說明文字 -->
-    <div id="doc">
-
+    <div id="doc" [ngClass]="{active: doc.length > 0}">
+        {{doc | translate}}
     </div>
     <!-- 選擇賺錢方式Dialog -->
-    <div id="RayEX_SelectEarn transparant-dark-bg">
-
+    @if (openDialog === 'earn')
+    {
+    <div id="RayEX_SelectEarn" class="transparant-dark-bg" (click)="openDialog=undefined;$event.stopPropagation()"
+        (keyPress)="openDialog=undefined;">
+        <div class="boxed-content game-bg flex-column padding-large"
+            style="max-width: 100%; max-height: 100%;min-width: 30%; margin: auto;">
+            <br/>
+            <button class="large-font" [routerLink]="'/game/earn01'" replaceUrl="true">資金調度1</button>
+            <hr />
+            <button type="button" (click)="openDialog=undefined;">
+                {{"Actions.Back" | translate | separateText}}</button>
+            <br />
+        </div>
     </div>
-
+    }
+    @if (openDialog === 'battle') {
+    <div id="RayEX_Battle" class="transparant-dark-bg" (click)="openDialog=undefined;"
+        (keyPress)="openDialog=undefined;$event.stopPropagation()">
+        <div class="boxed-content game-bg flex-column padding-large "
+            style="max-width: 100%; max-height: 100%; min-width: 30%; margin: auto;">
+            <br />
+        
+            <button class="large-font" [routerLink]="'/game/battle_list'" replaceUrl="true">Battle</button>
+            <hr />
+            <button type="button" (click)="openDialog=undefined;">
+                {{"Actions.Back" | translate | separateText}}</button>
+            <br />
+        </div>
+    </div>
+    }
     @if (debug) {
     <app-save-data-editor></app-save-data-editor>
     }

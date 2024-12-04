@@ -1,13 +1,11 @@
 import { AppService } from '@/app/app.service';
-import { BioFlag } from '@/data/BioFlag';
-import { EventFlag } from '@/data/EventFlag';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { CommonModule } from '@angular/common';
 import { AfterContentChecked, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import _ from 'lodash-es';
+import * as _ from 'lodash-es';
 
 @Component({
   selector: 'app-shop',
@@ -37,6 +35,7 @@ export class ShopComponent implements OnInit, AfterContentChecked {
   selectedFood: number = -1;
 
   moneyWhenEntered: number = 0;
+  disabled?: boolean;
   constructor(private router: Router, private appServ: AppService) {
 
   }
@@ -51,17 +50,17 @@ export class ShopComponent implements OnInit, AfterContentChecked {
       return;
     }
     this.appServ.saveData.turn--;
+    this.appServ.saveData.food -= this.totalCost;
+
     if (this.tab === 'item') {
       this.selectedItems.forEach((_, index) => {
         const itemId = this.items[index].id;
         this.appServ.saveData.item[itemId]++;
       })
-      this.appServ.saveData.food -= this.totalCost;
       this.selectedItems = [];
       return;
     }
     else if (this.tab === 'food') {
-      console.log(this.selectedFood)
       let varbuff: string[] = [];
       var varMaxHpFlg = 0;
       var varHpFlg = 0;
@@ -157,40 +156,20 @@ export class ShopComponent implements OnInit, AfterContentChecked {
         this.appServ.saveData.love += varLoveFlg;
         varbuff.push("愛情度:" + this.PS_Mark(varLoveFlg));
       }
-      // DataSave();
+      this.disabled = true;
       await this.appServ.Confirm(`${this.appServ.saveData.dragonName}は、餌をおいしそうにほおばった。`, varbuff.join('\r\n'))
       this.router.navigate(['/game/dragongame'], { replaceUrl: true })
-      this.appServ.saveData.turn--;
-      this.appServ.saveData.food -= this.foodsCosts[this.selectedFood];
+
     }
   }
 
   onTabClick(tab: string) {
     // 若為進食時須確認是否可進行
     if (tab === 'food') {
-      if ((this.saveData.numVisits == 96) || (this.saveData.numVisits >= 98)) {
-        this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Warning'), this.appServ.t('Scripts.Confirm.Action.Fatal'))
-        return;
-      }
-      if (this.saveData.bio & BioFlag.眠酔) {
-        this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Warning'), this.appServ.t('Scripts.Confirm.Action.Food.64'))
-        return;
-      }
-      if (this.saveData.bio & BioFlag.発作) {
-        this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Warning'), this.appServ.t('Scripts.Confirm.Action.Food.128'))
-        return;
-      }
-      if (this.saveData.bio & BioFlag.衰弱) {
-        this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Warning'), this.appServ.t('Scripts.Confirm.Action.Food.1'))
-        return;
-      }
-      if (this.saveData.turn <= 0) {
-        this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Caution'), this.appServ.t('Scripts.Confirm.Action.NoTurn'))
-        return;
-      }
-      if ((this.saveData.overLv > this.saveData.numVisits) && !(this.saveData.ivent & EventFlag.周目通關)) { // 2週目の時は問題なし
-        this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Warning'), this.appServ.t('Scripts.Confirm.Action.Food.OverLv'))
-        return;
+      const eatFailMessage = this.saveData.eatFailMessage;
+      if (eatFailMessage) {
+        this.appServ.Confirm(this.appServ.t(eatFailMessage.title), this.appServ.t(eatFailMessage.content));
+        return
       }
     }
     this.tab = tab as any;
@@ -242,7 +221,7 @@ export class ShopComponent implements OnInit, AfterContentChecked {
   }
 
   get readyToEat() {
-    return this.appServ.saveData?.readyToEat;
+    return !this.appServ.saveData?.eatFailMessage;
   }
 
   get saveData() {

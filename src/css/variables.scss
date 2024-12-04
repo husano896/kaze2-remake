@@ -2,9 +2,20 @@ body {
     --var-window-classic-bg: #443333;
     --var-window-classic-border-radius: 16px;
     --var-window-classic-border-color: #7B644D;
-    --var-button-classic-bg: rgba(127, 127, 127, 0.5);
+    --var-button-classic-bg: #404040;
     --var-button-classic-border-color: gray;
+    --var-dark-bg: #333333;
     --var-base-font-size: min(2.5dvh, 4.5dvw);
     background: black;
     font-size: var(--var-base-font-size);
+}
+
+body[theme="new"] {
+    --var-window-classic-bg: linear-gradient(180deg, #443333, #221919);
+    --var-button-classic-bg: linear-gradient(180deg, rgba(105, 105, 105, 0.75), rgba(63, 63, 63, 1));
+    --var-dark-bg: linear-gradient(180deg, #444444, #222222);;
+
+    button {
+        border-radius: 4px;
+    }
 }

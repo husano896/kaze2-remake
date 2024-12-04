@@ -39,10 +39,7 @@ div#Ray2>img {
 img[src=""] {
     visibility: hidden;
 }
-// 表情
-div#Ray6 {
 
-}
 img#dragoncg {
     height: 100%;
     margin: auto;
@@ -89,4 +86,12 @@ span#continue-icon.waiting {
 
 a#skip.disabled {
     visibility: hidden;
+}
+
+@media screen and (max-width:480px) {
+
+    div#Ray1 {
+        position: absolute;
+    }
+
 }

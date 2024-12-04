@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { BattleService } from './battle/battle.service';
+import { BattleListService } from './battle-list/battle-list.service';
 
 const routes: Routes = [
   {
@@ -33,8 +35,23 @@ const routes: Routes = [
     loadComponent: () => import('./ending/ending.component').then(m => m.EndingComponent)
   },
   {
+    path: 'map',
+    loadComponent: () => import('./map/map.component').then(m => m.MapComponent)
+  },
+  {
     path: 'battle',
-    loadComponent: () => import('./battle/battle.component').then(m => m.BattleComponent)
+    loadComponent: () => import('./battle/battle.component').then(m => m.BattleComponent),
+    resolve: {
+      data: BattleService
+    }
+  },
+  {
+    path: 'battle_list',
+    loadComponent: () => import('./battle-list/battle-list.component').then(m => m.BattleListComponent),
+    resolve: {
+      data: BattleListService
+    },
+
   },
   {
     path: 'debug_events',
@@ -43,6 +60,10 @@ const routes: Routes = [
   {
     path: 'debug_audio',
     loadComponent: () => import('./debug-audio/debug-audio.component').then(m => m.DebugAudioComponent)
+  },
+  {
+    path: 'debug_battle',
+    loadComponent: () => import('./debug-battle/debug-battle.component').then(m => m.DebugBattleComponent)
   },
   {
     path: 'shop',

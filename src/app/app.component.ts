@@ -12,10 +12,10 @@ import { LocalStorageKey } from '@/entities/LocalStorageKey';
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('bgm') private bgm!: ElementRef<HTMLAudioElement>;
-  @ViewChild('se') private se!: ElementRef<HTMLAudioElement>;
-  @ViewChild('messageSE') private messageSE!: ElementRef<HTMLAudioElement>;
-  @ViewChild('ambient') private ambient!: ElementRef<HTMLAudioElement>;
+  @ViewChild('bgm') private readonly bgm!: ElementRef<HTMLAudioElement>;
+  @ViewChild('se') private readonly se!: ElementRef<HTMLAudioElement>;
+  @ViewChild('messageSE') private readonly messageSE!: ElementRef<HTMLAudioElement>;
+  @ViewChild('ambient') private readonly ambient!: ElementRef<HTMLAudioElement>;
 
   //#region 創龍曆
   /** 創龍曆年數字 */
@@ -26,14 +26,17 @@ export class AppComponent implements OnInit, AfterViewInit {
   day: number = 0;
 
   //#endregion
-  private subscriptions: Array<Subscription> = []
+  private readonly subscriptions: Array<Subscription> = []
 
-  constructor(private appServ: AppService, private router: Router, private translateServ: TranslateService) {
+  constructor(private readonly appServ: AppService, readonly router: Router, private readonly translateServ: TranslateService) {
 
     // 路由事件訂閱
     this.subscriptions.push(router.events.subscribe(e => {
       if (e instanceof NavigationStart) {
         this.loading = true;
+        if (this.theme) {
+          document.body.setAttribute('theme', this.theme);
+        }
       }
 
       if (e instanceof NavigationEnd || e instanceof NavigationCancel || e instanceof NavigationError) {
@@ -51,7 +54,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             ev.preventDefault();
             return '是否離開？'
           }
-          return;
+          return 0;
         }
       }
     }));
@@ -73,11 +76,11 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (navigatorLang.includes('zh')) {
         this.translateServ.use('zh-hant')
       } else {
-        this.translateServ.setDefaultLang('ja');
+        this.translateServ.use('ja');
       }
-      localStorage.setItem(LocalStorageKey.language, this.translateServ.currentLang);
     }
 
+    localStorage.setItem(LocalStorageKey.language, this.translateServ.currentLang);
     // 設定完後儲存到LocalStorage供下次進入網站使用
     // Anti debugger
     /*
@@ -92,8 +95,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     */
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   ngAfterViewInit(): void {
     // 初始化與綁定聲音元素
@@ -244,5 +246,34 @@ export class AppComponent implements OnInit, AfterViewInit {
       return;
     }
     $event.preventDefault();
+  }
+
+  get theme() {
+    return this.appServ.theme;
+  }
+
+  set theme(v: string) {
+    this.appServ.theme = v;
+  }
+
+  /** 全景效果設定 */
+  get RadialColor() {
+    return this.appServ.RadialColor;
+  }
+
+  get RadialRepeat() {
+    return this.appServ.RadialRepeat;
+  }
+  get RadialInterval() {
+    return this.appServ.RadialInterval;
+  }
+  set RadialColor(v) {
+    this.appServ.RadialColor = v;
+  }
+  set RadialRepeat(v) {
+    this.appServ.RadialRepeat = v;
+  }
+  set RadialInterval(v) {
+    this.appServ.RadialInterval = v;
   }
 }

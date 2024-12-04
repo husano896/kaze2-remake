@@ -19,12 +19,12 @@ const ev013 = async (component: DragongameComponent) => {
 
             [発作の影響でやせたため、生命 -5 体格 -5 下がってしまった]
              */
-            appServ.saveData.Maxhp -= 5;
-            appServ.saveData.at -= 5;
+            appServ.saveData.Maxhp = Math.max(1, appServ.saveData.Maxhp - 5);
+            appServ.saveData.at = Math.max(1, appServ.saveData.at - 5);
             // 避免沒移除發作，這邊也做一次
             appServ.saveData.bio ^= BioFlag.発作
             appServ.saveData.hp = Math.min(appServ.saveData.hp, appServ.saveData.Maxhp);
-            
+
             await Content(`Scripts.Ev013.1`)
             Face('char04a');
         }

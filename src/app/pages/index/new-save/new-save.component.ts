@@ -2,7 +2,7 @@ import { AppService } from '@/app/app.service';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { AfterViewInit, Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -20,17 +20,18 @@ export class NewSaveComponent implements AfterViewInit {
     gender: new FormControl('', [Validators.required]),
   })
 
-  constructor (private appServ: AppService) {
+  constructor(private appServ: AppService, private router: Router) {
 
   }
   ngAfterViewInit(): void {
-      console.log(this.registerForm)
+    console.log(this.registerForm)
   }
 
   async onSubmit($event: any) {
-    this.appServ.loading = true;
+    // this.appServ.loading = true;
     try {
-      this.appServ.Confirm('註冊', '功能還沒寫好，晚點再來吧。')
+      await this.appServ.Confirm('註冊', '功能尚未完成，以本機模式進行。')
+      this.router.navigate(['/welcome'])
     }
     finally {
       this.appServ.loading = false;

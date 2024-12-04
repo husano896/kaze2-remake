@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 @Component({
   selector: 'app-save-data-editor',

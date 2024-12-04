@@ -2,8 +2,8 @@
 
     <!-- 分頁-->
     <div id="RayTab" class="flex-row gap-large">
-        <button [disabled]="disabled" (click)="tab = 'item';selectedItems = [];selectedSkin=-1;">所持物</button>
-        <button [disabled]="disabled" (click)="tab = 'skin';selectedItems = [];selectedSkin=-1;">姿變更</button>
+        <button [disabled]="disabled" (click)="onTabClick('item')">所持物</button>
+        <button [disabled]="disabled" (click)="onTabClick('skin')">姿變更</button>
     </div>
 
     <div class="flex-row full-height full-width" style="overflow: auto; gap: 8px;">
@@ -15,12 +15,12 @@
                 <div class="flex-row full-width full-height gap" style="overflow: hidden;">
                     <div class="padding-large gap full-width full-height game-bg boxed-content" style="overflow: auto;">
                         @if (isNoItem && !debug) {
-                        <span>沒有道具。</span>
+                        <div class="boxed-content padding-large full-width">沒有道具。</div>
                         }
                         <ng-container *ngFor="let i of items; let index = index">
                             @if ((i > 0 || debug) && index > 0) {
                             <label class="flex-row boxed-content padding gap-large game-bg"
-                                [ngClass]="{notOwned: i <= 0}">
+                                [ngClass]="{notOwned: i <= 0, selected: selectedItems[index]}">
                                 <input type="checkbox" [(ngModel)]="selectedItems[index]"
                                     (ngModelChange)="onSelectedItemChange($event)" />
                                 <div class="flex-column">
@@ -44,10 +44,10 @@
                         <ng-container *ngFor="let dragonChip of skins; let index = index">
 
                             <label class="flex-row boxed-content padding gap-large game-bg" style="align-items:center"
-                                [ngClass]="{disabled:!getOwnDragonChip(dragonChip) }">
+                                [ngClass]="{disabled:!getOwnDragonChip(dragonChip), selected: selectedSkin === dragonChip }">
                                 @if (debug || getOwnDragonChip(dragonChip)) {
                                 @if (dragonChip2 === dragonChip) {
-                                    <!-- 已正在套用中的外觀-->
+                                <!-- 已正在套用中的外觀-->
                                 <i class="fa-solid fa-circle-check"></i>
                                 }
                                 @else {
@@ -79,7 +79,12 @@
     <div id="RayActions" class="flex-row gap-large" style="justify-content: space-between;">
         <button routerLink="../dragongame" [disabled]="disabled">{{"Actions.Back" | translate | separateText}}</button>
         <button [disabled]="!selectedItemsCount || turn <= 0 || disabled" (click)="useItem()">
+            @if (turn > 0) {
             {{tab === 'item' ? '使用' : '變更'}}
+            }
+            @else {
+            <span>{{'Scripts.Confirm.Action.NoTurn' | translate}}</span>
+            }
         </button>
     </div>
 </div>

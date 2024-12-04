@@ -11,7 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './debug-audio.component.scss'
 })
 export class DebugAudioComponent implements OnDestroy {
-  constructor(private router: Router, private appServ: AppService) {
+  constructor( private readonly appServ: AppService) {
 
   }
   playBGM(bgm?: string) {

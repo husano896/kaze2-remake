@@ -20,6 +20,23 @@ import ev019 from "./ev019";
 import ev020 from "./ev020";
 import ev021 from "./ev021";
 import ev022 from "./ev022";
+import ev023 from "./ev023";
+import ev024 from "./ev024";
+import ev025 from "./ev025";
+import ev026 from "./ev026";
+import ev027 from "./ev027";
+import ev028 from "./ev028";
+import ev029 from "./ev029";
+import ev030 from "./ev030";
+import ev031 from "./ev031";
+import ev032 from "./ev032";
+import ev033 from "./ev033";
+import ev034 from "./ev034";
+import ev035 from "./ev035";
+import ev036 from "./ev036";
+import ev037 from "./ev037";
+import ev038 from "./ev038";
+import ev039 from "./ev039";
 
 import ev097 from "./ev097";
 import ev098 from "./ev098";
@@ -65,8 +82,42 @@ const DragonGameEvents: { [eventName: string]: Function } = {
     20: ev020,
     // 21
     21: ev021,
-    /** 22: 孤竜の不安 */
+    /** 孤竜の不安 */
     22: ev022,
+    // 23
+    23: ev023,
+    /** 発作のその後 */
+    24: ev024,
+    /** 昔話 */
+    25: ev025,
+    // 26
+    26: ev026,
+    /** 発作薬の消失(分歧) */
+    27: ev027,
+    // 28
+    28: ev028,
+    /** 手がかり */
+    29: ev029,
+    /** 竜死病速報 */
+    30: ev030,
+    /** 僅かな希望 */
+    31: ev031,
+    /**「仲直り」*/
+    32: ev032,
+    /**「夢」*/
+    33: ev033,
+    /**「翠の星」*/
+    34: ev034,
+    /**「いたずら好き？」*/
+    35: ev035,
+    /**「翠の星の伝説」*/
+    36: ev036,
+    /**「学校って？」*/
+    37: ev037,
+    /**「奇跡と神秘」*/
+    38: ev038,
+    /**「学校へ行こう？」*/
+    39: ev039,
     // 52: TODO: 發作發生
     // 55: TODO: 發作自然治癒
     /**「わずかな灯火」*/

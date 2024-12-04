@@ -2,8 +2,8 @@ import { EventFlag } from "@/data/EventFlag";
 import { LocalStorageKey } from "./LocalStorageKey";
 import { ItemID } from "@/data/ItemID";
 import { BioFlag } from "@/data/BioFlag";
-
-const varItmCod = 65;		// アイテムコード
+import { IBattleData } from "@/data/battle";
+import { DragonChipFlag } from "@/data/DragonChipFlag";
 
 const ITEM_SIZE = 35;
 
@@ -233,10 +233,12 @@ const D_go4 = new Array(
     "ミュ", "のぉ", "のぉ", "のかな", "のかな", "",
     "の", "の", "デシ", "のだ", "んだ", "");
 
-export class SaveData {
-    /** 到訪次數 */
+export class SaveData implements IBattleData {
+
+    /** 孤龍名字 */
     public dragonName: string = '孤竜';
     public yourName: string = 'アイ．フライ';
+    /** 到訪次數 */
     public numVisits: number = -1;
     public love: number = 0;
     public turn: number = 24;
@@ -276,7 +278,6 @@ export class SaveData {
 
     /** 新存檔的初始化, 來自於new.html */
     public Reset() {
-
         this.Maxhp = 10;
         this.hp = 10;
         this.df = 1;
@@ -397,22 +398,14 @@ export class SaveData {
     PS_RyuCG() {
         let fil = 'nomal01';
 
-        // レベル計算
-        const ans1 = (this.Maxhp + this.at + this.df + this.speed) - 10 - this.lvOffset;
-
-
-        /*
-        this.nowLv = Math.floor(ans1 / 12) + 1;
-        this.varOverLv = Math.floor(ans1 / 16.8) + 1;	// レベル上限
-        this.varNextLv = (Math.floor(ans1 / 12) + 1) * 12 - ans1;
-*/
-
         const ans = Math.floor((this.element1 + 5) / 10);
         const ans2 = Math.floor((this.element2 + 5) / 10);
         const ans3 = Math.abs(5 - ans);
         const ans4 = Math.abs(5 - ans2);
         console.log('nowLv', this.nowLv, 'ans', ans, 'ans2', ans2, 'ans3', ans3, 'ans4', ans4)
         this.PS_Set(0);
+
+
         if ((this.nowLv >= 10) && (ans3 > ans4) && (ans <= 4)) {
             fil = "fir01";
             this.PS_Set(1);
@@ -640,7 +633,7 @@ export class SaveData {
             fil = "best19";
             this.PS_Set(0);
         }
-        if (this.DragonChip2 & 1048576) {
+        if (this.DragonChip2 & DragonChipFlag.べトリブニス) {
             fil = "best20";
             this.PS_Set(4);
         }
@@ -796,23 +789,56 @@ export class SaveData {
     /**
      * 是否可以進食
      */
-    get readyToEat() {
+    get eatFailMessage() {
         if ((this.numVisits == 96) || (this.numVisits >= 98)) {
-            return false;
-        }
+            return { title: ('Scripts.Confirm.Title.Warning'), content: ('Scripts.Confirm.Action.Fatal') }
 
-        if (this.bio & BioFlag.衰弱 || this.bio & BioFlag.眠酔 || this.bio & BioFlag.発作) {
-            return false;
         }
+        if (this.bio & BioFlag.眠酔) {
+            return { title: ('Scripts.Confirm.Title.Warning'), content: ('Scripts.Confirm.Action.Food.64') }
 
+        }
+        if (this.bio & BioFlag.発作) {
+            return { title: ('Scripts.Confirm.Title.Warning'), content: ('Scripts.Confirm.Action.Food.128') }
+
+        }
+        if (this.bio & BioFlag.衰弱) {
+            return { title: ('Scripts.Confirm.Title.Warning'), content: ('Scripts.Confirm.Action.Food.1') }
+
+        }
         if (this.turn <= 0) {
-            return false;
-        }
+            return { title: ('Scripts.Confirm.Title.Caution'), content: ('Scripts.Confirm.Action.NoTurn') }
 
-        return this.overLv <= this.numVisits || this.ivent & EventFlag.周目通關
+        }
+        if ((this.overLv > this.numVisits) && !(this.ivent & EventFlag.周目通關)) { // 2週目の時は問題なし
+            return { title: ('Scripts.Confirm.Title.Warning'), content: ('Scripts.Confirm.Action.Food.OverLv') }
+
+        }
+        return;
     }
     //#endregion
 
+    // 相容lv用
+    get lv() {
+        return this.lvOffset;
+    }
+
+    set lv(l: number) {
+        this.lvOffset = l
+    }
+
+    // 僅戰鬥時使用：
+    mp: number = 0;
+    Maxmp: number = 0;
+    PS_BattleInit() {
+        this.Maxmp = Math.abs(Math.round(this.speed / 2));
+        this.mp = this.Maxmp;
+
+    }
+
+    get battlePower() {
+        return this.Maxhp + this.at + this.df + this.speed;
+    }
 }
 
 /*

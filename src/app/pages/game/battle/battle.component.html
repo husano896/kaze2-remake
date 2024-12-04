@@ -1,23 +1,143 @@
-<div class="container flex-column full-height gap">
-    <!-- 龍與背景-->
-    <div id="bg" #bg style="background-image: url(/assets/imgs/bg_home.jpg);">
-        <img #dragoncg id="dragoncg" alt="dragon-cg" src="/assets/imgs/dragon/nomal01.gif" style="opacity: 0;" />
-        <div id="Ray2">
-            <img alt="face" [src]="faceSrc || ''" />
+@if (enemyData) {
+<div class="container flex-column full-height gap" style="contain: content;"
+    (pointerdown)="skipWait=(!battleResult)&& (!!playerAction); $event.stopPropagation();"
+    (pointerup)="skipWait=false; $event.stopPropagation();">
+    <div id="RayEX1" class="flex-row" style="position: absolute; left: 16px;top:16px;z-index: 2;">
+        <div class="gap flex-row">
+            @if (IsAbleToEscape) {
+            <!-- 逃跑-->
+            <button id="escape" (click)="onEscapeClick()" [disabled]="battleResult">
+                <i class="fa-solid fa-person-running" style="transform: rotateY(180deg);"></i>
+            </button>
+            }
         </div>
+    </div>
+    <!-- 龍與背景-->
+    <div id="bg" #bg [ngStyle]="{backgroundImage: 'url(/assets/imgs/bg/' + battleBG +  '.jpg)' }">
+        <img #dragoncg id="dragoncg" alt="dragon-cg" [src]="enemyData.cgName"
+            [ngClass]="{'damaged': damageToEnemy > 0, enter:!enterAnim}"
+            [ngStyle]="{'--var-damage-percent' : damageToEnemy / enemyData.Maxhp}" />
+        @if (damageToEnemy) {
+        <div class="damage-text" [ngStyle]="{color: damageToEnemy >= 0 ? '#D50000' : '#66FF6A' }">
+            <span style="margin: auto; font-size: min(20vw, 20vh);">{{abs(damageToEnemy || 999)}}</span>
+        </div>
+        }
     </div>
 
-    <!-- 臉 -->
-    <!-- 對話框 -->
-    <div class="flex-column full-width padding-large"
-        style="height: 100%; contain: content; overflow: auto;padding-bottom: 16px;">
-        <div id="dialog" #dialog class="boxed-content game-bg full-width padding-large full-height" style="opacity: 0;"
-            (click)="FastForward()" (keyPress)="FastForward()">
-            {{content}}
+    <!-- 狀態-->
+    <div id="Ray1">
+        <!-- 對方狀態-->
+        <div class="transparant-dark-bg boxed-content padding-large flex-column">
+            <span style="text-align: left;">{{enemyData.dragonName}}</span>
+            <div class="flex-row gap" style="align-items: center; justify-content: space-between;">
+                <span>HP</span>
+                <div class="flex-column">
+                    <div class="flex-row gap" style="justify-content: space-evenly;">
+                        <span>{{enemyData.hp}}</span>
+                        <span>/</span>
+                        <span>{{enemyData.Maxhp}}</span>
+                    </div>
+                    <div class="health-bar" [ngStyle]="{'--var-health' : enemyData.hp / enemyData.Maxhp * 100}">
+                        <div class="progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-row gap" style="justify-content: space-between;">
+                <span>MP</span>
+
+                <div class="flex-column">
+                    <div class="flex-row gap" style="justify-content: space-evenly;">
+                        <span>{{enemyData.mp}}</span>
+                        <span>/</span>
+                        <span>{{enemyData.Maxmp}}</span>
+                    </div>
+                    <div class="health-bar" [ngStyle]="{'--var-health' : enemyData.mp / enemyData.Maxmp * 100}">
+                        <div class="progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+            <span>状態 {{enemyBuffText}}</span>
         </div>
-        <!-- 提示玩家該繼續點擊的圖示-->
-        <span id="continue-icon" class="large-font"
-            [ngClass]="{waiting:isWaiting() && dialog.innerText.length > 0 && !contentCompleted}">▼</span>
-        <a id="skip" (click)="onEscapeClick()">Escape</a>
+        <!-- 我方狀態-->
+        <div class="transparant-dark-bg boxed-content padding-large flex-column">
+            <span style="text-align: right;">{{playerData.dragonName}}</span>
+            <div class="flex-row gap" style="align-items: center;justify-content: space-between;">
+                <div class="flex-column">
+                    <div class="flex-row gap" style="justify-content: space-evenly;">
+                        <span>{{playerData.hp}}</span>
+                        <span>/</span>
+                        <span>{{playerData.Maxhp}}</span>
+                    </div>
+                    <div class="health-bar reverse" [ngClass]="{danger: playerData.hp / playerData.Maxhp < 0.2 }"
+                        [ngStyle]="{'--var-health' : playerData.hp / playerData.Maxhp * 100}">
+                        <div class="progress-bar"></div>
+                    </div>
+                </div>
+                <span>HP</span>
+            </div>
+            <div class="flex-row gap" style="justify-content: space-between;">
+
+                <div class="flex-column">
+                    <div class="flex-row gap" style="justify-content: space-evenly;">
+                        <span>{{playerData.mp}}</span>
+                        <span>/</span>
+                        <span>{{playerData.Maxmp}}</span>
+                    </div>
+                    <div class="health-bar reverse"
+                        [ngStyle]="{'--var-health' : playerData.mp / playerData.Maxmp * 100}">
+                        <div class="progress-bar"></div>
+                    </div>
+                </div>
+                <span>MP</span>
+
+            </div>
+            <span>状態 {{playerBuffText}}</span>
+        </div>
+    </div>
+    <!-- 對話框 -->
+    <div id="playerCommand" class="flex-column full-width gap padding"
+        [ngClass]="{damaged: damageToPlayer > 0, enter: !battleID}"
+        [ngStyle]="{'--var-damage-percent' : damageToPlayer / playerData.Maxhp}"
+        style="height: 100%; contain: content; overflow: hidden;box-sizing: border-box;">
+
+        <div id="dialog" #dialog class="boxed-content dark-bg full-width padding-large full-height small-font"
+            (click)="FastForward()" (keyPress)="FastForward()"
+            [ngClass]="{waiting: content.length || pendingTexts.length || playerAction || battleResult || actionQueue.length > 0}">
+            {{content}}
+
+        </div>
+        <!-- 攻擊選項-->
+        <div id="Command"
+            [ngClass]="{waiting: !(content.length || pendingTexts.length || playerAction || battleResult || actionQueue.length > 0)}">
+            <div class="flex-column full-width full-height">
+                <button [ngClass]="{selected: playerAction === 1}" (click)="onActionClick(1);"
+                    [disabled]="playerAction || playerLastAction === 1">通 常 攻 撃</button>
+                <button [ngClass]="{selected: playerAction === 3}" (click)="onActionClick(3)"
+                    [disabled]="playerAction || playerLastAction === 3">特殊攻撃反射</button>
+            </div>
+            <div class="flex-column full-width full-height">
+                <button [ngClass]="{selected: playerAction === 2}" (click)="onActionClick(2)"
+                    [disabled]="playerAction || playerLastAction === 2">特 殊 攻 撃</button>
+                <button [ngClass]="{selected: playerAction === 4}" (click)="onActionClick(4)"
+                    [disabled]="playerAction || playerLastAction === 4">攻 撃 回 避</button>
+            </div>
+        </div>
+        <div class="flex-row" style="justify-content: space-between;">
+            <!-- 提示玩家該繼續點擊的圖示-->
+            <span id="continue-icon" class="large-font"
+                [ngClass]="{waiting:isWaiting() && dialog.innerText.length > 0 && !contentCompleted}">▼</span>
+        </div>
+        @if (battleResult|| playerAction || content.length > 0 || pendingTexts.length >0) {
+        <div class="flex-row full-width padding-large"
+            style="position: absolute; height: 100%; margin: auto; pointer-events: none; opacity: 0.25; top: 0; width: calc(99%);justify-content: center;">
+            <img class="full-height" [src]="playerData.cgName" alt="player-dragoncg" />
+        </div>
+        }
+        @if (damageToPlayer) {
+        <div class="damage-text" [ngStyle]="{color: damageToPlayer > 0 ? '#D50000' : '#66FF6A' }">
+            <span style="margin: auto; font-size: min(20vw, 20vh);">{{abs(damageToPlayer)}}</span>
+        </div>
+        }
     </div>
 </div>
+}

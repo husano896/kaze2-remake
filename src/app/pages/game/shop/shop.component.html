@@ -2,8 +2,8 @@
     <!-- 分頁-->
     <div id="RayTab" class="flex-row gap-large">
         <button (click)="tab = 'item';selectedItems=[];selectedFood=-1;">{{'Game.Shop.Item.Title' | translate}}</button>
-        <button (click)="onTabClick('food')"
-            [ngClass]="{ready: readyToEat}">{{'Game.Shop.Food.Title' | translate}}</button>
+        <button (click)="onTabClick('food')" [ngClass]="{ready: readyToEat}">{{'Game.Shop.Food.Title' |
+            translate}}</button>
     </div>
     <!-- 分頁內容 -->
     <div id="RayTabContent" class="flex-column padding-large full-height full-width gap-large" style="overflow: auto;">
@@ -12,7 +12,8 @@
             <b>{{'Game.Shop.Food.Description' | translate}}</b>
             <div class="padding-large gap full-width full-height game-bg boxed-content" style="overflow: auto;">
                 @for (cost of foodsCosts; track $index; let index = $index) {
-                <label class="flex-row boxed-content padding gap-large game-bg" [ngClass]="{disabled: money < cost}">
+                <label class="flex-row boxed-content padding gap-large game-bg"
+                    [ngClass]="{disabled: money < cost, selected: selectedFood === index}">
                     @if (moneyWhenEntered >= cost || debug) {
                     <input type="radio" [value]="index" [(ngModel)]="selectedFood" [disabled]="money < cost" />
                     <div class="flex-column">
@@ -39,8 +40,9 @@
 
             <div class="padding-large gap full-width full-height game-bg boxed-content" style="overflow: auto;">
                 <label *ngFor="let i of items; let index = index"
-                    class="flex-row boxed-content padding gap-large game-bg"
-                    [ngClass]="{disabled: (!selectedItems[index] && money - totalCost < i.cost) || ownItems[i.id]>= 9}">
+                    class="flex-row boxed-content padding gap-large game-bg" [ngClass]="{disabled: (!selectedItems[index] && money - totalCost < i.cost) || ownItems[i.id]>= 9,
+                        selected: selectedItems[index]
+                    }">
                     @if (moneyWhenEntered >= i.cost || debug) {
                     <input type="checkbox" [(ngModel)]="selectedItems[index]"
                         [disabled]="(!selectedItems[index] && money - totalCost < i.cost) || ownItems[i.id]>= 9" />
@@ -74,8 +76,13 @@
     <!-- 動作-->
     <div id="RayActions" class="flex-row gap-large" style="justify-content: space-between;">
         <button routerLink="../dragongame" replaceUrl="true">{{"Actions.Back" | translate | separateText}}</button>
-        <button [disabled]="totalCost <= 0" (click)="onSubmit()">
+        <button [disabled]="totalCost <= 0 || turn <= 0 || disabled" (click)="onSubmit()">
+            @if (turn > 0) {
             {{(tab === 'food' ? 'Game.Shop.Food.Action' : 'Game.Shop.Item.Action') | translate}}
+            }
+            @else {
+            {{'Scripts.Confirm.Action.NoTurn' | translate}}
+            }
         </button>
     </div>
 </div>

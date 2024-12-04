@@ -20,14 +20,6 @@ div#RayActions button {
     line-height: 0;
 }
 
-label.selected,
-label:active {
-    filter: brightness(1.5);
-}
-label.disabled {
-    filter: brightness(0.5);
-}
-
 div#RayTabContent label.notOwned {
     filter: brightness(0.5);
     overflow: auto;

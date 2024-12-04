@@ -1,8 +1,8 @@
 import { AppService } from "@/app/app.service";
-import { ViewChild, ElementRef, Directive, AfterViewInit, OnDestroy, OnInit, Injector } from "@angular/core";
+import { ViewChild, ElementRef, Directive, AfterViewInit, OnDestroy, OnInit, Injector, ChangeDetectorRef } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { Subject, firstValueFrom } from "rxjs";
-import _ from 'lodash-es';
+import * as _ from 'lodash-es';
 @Directive()
 export class DialogueSystem implements OnDestroy, AfterViewInit {
 
@@ -43,9 +43,17 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
     /** 文本輸入字Interval */
     private textInterval?: any;
 
+    public customSound?: string;
+
+    public skipWait?: boolean;
+    /** 指向時的提示文字 */
+    doc: string = '';
+
+    public changeDetectionRef!: ChangeDetectorRef;
     constructor(injector: Injector) {
         this.appServ = injector.get(AppService);
         this.translateServ = injector.get(TranslateService);
+        this.changeDetectionRef = injector.get(ChangeDetectorRef);
     }
 
     ngOnDestroy(): void {
@@ -57,6 +65,9 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
         this.SetDialogueInterval(interval);
     }
 
+    setDialogueSE = (fileName = 'snd04') => {
+        this.appServ.setMessageSE(false, fileName)
+    }
     //#region 對話系統
     SetDialogueInterval(interval: number = 100) {
         if (this.textInterval) {
@@ -65,7 +76,10 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
         this.textInterval = setInterval(() => {
             if (this.pendingTexts.length > 0) {
                 // 有換行符號時點擊，但是出現選項時繼續讓文章跑完
-                if (this.pendingTexts[0] === '\n' && !this.options?.length && interval > 10) {
+                if (!this.skipWait
+                    && (this.pendingTexts[0] === '\r' || this.pendingTexts[0] === '\n' || this.pendingTexts[0] === '\r\n')
+                    && !this.options?.length
+                    && interval > 10) {
                     this.appServ.setMessageSE();
                     return;
                 }
@@ -73,14 +87,17 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
                 this.appServ.setMessageSE(true);
                 this.content += this.pendingTexts.shift();
                 if (!this.pendingTexts.length) {
-                    this.content += '\n';
-                }
-                if (this.dialog?.nativeElement) {
-                    this.dialog.nativeElement.scrollTo({ top: this.dialog.nativeElement.scrollHeight });
+                    this.content += '\r\n';
                 }
             } else {
                 this.appServ.setMessageSE();
-                this.dialogComplete$.next(0);
+                if (!this.skipWait) {
+                    this.dialogComplete$.next(0);
+                }
+            }
+
+            if (this.dialog?.nativeElement) {
+                this.dialog.nativeElement.scrollTo({ top: this.dialog.nativeElement.scrollHeight });
             }
         }, interval);
     }
@@ -98,11 +115,12 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
         this.faceSrc = c.length > 0 ? `/assets/imgs/${c}.gif` : '';
     }
 
+    /** 角色表情 */
     Emoji = (e: number) => {
         this.emoji = e;
     };
 
-    /** TODO: 設定心情與友好度 */
+    /** 設定心情與友好度 */
     EmojiAndAdjustLove = (e: number) => {
         this.ClearContent();
         const emojiId = e % 10;
@@ -164,12 +182,13 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
         return firstValueFrom(this.dialogComplete$);
     }
 
-    /** TODO: 對話選樣 */
+    /** 對話選擇選項 */
     Options = (options: Array<string>) => {
         this.options = options.map(o => this.translateServ.instant(o, this.appServ.saveData.talkingParam));
         return firstValueFrom(this.optionSelect$);
     }
 
+    /** 選項選擇完畢 */
     onOptionClick = (index: number, value: string) => {
         console.log(this.dialogComplete$);
         this.optionSelect$.next({ index, value });
@@ -177,19 +196,20 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
     }
 
     /** 點擊對話框的快轉 */
-    FastForward = () => {
+    FastForward() {
         this.dialogStart$.next(0);
         if (this.pendingTexts.length == 0) {
             this.dialogComplete$.next(0);
             return;
         }
-        let nextReturnPos = this.pendingTexts.findIndex(t => t === '\n');
+        let nextReturnPos = this.pendingTexts.findIndex(t => t === '\n' || t === '\r' || t === '\r\n');
         // -1時表示整句已經沒有下個換行符號，因此把剩下的文字都顯示
         if (nextReturnPos === -1) {
             nextReturnPos = this.pendingTexts.length
         }
         // 若nextReturnPos == 0時, 表示接下來的字就是換行符號，因此顯示換行符號後即會繼續顯示
         this.content += this.pendingTexts.splice(0, nextReturnPos || 1).join('');
+        this.changeDetectionRef.detectChanges();
         if (this.dialog?.nativeElement) {
             this.dialog.nativeElement.scrollTo({ top: this.dialog.nativeElement.scrollHeight });
         }

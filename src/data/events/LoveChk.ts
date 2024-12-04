@@ -1,5 +1,5 @@
 import { DialogueComponent } from "@/app/pages/game/dialogue/dialogue.component";
-import _ from "lodash";
+import _ from "lodash-es";
 import { BioFlag } from "../BioFlag";
 
 export const LoveChk = async (component: DialogueComponent) => {

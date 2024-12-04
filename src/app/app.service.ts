@@ -1,10 +1,8 @@
-import { BioFlag } from '@/data/BioFlag';
 import { EventFlag } from '@/data/EventFlag';
 import { snd } from '@/data/snd';
 import { LocalStorageKey } from '@/entities/LocalStorageKey';
 import { SaveData } from '@/entities/SaveData';
-import { ElementRef, ErrorHandler, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ElementRef, Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, timer } from 'rxjs';
@@ -64,6 +62,12 @@ export class AppService {
   //
   public error: any[] = [];
 
+  /** 全景效果設定 */
+  public RadialColor: string = '';
+  public RadialRepeat?: boolean;
+  public RadialInterval: string = '3s';
+
+  /**  */
   constructor(
     private readonly translateServ: TranslateService,
     private readonly swUpdate: SwUpdate) {
@@ -94,7 +98,7 @@ export class AppService {
       console.warn('[AppService] 服務嘗試被重複註冊！')
     }
     // 在網站生成階段時給予localhost Debug標籤才有效
-    if (window.location.search.includes('localhost')) {
+    if (window.location.href.includes('localhost')) {
       this.debug = true;
     }
     this.saveData = SaveData.Load();
@@ -145,8 +149,14 @@ export class AppService {
     )
   }
 
-  setMessageSE(v?: boolean) {
+  setMessageSE(v?: boolean, fileName?: string) {
     if (!this.messageSEEl) {
+      return;
+    }
+    if (fileName != undefined) {
+      this.messageSEEl.nativeElement.src = fileName ? `/assets/audio/se/${fileName}.wav` : ''
+    }
+    if (!this.messageSEEl.nativeElement.src.length) {
       return;
     }
     if (v) {
@@ -179,6 +189,12 @@ export class AppService {
     this.confirmResolver?.(res);
   }
 
+  getBGM() {
+    if (!this.bgmEl?.nativeElement) {
+      return '';
+    }
+    return this.bgmEl.nativeElement.src;
+  }
   setBGM = (bgm?: string | null | undefined) => {
     if (!this.bgmEl?.nativeElement) {
       return;
@@ -211,7 +227,6 @@ export class AppService {
     }
 
     if (!se?.length) {
-
       if (!this.seEl.nativeElement.paused) {
         this.seEl?.nativeElement.pause()
       }
@@ -249,7 +264,9 @@ export class AppService {
     }
 
     if (this.ambientEl) {
-      this.ambientEl.nativeElement.src = `/assets/audio/se/${s.f}`
+      if (!this.ambientEl.nativeElement.src.includes(s.f)) {
+        this.ambientEl.nativeElement.src = `/assets/audio/se/${s.f}`
+      }
       this.ambientEl.nativeElement.play();
       this.ambientEl.nativeElement.loop = s.loop;
     }
@@ -266,8 +283,8 @@ export class AppService {
     root.classList.remove(`anim-${animName}`)
   };
 
-  Wait = async (time: number) => {
-    return firstValueFrom(timer(time))
+  Wait = async (timeMs: number) => {
+    return firstValueFrom(timer(timeMs))
   }
 
   t = (key: string, param?: any) => {
@@ -337,12 +354,12 @@ export class AppService {
   }
 
   get textSpeed() {
-    const c = localStorage.getItem(LocalStorageKey.textSpeed) || "3";
+    const c = localStorage.getItem(LocalStorageKey.textSpeed) ?? "1";
     try {
       return Number(c)
     }
     catch (err) {
-      return 3;
+      return 1;
     }
   }
   set textSpeed(v: number) {
@@ -350,4 +367,28 @@ export class AppService {
   }
 
 
+  get theme() {
+    return localStorage.getItem(LocalStorageKey.theme) || '';
+  }
+
+  set theme(v: string) {
+    if (v) {
+      document.body.setAttribute('theme', v);
+    } else {
+      document.body.removeAttribute('theme')
+    }
+    localStorage.setItem(LocalStorageKey.theme, v);
+  }
+
+  radialTimeOut?: any;
+  setRadialEffect = (RadialColor?: string, RadialRepeat?: boolean, RadialIntervalMs?: number) => {
+    if (this.radialTimeOut) {
+      this.RadialColor = '';
+      clearTimeout(this.radialTimeOut)
+    }
+    this.RadialColor = RadialColor || '';
+    this.RadialRepeat = RadialRepeat;
+    this.RadialInterval = `${RadialIntervalMs}ms` || '3s';
+    this.radialTimeOut = setTimeout(() => { this.RadialColor = '' }, RadialIntervalMs);
+  }
 }

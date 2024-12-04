@@ -1,10 +1,10 @@
 <!-- 全站用指示器-->
 <app-loading *ngIf="loading"></app-loading>
 <!-- 聲音-->
-<audio #bgm loop></audio>
+<audio #bgm loop autoplay></audio>
 <audio #se></audio>
 <audio #messageSE loop src="/assets/audio/se/snd04.wav"></audio>
-<audio #ambient loop></audio>
+<audio #ambient loop autoplay></audio>
 <!-- 全局UI -->
 <div class="global-ui">
     <div class="container">
@@ -13,7 +13,7 @@
         <!-- 創龍曆 -->
         <div id='Ray1' *ngIf="Ray1Open">
             @if (isProgressLoveChk) {
-                <img alt="dragon-calendar" src='/assets/imgs/font14.gif'>
+            <img alt="dragon-calendar" src='/assets/imgs/font14.gif'>
             }
             @else {
             <!-- 創龍曆XXXX年 -->
@@ -52,7 +52,7 @@
                     <b>{{confirmTitle}}</b>
                     <hr />
                 </ng-container>
-                <span>{{confirmContent}}</span>
+                <span class="padding-large">{{confirmContent}}</span>
                 <br />
                 <div class="flex-row gap-large" style="justify-content: end; padding-left: var(--var-base-font-size);">
                     <a (click)="ConfirmResult(0);confirmContent = ''" *ngIf="confirmStyle">
@@ -99,6 +99,15 @@
                             <option [value]="2">{{'Settings.TextSpeed.Value.Slowest' | translate}}</option>
                         </select>
                     </div>
+                    <!-- 現代化 -->
+                    <br />
+                    <span>{{'Settings.Theme.Title' | translate}}</span>
+                    <hr />
+                    <select [(ngModel)]="theme">
+                        <option [value]="''">Original Style</option>
+                        <option [value]="'new'">New Style</option>
+                    </select>
+                    <br />
                     <span>{{'Settings.Reinstall.Title' | translate}}</span>
                     <hr />
                     <span>{{'Settings.Reinstall.Description' | translate}}</span>
@@ -113,19 +122,31 @@
                 </div>
             </div>
         </div>
-
         <!-- 錯誤顯示 -->
         <div id="RayEX_ErrorHandler" class="boxed-content transparant-dark-bg" *ngIf="error.length > 0">
-            <div class="boxed-content game-bg flex-column padding-large" style="margin: auto;">
+            <div class="boxed-content game-bg flex-column padding-large "
+                style="max-width: 100%; max-height: 100%; margin: auto;">
                 <span>ERROR</span>
                 <hr />
-                <small style="white-space: break-spaces;">
-                    {{error | json}}
-                </small>
+                <div class="flex-column " style="overflow:auto">
+                    @for (err of error; track $index) {
+                    <span>{{err.message}}</span>
+                    <br />
+                    <small style="white-space: break-spaces;">
+                        {{err.stack}}
+                    </small>
+                    }
+                </div>
                 <hr />
                 <button (click)="error = [];" (keypress)="error= [];">OK</button>
             </div>
         </div>
     </div>
+    <!-- 全局畫面效果 -->
+    @if (theme) {
+    <div id="RayEX_Radial-effect" [ngClass]="{repeat: RadialRepeat, active: RadialColor.length > 0}"
+        [ngStyle]="{'--var-color': RadialColor, '--var-interval' : RadialInterval}">
+    </div>
+    }
 </div>
 <router-outlet></router-outlet>

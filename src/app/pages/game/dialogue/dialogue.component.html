@@ -2,6 +2,8 @@
     <!-- 龍與背景-->
     <div id="bg" #bg style="background-image: url(/assets/imgs/bg_home.jpg);">
         <img #dragoncg id="dragoncg" alt="dragon-cg" src="/assets/imgs/dragon/nomal01.gif" style="opacity: 0;" />
+        <img alt="dragon-emoji" *ngIf="emoji" src="/assets/imgs/mark_{{emoji}}.gif"
+            style="position: absolute; right:15%; top: 15%;" />
         <div id="Ray2">
             <img alt="face" [src]="faceSrc || ''" />
         </div>
@@ -18,7 +20,6 @@
         <!-- 提示玩家該繼續點擊的圖示-->
         <span id="continue-icon" class="large-font"
             [ngClass]="{waiting:isWaiting() && dialog.innerText.length > 0 && !contentCompleted}">▼</span>
-        <a id="skip" (click)="onSkipClick()"
-            [ngClass]="{disabled: !skipCallBack}">SKIP</a>
+        <a id="skip" (click)="onSkipClick()" [ngClass]="{disabled: !skipCallBack}">SKIP</a>
     </div>
 </div>

@@ -24,7 +24,13 @@
     <h2 id="slotResult" [ngClass]="{'win' : !!winResult}">
       [{{moji[val[0]]}} {{moji[val[1]]}} {{moji[val[2]]}}]
     </h2>
-    <button id="Push" class="padding-large" type="button" [disabled]="turn <= 0 && !rollingInterval" (click)="onStartClick()">PUSH</button>
+    <button id="Push" class="padding-large" type="button" [disabled]="turn <= 0 && !rollingInterval" (click)="onStartClick()">
+      @if (turn > 0 || rollingInterval) {
+        PUSH
+      }
+      @else {
+        {{'Scripts.Confirm.Action.NoTurn' | translate}} 
+      }</button>
   </div>
   <!-- 倍率 -->
 

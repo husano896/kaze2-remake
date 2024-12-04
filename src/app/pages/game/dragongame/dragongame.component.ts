@@ -5,6 +5,7 @@ import { EventFlag } from '@/data/EventFlag';
 import { ItemID } from '@/data/ItemID';
 import { DragonGameEvents } from '@/data/dragongame_events';
 import { DialogueSystem } from '@/entities/DialogueSystem';
+import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -13,7 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-dragongame',
   standalone: true,
-  imports: [RouterModule, TranslateModule, CommonModule, SaveDataEditorComponent],
+  imports: [RouterModule, TranslateModule, CommonModule, SaveDataEditorComponent, SeparateTextPipe],
   templateUrl: './dragongame.component.html',
   styleUrl: './dragongame.component.scss'
 })
@@ -22,8 +23,9 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
 
   public disableAllActions?: boolean;
   public petDaDragon!: boolean;
+
+  public openDialog?: string;
   constructor(injector: Injector,
-    private changeDetectionRef: ChangeDetectorRef,
     public router: Router) {
     super(injector);
   }
@@ -43,7 +45,7 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
       }
     }
 
-    this.appServ.saveData.Maxhp = Math.max(1, Math.min(save.numVisits, 9999))
+    this.appServ.saveData.Maxhp = Math.max(1, Math.min(save.Maxhp, 9999))
     this.appServ.saveData.hp = Math.max(1, Math.min(save.hp, save.Maxhp))
     this.appServ.saveData.at = Math.max(1, Math.min(save.at, 9999))
     this.appServ.saveData.df = Math.max(1, Math.min(save.df, 9999))
@@ -91,8 +93,24 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
     super.ngAfterViewInit();
     this.changeDetectionRef.detectChanges();
 
+    //#region PostEffect
+    // 根據背景音樂加濾鏡
+    const bgm = this.appServ.getBGM()
+    if (bgm.includes('music11')) {
+      // 貓BGM
+      this.appServ.setRadialEffect('#FFCA28', true, 10000)
+    }
+    else if (bgm.includes('music20')) {
+      // midnight
+      this.appServ.setRadialEffect('#1A237E', true, 10000)
+    }
+    //#endregion
   }
 
+  override ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this.appServ.setRadialEffect();
+  }
   async petDragon() {
     if (this.petDaDragon) {
       return;
@@ -119,32 +137,62 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
       return;
     }
     if (this.saveData.turn <= 0) {
-      this.appServ.Confirm(this.t('Scripts.Confirm.Action.NoTurn'), this.t('Scripts.Confirm.Title.Caution'));
+      this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), this.t('Scripts.Confirm.Action.NoTurn'));
       return;
     }
-    this.router.navigate(['/game/earn01'], { replaceUrl: true });
+    this.openDialog = 'earn'
   }
 
   GoToBattle() {
     if (!this.isAbleToLeave) {
       return;
     }
-    if (this.saveData.turn <= 0) {
-      this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), this.t('Scripts.Confirm.Title.Caution'));
+    if ((this.saveData.numVisits == 96) || (this.saveData.numVisits >= 98)) {
+      this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Warning'), this.appServ.t('Scripts.Confirm.Action.Fatal'))
       return;
     }
-    this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), this.t('Scripts.Confirm.Title.Caution'));
+    if (this.saveData.bio & BioFlag.眠酔) {
+      this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Warning'), this.appServ.t('Scripts.Confirm.Action.Battle.Bio64'))
+      return;
+    }
+    if (this.saveData.bio & BioFlag.発作) {
+      this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Warning'), this.appServ.t('Scripts.Confirm.Action.Battle.Bio128'))
+      return;
+    }
+    if (this.saveData.bio & BioFlag.破傷) {
+      this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Caution'), this.appServ.t('Scripts.Confirm.Action.Battle.Bio2'))
+      return;
+    }
+    if (this.saveData.turn <= 0) {
+      this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), this.t('Scripts.Confirm.Action.NoTurn'));
+      return;
+    }
+    this.openDialog = 'battle'
   }
 
   GoToMap() {
     if (!this.isAbleToLeave) {
       return;
     }
-    if (this.saveData.turn <= 0) {
-      this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), '尚未實作');
+    if ((this.saveData.numVisits == 96) || (this.saveData.numVisits >= 98)) {
+      this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Warning'), this.appServ.t('Scripts.Confirm.Action.Fatal'))
       return;
     }
-    this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), '尚未實作');
+    if (this.saveData.bio & BioFlag.眠酔) {
+      this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Warning'), this.appServ.t('Scripts.Confirm.Action.Map.Bio64'))
+      return;
+    }
+
+    if (this.saveData.bio & BioFlag.破傷) {
+      this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Caution'), this.appServ.t('Scripts.Confirm.Action.Map.Bio2'))
+      return;
+    }
+    if (this.saveData.turn <= 0) {
+      this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Caution'), this.appServ.t('Scripts.Confirm.Action.NoTurn'))
+      return;
+    }
+
+    this.router.navigate(['/game/map'], { replaceUrl: true });
   }
   //#endregion
 
@@ -430,7 +478,7 @@ ${this.t('Game.DragonGame.Df')}:- 1`);
 
   //#region 加強畫面顯示
   get readyToEat() {
-    return this.saveData.readyToEat
+    return !this.saveData.eatFailMessage
   }
   //#region 設定
   get settingsOn() {

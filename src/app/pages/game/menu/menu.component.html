@@ -4,21 +4,24 @@
     <div class="boxed-content flex-column transparant-dark-bg padding-xlarge"
         style="min-width: fit-content;box-sizing: border-box;z-index: 1;">
         <ul>
-            <li><a routerLink="begin">{{"Game.Menu.StartGame" | translate | separateText}}<!--街 へ 行 く--></a></li>
+            <!--街 へ 行 く-->
+            <li><a routerLink="begin" replaceUrl="true">{{"Game.Menu.StartGame" | translate |
+                    separateText}}</a></li>
             <small>Last login：{{waitM}} minutes ago
-                <a *ngIf="debug" routerLink="." (click)="resetLoginTime()">[Reset
-                    Time]</a>
+                <a *ngIf="debug" routerLink="." (click)="resetLoginTime()">
+                    [Reset Time]
+                </a>
             </small>
-
-
-            <!-- 有存檔後才有的選項-->
-            <li><a routerLink="delete">{{"Game.Menu.Retire" | translate | separateText}}<!--仔 竜 を 自 然 に 帰 す--></a></li>
+            <!--仔 竜 を 自 然 に 帰 す-->
+            <li><a routerLink="delete">{{"Game.Menu.Retire" | translate | separateText}}</a></li>
+            <!--音 楽 再 生 の 設 定(現在：MUSIC ON)-->
             <li><a (click)="toggleAudio()">
                     {{"Game.Menu.Audio" | translate | separateText}}：
                     {{isAudioON ? 'ON':'OFF'}}
-                    <!--音 楽 再 生 の 設 定(現在：MUSIC ON)--></a></li>
-            <li><a routerLink="/">
-                    {{"Game.Menu.Leave" | translate | separateText}}<!--ゲ ー ム を 終 わ る-->
+                </a></li>
+            <!--ゲ ー ム を 終 わ る-->
+            <li><a routerLink="/" replaceUrl="true">
+                    {{"Game.Menu.Leave" | translate | separateText}}
                 </a>
             </li>
             <ng-container *ngIf="debug">
@@ -27,6 +30,7 @@
                 <hr />
                 <li><a routerLink="debug_events">Events</a></li>
                 <li><a routerLink="debug_audio">Audio</a></li>
+                <li><a routerLink="debug_battle">Battle</a></li>
             </ng-container>
         </ul>
     </div>

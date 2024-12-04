@@ -34,6 +34,19 @@ export class InventoryComponent {
   constructor(private router: Router, private appServ: AppService) {
 
   }
+
+  async onTabClick(tab: 'item' | 'skin') {
+    if (this.tab === 'skin' ) {
+      if (this.saveData.turn <= 0) {
+        await this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Caution'), this.appServ.t('Scripts.Confirm.Action.NoTurn'))
+        return;
+      }
+    }
+    this.tab = tab;
+    this.selectedItems = [];
+    this.selectedSkin = -1;
+  }
+
   async useItem() {
     if (this.tab === 'item') {
       this.disabled = true;
@@ -365,7 +378,7 @@ export class InventoryComponent {
       this.disabled = true;
     }
     this.appServ.saveData.turn--;
-    this.router.navigate(['/game/dragongame'], {replaceUrl: true})
+    this.router.navigate(['/game/dragongame'], { replaceUrl: true })
   }
 
   onSelectedItemChange($event: any) {

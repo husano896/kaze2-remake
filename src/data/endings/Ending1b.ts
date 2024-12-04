@@ -17,8 +17,12 @@ export async function Ending1b(component: EndingComponent) {
     await appServ.Anim(RootAnimations.FadeOut);
 
     // 周目結束處理
-    appServ.saveData.NewGamePlus(false)
-    
+    if (appServ.saveData.numVisits !== 100) {
+        await appServ.Confirm('注意', '因爲跳關，將跳過二週目處理。');
+    } else {
+        appServ.saveData.NewGamePlus(false)
+    }
+
     router.navigate(['/'], { replaceUrl: true });
     appServ.Anim(RootAnimations.FadeIn);
 }

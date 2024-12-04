@@ -41,4 +41,4 @@ const DragonNamesInCave = new Array(
   "サヌータ",
   "ヴィンス"
 );
-export default DragonNamesInCave;
+export { DragonNamesInCave };

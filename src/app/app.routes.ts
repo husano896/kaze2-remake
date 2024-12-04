@@ -27,6 +27,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/index/new-save/new-save.component').then(m => m.NewSaveComponent)
     },
     {
+        path: 'welcome',
+        loadComponent: () => import('./pages/index/welcome/welcome.component').then(m => m.WelcomeComponent)
+    },
+    {
         path: 'login',
         loadComponent: () => import('./pages/index/login/login.component').then(m => m.LoginComponent)
     },
@@ -37,7 +41,7 @@ export const routes: Routes = [
     /** Google OAuth 要求 */
     {
         path: 'service',
-        loadChildren: () =>  import('./pages/service/service.component').then(c => c.ServiceComponent)
+        loadChildren: () => import('./pages/service/service.component').then(c => c.ServiceComponent)
     },
     {
         path: '**',

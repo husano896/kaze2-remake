@@ -1,1 +1,27 @@
-<p>battle-list works!</p>
+<div class="container flex-column full-height padding-large">
+    <br />
+    <div class="dark-bg boxed-content padding-large flex-column gap">
+        <div class="flex-row" style="justify-content: space-between;">
+            <button id="Back" routerLink="../dragongame" [replaceUrl]="true">
+                {{"Actions.Back" | translate | separateText}}</button>
+
+            <button id="Start" routerLink="/game/battle" [state]="{battle: ''}" [replaceUrl]="true">
+                {{"戦いを始める" | translate | separateText}}</button>
+        </div>
+        <span class="large-font">{{leagueName}}</span>
+        <br />
+        <!-- 玩家列表-->
+        @for (p of list; track $index; let index = $index) {
+        <label>
+            <input type="radio" />
+            <span>{{p.yourName}}</span>
+            &nbsp;
+            <span>竜: {{p.dragonName}}</span>
+            &nbsp;
+            <span>戦闘力: {{p.battlePower}}</span>
+        </label>
+        <br />
+        }
+    </div>
+    <br />
+</div>

@@ -35,23 +35,23 @@ Mobile device support is also planned, and expected to provide 仔竜の風詩 l
   - Delete save
 - [] Game System
   - [] Saving / Loading
-  - [] Items
-  - [] Skins
+  - [x] Items
+  - [x] Skins
   - [] Battle
     - [] Battle point shop
     - [] Battle system (originally in CGI)
   - [] Gain in game money
-    - [] Minigame 1
+    - [x] Minigame 1
     - [] Minigame 2
     - [] Minigame 3
-  - [] Dialogue system
+  - [x] Dialogue system
   - [] Maps
 - [] Events
-  - [] Opening
-  - [] Endings
-  - [] Progress
+  - [x] Opening
+  - [x] Endings
+  - [x] Progress
   - [] Home events
-    - [] (1/100)
+    - [] (22/100)
   - [] Map Events
     - [] Map 1
     - [] Map 2
