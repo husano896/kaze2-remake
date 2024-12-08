@@ -11,13 +11,9 @@ export const Ending1 = async (component: DialogueComponent) => {
     setBG('welcome')
     setDragonCG('nomal00');
     setDragonCGOpticity(1);
-
-    console.log('set')
-    await Wait(3000)
-    console.log('set2')
     setBGOpticity(1);
     await Wait(3000)
-    console.log('set3')
+    console.log('set2')
     setDialogOpticity(1);
     await Content(`Scripts.Ending1.1`)
     await Content(`Scripts.Ending1.2`)

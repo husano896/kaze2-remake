@@ -1,4 +1,6 @@
 import { AppService } from '@/app/app.service';
+import { EventFlag } from '@/data/EventFlag';
+import { SaveData } from '@/entities/SaveData';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { AfterViewInit, Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -29,9 +31,16 @@ export class NewSaveComponent implements AfterViewInit {
 
   async onSubmit($event: any) {
     // this.appServ.loading = true;
+    const newSaveData = new SaveData();
+    newSaveData.yourName = this.registerForm.value.yourName as string;
+    newSaveData.dragonName = this.registerForm.value.dragonName as string;
+    if (this.registerForm.value.gender === 'F') {
+      newSaveData.ivent |= EventFlag.性別;
+    }
     try {
       await this.appServ.Confirm('註冊', '功能尚未完成，以本機模式進行。')
-      this.router.navigate(['/welcome'])
+
+      this.router.navigate(['/welcome'], { replaceUrl: true })
     }
     finally {
       this.appServ.loading = false;

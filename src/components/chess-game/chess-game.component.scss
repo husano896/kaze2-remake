@@ -1,0 +1,69 @@
+:host {
+  width: 100%;
+  aspect-ratio: 1;
+  height: auto;
+  border: 1px solid black;
+  background: linear-gradient(45deg, #1B5E20, hwb(95 18% 50%));
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  box-sizing: border-box;
+  margin: auto;
+  contain: content;
+}
+
+
+@media (orientation: landscape) {
+
+  :host {
+    height: 100%;
+    width: auto;
+  }
+}
+
+div.cell {
+  box-sizing: border-box;
+  border: 1px solid black;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: 0.5s ease-out;
+  background-size: 100%;
+}
+
+div.cell.white {
+  background-image: url(/assets/imgs/chess-game/white.gif);
+  background-size: 75%;
+}
+
+div.cell.black {
+  background-image: url(/assets/imgs/chess-game/black.gif);
+  background-size: 75%;
+}
+
+div.cell.playerPut {
+  background-color: yellowgreen;
+}
+
+div.cell.enemyPut {
+  background-color: palevioletred;
+}
+
+div#chess-message {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+div#chess-message.active {
+  background: rgba(0, 0, 0, 0.5);
+}

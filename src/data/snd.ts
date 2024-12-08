@@ -34,6 +34,11 @@ export const snd: { [sndName: string]: { f: string, loop: boolean } } = {
         f: 'snd10.wav',
         loop: false
     },
+    /** 走路音效 */
+    'snd11': {
+        f: 'snd11.wav',
+        loop: false
+    },
     /** 錯誤發生音效 */
     'snd12': {
         f: 'snd12.wav',
@@ -49,9 +54,19 @@ export const snd: { [sndName: string]: { f: string, loop: boolean } } = {
         f: 'snd15.wav',
         loop: false
     },
-    /** 海浪聲 */
+    /** 環境音：海浪聲（預設） */
     'snd16': {
         f: 'snd16New.mp3',
+        loop: true
+    },
+    /** 環境音：風聲（神獸廟） */
+    'snd18': {
+        f: 'snd18.wav',
+        loop: true
+    },
+    /** 環境音：實驗室 */
+    'snd19': {
+        f: 'snd19.wav',
         loop: true
     },
     /** 新Re加入 */

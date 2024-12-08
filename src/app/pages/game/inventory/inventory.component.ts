@@ -36,7 +36,7 @@ export class InventoryComponent {
   }
 
   async onTabClick(tab: 'item' | 'skin') {
-    if (this.tab === 'skin' ) {
+    if (this.tab === 'skin') {
       if (this.saveData.turn <= 0) {
         await this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Caution'), this.appServ.t('Scripts.Confirm.Action.NoTurn'))
         return;
@@ -381,9 +381,6 @@ export class InventoryComponent {
     this.router.navigate(['/game/dragongame'], { replaceUrl: true })
   }
 
-  onSelectedItemChange($event: any) {
-    console.log($event);
-  }
 
   getOwnDragonChip(chip: number) {
     return chip > 0 ? this.saveData.DragonChip1 & chip : true;
@@ -466,6 +463,9 @@ export class InventoryComponent {
     return this.saveData?.elementText || '';
   }
 
+  get dragonChip1() {
+    return this.saveData.DragonChip1;
+  }
   get dragonChip2() {
     return this.saveData?.DragonChip2;
   }

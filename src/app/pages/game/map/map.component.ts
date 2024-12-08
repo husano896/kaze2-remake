@@ -3,7 +3,7 @@ import { BioFlag } from '@/data/BioFlag';
 import { ItemID } from '@/data/ItemID';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { AfterViewInit, Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -15,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class MapComponent implements AfterViewInit {
 
-  constructor(private appServ: AppService) {
+  constructor(private appServ: AppService, private router: Router) {
 
   }
 
@@ -32,7 +32,7 @@ export class MapComponent implements AfterViewInit {
     return this.appServ.saveData.numVisits;
   }
 
-  async GoTo(title: string, turn: number, url: string, bioCheck?: boolean, state?: { lv?: number }) {
+  async GoTo(title: string, turn: number, url: string, bioCheck?: boolean, state?: { event?: string, lv?: number }) {
     this.appServ.setSE('snd10')
 
     if (turn > this.appServ.saveData.turn) {
@@ -55,14 +55,19 @@ export class MapComponent implements AfterViewInit {
     // 最後確認
     if (!(await this.appServ.Confirm(
       this.appServ.t(title),
-      this.appServ.t('Game.Map.GoToConfirm', { turn }), true))) {
+      this.appServ.t(url.includes('dragongame') ? 'Game.Map.Home.Description' : 'Game.Map.GoToConfirm', { turn }), true))) {
       return;
     }
 
+    // 還在測試階段 先把神獸寺廟跟家裡以外的擋起來
+    if ((url.includes('dialogue') && (state?.event === 'Games04' || state?.event === 'Games07')) || url.includes('dragongame')) {
+      this.router.navigate([`/game/${url}`], { replaceUrl: true, state })
+      return;
+    }
     this.appServ.Confirm(this.appServ.t(title), '尚未實作')
   }
   /** 是否可點選 忌まわしき地 */
   get game07ON() {
-    return this.appServ.saveData.item[ItemID.忌地への道標]
+    return this.appServ.saveData.item[ItemID.忌地への道標] || this.appServ.debug;
   }
 }

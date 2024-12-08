@@ -42,4 +42,8 @@ export class MenuComponent implements AfterViewInit {
   get waitM() {
     return this.appServ.waitTimeMinutes;
   }
+
+  get waitH() {
+    return this.appServ.waitTimeHours;
+  }
 }

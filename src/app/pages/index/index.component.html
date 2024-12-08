@@ -47,7 +47,7 @@
                 <div class="flex-column full-width" style="word-break: keep-all;text-wrap: nowrap;">
                     <ul>
                         <li>
-                            <a class="outline-text" routerLink="new_save">
+                            <a class="outline-text" routerLink="new_save" replaceUrl="true">
                                 ● {{(newGamePlus ? 'Index.Action_NewGamePlus': 'Index.Action_NewGame' ) | translate |
                                 separateText}}
                                 <!--は じ め か ら-->
@@ -55,13 +55,13 @@
                             </a>
                         </li>
                         <li>
-                            <a class="outline-text" routerLink="login">
+                            <a class="outline-text" routerLink="login" replaceUrl="true">
                                 ● {{'Index.Action_Continue' |translate | separateText}}<!-- 続 き か ら-->
                             </a>
                         </li>
                         <li>
                             <a class="outline-text" (click)="settingsOn = true;">
-                                ● SETTINGS<!-- 続 き か ら-->
+                                ● SETTINGS
                             </a>
                         </li>
                     </ul>
@@ -70,7 +70,7 @@
                 <div class="flex-column full-width">
                     <ul>
                         <li>
-                            <a routerLink="index_doc/1">
+                            <a routerLink="index_doc/1" replaceUrl="true">
                                 <small>
                                     <!-- ボランティアネットとは？-->
                                     ◆ {{"Index.Link_VolunteerNet" | translate:{VolunteerNet:
@@ -79,7 +79,7 @@
                             </a>
                         </li>
                         <li>
-                            <a routerLink="index_doc/2">
+                            <a routerLink="index_doc/2" replaceUrl="true"> 
                                 <small>
                                     <!-- サイト公開のきっかけ-->
                                     ◆ {{"Index.Link_SitePublishMotivation" | translate}}
@@ -87,7 +87,7 @@
                             </a>
                         </li>
                         <li>
-                            <a routerLink="index_doc/3">
+                            <a routerLink="index_doc/3" replaceUrl="true">
                                 <small>
                                     <!--ポイルトップについて-->
                                     ◆ {{"Index.Link_Poirutoppu" | translate:{Poirutoppu:
@@ -95,7 +95,7 @@
                                 </small>
                             </a>
                         </li>
-                        <li><small><a routerLink="credits">● CREDITS</a></small></li>
+                        <li><small><a routerLink="credits" replaceUrl="true">● CREDITS</a></small></li>
                     </ul>
                 </div>
 

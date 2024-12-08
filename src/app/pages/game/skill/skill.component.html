@@ -1,0 +1,38 @@
+<div class="container flex-column gap-large padding gap-large full-height"
+  style="text-align: center; justify-content: center;">
+
+
+  <span style="color: #ffaa88; padding-top: 32px;">
+    {{"技 装 備" | translate | separateText}}
+  </span>
+  <b style="color: #ffaa99;">
+    戦闘時に使用させたい技を選択してください。
+  </b>
+
+  <div class="padding-large gap full-width full-height game-bg boxed-content flex-column gap"
+    style="overflow: auto; text-align: center;">
+    @for (i of skillIds; track $index; let index = $index) {
+
+    <label class="flex-row boxed-content padding gap-large game-bg" [ngClass]="{ selected: selectedSkills[index]}">
+      @if (getHasSkillID(i)) {
+      <input type="checkbox" [(ngModel)]="selectedSkills[index]" />
+      <div class="flex-column">
+        <p>{{('Data.Skill.' + (index) + '.Title') | translate}}</p>
+        <small>{{('Data.Skill.' + (index) + '.Description') | translate}}</small>
+      </div>
+      }
+      @else {
+      <span>NO DATA</span>
+      }
+    </label>
+    }
+  </div>
+  <hr />
+  <!-- 動作-->
+  <div id="RayActions" class="flex-row gap-large" style="justify-content: space-between;">
+    <button class="full-width" routerLink="../dragongame">{{"Actions.Back" | translate | separateText}}</button>
+    <button class="full-width" (click)="Apply()">
+      {{'Actions.Confirm' | translate}}
+    </button>
+  </div>
+</div>

@@ -395,7 +395,7 @@ export class SaveData implements IBattleData {
     /**
      * 計算使用的CG
      */
-    PS_RyuCG() {
+    PS_RyuCG = () => {
         let fil = 'nomal01';
 
         const ans = Math.floor((this.element1 + 5) / 10);
@@ -643,7 +643,6 @@ export class SaveData implements IBattleData {
             this.PS_Set(0);
         }
 
-
         // 育成障害であればデフォルト
         if (this.bio & 4) {
             fil = "nomal01";
@@ -657,6 +656,7 @@ export class SaveData implements IBattleData {
         }
 
         this.cgName = `/assets/imgs/dragon/${fil}.gif`;
+        return fil;
     }
 
     PS_Set(varSet: number) {

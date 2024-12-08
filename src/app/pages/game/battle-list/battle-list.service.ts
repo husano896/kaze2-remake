@@ -1,30 +1,37 @@
 import { AppService } from '@/app/app.service';
+import { IBattleData } from '@/data/battle';
 import { SaveData } from '@/entities/SaveData';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, MaybeAsync, Resolve, RouterStateSnapshot } from '@angular/router';
-import { delay, of, pipe, map, Observable } from 'rxjs';
+import { delay, of, pipe, map, Observable, catchError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BattleListService implements Resolve<Array<SaveData>> {
+export class BattleListService implements Resolve<Array<IBattleData>> {
 
-  constructor(private appServ: AppService) { }
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<SaveData[]> {
+  constructor(private appServ: AppService, private http: HttpClient) { }
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IBattleData[]> {
     return this.GetBattleList()
   }
 
   GetBattleList() {
     // 若不足人數的部分，以假資料補齊
-    return of([]).pipe(
-      delay(200),
-      map(() =>
-        new Array(10).fill({}).map(() => this.CreateFakePlayer())
+    return this.http.get(`https://api.re-kaze2.xflydragon.cc/battle?battlePower=${this.currentPlayerBattlePower}`)
+      .pipe(
+        map((res) => {
+          return res as IBattleData[];
+        }),
+      ).pipe(
+        catchError((err) => {
+          console.warn('API發生錯誤', err)
+          return of([])
+        }),
       )
-    )
   }
 
-  CreateFakePlayer(): SaveData {
+  CreateFakePlayer(): IBattleData {
     const p = new SaveData()
 
     // 除基礎數值外額外的能力點, 玩家基礎數值的+-15%

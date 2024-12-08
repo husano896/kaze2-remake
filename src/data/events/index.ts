@@ -4,6 +4,9 @@ import { Opening } from "./Opening";
 import { Miss } from './Miss'
 import { Eventend } from "./Eventend";
 import { LoveChk } from "./LoveChk";
+import { Games04a } from "./Games04a";
+import { Games04 } from "./Games04";
+import { Games07 } from "./Games07";
 /**
  * 當執行帶有await的腳本時，如果離開該Component了，會不會造成Memory Leak?
  * -- 不會，他會被GC給回收掉
@@ -16,5 +19,12 @@ export const Events: { [eventName: string]: Function } = {
     Ending2,
     Miss,
     Eventend,
-    LoveChk
+    LoveChk,
+
+    /** 神獸之祠 */
+    Games04,
+    Games04a,
+    
+    /** 滅 び の 都 ヒ デ ィ */
+    Games07
 }

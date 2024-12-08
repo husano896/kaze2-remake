@@ -1,20 +1,26 @@
 import { AppService } from '@/app/app.service';
+import { SaveDataEditorComponent } from '@/components/save-data-editor/save-data-editor.component';
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-debug-events',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule],
+  imports: [CommonModule, RouterModule, TranslateModule, SaveDataEditorComponent],
   templateUrl: './debug-events.component.html',
   styleUrl: './debug-events.component.scss'
 })
-export class DebugEventsComponent implements OnDestroy {
+export class DebugEventsComponent implements AfterViewInit, OnDestroy {
   waiting?: boolean;
   constructor(private router: Router, private appServ: AppService) {
 
+  }
+  ngAfterViewInit(): void {
+    this.appServ.setBGM();
+    this.appServ.setAmbient();
+    this.appServ.setSE();
   }
   ngOnDestroy(): void {
     this.appServ.setBGM();
@@ -22,8 +28,8 @@ export class DebugEventsComponent implements OnDestroy {
     this.appServ.setSE();
   }
 
-  goDialog(eventName: string) {
-    this.router.navigate(['/game/dialogue'], { state: { event: eventName } });
+  goDialog(eventName: string, state?: {}) {
+    this.router.navigate(['/game/dialogue'], { state: { event: eventName, ...(state ? state : {}) } });
   }
 
   async noticeTest(n?: number) {
@@ -46,5 +52,9 @@ export class DebugEventsComponent implements OnDestroy {
     this.waiting = true;
     await this.appServ.toggleRay1();
     this.waiting = false;
+  }
+
+  get debug() {
+    return this.appServ.debug;
   }
 }

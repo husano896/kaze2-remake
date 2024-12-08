@@ -7,16 +7,18 @@ import { IBattleServiceResolveData } from '../battle/battle.service';
 import { SaveData } from '@/entities/SaveData';
 import { CommonModule } from '@angular/common';
 import { AppService } from '@/app/app.service';
+import { IBattleData } from '@/data/battle';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-battle-list',
   standalone: true,
-  imports: [TranslateModule, RouterModule, SeparateTextPipe, CommonModule],
+  imports: [TranslateModule, RouterModule, SeparateTextPipe, CommonModule, FormsModule],
   templateUrl: './battle-list.component.html',
   styleUrl: './battle-list.component.scss'
 })
 export class BattleListComponent implements OnInit {
-  list?: SaveData[] = [];
+  list?: IBattleData[] = [];
 
   selectedBattleID?: string;
   leagueNames: string[] = [

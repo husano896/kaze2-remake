@@ -3,6 +3,7 @@ import { snd } from '@/data/snd';
 import { LocalStorageKey } from '@/entities/LocalStorageKey';
 import { SaveData } from '@/entities/SaveData';
 import { ElementRef, Injectable } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { SwUpdate } from '@angular/service-worker';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, timer } from 'rxjs';
@@ -50,6 +51,10 @@ export class AppService {
   public noticeTitle: string = '';
   public noticeContent: string = '';
 
+  // Ray72對應
+  public noticeTitle2: string = '';
+  public noticeContent2: SafeHtml = '';
+
   // Ray8對應
   public confirmTitle: string = '';
   public confirmContent: string = '';
@@ -70,7 +75,9 @@ export class AppService {
   /**  */
   constructor(
     private readonly translateServ: TranslateService,
-    private readonly swUpdate: SwUpdate) {
+    private readonly swUpdate: SwUpdate,
+    /** 就跟你說程式留漏洞會被入侵了吼（入侵事件捏他） */
+    public sanitizer: DomSanitizer) {
 
     // 因為ErrorHandler也會註冊實例，避免重複註冊
     if (!AppService.registeredTimes) {
@@ -173,6 +180,11 @@ export class AppService {
   setNotice = (title?: string, content?: string) => {
     this.noticeTitle = title ? this.translateServ.instant(title) : '';
     this.noticeContent = content ? this.translateServ.instant(content) : '';
+  }
+
+  setNotice2 = (title?: string, content?: string) => {
+    this.noticeTitle2 = title ? this.translateServ.instant(title) : '';
+    this.noticeContent2 = content ? this.sanitizer.bypassSecurityTrustHtml(this.translateServ.instant(content)) : '';
   }
 
   // Ray8對應
@@ -389,6 +401,8 @@ export class AppService {
     this.RadialColor = RadialColor || '';
     this.RadialRepeat = RadialRepeat;
     this.RadialInterval = `${RadialIntervalMs}ms` || '3s';
-    this.radialTimeOut = setTimeout(() => { this.RadialColor = '' }, RadialIntervalMs);
+    if (!RadialRepeat) {
+      this.radialTimeOut = setTimeout(() => { this.RadialColor = '' }, RadialIntervalMs);
+    }
   }
 }

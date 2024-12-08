@@ -83,9 +83,21 @@ div#Ray7 {
     z-index: 2;
 }
 
-div#Ray7:after {
+div#Ray7:after,
+div#Ray72:after {
     content: '■';
     animation: 3s Ray7Blinking linear infinite;
+}
+
+div#Ray72:after  {
+    color: red;
+}
+/** 通信機UI2_入侵用*/
+div#Ray72 {
+    position: absolute;
+    right: 16px;
+    top: 112px;
+    z-index: 2;
 }
 
 @keyframes Ray7Blinking {

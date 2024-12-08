@@ -8,6 +8,7 @@ import { DialogueSystem } from '@/entities/DialogueSystem';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -25,6 +26,8 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
   public petDaDragon!: boolean;
 
   public openDialog?: string;
+
+  public hacked?: boolean;
   constructor(injector: Injector,
     public router: Router) {
     super(injector);
@@ -65,14 +68,17 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
     this.appServ.setAmbient('snd16');
 
     const ev = DragonGameEvents[this.saveData.numVisits];
-    if (!ev) {
-      DragonGameEvents[1].bind(this)(this);
-      console.warn(`[Dragongame] 尚未對應進行度 = ${this.saveData.numVisits}之事件！`)
+    // 入侵二周目時不進行原先事件
+    if (!(this.saveData.ivent & EventFlag.ニステアイベント終了) || !(this.saveData.ivent & EventFlag.水晶ランタンイベント終了) ||
+      (this.saveData.ivent & EventFlag.ハッキング二回目)) {
+      if (!ev) {
+        DragonGameEvents[1].bind(this)(this);
+        console.warn(`[Dragongame] 尚未對應進行度 = ${this.saveData.numVisits}之事件！`)
+      }
+      else {
+        ev.bind(this)(this);
+      }
     }
-    else {
-      ev.bind(this)(this);
-    }
-
     // 特別事件於主線後檢查
     const varSysMsg = [
       this.SpecialEventCheck(),
@@ -104,12 +110,18 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
       // midnight
       this.appServ.setRadialEffect('#1A237E', true, 10000)
     }
+    else if (bgm.includes('music23')) {
+      // 最期
+      this.appServ.setRadialEffect('#000000', true, 5000)
+    }
     //#endregion
   }
 
   override ngOnDestroy(): void {
     super.ngOnDestroy();
     this.appServ.setRadialEffect();
+    this.appServ.setNotice2();
+    this.appServ.setNotice()
   }
   async petDragon() {
     if (this.petDaDragon) {
@@ -452,6 +464,10 @@ ${this.t('Game.DragonGame.Df')}:- 1`);
     return this.t(
       ((this.saveData?.ivent || 0) & EventFlag.性別) ? 'Game.DragonGame.Female' : 'Game.DragonGame.Male'
     );
+  }
+
+  get stMagic() {
+    return this.saveData?.magic;
   }
   //#endregion
 

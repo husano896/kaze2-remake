@@ -51,7 +51,14 @@ const routes: Routes = [
     resolve: {
       data: BattleListService
     },
-
+  },
+  {
+    path: 'senchi',
+    loadComponent: () => import('./senchi/senchi.component').then(m => m.SenchiComponent),
+  },
+  {
+    path: 'skill',
+    loadComponent: () => import('./skill/skill.component').then(m => m.SkillComponent),
   },
   {
     path: 'debug_events',
@@ -76,6 +83,14 @@ const routes: Routes = [
   {
     path: 'earn01',
     loadComponent: () => import('./earn01/earn01.component').then(m => m.Earn01Component)
+  },
+  {
+    path: 'earn02',
+    loadComponent: () => import('./earn02/earn02.component').then(m => m.Earn02Component)
+  },
+  {
+    path: 'earn03',
+    loadComponent: () => import('./earn03/earn03.component').then(m => m.Earn03Component)
   },
   {
     path: 'gameover',

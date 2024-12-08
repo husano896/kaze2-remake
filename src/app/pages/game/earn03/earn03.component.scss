@@ -1,0 +1,98 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-image: url(/assets/imgs/bg_ryu.jpg);
+  background-size: cover;
+  background-position: bottom;
+  overflow: hidden;
+  color: white;
+  padding: 32px 0px 16px 0px;
+  box-sizing: border-box;
+
+}
+
+div#PressToStartMessageBox {
+  background: rgba(0, 0, 0, 0.75);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+div#board-container {
+  width: 100%;
+  aspect-ratio: 1;
+  height: auto;
+  border: 1px solid black;
+  background: linear-gradient(45deg, #1B5E20, hwb(95 18% 50%));
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  box-sizing: border-box;
+  margin: auto;
+  contain: content;
+}
+
+
+@media (orientation: landscape) {
+
+  div#board-container {
+    height: 100%;
+    width: auto;
+  }
+}
+
+div#board-container div.cell {
+  box-sizing: border-box;
+  border: 1px solid black;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  background-size: 100%;
+  background-color: rgb(255,
+      calc(255 / var(--var-difficulty)/ var(--var-difficulty) * var(--var-cell-number)),
+      calc(255 / var(--var-difficulty)/ var(--var-difficulty) * var(--var-cell-number)));
+
+  span {
+    margin: auto;
+  }
+}
+
+div#board-container div.cell.empty {
+  background-color: black;
+}
+
+div#board-message {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+div.timeleft-bar {
+  width: 100%;
+  min-height: 8px;
+  border-radius: 4px;
+  border: 1px gray solid;
+  background: linear-gradient(90deg, green 0%,
+      green calc(100% * var(--var-time) / 120),
+      white calc(100% * var(--var-time) / 120),
+      white 100%);
+}
+
+div#board-message.active {
+  background: rgba(0, 0, 0, 0.5);
+}

@@ -28,7 +28,7 @@
     <div id="Ray1">
         <!-- 對方狀態-->
         <div class="transparant-dark-bg boxed-content padding-large flex-column">
-            <span style="text-align: left;">{{enemyData.dragonName}}</span>
+            <span style="text-align: left;">{{enemyData.dragonName || 'Dragon'}}</span>
             <div class="flex-row gap" style="align-items: center; justify-content: space-between;">
                 <span>HP</span>
                 <div class="flex-column">
@@ -101,7 +101,7 @@
         style="height: 100%; contain: content; overflow: hidden;box-sizing: border-box;">
 
         <div id="dialog" #dialog class="boxed-content dark-bg full-width padding-large full-height small-font"
-            (click)="FastForward()" (keyPress)="FastForward()"
+            (click)="FastForward()" (keyPress)="FastForward()" (pointerdown)="$event.stopPropagation();"
             [ngClass]="{waiting: content.length || pendingTexts.length || playerAction || battleResult || actionQueue.length > 0}">
             {{content}}
 

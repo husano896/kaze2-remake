@@ -1,0 +1,62 @@
+<div class="container flex-column gap-large padding-large gap-large full-height full-width"
+  style="align-items: center;">
+  <div class="flex-row full-width" style="justify-content: space-between;">
+    <div>
+      <button id="Back" routerLink="../dragongame" [replaceUrl]="true">{{"Actions.Back" | translate |
+        separateText}}</button>
+    </div>
+    <span style="color: #ffaa88;">数 遊 戯 板</span>
+    <span></span>
+  </div>
+
+  <div class="full-height full-width flex-column" id="chess-container"
+    style="overflow: auto;contain:content; align-items: center; aspect-ratio: 1;">
+    <div class="flex-row gap full-width" style="align-items: center;">
+      <span>TIME</span>
+      <div class="timeleft-bar" [ngStyle]="{'--var-time' : timeLeft}"></div>
+      <span>{{timeLeft}}</span>
+    </div>
+    <div id="board-container" [ngStyle]="{'grid-template-columns': 'repeat(' + difficulty  + ', 1fr)'}">
+      @for (item of board; track $index) {
+      <div class="cell large-font" [ngClass]="{empty: item === lastNumber}" (click)="onCellClick($index)"
+        (keypress)="onCellClick($index)" [ngStyle]="{
+          '--var-cell-number':item, 
+          '--var-difficulty':difficulty, 
+        color: item > difficulty*difficulty / 2 ? 'black' : 'white' }">
+        @if (item !== lastNumber) { <span>{{item+1}}</span>
+        }
+      </div>
+      }
+    </div>
+    <div id="board-message" [ngClass]="{active:message}">
+      @if (message) {
+      <span class="large-font">{{message}}</span>
+      }
+    </div>
+    @if (!timeInterval) {
+    <div id="PressToStartMessageBox">
+      <div class="flex-row gap">
+        <p>
+          <i class="fa-solid fa-coins"></i>
+          {{money}}{{'Noun.ShellMoney' | translate}}
+        </p>
+        <br />
+        <p>
+          <i class="fa-solid fa-battery-full"></i>
+          {{turn}} {{'Noun.Turn' | translate}}
+        </p>
+      </div>
+      <br>
+      <span style="color: #ffaa99; text-align: center;">5ターンで発動します。左上から昇順揃えにすると勝ち。</span>
+      <br />
+      <button id="Push" class="padding-large" type="button" [disabled]="turn < 5 || timeInterval"
+        (click)="onStartClick()">
+        {{turn >=5 ? 'START' : ('Scripts.Confirm.Action.NoTurn' | translate)}}
+      </button>
+    </div>
+    }
+  </div>
+
+  <!-- 倍率 -->
+
+</div>

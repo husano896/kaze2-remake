@@ -1,8 +1,9 @@
 import { DragongameComponent } from '@/app/pages/game/dragongame/dragongame.component';
 import { BioFlag } from '../BioFlag';
+import { EventFlag } from '../EventFlag';
 
 export const PostEventAfterDragonGameEvent = async (component: DragongameComponent) => {
-	const { appServ, Face, SetContentCompleted, IsContentComplete, Content, DisableAllActions } = component
+	const { appServ, Face, SetContentCompleted, IsContentComplete, Content, DisableAllActions, ClearContent, setDialogueSE } = component
 
 
 	// ニエルのアドバイス（ニエルが異常状態のときは発現せず）
@@ -96,18 +97,56 @@ export const PostEventAfterDragonGameEvent = async (component: DragongameCompone
 
 
 	// 2度目のハッキングイベント
-	if ((appServ.saveData.ivent & 4096) && (appServ.saveData.ivent & 8192) && !(appServ.saveData.ivent & 1024)) {
+	if ((appServ.saveData.ivent & EventFlag.ニステアイベント終了) && (appServ.saveData.ivent & EventFlag.水晶ランタンイベント終了) &&
+		!(appServ.saveData.ivent & EventFlag.ハッキング二回目)) {
 		appServ.setBGM('music19')
 
 		DisableAllActions(true);
-		// 當warningFlg觸發時，播放效果音snd05
-		// varWARNINGFlg = 1;
-		/*
-		‥‥？？！！
-		Face('char00');
-		PS_WARNINGMsgCmd2(0);
-		showLAYER('Ray6');
-		*/
+		ClearContent();
+		Face('char00')
+		Content(`‥‥？？！！`)
+		const hackedMessages = appServ.t('Scripts.Notice.Hacked2.Content.1') as string;
+		const hackedMessagesLines = hackedMessages.split('\n');
+		console.log(hackedMessagesLines);
+		for (let i = 1; i < hackedMessagesLines.length; i++) {
+			appServ.setNotice2('', hackedMessagesLines.slice(0, i).join('\n'))
+			if (i === hackedMessagesLines.length - 1) {
+				component.hacked = true;
+				component.skipWait = true;
+				console.log(component)
+				Face('char99')
+			}
+			await appServ.Wait(2500)
+		}
+		appServ.setNotice('SYSTEM CALL', appServ.t('Scripts.Notice.Hacked.Ray3.1'))
+		ClearContent();
+		setDialogueSE('snd05')
+		await Content('Scripts.Hacked2nd.1')
+
+		component.hacked = false;
+		appServ.setNotice2()
+		appServ.setNotice('SYSTEM CALL', 'Scripts.Notice.Hacked.Restore.Content')
+
+		DisableAllActions(false)
+		Face('char00')
+
+		appServ.setBGM('music28');
+		appServ.saveData.ivent |= EventFlag.ハッキング二回目;
+		setDialogueSE('snd04');
+
+
+		component.skipWait = false;
+		Face('char02')
+		/**
+		 *……また、ハッキングっすね？
+			レギオン……古代の人間たちの言葉で「軍団」とか「群れ」って意味だそうっす。
+			{{dragonName}}：{{you}}……。
+			だっ…大丈夫っすよ！　あいつらの脅しなんて、へっちゃらっす！
+			ボクも、{{yourName}} さんもついているんっすよ？
+			{{dragonName}}：うん……。
+		 */
+		await Content(`Scripts.Hacked2nd.2`)
+		Face('char02a')
 	}
 
 }

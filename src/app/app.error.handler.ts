@@ -9,6 +9,10 @@ export class AppErrorHandler implements ErrorHandler {
     handleError = (error: any) => {
         console.error(error);
 
+        // 演出使用，ClearContent時會讓原本的對話直接因錯誤判定跳出
+        if (!error) {
+            return;
+        }
         // NG0100: ExpressionChangedAfterItHasBeenCheckedError
         if (error?.code === -100) {
             return;

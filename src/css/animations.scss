@@ -23,6 +23,11 @@
     animation-iteration-count: infinite;
 }
 
+.anim-shock {
+    animation-name: shock;
+    animation-timing-function: ease-out;
+}
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
@@ -30,6 +35,20 @@
 
     to {
         opacity: 1;
+    }
+}
+
+@keyframes shock {
+    0% {
+        transform: scale(1);
+    }
+
+    5% {
+        transform: scale(1.25);
+    }
+
+    to {
+        transform: scale(1);
     }
 }
 

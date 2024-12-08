@@ -1,0 +1,40 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-image: url(/assets/imgs/bg_ryu.jpg);
+  background-size: cover;
+  background-position: bottom;
+  overflow: hidden;
+  color: white;
+  padding: 32px 0px 16px 0px;
+  box-sizing: border-box;
+
+}
+
+div#chess-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  aspect-ratio: 1;
+  height: 100%;
+}
+
+
+@media (orientation: portrait) {
+
+  div#chess-container {
+    width: 100%;
+  }
+}
+
+div#PressToStartMessageBox {
+  background: rgba(0, 0, 0, 0.75);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

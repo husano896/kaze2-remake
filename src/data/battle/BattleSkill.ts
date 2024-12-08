@@ -146,7 +146,7 @@ function PS_ElementAt(attacker: SaveData, victim: SaveData, victimAction: number
     const messages = [
       `Game.Battle.SpecialAttack.19`,
       `Game.Battle.Counter.Action`,
-      `Game.Battle.Damage.ToVictim.1`];
+      `Game.Battle.Damage.ToAttacker.1`];
     attacker.hp -= varAns; if (attacker.hp < 1) { attacker.hp = 0; }
     attackerID
     if (attackerID) {
@@ -417,7 +417,7 @@ function PS_Masic16(attacker: SaveData, victim: SaveData, victimAction: number, 
 
 // インフェルノ(地獄)
 function PS_Masic15(attacker: SaveData, victim: SaveData, victimAction: number, attackerBuff: { [buff: string]: number }, victimBuff: { [buff: string]: number }, attackerID: number): BattleSkillResult {
-  if ((attacker.magicS & 32768) || (attacker.mp < 20)) {
+  if (!(attacker.magicS & 32768) || (attacker.mp < 20)) {
     return;
   }
   let snd = '';
@@ -642,7 +642,7 @@ function PS_Masic13(attacker: SaveData, victim: SaveData, victimAction: number, 
     // varMsgColor[0] = L_MColor;
     // varMsgColor[1] = L_MColor;
     // varMsgColor[2] = L_MColor;
-    const messages = [`{{attackerName}} は Data.Skill.13 を吐いた`,
+    const messages = [`Game.Battle.SpecialAttack.Init2`,
       `Game.Battle.Counter.Action2`,
       `Game.Battle.Damage.ToAttacker.1`];
     attacker.hp -= varAns;
@@ -1097,7 +1097,7 @@ function PS_Masic07(attacker: SaveData, victim: SaveData, victimAction: number, 
 
 // スペウォール（相手術封印)
 function PS_Masic06(attacker: SaveData, victim: SaveData, victimAction: number, attackerBuff: { [buff: string]: number }, victimBuff: { [buff: string]: number }, attackerID: number): BattleSkillResult {
-  if (!(attacker.magicS & 64) && (attacker.mp < 30) && (!attackerBuff['Flg06'])) {
+  if (!(attacker.magicS & 64) || (attacker.mp < 30) || (attackerBuff['Flg06'])) {
     return
   }
   attacker.mp -= 30;
@@ -1318,7 +1318,7 @@ function PS_Masic01(attacker: SaveData, victim: SaveData, victimAction: number, 
 
 // 炎防壁術
 function PS_Masic00(attacker: SaveData, victim: SaveData, victimAction: number, attackerBuff: { [buff: string]: number }, victimBuff: { [buff: string]: number }, attackerID: number): BattleSkillResult {
-  if (!(attacker.magicS & 1) || (attacker.mp < 3) && (attackerBuff['Flg00'])) {
+  if (!(attacker.magicS & 1) || (attacker.mp < 3) || (attackerBuff['Flg00'])) {
     return;
   }
   attacker.mp -= 3;
@@ -1345,25 +1345,25 @@ function PS_Masic00(attacker: SaveData, victim: SaveData, victimAction: number, 
 }
 
 const BattleSkills: { [skillID: number]: TypeBattleSkill } = {
-  0: PS_Masic18,// ナイトメア･ハズ･ビガン
-  1: PS_Masic17,// エンド･オブ･アイズ
-  2: PS_Masic16,// メガラース
-  3: PS_Masic15,// インフェルノ
-  4: PS_Masic14,// 炎の吐息
-  5: PS_Masic13,// 竜の氷息
-  6: PS_Masic12,// 岩の砕息
-  7: PS_Masic11,// 竜の風息
-  8: PS_Masic10,// ロスト
+  18: PS_Masic18,// ナイトメア･ハズ･ビガン
+  17: PS_Masic17,// エンド･オブ･アイズ
+  16: PS_Masic16,// メガラース
+  15: PS_Masic15,// インフェルノ
+  14: PS_Masic14,// 炎の吐息
+  13: PS_Masic13,// 竜の氷息
+  12: PS_Masic12,// 岩の砕息
+  11: PS_Masic11,// 竜の風息
+  10: PS_Masic10,// ロスト
   9: PS_Masic09,// 再生の霧
-  10: PS_Masic08,// リカーブ
-  11: PS_Masic07,// ドレーン
-  12: PS_Masic06,// スペウォール
-  13: PS_Masic05,// リプレス
-  14: PS_Masic04,// リフレックス
-  15: PS_Masic03,// 水防壁術
-  16: PS_Masic02,// 地防壁術
-  17: PS_Masic01,// 風防壁術
-  18: PS_Masic00,// 炎防壁術
+  8: PS_Masic08,// リカーブ
+  7: PS_Masic07,// ドレーン
+  6: PS_Masic06,// スペウォール
+  5: PS_Masic05,// リプレス
+  4: PS_Masic04,// リフレックス
+  3: PS_Masic03,// 水防壁術
+  2: PS_Masic02,// 地防壁術
+  1: PS_Masic01,// 風防壁術
+  0: PS_Masic00,// 炎防壁術
   19: PS_ElementAt,	// 属性アタック
   20: PS_Attack,	// 通常攻撃
   98: PS_Kaihi,	// 回避

@@ -5,7 +5,8 @@
             <button id="Back" routerLink="../dragongame" [replaceUrl]="true">
                 {{"Actions.Back" | translate | separateText}}</button>
 
-            <button id="Start" routerLink="/game/battle" [state]="{battle: ''}" [replaceUrl]="true">
+            <button id="Start" routerLink="/game/battle" [state]="{battle: selectedBattleID}" [replaceUrl]="true"
+                [disabled]="!selectedBattleID">
                 {{"戦いを始める" | translate | separateText}}</button>
         </div>
         <span class="large-font">{{leagueName}}</span>
@@ -13,7 +14,7 @@
         <!-- 玩家列表-->
         @for (p of list; track $index; let index = $index) {
         <label>
-            <input type="radio" />
+            <input type="radio" [value]="p.btlid" [(ngModel)]="selectedBattleID" />
             <span>{{p.yourName}}</span>
             &nbsp;
             <span>竜: {{p.dragonName}}</span>

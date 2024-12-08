@@ -23,6 +23,7 @@ div#bg {
     background-blend-mode: color;
     justify-content: center;
     transition: 1.5s steps(15);
+    animation: 10s waving ease-in-out infinite;
 }
 
 div#dialog {

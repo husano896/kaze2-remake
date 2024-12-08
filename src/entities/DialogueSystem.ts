@@ -66,6 +66,7 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
     }
 
     setDialogueSE = (fileName = 'snd04') => {
+        console.log('message')
         this.appServ.setMessageSE(false, fileName)
     }
     //#region 對話系統
@@ -111,13 +112,13 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
     }
 
     /** 設定頭圖 */
-    Face = (c: string) => {
-        this.faceSrc = c.length > 0 ? `/assets/imgs/${c}.gif` : '';
+    Face = (c?: string) => {
+        this.faceSrc = (c && c.length > 0) ? `/assets/imgs/${c}.gif` : '';
     }
 
     /** 角色表情 */
-    Emoji = (e: number) => {
-        this.emoji = e;
+    Emoji = (e?: number) => {
+        this.emoji = e || 0;
     };
 
     /** 設定心情與友好度 */
@@ -165,9 +166,13 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
 
     }
     /** 清除文字 */
-    ClearContent = () => {
+    ClearContent = (crash?: boolean) => {
         this.content = '';
         this.pendingTexts = [];
+        this.options = [];
+        if (crash) {
+            this.dialogComplete$.error(0);
+        }
     }
 
     /** 文章 */

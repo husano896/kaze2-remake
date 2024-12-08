@@ -33,7 +33,7 @@
                 <label for="genderF">{{'Game.DragonGame.Female' | translate}}</label>
             </div>
             <hr />
-            <button type="submit">
+            <button type="submit" [disabled]="registerForm.invalid">
                 {{"Register.Submit" | translate |separateText}}
             </button>
 
@@ -41,7 +41,7 @@
         <br>
         <small>[{{'Register.Hint.DontForgetPassword' | translate}}]</small>
         <br>
-        <a routerLink="..">{{"Actions.PrevPage" | translate | separateText}}</a>
+        <a routerLink=".." replaceUrl="true">{{"Actions.PrevPage" | translate | separateText}}</a>
         <br>
     </div>
 </div>

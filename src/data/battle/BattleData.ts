@@ -4,6 +4,8 @@ interface IBattleData {
   dragonName: string;
   yourName: string
   lvOffset: number;
+  // 相容舊版
+  lv?: number;
   Maxhp: number;
   hp: number;
   at: number;
@@ -11,13 +13,14 @@ interface IBattleData {
   speed: number;
   element1: number;
   element2: number;
-  magic: any;
+  magic?: any;
   magicS: any;
   // 有道具時的魔防++
   item: any;
-  DragonChip1: number;
+  DragonChip1?: number;
   DragonChip2: number;
-  
+  btlid?: string;
+  battlePower?: number;
 }
 
 const BattleData: { [key: string]: IBattleData } = {

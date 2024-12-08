@@ -1,0 +1,48 @@
+<div class="container flex-column gap-large padding-large gap-large full-height full-width"
+  style="align-items: center;">
+  <div class="flex-row full-width" style="justify-content: space-between;">
+    <div>
+      <button id="Back" routerLink="../dragongame" [replaceUrl]="true">{{"Actions.Back" | translate |
+        separateText}}</button>
+    </div>
+    <span style="color: #ffaa88;">街 の 盤 戦 道 場</span>
+    <span></span>
+  </div>
+
+  <div class="full-height full-width flex-column" id="chess-container"
+    style="overflow: auto;contain:content; align-items: center; aspect-ratio: 1;">
+    <div class="flex-row full-width" style="justify-content: space-between;">
+      <span><img alt="[black]" src="/assets/imgs/chess-game/black.gif" /> PLAYER {{scorePlayer}}</span>
+      <span> {{scoreEnemy}} ENEMY <img alt="[black]" src="/assets/imgs/chess-game/white.gif" /></span>
+    </div>
+    <app-chess-game [gameStart]="true" (onGameCompleted)="onGameCompleted($event)"
+      (onGameProcess)="onGameProcess($event)"></app-chess-game>
+    @if (!started) {
+    <div id="PressToStartMessageBox">
+      <div class="flex-row gap">
+        <p>
+          <i class="fa-solid fa-coins"></i>
+          {{money}}{{'Noun.ShellMoney' | translate}}
+        </p>
+        <br />
+        <p>
+          <i class="fa-solid fa-battery-full"></i>
+          {{turn}} {{'Noun.Turn' | translate}}
+        </p>
+      </div>
+      @if (scoreEnemy > 0 || scorePlayer > 0) {
+      <span class="large-font">{{scorePlayer}}：{{scoreEnemy}}</span>
+      }
+      <br>
+      <span style="color: #ffaa99; text-align: center;">1回5ターンでスコア湧金式リバーシを行えます。</span>
+      <br />
+      <button id="Push" class="padding-large" type="button" [disabled]="turn < 5 || started" (click)="onStartClick()">
+        {{turn >=5 ? 'START' : ('Scripts.Confirm.Action.NoTurn' | translate)}}
+      </button>
+    </div>
+    }
+  </div>
+
+  <!-- 倍率 -->
+
+</div>

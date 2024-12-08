@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, ElementRef, Injector, OnDestroy, ViewChild } from '@angular/core';
 import { Events } from '@/data/events';
 import { CommonModule, Location } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, EventType, Router, RouterModule } from '@angular/router';
 import { DialogueSystem } from '@/entities/DialogueSystem';
+import { debounceTime, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dialogue',
@@ -18,32 +19,41 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
   /** 跳過事件的Callback, 若未設定時則無法跳過 */
   skipCallBack?: Function;
 
-  constructor(injector: Injector, private readonly location: Location,
-    public router: Router) {
+  routerSubscription?: Subscription;
+  constructor(injector: Injector, public readonly location: Location,
+    public route: ActivatedRoute, public router: Router) {
     super(injector);
   }
 
   override async ngAfterViewInit() {
-    console.log(this.bg.nativeElement);
 
-    const state = this.location.getState() as { event: string };
-    if (state) {
-
-      console.log('event', state.event)
-      const ev = Events[state.event];
-      if (ev) {
-        setTimeout(() => {
-          ev.bind(this)(this);
-        }, 20)
-      }
-      else {
-        this.router.navigate(['/'], { replaceUrl: true });
-        throw new Error('[ERROR] 未指定Event或找不到Event!')
-      }
-    }
     super.ngAfterViewInit();
+    console.log(this.bg.nativeElement);
+    this.routerSubscription = this.router.events.pipe(debounceTime(100)).subscribe((ev) => {
+      console.log('ev')
+      const state = this.location.getState() as { event: string };
+      if (state) {
+
+        console.log('event', state.event)
+        const ev = Events[state.event];
+        if (ev) {
+          ev.bind(this)(this);
+          
+        }
+        else {
+          this.router.navigate(['/'], { replaceUrl: true });
+          throw new Error('[ERROR] 未指定Event或找不到Event!')
+        }
+      }
+    })
   }
 
+  override ngOnDestroy(): void {
+    super.ngOnDestroy();
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
+  }
   async onSkipClick() {
     if (!this.skipCallBack) {
       this.appServ.Confirm(this.translateServ.instant('Scripts.Confirm.Title.Caution'), this.translateServ.instant('Noskip'))
@@ -58,12 +68,8 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
     }
   }
 
-  SetSkipCallback = (callback: Function) => {
+  SetSkipCallback = (callback?: Function) => {
     this.skipCallBack = callback
-  }
-
-  Emotion = (c: string) => {
-
   }
 
   setBG = (bg: string) => {
@@ -84,5 +90,15 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
 
   setDialogOpticity = (v: number) => {
     this.dialog.nativeElement.style.opacity = String(v);
+  }
+
+  AllFadeOut = async () => {
+    this.setDialogOpticity(0);
+    this.setDragonCGOpticity(0);
+    this.setBGOpticity(0);
+    this.Face()
+    this.SetContentCompleted();
+    this.ClearContent();
+    await this.appServ.Wait(3000);
   }
 }

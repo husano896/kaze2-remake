@@ -75,12 +75,17 @@ export class AppComponent implements OnInit, AfterViewInit {
       const navigatorLang = navigator.language;
       if (navigatorLang.includes('zh')) {
         this.translateServ.use('zh-hant')
+      } else if (navigatorLang.includes('en')) {
+        this.translateServ.use('en')
       } else {
         this.translateServ.use('ja');
       }
-    }
 
-    localStorage.setItem(LocalStorageKey.language, this.translateServ.currentLang);
+      localStorage.setItem(LocalStorageKey.language, this.translateServ.currentLang);
+    }
+    this.translateServ.onTranslationChange.subscribe((event) => {
+      localStorage.setItem(LocalStorageKey.language, event.lang);
+    })
     // 設定完後儲存到LocalStorage供下次進入網站使用
     // Anti debugger
     /*
@@ -188,6 +193,18 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   //#endregion
+
+  //#region Ray72
+  get noticeTitle2() {
+    return this.appServ.noticeTitle2;
+  }
+
+  get noticeContent2() {
+    return this.appServ.noticeContent2;
+  }
+
+  //#endregion
+
 
   get Ray1Open() {
     return this.appServ.Ray1Open;

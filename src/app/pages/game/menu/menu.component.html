@@ -7,7 +7,7 @@
             <!--街 へ 行 く-->
             <li><a routerLink="begin" replaceUrl="true">{{"Game.Menu.StartGame" | translate |
                     separateText}}</a></li>
-            <small>Last login：{{waitM}} minutes ago
+            <small>Last login： @if(waitM > 60) { {{waitH}} hours ago } @else { {{waitM}} minutes ago }
                 <a *ngIf="debug" routerLink="." (click)="resetLoginTime()">
                     [Reset Time]
                 </a>

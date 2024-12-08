@@ -3,7 +3,7 @@ import { CommonModule, Location } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { IBattleServiceResolveData } from './battle.service';
+import { IBattleRouteState, IBattleServiceResolveData } from './battle.service';
 import { SaveData } from '@/entities/SaveData';
 import * as _ from 'lodash-es';
 import { ItemID } from '@/data/ItemID';
@@ -75,9 +75,13 @@ export class BattleComponent extends DialogueSystem implements AfterViewInit, On
   /** 攻擊順序佇列 */
   actionQueue: number[] = []
 
-  battleResult: '' | 'win' | 'lose' = '';
+  battleResult: '' | 'win' | 'lose' | 'giveup' = '';
 
   enterAnim?: boolean;
+  onWin?: {
+    href: string, state: any,
+  }
+  onLose?: { href: string, state: any }
   constructor(injector: Injector,
     private readonly location: Location,
     private readonly router: Router,
@@ -112,6 +116,10 @@ export class BattleComponent extends DialogueSystem implements AfterViewInit, On
     this.playerData.PS_BattleInit();
     this.enemyData.PS_BattleInit();
 
+    // 勝利或失敗時的Callback
+    const location = this.location.getState() as IBattleRouteState;
+    this.onWin = location.onWin;
+    this.onLose = location.onLose
     this.setDialogueSE('');
     // 戰鬥訊息固定速度
     this.SetDialogueInterval(20);
@@ -156,8 +164,8 @@ export class BattleComponent extends DialogueSystem implements AfterViewInit, On
     } while (this.enemyAction == this.enemyLastAction)
     this.enemyLastAction = this.enemyAction;
 
-    this.Content('己方:' + actionString[this.playerAction])
-    this.Content('相手:' + actionString[this.enemyAction])
+    this.Content('己方:' + this.appServ.t(actionString[this.playerAction]))
+    this.Content('相手:' + this.appServ.t(actionString[this.enemyAction]))
     await this.appServ.Wait(300);
 
     // 速度計算修正
@@ -221,8 +229,8 @@ export class BattleComponent extends DialogueSystem implements AfterViewInit, On
           this.appServ.setSE(result.snd)
         }
 
-        const damageToPlayer = prePlayerHp - this.playerData.hp;
-        const damageToEnemy = preEnemyHp - this.enemyData.hp;
+        this.damageToPlayer = prePlayerHp - this.playerData.hp;
+        this.damageToEnemy = preEnemyHp - this.enemyData.hp;
 
         let params: { [paramName: string]: string } = result.params || {};
         // 翻譯參數
@@ -236,13 +244,11 @@ export class BattleComponent extends DialogueSystem implements AfterViewInit, On
             skillName: this.appServ.t(`Data.Skill.${skill}.Title`),
             victimName: this.enemyData.dragonName,
             attackerName: this.playerData.dragonName,
-            damageToVictim: String(Math.abs(damageToEnemy)),
-            damageToAttacker: String(Math.abs(damageToPlayer))
+            damageToVictim: String(Math.abs(this.damageToEnemy)),
+            damageToAttacker: String(Math.abs(this.damageToPlayer))
           }))
         }
 
-        this.damageToPlayer = prePlayerHp - this.playerData.hp;
-        this.damageToEnemy = preEnemyHp - this.enemyData.hp;
       }
     } while (!result);
 
@@ -272,9 +278,9 @@ export class BattleComponent extends DialogueSystem implements AfterViewInit, On
         if (result.snd) {
           this.appServ.setSE(result.snd)
         }
-        const damageToPlayer = prePlayerHp - this.playerData.hp;
-        const damageToEnemy = preEnemyHp - this.enemyData.hp;
 
+        this.damageToPlayer = prePlayerHp - this.playerData.hp;
+        this.damageToEnemy = preEnemyHp - this.enemyData.hp;
         let params: { [paramName: string]: string } = result.params || {};
         // 翻譯參數
         Object.entries(params).forEach(([key, value]) => {
@@ -287,13 +293,11 @@ export class BattleComponent extends DialogueSystem implements AfterViewInit, On
             skillName: this.appServ.t(`Data.Skill.${skill}.Title`),
             victimName: this.playerData.dragonName,
             attackerName: this.enemyData.dragonName,
-            damageToVictim: String(Math.abs(damageToPlayer)),
-            damageToAttacker: String(Math.abs(damageToEnemy)),
+            damageToVictim: String(Math.abs(this.damageToPlayer)),
+            damageToAttacker: String(Math.abs(this.damageToEnemy)),
           }))
         }
 
-        this.damageToPlayer = prePlayerHp - this.playerData.hp;
-        this.damageToEnemy = preEnemyHp - this.enemyData.hp;
       }
     } while (!result)
     // 我方的Buff時間計算
@@ -336,7 +340,7 @@ ${this.appServ.t('Game.Battle.WinMessage.2', { dragonName: this.playerData.drago
       // varMsgColor[4] = "#ffffff";
       await this.Content(msg);
     } else {
-      this.playerData.item[ItemID.万物の素]++;
+      this.startPlayerData.item[ItemID.万物の素]++;
       // varMsgColor[3] = "#ffffff";
       // varMsgColor[4] = "#ffffff";
       await this.Content(`${msg}
@@ -347,22 +351,31 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
     if (this.startPlayerData.hp - this.playerData.hp > 4) {
       const varWinUp = Math.round(Math.random() * 2 + 1);
       // varMsgColor[5] = "#ffffff";
-      this.startPlayerData.hp += varWinUp;
-      await this.Content(this.appServ.t('Game.Battle.WinMessage.3', { dragonName: this.playerData.dragonName, winUp: varWinUp }));
+      this.startPlayerData.Maxhp += varWinUp;
+      await this.Content(this.appServ.t('Game.Battle.WinBuff', { dragonName: this.playerData.dragonName, winUp: varWinUp }));
     }
-    await this.Content(``);
+    await this.Content(`
+`);
 
+    this.appServ.setBGM()
+    this.appServ.setSE()
     this.startPlayerData.hp = this.startPlayerData.Maxhp;							// 勝利時は体力自動回復
     if (this.isFromDebugMenu) {
-      this.appServ.setBGM()
-      this.appServ.setSE()
+
       this.appServ.saveData = this.startPlayerData;
       this.router.navigate(['/game/debug_battle'], { replaceUrl: true })
       return;
     }
     // 將新的玩家資料往回帶
     this.appServ.saveData = this.startPlayerData;
-    throw new Error('尚未實作戰鬥後事件！')
+    this.appServ.saveData.Save();
+    if (this.onWin) {
+      // 通常用到這個就是Last boss打輸了......。
+      this.router.navigate([this.onWin.href], { replaceUrl: true, state: this.onWin.state })
+    } else {
+      // 贏了預設帶回龍舍
+      this.router.navigate(['/game/dragongame'], { replaceUrl: true })
+    }
   }
 
   async Result_Lose() {
@@ -370,6 +383,23 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
     if (!this.enemyData || !this.battleID || !this.startPlayerData) {
       throw new Error('無敵人的狀態下戰敗！這不該發生。')
     }
+
+    //#region 有復活之玉時的判定
+    if (this.startPlayerData.item[ItemID.復活の玉]) {
+      this.startPlayerData.item[ItemID.復活の玉]--
+      const restorePoint = Math.round(this.startPlayerData.Maxhp / 3);
+      this.playerData.hp = restorePoint;
+      await this.Content(`{{dragonName}} は力尽きた……。しかしその瞬間 {{varItemName}}が光りだし
+{{dragonName}} の傷を {{restorePoint}} ポイント癒し、粉々に砕け散ってしまった…。
+{{dragonName}} は、辛うじて一命を取りとめた。`, {
+        dragonName: this.startPlayerData.dragonName,
+        varItemName: this.appServ.t(`Data.Item.${ItemID.復活の玉}.Title`),
+        restorePoint: String(restorePoint)
+      })
+      this.appServ.setSE('snd08')
+      return;
+    }
+    //#endregion
 
     this.skipWait = false;
     // 回合數代價
@@ -396,33 +426,53 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
       await this.Content(`Game.Battle.LoseMessage.2`, params)
     }
 
-    await this.Content(``);
+    await this.Content(`
+`);
+    this.appServ.setBGM()
+    this.appServ.setSE()
     if (this.isFromDebugMenu) {
-      this.appServ.setBGM()
-      this.appServ.setSE()
       this.appServ.saveData = this.startPlayerData;
       this.router.navigate(['/game/debug_battle'], { replaceUrl: true })
       return;
     }
     this.startPlayerData.hp = 1;
     this.appServ.saveData = this.startPlayerData;
-    throw new Error('尚未實作戰鬥後事件！')
+    if (this.onLose) {
+      // 通常用到這個就是Last boss打輸了......。
+      this.router.navigate([this.onLose.href], { replaceUrl: true, state: this.onLose.state })
+    } else {
+      this.router.navigate(['/game/dragongame'], { replaceUrl: true })
+    }
   }
 
-  Result_Escape() {
+  async Result_Escape() {
     if (!this.enemyData || !this.battleID || !this.startPlayerData) {
       throw new Error('無敵人的狀態下逃跑！這不該發生。')
     }
 
+    this.battleResult = 'giveup'
+    const sum = 2 + Math.round(Math.random() * 3);	// 負けた時の代償
+    await this.Content(`Game.Battle.GiveupMessage.1`, {
+      dragonName: this.playerData.dragonName,
+      enemyDragonName: this.enemyData.dragonName,
+      yourName: this.playerData.yourName,
+      sum: String(sum)
+    })
+    await this.Content(`
+`);
+    this.appServ.setBGM()
+    this.appServ.setSE()
+    // Debug目錄來的
     if (this.isFromDebugMenu) {
-      this.appServ.setBGM()
-      this.appServ.setSE()
+
       this.router.navigate(['/game/debug_battle'], { replaceUrl: true })
       return;
     }
-
+    this.startPlayerData.hp = this.appServ.saveData.hp;
     this.appServ.saveData = this.startPlayerData;
-    throw new Error('尚未實作戰鬥後事件！')
+    this.appServ.saveData.Save();
+
+    this.router.navigate(['/game/dragongame'], { replaceUrl: true })
   }
 
   async onEscapeClick() {
@@ -450,59 +500,62 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
   }
 
   NewSkillCheck() {
+    if (!this.startPlayerData) {
+      return;
+    }
     // 若技能指標變動時，視為取得新技能
-    const oldMagic = this.playerData.magic;
-    if (this.playerData.exp > 800) {	// 戦闘Expが70以上であればエキスパートクラスの技を閃き
+    const oldMagic = this.startPlayerData.magic;
+    if (this.startPlayerData.exp > 800) {	// 戦闘Expが70以上であればエキスパートクラスの技を閃き
       if (Math.round(Math.random() * 200) == 10) {
         switch (Math.round(Math.random() * 2)) {
-          case 0: this.playerData.magic |= 65536; break;
-          case 1: this.playerData.magic |= 131072; break;
-          case 2: this.playerData.magic |= 262144; break;
+          case 0: this.startPlayerData.magic |= 65536; break;
+          case 1: this.startPlayerData.magic |= 131072; break;
+          case 2: this.startPlayerData.magic |= 262144; break;
         }
       }
     }
-    if (this.playerData.exp > 300) {	// 戦闘Expが50以上であれば上級クラスの技を閃き
+    if (this.startPlayerData.exp > 300) {	// 戦闘Expが50以上であれば上級クラスの技を閃き
       if (Math.round(Math.random() * 100) == 10) {
         switch (Math.round(Math.random() * 3)) {
-          case 0: if (this.playerData.element1 < 45) this.playerData.magic |= 32; break;
-          case 1: if (this.playerData.element1 > 55) this.playerData.magic |= 64; break;
-          case 2: if (this.playerData.element2 < 45) this.playerData.magic |= 16; break;
-          case 3: if (this.playerData.element2 > 55) this.playerData.magic |= 32768; break;
+          case 0: if (this.startPlayerData.element1 < 45) this.startPlayerData.magic |= 32; break;
+          case 1: if (this.startPlayerData.element1 > 55) this.startPlayerData.magic |= 64; break;
+          case 2: if (this.startPlayerData.element2 < 45) this.startPlayerData.magic |= 16; break;
+          case 3: if (this.startPlayerData.element2 > 55) this.startPlayerData.magic |= 32768; break;
         }
       }
     }
-    if (this.playerData.exp > 25) {	// 戦闘Expが25以上であれば中級クラスの技を閃き
+    if (this.startPlayerData.exp > 25) {	// 戦闘Expが25以上であれば中級クラスの技を閃き
       if (Math.round(Math.random() * 40) == 5) {
         switch (Math.round(Math.random() * 3)) {
-          case 0: if (this.playerData.element1 < 45) this.playerData.magic |= 1024; break;
-          case 1: if (this.playerData.element1 > 55) this.playerData.magic |= 512; break;
-          case 2: if (this.playerData.element2 < 45) this.playerData.magic |= 256; break;
-          case 3: if (this.playerData.element2 > 55) this.playerData.magic |= 128; break;
+          case 0: if (this.startPlayerData.element1 < 45) this.startPlayerData.magic |= 1024; break;
+          case 1: if (this.startPlayerData.element1 > 55) this.startPlayerData.magic |= 512; break;
+          case 2: if (this.startPlayerData.element2 < 45) this.startPlayerData.magic |= 256; break;
+          case 3: if (this.startPlayerData.element2 > 55) this.startPlayerData.magic |= 128; break;
         }
       }
     }
-    if (this.playerData.exp > 15) {	// 戦闘Expが15以上であれば初級クラスの技を閃き
+    if (this.startPlayerData.exp > 15) {	// 戦闘Expが15以上であれば初級クラスの技を閃き
       if (Math.round(Math.random() * 30) == 10) {
         switch (Math.round(Math.random() * 3)) {
-          case 0: if (this.playerData.element1 < 45) this.playerData.magic |= 16384; break;
-          case 1: if (this.playerData.element1 > 55) this.playerData.magic |= 8192; break;
-          case 2: if (this.playerData.element2 < 45) this.playerData.magic |= 2048; break;
-          case 3: if (this.playerData.element2 > 55) this.playerData.magic |= 4096; break;
+          case 0: if (this.startPlayerData.element1 < 45) this.startPlayerData.magic |= 16384; break;
+          case 1: if (this.startPlayerData.element1 > 55) this.startPlayerData.magic |= 8192; break;
+          case 2: if (this.startPlayerData.element2 < 45) this.startPlayerData.magic |= 2048; break;
+          case 3: if (this.startPlayerData.element2 > 55) this.startPlayerData.magic |= 4096; break;
         }
       }
     }
 
-    if (this.playerData.exp > 5) {	// 戦闘Expが5以上であれば入門クラスの技を閃き
+    if (this.startPlayerData.exp > 5) {	// 戦闘Expが5以上であれば入門クラスの技を閃き
       if (Math.round(Math.random() * 5) >= 1) {
         switch (Math.round(Math.random() * 3)) {
-          case 0: if (this.playerData.element1 < 45) this.playerData.magic |= 8; break;
-          case 1: if (this.playerData.element1 > 55) this.playerData.magic |= 4; break;
-          case 2: if (this.playerData.element2 < 45) this.playerData.magic |= 1; break;
-          case 3: if (this.playerData.element2 > 55) this.playerData.magic |= 2; break;
+          case 0: if (this.startPlayerData.element1 < 45) this.startPlayerData.magic |= 8; break;
+          case 1: if (this.startPlayerData.element1 > 55) this.startPlayerData.magic |= 4; break;
+          case 2: if (this.startPlayerData.element2 < 45) this.startPlayerData.magic |= 1; break;
+          case 3: if (this.startPlayerData.element2 > 55) this.startPlayerData.magic |= 2; break;
         }
       }
     }
-    return this.playerData.magic !== oldMagic;
+    return this.startPlayerData.magic !== oldMagic;
   }
   /** 對話系統的覆蓋, 點擊對話框之後才會繼續戰鬥回合 */
   override async FastForward() {
@@ -521,6 +574,8 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
     }
     this.damageToEnemy = 0;
     this.damageToPlayer = 0;
+    // 將上次處理傷害歸0反映至畫面上
+    this.changeDetectionRef.detectChanges();
     console.log('剩餘攻擊佇列', this.actionQueue);
     ///#region 處理攻擊佇列
     if (this.actionQueue.length > 0) {
@@ -543,7 +598,8 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
 
       //#region PostEffect
       if (this.playerData.hp <= this.playerData.Maxhp * 0.2 && this.playerData.hp > 0) {
-        this.appServ.setRadialEffect('#E03434AA', true, 1000);
+        // 瀕死警告
+        this.appServ.setRadialEffect('#FF343477', true, 1000);
       }
       else {
         if (this.damageToPlayer > 0) {

@@ -1,18 +1,19 @@
-import { BattleData } from '@/data/battle';
+import { BattleData, IBattleData } from '@/data/battle';
 import { SaveData } from '@/entities/SaveData';
 import { Location } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, MaybeAsync, Resolve, RouterStateSnapshot } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 export interface IBattleRouteState {
 
   battle: string,
-  onWin: {
+  onWin?: {
     href: string, state: any,
   }
-  onLose: { href: string, state: any }
+  onLose?: { href: string, state: any }
   debugMenu: boolean,
-  restoreOnLose: boolean
 }
 
 export interface IBattleServiceResolveData {
@@ -28,10 +29,10 @@ export interface IBattleServiceResolveData {
   /** 背景 */
   battleBG: string;
 
-  onWin: {
+  onWin?: {
     href: string, state: any,
   }
-  onLose: { href: string, state: any }
+  onLose?: { href: string, state: any }
 }
 
 function GetBattleMusic(battle: string) {
@@ -113,8 +114,8 @@ function GetBattleBG(battle: string) {
 })
 export class BattleService implements Resolve<IBattleServiceResolveData> {
 
-  constructor(private location: Location) { }
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): MaybeAsync<IBattleServiceResolveData> {
+  constructor(private location: Location, private http: HttpClient) { }
+  async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<IBattleServiceResolveData> {
     const locationState = this.location.getState() as IBattleRouteState
     const battleID = locationState.battle;
 
@@ -136,9 +137,27 @@ export class BattleService implements Resolve<IBattleServiceResolveData> {
 
         }
       })
-
     } else {
-      throw new Error('[ERROR] 尚未實作連線對戰!')
+      // 網路對戰
+      const onlineData = await firstValueFrom(this.http.get(`https://api.re-kaze2.xflydragon.cc/battle/${battleID}`)) as IBattleData;
+      enemySaveData.DragonChip1 = onlineData.DragonChip2;
+      enemySaveData.DragonChip2 = onlineData.DragonChip2;
+      enemySaveData.Maxhp = onlineData.Maxhp;
+      enemySaveData.hp = enemySaveData.Maxhp;
+      enemySaveData.at = onlineData.at;
+      enemySaveData.df = onlineData.df;
+      enemySaveData.speed = onlineData.speed;
+      enemySaveData.magic = onlineData.magicS;
+      enemySaveData.magicS = onlineData.magicS;
+      enemySaveData.lvOffset = onlineData.lv || 0;
+      enemySaveData.element1 = onlineData.element1;
+      enemySaveData.element2 = onlineData.element2;
+      enemySaveData.yourName = onlineData.yourName;
+      enemySaveData.dragonName = onlineData.dragonName;
+      if (!enemySaveData.Maxhp || !enemySaveData.hp || !enemySaveData.at || !enemySaveData.df || !enemySaveData.speed) {
+        console.warn('敵人資料有誤！', onlineData, enemySaveData);
+        throw new Error('敵人資料有誤！')
+      }
     }
     enemySaveData.PS_RyuCG();
     console.log('enemy', enemySaveData);

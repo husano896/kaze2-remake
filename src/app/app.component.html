@@ -44,6 +44,13 @@
             <small> {{noticeContent}}</small>
         </div>
 
+        <!-- 入侵用通信機-->
+        <div id="Ray72" class="boxed-content game-bg padding-large" *ngIf="noticeContent2">
+            <span style="color: #ff5555;">GAME SYSTEM WARNING !!</span>
+            <hr />
+            <small [innerHTML]="noticeContent2"> </small>
+        </div>
+
         <!-- 詢問視窗 -->
         <div id="Ray8" *ngIf="confirmContent" (click)="$event.stopPropagation();"
             (keypress)="$event.stopPropagation();">

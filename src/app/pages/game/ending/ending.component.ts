@@ -52,7 +52,7 @@ export class EndingComponent implements AfterViewInit, OnDestroy {
       } else {
         this.dialogComplete$.next(0);
       }
-    }, 200);
+    }, 150);
   }
 
   async ngOnDestroy() {

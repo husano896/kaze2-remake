@@ -7,6 +7,8 @@ export const Ending2 = async (component: DialogueComponent) => {
 
     // 1
     setBG('last2');
+    appServ.setAmbient()
+    appServ.setBGM()
     appServ.setSE('snd12')
     appServ.setNotice('Scripts.Notice.SystemEvent.Title', 'Scripts.Notice.SystemEvent.01')
     await Wait(1800)

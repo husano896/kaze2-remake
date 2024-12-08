@@ -130,11 +130,48 @@
                 }
             </select>
         </details>
+        <details>
+            <summary>持有技能(magic)</summary>
+            @for (magic of magics; let index = $index; track $index;) {
+            @if (magic> 0) {
+            <label>
+                <input type="checkbox" [ngModel]="getEventActive(magic)"
+                    (ngModelChange)="onMagicChange(magic, $event)" />
 
+                {{('Data.Skill.' + (index-1) + '.Title') | translate}}
+            </label>
+            <br />
+            }
+            }
+        </details>
+        <details>
+            <summary>持有技能(magic)</summary>
+            @for (magic of magics; let index = $index; track $index;) {
+            @if (magic> 0) {
+            <label>
+                <input type="checkbox" [ngModel]="getEventActive(magic)"
+                    (ngModelChange)="onMagicChange(magic, $event)" />
+
+                {{('Data.Skill.' + (index-1) + '.Title') | translate}}
+            </label>
+            <br />
+            }
+            }
+        </details>
+        <details>
+            <summary>道具(item)</summary>
+            @for (i of data.item; let index = $index; track $index;) {
+            <label>
+                <input type="number" [(ngModel)]="data.item[index]" min="0" max="9" />
+                {{('Data.Item.' + (index) + '.Title') | translate}}
+            </label>
+            <br />
+            }
+        </details>
         <details>
             <summary>{{'Game.DragonGame.Bio' | translate}}</summary>
 
-            @for (index of [1,2,3,4,5,6,7,8]; track $index;) {
+            @for (index of [1,2,3,4,5,6,7,8,9]; track $index;) {
             <label>
                 {{getBioText(index)}}
                 <input type="checkbox" [ngModel]="getBioActive(index)" (ngModelChange)="onBioChange(index, $event)" />

@@ -17,6 +17,8 @@ export class SaveDataEditorComponent {
   opened?: boolean;
 
   dragonChips = _.range(22).map(i => i > 0 ? (0x1 << i) : 0);
+
+  magics = _.range(20).map(i => i > 0 ? (0x1 << i) : 0);
   constructor(private appServ: AppService, private router: Router, private route: ActivatedRoute) {
 
   }
@@ -56,9 +58,6 @@ export class SaveDataEditorComponent {
     return this.appServ.saveData.DragonChip1 & dragonChip;
   }
 
-  getDragonChipValueByIndex(chipIndex: number) {
-    return chipIndex > 0 ? 0x1 << (chipIndex - 1) : 0;
-  }
   onDragonChip1Change(chip: number, checked: any) {
     if (checked) {
       this.appServ.saveData.DragonChip1 |= chip;
@@ -67,6 +66,30 @@ export class SaveDataEditorComponent {
     }
   }
 
+  getMagicActive(magic: number) {
+    return this.appServ.saveData.magic & magic;
+  }
+
+  onMagicChange(magic: number, checked: any) {
+    if (checked) {
+      this.appServ.saveData.magic |= magic;
+    } else {
+      this.appServ.saveData.magic ^= magic;
+    }
+  }
+
+
+  getMagicSActive(magicS: number) {
+    return this.appServ.saveData.magicS & magicS;
+  }
+
+  onMagicSChange(magicS: number, checked: any) {
+    if (checked) {
+      this.appServ.saveData.magicS |= magicS;
+    } else {
+      this.appServ.saveData.magicS ^= magicS;
+    }
+  }
 
   get data() {
     return this.appServ.saveData;
