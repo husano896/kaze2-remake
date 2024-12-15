@@ -7,6 +7,9 @@ import { LoveChk } from "./LoveChk";
 import { Games04a } from "./Games04a";
 import { Games04 } from "./Games04";
 import { Games07 } from "./Games07";
+import { Quest01 } from "./Quest01";
+import { Quest01a } from "./Quest01a";
+import { Quest02 } from "./Quest02";
 /**
  * 當執行帶有await的腳本時，如果離開該Component了，會不會造成Memory Leak?
  * -- 不會，他會被GC給回收掉
@@ -24,6 +27,13 @@ export const Events: { [eventName: string]: Function } = {
     /** 神獸之祠 */
     Games04,
     Games04a,
+    
+    /** ト ピ リ ア の 森 */
+    Quest01,
+    Quest01a,
+    
+    /** カザリナ山・幸いの地フッフール */
+    Quest02,
     
     /** 滅 び の 都 ヒ デ ィ */
     Games07

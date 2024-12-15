@@ -60,9 +60,13 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
     this.appServ.saveData.element2 = Math.max(-9999, Math.min(save.element2, 9999))
     this.appServ.saveData.exp = Math.max(0, Math.min(save.exp, 999999))
     //#endregion 
+    this.skipWait = true;
   }
 
   override ngAfterViewInit(): void {
+
+    document.body.focus();
+    document.body.click();
     this.appServ.Anim(RootAnimations.FadeIn, 300);
     // 環境音
     this.appServ.setAmbient('snd16');
@@ -197,10 +201,6 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
 
     if (this.saveData.bio & BioFlag.破傷) {
       this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Caution'), this.appServ.t('Scripts.Confirm.Action.Map.Bio2'))
-      return;
-    }
-    if (this.saveData.turn <= 0) {
-      this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Caution'), this.appServ.t('Scripts.Confirm.Action.NoTurn'))
       return;
     }
 

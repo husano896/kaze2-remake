@@ -1,1 +1,137 @@
-<p>dungeon works!</p>
+<div class="container flex-column full-height gap" style="contain: content;" (click)="miniMapOpen = false;">
+  <!-- 小地圖-->
+  <div id="mini-map-container" [ngClass]="{ open: miniMapOpen}">
+    <div id="MazeMiniMap" [ngStyle]="{'--var-mazeW': mazeW}"
+      [ngClass]="{ disabled: disableAllActions || !contentCompleted}"
+      (click)="onMiniMapPress($event)"
+      (keypress)="onMiniMapPress($event)">
+      @for (mazeRow of mazeData; track $index; let Y = $index) {
+      @for (mazeColumn of mazeRow; track $index; let X = $index) {
+      @if (X < mazeW && Y < mazeH) { <span class="MazeCell" [ngClass]="{
+                aiming: aimingNextPosX === X && aimingNextPosY === Y,
+                'anim-blinking':aimingNextPosX === X && aimingNextPosY === Y,
+                player: playerX === X && playerY === Y, movable: mazeColumn !== '1',
+                }">
+        </span>
+        }
+        }
+        }
+    </div>
+  </div>
+  <div id="RayEX1" class="flex-row" style="position: absolute; left: 16px;top:16px;z-index: 2;">
+    <div class="gap flex-row">
+
+      <!-- ギブアップ -->
+      <button id="escape" (click)="GiveUp()" [disabled]="disableAllActions">
+        <i class="fa-solid fa-person-running" style="transform: rotateY(180deg);"></i>
+      </button>
+
+    </div>
+  </div>
+  <!-- 龍與背景-->
+  <div id="bg" #bg>
+    <div id="map-images-container">
+      @for (id of mapImages; track $index) {
+      <img alt="" [src]="'/assets/imgs/map/map_01_' + id + '.jpg'" />
+      }
+    </div>
+
+    <img #dragoncg id="dragoncg" alt="dragon-cg" [src]="dragonCg" [ngClass]="{active:!!guestDragon}" />
+
+    <!-- 導航 -->
+    <div id="Ray3" [ngClass]="{disabled: disableAllActions}">
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        viewBox="0 0 254 254" preserveAspectRatio="xMinYMin meet">
+        <image width="254" height="254" xlink:href="/assets/imgs/KeyCnfg00.png" />
+
+        <!-- 上-->
+        <polygon points="214,40 154,100 127,90 100,100 40,40 84,10 127,0 171,10" style="fill:rgba(0,0,0,0)"
+          (click)="Next(0)" (keypress)="Next(0)" />
+        <!-- 右 -->
+
+        <polygon points="214,40 154,100 164,130 154,160 214,220 239,185 254,130 239,85" style="fill:rgba(0,0,0,0)"
+          (click)="Next(1)" (keypress)="Next(1)" />
+        <!-- 下-->
+        <polygon points="214,214 154,154 127,164 100,154 40,214 84,244 127,254 171,244" style="fill:rgba(0,0,0,0)"
+          (click)="Next(2)" (keypress)="Next(2)" />
+        <!-- 左 -->
+        <polygon points="40,40 100,100 90,130 100,160 40,220 15,185 0,130 15,85" style="fill:rgba(0,0,0,0)"
+          (click)="Next(3)" (keypress)="Next(3)" />
+
+      </svg>
+    </div>
+
+    <!-- 選項-->
+    <div id="Ray4" class="flex-column transparant-dark-bg boxed-content padding-large"
+      *ngIf="options && options.length > 0">
+      <span>{{'Scripts.Dungeon.AnswerTitle' | translate}}</span>
+      <hr />
+      <div class="flex-column gap-large">
+        <ul style="padding-left: 16px;">
+          <li *ngFor="let o of options;let index = index;" (click)="onOptionClick(index, o)"
+            (keyPress)="onOptionClick(index, o)">
+            <a>{{o}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 玩家狀態 -->
+  <div id="status" class="flex-row gap">
+    <div class="transparant-dark-bg boxed-content padding-large flex-column" style="width: fit-content;">
+      <span>{{playerData.dragonName}}</span>
+      <div class="flex-row gap" style="align-items: center;justify-content: space-between;">
+        <span>HP</span>
+        <div class="flex-column">
+          <div class="flex-row gap" style="justify-content: space-evenly;">
+            <span>{{playerData.hp}}</span>
+            <span>/</span>
+            <span>{{playerData.Maxhp}}</span>
+          </div>
+          <div class="health-bar reverse" [ngClass]="{danger: playerData.hp / playerData.Maxhp < 0.2 }"
+            [ngStyle]="{'--var-health' : playerData.hp / playerData.Maxhp * 100}">
+            <div class="progress-bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="flex-row gap" style="justify-content: space-between;word-break: keep-all;">
+        <span> {{'Noun.ShellMoney' | translate}}</span>
+        <div class="flex-row gap full-width" style="justify-content: space-evenly;">
+          <span>{{playerData.food}}</span>
+          <span>(+{{getMoney}})</span>
+        </div>
+      </div>
+    </div>
+    <!-- 操作動作-->
+    <div class="flex-row full-width gap">
+      <button class="full-width full-height"
+        [disabled]="disableAllActions || recoverItemCount === 0 || !contentCompleted" (click)="HPRecover()">
+        回復
+        <br />
+        (x{{recoverItemCount}})
+      </button>
+      <button class="full-width full-height" [disabled]="disableAllActions || !contentCompleted"
+        (click)="Check()">調べる</button>
+    </div>
+  </div>
+
+  <!-- 對話框 -->
+  <div class="flex-column full-width padding-large"
+    style="height: 100%; contain: content; overflow: auto;padding-bottom: 16px;">
+    <div id="dialog" #dialog class="boxed-content game-bg full-width padding-large full-height" (click)="FastForward()"
+      (keyPress)="FastForward()">
+      {{content}}
+    </div>
+    <!-- 提示玩家該繼續點擊的圖示-->
+    <span id="continue-icon" class="large-font"
+      [ngClass]="{waiting:isWaiting() && dialog.innerText.length > 0 && !contentCompleted}">▼</span>
+      @if (damageToPlayer) {
+        <div class="damage-text" [ngStyle]="{color: damageToPlayer > 0 ? '#D50000' : '#66FF6A' }">
+            <span style="margin: auto; font-size: min(20vw, 20vh);">{{abs(damageToPlayer)}}</span>
+        </div>
+        }
+  </div>
+
+</div>

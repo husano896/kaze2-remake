@@ -194,7 +194,7 @@
     @if (openDialog === 'earn')
     {
     <div id="RayEX_SelectEarn" class="transparant-dark-bg" (click)="openDialog=undefined;$event.stopPropagation()"
-        (keyPress)="openDialog=undefined;">
+        (keyPress)="openDialog=undefined;" style="min-width: 256px;">
         <div class="boxed-content game-bg flex-column padding-large gap"
             style="max-width: 100%; max-height: 100%;min-width: 30%; margin: auto;">
             <br />
@@ -203,6 +203,7 @@
             <button class="large-font" [routerLink]="'/game/earn02'" replaceUrl="true">資金調度2 [Chess]</button>
             <br />
             <button class="large-font" [routerLink]="'/game/earn03'" replaceUrl="true">資金調度3 [Number Board]</button>
+            <br>
             <hr />
             <button type="button" (click)="openDialog=undefined;">
                 {{"Actions.Back" | translate | separateText}}</button>
@@ -214,7 +215,7 @@
     <div id="RayEX_Battle" class="transparant-dark-bg" (click)="openDialog=undefined;"
         (keyPress)="openDialog=undefined;$event.stopPropagation()">
         <div class="boxed-content game-bg flex-column padding-large gap"
-            style="max-width: 100%; max-height: 100%; min-width: 30%; margin: auto;">
+            style="max-width: 100%; max-height: 100%; min-width: 30%; margin: auto; min-width: 256px;">
             <br />
 
             <button class="large-font" [routerLink]="'/game/battle_list'" replaceUrl="true">戦闘する</button>
@@ -225,6 +226,7 @@
             }
             <br />
             <button class="large-font" [routerLink]="'/game/senchi'" replaceUrl="true">贈呈所</button>
+            <br />
             <hr />
             <button type="button" (click)="openDialog=undefined;">
                 {{"Actions.Back" | translate | separateText}}</button>

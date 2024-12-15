@@ -29,6 +29,11 @@ export const snd: { [sndName: string]: { f: string, loop: boolean } } = {
         f: 'snd08.wav',
         loop: false
     },
+    /** 寶箱開啟音效 */
+    'snd09': {
+        f: 'snd09.wav',
+        loop: false
+    },
     /** 地圖選曲音效 */
     'snd10': {
         f: 'snd10.wav',
@@ -49,6 +54,10 @@ export const snd: { [sndName: string]: { f: string, loop: boolean } } = {
         f: 'snd13.wav',
         loop: true
     },
+    'snd14': {
+        f: 'snd14.wav',
+        loop: false
+    },
     /** 拉霸勝利 */
     'snd15': {
         f: 'snd15.wav',
@@ -57,6 +66,11 @@ export const snd: { [sndName: string]: { f: string, loop: boolean } } = {
     /** 環境音：海浪聲（預設） */
     'snd16': {
         f: 'snd16New.mp3',
+        loop: true
+    },
+    /** 環境音：森林（トピリアの森） */
+    'snd17': {
+        f: 'snd17.wav',
         loop: true
     },
     /** 環境音：風聲（神獸廟） */

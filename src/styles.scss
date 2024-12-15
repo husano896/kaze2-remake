@@ -89,6 +89,7 @@ img[alt="index_top"] {
         display: none;
     }
 }
+
 .dark-bg {
     background: var(--var-dark-bg);
 }
@@ -137,4 +138,21 @@ img[alt="index_top"] {
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(192, 192, 192, 0.75);
     border-radius: 4px;
+}
+
+.damage-text {
+    opacity: 0;
+    animation: damageText 1.25s ease-out;
+    filter: drop-shadow(0px 4px 2px #111111);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    top: 0;
+    pointer-events: none;
+    text-shadow:
+        2px 2px 1px black,
+        -2px 2px 1px black,
+        -2px -2px 0 black,
+        2px -2px 0 black;
 }

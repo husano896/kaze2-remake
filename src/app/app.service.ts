@@ -10,7 +10,8 @@ import { firstValueFrom, timer } from 'rxjs';
 
 export enum RootAnimations {
   FadeIn = 'fadeIn',
-  FadeOut = 'fadeOut'
+  FadeOut = 'fadeOut',
+  PlayerDamage = 'playerDamage'
 }
 
 @Injectable({
@@ -161,7 +162,13 @@ export class AppService {
       return;
     }
     if (fileName != undefined) {
-      this.messageSEEl.nativeElement.src = fileName ? `/assets/audio/se/${fileName}.wav` : ''
+      if (!fileName) {
+        this.messageSEEl.nativeElement.muted = true;
+      }
+      else {
+        this.messageSEEl.nativeElement.muted = false;
+        this.messageSEEl.nativeElement.src = `/assets/audio/se/${fileName}.wav`;
+      }
     }
     if (!this.messageSEEl.nativeElement.src.length) {
       return;
@@ -221,14 +228,12 @@ export class AppService {
     if (!this.bgmEl.nativeElement.src.includes(bgm) || this.bgmEl.nativeElement.paused) {
       this.bgmEl.nativeElement.src = `/assets/audio/bgm/${bgm}.mp3`
       this.bgmEl.nativeElement.currentTime = 0;
-      try {
-        this.bgmEl.nativeElement.play();
-      } finally {
-
-      }
+      this.bgmEl.nativeElement.play();
       this.bgmEl.nativeElement.onload = (() => {
-        this.bgmEl?.nativeElement.play();
-      }).bind(this)
+        if (this.bgmEl?.nativeElement.paused) {
+          this.bgmEl?.nativeElement.play();
+        }
+      })
     }
 
   }
@@ -254,7 +259,6 @@ export class AppService {
     this.seEl.nativeElement.currentTime = 0;
     this.seEl.nativeElement.loop = s.loop;
     this.seEl.nativeElement.play();
-
   }
 
   setAmbient = (am?: string | null | undefined) => {
@@ -279,8 +283,8 @@ export class AppService {
       if (!this.ambientEl.nativeElement.src.includes(s.f)) {
         this.ambientEl.nativeElement.src = `/assets/audio/se/${s.f}`
       }
-      this.ambientEl.nativeElement.play();
       this.ambientEl.nativeElement.loop = s.loop;
+      this.ambientEl.nativeElement.play();
     }
   }
 

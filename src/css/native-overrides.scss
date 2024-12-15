@@ -2,6 +2,14 @@ body {
     margin: 0;
     height: 100dvh;
     font-size: var(--var-base-font-size);
+    font-weight: 400;
+    font-family: "Shippori Mincho", serif;
+}
+
+html,
+body,
+* {
+    overscroll-behavior: contain;
 }
 
 * {

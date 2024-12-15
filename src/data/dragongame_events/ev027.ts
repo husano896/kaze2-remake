@@ -29,7 +29,7 @@ const ev027 = async (component: DragongameComponent) => {
 "どうして{{you}}は、{{my}}に優しくしてくれる{{go04}}？
 優しくされたのって初めてだから、{{my}}にはよく分からない{{go01}}。"
              */
-            Content(`Scripts.Ev027.1.2.1.Content`)
+            Content(`Scripts.Ev027.1.2.Content`)
             const result = (await Options([
                 // 誰も本心からじゃない。
                 `Scripts.Ev027.1.2.1.Action`,

@@ -15,11 +15,11 @@
     <!-- 龍與背景-->
     <div id="bg" #bg [ngStyle]="{backgroundImage: 'url(/assets/imgs/bg/' + battleBG +  '.jpg)' }">
         <img #dragoncg id="dragoncg" alt="dragon-cg" [src]="enemyData.cgName"
-            [ngClass]="{'damaged': damageToEnemy > 0, enter:!enterAnim}"
+            [ngClass]="{'damaged': damageToEnemy > 0, enter:!enterAnim, dead: enemyData.hp<=0}"
             [ngStyle]="{'--var-damage-percent' : damageToEnemy / enemyData.Maxhp}" />
         @if (damageToEnemy) {
         <div class="damage-text" [ngStyle]="{color: damageToEnemy >= 0 ? '#D50000' : '#66FF6A' }">
-            <span style="margin: auto; font-size: min(20vw, 20vh);">{{abs(damageToEnemy || 999)}}</span>
+            <span style="margin: auto; font-size: min(15vw, 15vh);">{{abs(damageToEnemy || 999)}}</span>
         </div>
         }
     </div>
@@ -28,7 +28,7 @@
     <div id="Ray1">
         <!-- 對方狀態-->
         <div class="transparant-dark-bg boxed-content padding-large flex-column">
-            <span style="text-align: left;">{{enemyData.dragonName || 'Dragon'}}</span>
+            <span style="text-align: left; color:#ffddaa;">{{enemyData.dragonName || 'Dragon'}}</span>
             <div class="flex-row gap" style="align-items: center; justify-content: space-between;">
                 <span>HP</span>
                 <div class="flex-column">
@@ -60,7 +60,7 @@
         </div>
         <!-- 我方狀態-->
         <div class="transparant-dark-bg boxed-content padding-large flex-column">
-            <span style="text-align: right;">{{playerData.dragonName}}</span>
+            <span style="text-align: right; color: #aaddff;">{{playerData.dragonName}}</span>
             <div class="flex-row gap" style="align-items: center;justify-content: space-between;">
                 <div class="flex-column">
                     <div class="flex-row gap" style="justify-content: space-evenly;">
@@ -91,7 +91,7 @@
                 <span>MP</span>
 
             </div>
-            <span>状態 {{playerBuffText}}</span>
+            <span style="text-align: end;">{{playerBuffText}} 状態</span>
         </div>
     </div>
     <!-- 對話框 -->

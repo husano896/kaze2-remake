@@ -5,14 +5,15 @@
       <button id="Back" routerLink="../dragongame" [replaceUrl]="true">{{"Actions.Back" | translate |
         separateText}}</button>
     </div>
-    <span style="color: #ffaa88;">数 遊 戯 板</span>
+    <!-- 中文：數字華容道-->
+    <span style="color: #ffaa88; text-align: center;">数 遊 戯 板</span>
     <span></span>
   </div>
 
   <div class="full-height full-width flex-column" id="chess-container"
     style="overflow: auto;contain:content; align-items: center; aspect-ratio: 1;">
     <div class="flex-row gap full-width" style="align-items: center;">
-      <span>TIME</span>
+      <span (click)="timeLeft = 120;">TIME</span>
       <div class="timeleft-bar" [ngStyle]="{'--var-time' : timeLeft}"></div>
       <span>{{timeLeft}}</span>
     </div>
@@ -22,17 +23,13 @@
         (keypress)="onCellClick($index)" [ngStyle]="{
           '--var-cell-number':item, 
           '--var-difficulty':difficulty, 
-        color: item > difficulty*difficulty / 2 ? 'black' : 'white' }">
+        color: item >= difficulty*difficulty / 2 ? 'black' : 'white' }">
         @if (item !== lastNumber) { <span>{{item+1}}</span>
         }
       </div>
       }
     </div>
-    <div id="board-message" [ngClass]="{active:message}">
-      @if (message) {
-      <span class="large-font">{{message}}</span>
-      }
-    </div>
+
     @if (!timeInterval) {
     <div id="PressToStartMessageBox">
       <div class="flex-row gap">
@@ -46,6 +43,7 @@
           {{turn}} {{'Noun.Turn' | translate}}
         </p>
       </div>
+      @if (personalBest){ <span>BEST: {{personalBest}}秒</span>}
       <br>
       <span style="color: #ffaa99; text-align: center;">5ターンで発動します。左上から昇順揃えにすると勝ち。</span>
       <br />

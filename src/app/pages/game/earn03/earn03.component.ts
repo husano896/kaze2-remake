@@ -1,8 +1,8 @@
 import { AppService } from '@/app/app.service';
-import { ChessGameComponent } from '@/components/chess-game/chess-game.component';
+import { LocalStorageKey } from '@/entities/LocalStorageKey';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import * as _ from 'lodash-es';
@@ -21,7 +21,6 @@ export class Earn03Component implements AfterViewInit, OnDestroy {
 
   board: number[] = [];
 
-  message?: string;
   timeLeft = 0;
   timeInterval: any;
   constructor(private appServ: AppService) {
@@ -58,8 +57,7 @@ export class Earn03Component implements AfterViewInit, OnDestroy {
     let newWhiteSpacePos: number = 0;
 
     // 打亂移動次數：難度^3
-    let runCount = this.difficulty ** 3;
-
+    let runCount = (this.personalBest && this.personalBest < 40) ? this.difficulty ** 4 : this.difficulty ** 3;
     while (runCount--) {
       let newDirection = 0;
 
@@ -69,25 +67,39 @@ export class Earn03Component implements AfterViewInit, OnDestroy {
         newWhiteSpacePos = currentWhiteSpacePos + directionMovements[newDirection];
       } while (
         // 避免走回上次方向
-        newDirection === (lastDirection - 2 % 4) ||
-        newWhiteSpacePos < 0 || newWhiteSpacePos >= this.board.length
+        newDirection === ((lastDirection + 2) % 4) ||
+        // 避免超出範圍
+        newWhiteSpacePos < 0 || newWhiteSpacePos >= this.board.length ||
+        // 在最左時不可往左
+        directionMovements[newDirection] === -1 && (currentWhiteSpacePos % this.difficulty === 0) ||
+        // 在最右時不可往右
+        directionMovements[newDirection] === 1 && ((currentWhiteSpacePos) % this.difficulty === this.difficulty - 1)
       )
 
       // 將新舊方向的數值兌換
       [this.board[currentWhiteSpacePos], this.board[newWhiteSpacePos]] = [this.board[newWhiteSpacePos], this.board[currentWhiteSpacePos]]
-
       // 記錄上次方向
       lastDirection = newDirection;
       currentWhiteSpacePos = newWhiteSpacePos;
+      for (let i = 0; i < 4; i++) {
+        console.log(this.board.slice(0 + i * 4, 4 + i * 4).map(i => i === 15 ? "XX" : String(i + 1).padStart(2, '0')).join(' '))
+      }
+      console.log('==')
     }
+    console.log('start')
     //#endregion
 
+    // this.board = [0,1,2,3,4,5,6,7,8,9,10,11,14,13,12,15]
+
+    // [15,14,13], [13,15,14], [14,13,15]
     this.timeLeft = 120;
     this.timeInterval = setInterval(() => {
       if (this.timeLeft <= 0) {
         // GAME OVER
         clearInterval(this.timeInterval);
+        this.appServ.setSE('snd14')
         this.appServ.Confirm('失 敗', `ロジック解除に失敗しました`)
+        this.timeInterval = null;
       } else {
         this.timeLeft--;
       }
@@ -96,10 +108,6 @@ export class Earn03Component implements AfterViewInit, OnDestroy {
 
   async onCellClick(index: number) {
     if (!this.timeInterval) {
-      return;
-    }
-
-    if (this.message) {
       return;
     }
 
@@ -118,7 +126,21 @@ export class Earn03Component implements AfterViewInit, OnDestroy {
 
     let moveSuccess = false;
     for (const movement of directionMovements) {
+
+      if (
+        // 於左邊界時不做往左判定
+        (movement === -1 && (index % this.difficulty === 0)) ||
+        // 於右邊界時不做往右判定
+        movement === 1 && (index % this.difficulty === this.difficulty - 1)
+      ) {
+        continue;
+      }
+
       const newIndex = index + movement;
+      if (newIndex < 0 || newIndex > this.board.length) {
+        continue;
+      }
+      // 若與空格交換，則成功
       if (this.board[newIndex] === this.lastNumber) {
         moveSuccess = true;
         // 進行移動
@@ -129,23 +151,24 @@ export class Earn03Component implements AfterViewInit, OnDestroy {
       }
     }
     if (!moveSuccess) {
-      this.Message('Unable to move')
+      this.appServ.setSE('snd14')
       return;
     }
 
     // 過關！
     if (this.CheckGameCompleted()) {
+      const usedTime = 120 - this.timeLeft;
       const varCnt = Math.round(((this.timeLeft + 120) * (this.timeLeft + 120) + 40000) / 500);
-      // varCnt = Math.round((varCount * 5 + 720) / 6);
       this.appServ.saveData.food += varCnt;
       this.appServ.Confirm('ロ ジ ッ ク 解 除',
         `ロジックを解いた為 残り ${this.timeLeft}秒 より ${varCnt}シェル生み出された!`
       )
       this.appServ.setSE('snd15')
+      if (!this.personalBest || usedTime < this.personalBest) {
+        this.personalBest = usedTime;
+      }
       clearInterval(this.timeInterval);
       this.timeInterval = null;
-    } else {
-      this.appServ.setSE('snd14')
     }
   }
   CheckGameCompleted() {
@@ -155,11 +178,6 @@ export class Earn03Component implements AfterViewInit, OnDestroy {
   }
 
 
-  async Message(m: string) {
-    this.message = m;
-    await this.appServ.Wait(500);
-    this.message = '';
-  }
   get turn() {
     return this.appServ.saveData?.turn || 0;
   }
@@ -169,5 +187,12 @@ export class Earn03Component implements AfterViewInit, OnDestroy {
 
   get lastNumber() {
     return this.difficulty * this.difficulty - 1
+  }
+
+  get personalBest() {
+    return Number(localStorage.getItem(LocalStorageKey.earn03best) || '0')
+  }
+  set personalBest(v: number) {
+    localStorage.setItem(LocalStorageKey.earn03best, String(v))
   }
 }

@@ -63,7 +63,6 @@ div#Ray4 {
     bottom: 0;
     right: 0;
     opacity: 1;
-    animation: Ray4 ease-out;
 }
 
 div#Ray8 {
@@ -134,7 +133,19 @@ table[aria-describedby="status-parameters"] td:nth-child(2) {
 img[alt="dragon-cg"] {
     width: 100%;
     height: 100%;
+    position: absolute;
     object-fit: scale-down;
+    right: 0;
+    bottom: 0;
+}
+
+@media screen and (max-width:480px) {
+
+    img[alt="dragon-cg"] {
+        width: 70%;
+        height: 100%;
+        
+    }
 }
 
 tr td {
@@ -149,6 +160,7 @@ button,
 div#DragonGame {
     contain: content;
 }
+
 div#DragonGame.disableAllActions {
 
     div#RayEX1,
@@ -201,5 +213,5 @@ div#RayEX_Battle {
     height: 100%;
     flex-direction: column;
     pointer-events: all;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
 }

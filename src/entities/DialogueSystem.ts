@@ -92,9 +92,10 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
                 }
             } else {
                 this.appServ.setMessageSE();
-                if (!this.skipWait) {
-                    this.dialogComplete$.next(0);
-                }
+                // if (!this.skipWait) {
+                this.dialogComplete$.next(0);
+                this.SetContentCompleted();
+                // }
             }
 
             if (this.dialog?.nativeElement) {
@@ -179,7 +180,7 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
     Content = (c: string, exParam?: { [param: string]: string }) => {
         const r = this.translateServ.instant(c, {
             ...this.appServ.saveData.talkingParam,
-            ...(exParam ? _.mapValues(exParam, (translateKey: string) => this.appServ.t(translateKey)) : {})
+            ...(exParam ? _.mapValues(exParam, (translateKey: string) => (translateKey ? this.appServ.t(translateKey) : '')) : {})
         })
         this.pendingTexts.push(...r);
         this.pendingTexts.push('\r\n');
@@ -205,6 +206,7 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
         this.dialogStart$.next(0);
         if (this.pendingTexts.length == 0) {
             this.dialogComplete$.next(0);
+            this.SetContentCompleted();
             return;
         }
         let nextReturnPos = this.pendingTexts.findIndex(t => t === '\n' || t === '\r' || t === '\r\n');
@@ -239,6 +241,11 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
             console.trace();
         }
     }
+
+    abs(n: number) {
+        return Math.abs(n)
+    }
+
     /** 講話參數, 用於日文句尾稱呼 */
     get talkingParam() {
         return this.appServ.saveData.talkingParam;

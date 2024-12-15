@@ -28,39 +28,50 @@ Mobile device support is also planned, and expected to provide 仔竜の風詩 l
   - [x] Docs1
   - [x] Docs2
   - [x] Docs3
-  - [] New game
-  - [] Continue
+  - [] New game (Currently works in local)
+  - [] Continue (Currently works in local)
   - [x] Credits
 - [] Game Menu
   - Delete save
 - [] Game System
-  - [] Saving / Loading
+  - [] Saving / Loading (Currently works in local)
   - [x] Items
   - [x] Skins
-  - [] Battle
-    - [] Battle point shop
-    - [] Battle system (originally in CGI)
+  - [x] Battle
+    - [x] Point shop
+    - [x] Battle system (originally in CGI)
+    - [x] Skill setting
   - [] Gain in game money
-    - [x] Minigame 1
-    - [] Minigame 2
-    - [] Minigame 3
+    - [x] Minigame 1 (Slot machine)
+    - [x] Minigame 2 (Chess)
+    - [x] Minigame 3 (Number board)
   - [x] Dialogue system
-  - [] Maps
+  - [x] Maps
+  - [x] Dungeon system
 - [] Events
   - [x] Opening
   - [x] Endings
   - [x] Progress
   - [] Home events
-    - [] (22/100)
+    - [] (39/100)
   - [] Map Events
-    - [] Map 1
-    - [] Map 2
-    - [] Map 3
+    - [x] Games04 (神獸)
+    - [x] Quest01 (トピリアの森)
+    - [x] Quest02 (カザリナ山・幸いの地フッフール)
+    - [] Quest03 (ドラゴンの古代遺跡)
+    - [] Quest04 (幻の浮島ラグナルクス)
+    - [] Quest05 (飛竜保護区ドラゴンバレー)
+    - [] Quest06 (魔獣の森)
+    - [] Quest07 (忘れ去られし古城)
+    - [] Quest08 (サラ平原)
+    - [] Quest09 (街の雑木林)
+    - [] Quest10 (ウリア大砂漠地帯)
+    - [] Games07 滅びの都ヒディール
 - [] I18n
   - [] Japanese (ja)
   - [] Traditional Chinese (zh_hant)
   - [] English (en) 
 - [] API
-  - [] Battle
+  - [x] Battle (with old Game can version data)
   - [] Save / Load
   - [] Ranking...? (Low priority)

@@ -18,7 +18,7 @@ const ev033 = async (component: DragongameComponent) => {
     } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
 
         appServ.saveData.ivent |= EventFlag.回答事件;
-        Face('char01');
+        Face('char00');
         /** 
 "あのね……さっき、夢を見た{{go01}}。
 {{my}}が、{{you}}と一緒に遊ぶ夢……。
@@ -27,7 +27,6 @@ const ev033 = async (component: DragongameComponent) => {
 なんだか……ふしぎ……。"
 */
         await Content(`Scripts.Ev033.2`)
-        Face('char01a');
     } else {
         Face('char08');
         /**

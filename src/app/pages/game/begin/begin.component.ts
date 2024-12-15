@@ -45,28 +45,34 @@ export class BeginComponent implements OnInit, AfterViewInit {
     // 距離上次訪問時間不滿60分鐘, 直接進
     if (minutesSinceLastLogin < 60) {
       this.appServ.saveData.Save();
-      this.router.navigate(['/game/dragongame'])
+      this.router.navigate(['/game/dragongame'], { replaceUrl: true })
       return
     }
 
     // 超過60分鐘了！
-    let skipDragonGameEvent = false;
-    this.appServ.saveData.turn += 24;
     if (DragonGameEvents[this.appServ.saveData.numVisits + 1]) {
       // 若該次事件已經製作完畢則進行劇情推進
       this.appServ.saveData.numVisits++;
       if (this.appServ.saveData.ivent & EventFlag.回答事件) {
         this.appServ.saveData.ivent ^= EventFlag.回答事件;
       }
+      this.appServ.saveData.turn += 24;
     } else {
       // 否則不做劇情推進
-      skipDragonGameEvent = true;
+      this.appServ.saveData.Save();
+      this.router.navigate(['/game/dragongame'], { replaceUrl: true })
+
+      this.appServ.Confirm(
+        this.appServ.t('Scripts.Confirm.Title.Caution'),
+        `The next event ${this.appServ.saveData.numVisits + 1} is still in WIP! \r\nNext visit event won't be triggered.`)
+
+      return;
     }
 
     // 友好度檢查還沒做
     // 如果進行度為10的倍數，進行友好度檢查
     if (this.appServ.isProgressLoveChk) {
-      this.router.navigate(['/game/dialogue'], { state: { event: 'LoveChk' } });
+      this.router.navigate(['/game/dialogue'], { replaceUrl: true, state: { event: 'LoveChk' } });
       return;
     }
 
@@ -104,14 +110,11 @@ export class BeginComponent implements OnInit, AfterViewInit {
       'Scripts.Notice.SystemUpdate.13'
     );
     await this.appServ.Wait(1500);
-
-    this.router.navigate(['/game/dragongame'])
+    document.body.focus();
+    document.body.click();
+    this.router.navigate(['/game/dragongame'], { replaceUrl: true, })
     this.appServ.setNotice();
-    if (skipDragonGameEvent) {
-      this.appServ.Confirm(
-        this.appServ.t('Scripts.Confirm.Title.Caution'),
-        `The next event ${this.appServ.saveData.numVisits + 1} is still in WIP! \r\nNext visit event won't be triggered.`)
-    }
+
   }
 
 }

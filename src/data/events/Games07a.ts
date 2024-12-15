@@ -3,7 +3,7 @@ import { DialogueComponent } from "@/app/pages/game/dialogue/dialogue.component"
 
 /** 滅 び の 都 ヒ デ ィ ー ル 最終決戰腳本 */
 export const Games07a = async (component: DialogueComponent) => {
-  const { ClearContent, AllFadeOut, Emoji, Content, Face, location, router, SetSkipCallback, setDialogOpticity, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { location, router } = component;
 
   const { debugMenu } = location.getState() as { event: string, lv: string, debugMenu: boolean };
 

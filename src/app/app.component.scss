@@ -32,12 +32,12 @@ div#Ray1 {
     justify-content: center;
     background: black;
     opacity: 0;
-    animation: Ray1ContainerFadeInOut 5s steps(25);
+    animation: Ray1ContainerFadeInOut 5s linear;
 
     ::ng-deep img,
     img {
         opacity: 0;
-        animation: Ray1ImageFadeInOut 5s steps(25);
+        animation: Ray1ImageFadeInOut 5s linear;
 
     }
 }

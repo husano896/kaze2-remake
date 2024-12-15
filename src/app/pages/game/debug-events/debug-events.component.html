@@ -4,6 +4,8 @@
 
         <span>Event</span>
         <hr />
+
+        <button (click)="goToWelcome()" [disabled]="waiting">Startup</button>
         <button (click)="goDialog('Opening')" [disabled]="waiting">Opening</button>
         <button (click)="goDialog('Miss')" [disabled]="waiting">Miss</button>
         <button (click)="goDialog('Eventend')" [disabled]="waiting">Eventend</button>
@@ -12,6 +14,8 @@
         <button (click)="goDialog('Games04a', {lv: 1,debugMenu: true})" [disabled]="waiting">神獸寺廟lv1 - END</button>
         <button (click)="goDialog('Games07', {debugMenu: true})" [disabled]="waiting">滅びの都ヒディール</button>
         <button (click)="goDialog('Games07', {lv: 1,debugMenu: true})" [disabled]="waiting">滅びの都ヒディール - END</button>
+        <button (click)="goDialog('Quest01',{debugMenu: true})" [disabled]="waiting">ト ピ リ ア の 森</button>
+        <button (click)="goDialog('Quest01a',{debugMenu: true})"[disabled]="waiting">ト ピ リ ア の 森 - END</button>
         <br />
 
         <span>Ending</span>

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { AppService } from '@/app/app.service';
 import { CommonModule } from '@angular/common';
@@ -13,7 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './menu.component.scss'
 })
 export class MenuComponent implements AfterViewInit {
-  constructor(private appServ: AppService) {
+  constructor(private readonly appServ: AppService, private router: Router) {
 
   }
   ngAfterViewInit(): void {
@@ -23,6 +23,10 @@ export class MenuComponent implements AfterViewInit {
     this.appServ.setSE();
   }
 
+  startGame($event: Event) {
+    this.router.navigate(['/game/begin'], { replaceUrl: true })
+    $event.preventDefault();
+  }
   resetLoginTime() {
     this.appServ.setLastLogin(new Date().getTime() - 3600000);
   }

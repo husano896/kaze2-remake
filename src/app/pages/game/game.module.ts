@@ -73,6 +73,10 @@ const routes: Routes = [
     loadComponent: () => import('./debug-battle/debug-battle.component').then(m => m.DebugBattleComponent)
   },
   {
+    path: 'debug_dungeon',
+    loadComponent: () => import('./debug-dungeon/debug-dungeon.component').then(m => m.DebugDungeonComponent)
+  },
+  {
     path: 'shop',
     loadComponent: () => import('./shop/shop.component').then(m => m.ShopComponent)
   },
@@ -95,6 +99,10 @@ const routes: Routes = [
   {
     path: 'gameover',
     loadComponent: () => import('./gameover/gameover.component').then(m => m.GameoverComponent)
+  },
+  {
+    path: 'dungeon',
+    loadComponent: () => import('./dungeon/dungeon.component').then(m => m.DungeonComponent)
   },
   {
     path: '**',

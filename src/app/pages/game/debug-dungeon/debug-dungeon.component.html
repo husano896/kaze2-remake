@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="boxed-content game-bg full-width full-height flex-column padding-large gap" style="overflow: auto;">
+        <h2>Dungeon Test</h2>
+        <hr />
+        <button (click)="goDungeon('lv0')" [disabled]="waiting">lv0</button>
+        <button (click)="goDungeon('lv1')" [disabled]="waiting">lv1</button>
+        <button (click)="goDungeon('lv2')" [disabled]="waiting">lv2</button>
+        <button (click)="goDungeon('lv3')" [disabled]="waiting">lv3</button>
+        <button (click)="goDungeon('lv4')" [disabled]="waiting">lv4</button>
+        <br />
+
+        <a *ngIf="!waiting" routerLink="../" style="text-align: center;">{{'Actions.PrevPage' | translate}}</a>
+    </div>
+</div>
+@if (debug) {
+<app-save-data-editor></app-save-data-editor>
+}

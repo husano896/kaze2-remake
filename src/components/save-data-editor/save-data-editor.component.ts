@@ -16,7 +16,7 @@ import * as _ from 'lodash-es';
 export class SaveDataEditorComponent {
   opened?: boolean;
 
-  dragonChips = _.range(22).map(i => i > 0 ? (0x1 << i) : 0);
+  dragonChips = _.range(22).map(i => i > 0 ? (0x1 << i - 1) : 0);
 
   magics = _.range(20).map(i => i > 0 ? (0x1 << i) : 0);
   constructor(private appServ: AppService, private router: Router, private route: ActivatedRoute) {

@@ -7,7 +7,7 @@
   background-position: bottom;
   overflow: hidden;
   color: white;
-  padding: 32px 0px 16px 0px;
+  padding: 16px 0px 16px 0px;
   box-sizing: border-box;
 
 }
@@ -68,19 +68,6 @@ div#board-container div.cell.empty {
   background-color: black;
 }
 
-div#board-message {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  background: rgba(0, 0, 0, 0);
-  position: absolute;
-  top: 0;
-  left: 0;
-}
 
 div.timeleft-bar {
   width: 100%;
@@ -91,8 +78,4 @@ div.timeleft-bar {
       green calc(100% * var(--var-time) / 120),
       white calc(100% * var(--var-time) / 120),
       white 100%);
-}
-
-div#board-message.active {
-  background: rgba(0, 0, 0, 0.5);
 }

@@ -631,9 +631,7 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
     }
     ///#endregion
   }
-  abs(n: number) {
-    return Math.abs(n)
-  }
+
 
   get playerBuffText() {
     let varP1 = "";

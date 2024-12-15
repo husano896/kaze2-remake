@@ -6,6 +6,7 @@ import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { AppService } from '@/app/app.service';
 import { FormsModule } from '@angular/forms';
 import { BioFlag } from '@/data/BioFlag';
+import { DragonChipFlag } from '@/data/DragonChipFlag';
 
 
 const varInc_hp = new Array(0, 30, 10, 10, 100, 50, 20, 50, 10, 50, 50, 200, 20, 0, 5, 50, 100, 100, 5, 10, 200);
@@ -27,24 +28,18 @@ export class InventoryComponent {
   tab: 'item' | 'skin' = 'item';
 
   // items = new Array(34).fill(0).map((_, index) => index + 1)
-  skins = new Array(22).fill(0).map((_, index) => index > 0 ? (0x1 << (index - 1)) : 0)
+  skins: DragonChipFlag[] = new Array(22).fill(0).map((_, index) => index > 0 ? (0x1 << (index - 1)) : 0)
   selectedItems: Array<boolean> = [];
-  selectedSkin: number = -1;
+  selectedSkin: DragonChipFlag = 0;
   disabled?: boolean;
   constructor(private router: Router, private appServ: AppService) {
 
   }
 
   async onTabClick(tab: 'item' | 'skin') {
-    if (this.tab === 'skin') {
-      if (this.saveData.turn <= 0) {
-        await this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Caution'), this.appServ.t('Scripts.Confirm.Action.NoTurn'))
-        return;
-      }
-    }
     this.tab = tab;
     this.selectedItems = [];
-    this.selectedSkin = -1;
+    this.selectedSkin = this.saveData.DragonChip2;
   }
 
   async useItem() {
@@ -267,8 +262,8 @@ export class InventoryComponent {
           this.appServ.saveData.bio ^= 2;
           varBuffs.push("＞痙攣が治まってゆく…。");
         }
-        if ((varBioFlg & 16) && (this.appServ.saveData.bio & 16)) {
-          this.appServ.saveData.bio ^= 16;
+        if ((varBioFlg & BioFlag.恐怖) && (this.appServ.saveData.bio & BioFlag.恐怖)) {
+          this.appServ.saveData.bio ^= BioFlag.恐怖;
           varBuffs.push("＞呪縛が解き放たれ、恐怖症が消え去った。");
         }
         if ((varBioFlg & 4) && (this.appServ.saveData.bio & 16) && (varBioFlg & 2)) {
@@ -365,17 +360,20 @@ export class InventoryComponent {
         this.appServ.saveData.lvOffset -= (varInc_hp[OldDragonChipIndex] + varInc_at[OldDragonChipIndex] + varInc_df[OldDragonChipIndex] + varInc_speed[OldDragonChipIndex]);
       }
       // 套用新的契約加護印效果
-      const NewDragonChipIndex = Math.log2(this.selectedSkin);
-      console.log(this.selectedSkin, NewDragonChipIndex);
+      if (this.selectedSkin) {
+        const NewDragonChipIndex = Math.log2(this.selectedSkin);
+        console.log(this.selectedSkin, NewDragonChipIndex);
+        this.appServ.saveData.Maxhp += varInc_hp[NewDragonChipIndex];
+        this.appServ.saveData.at += varInc_at[NewDragonChipIndex];
+        this.appServ.saveData.df += varInc_df[NewDragonChipIndex];
+        this.appServ.saveData.speed += varInc_speed[NewDragonChipIndex];
+        this.appServ.saveData.element1 += varInc_element1[NewDragonChipIndex];
+        this.appServ.saveData.element2 += varInc_element2[NewDragonChipIndex];
+        this.appServ.saveData.lvOffset += (varInc_hp[NewDragonChipIndex] + varInc_at[NewDragonChipIndex] + varInc_df[NewDragonChipIndex] + varInc_speed[NewDragonChipIndex]);
+        this.disabled = true;
+      }
+
       this.appServ.saveData.DragonChip2 = this.selectedSkin;
-      this.appServ.saveData.Maxhp += varInc_hp[NewDragonChipIndex];
-      this.appServ.saveData.at += varInc_at[NewDragonChipIndex];
-      this.appServ.saveData.df += varInc_df[NewDragonChipIndex];
-      this.appServ.saveData.speed += varInc_speed[NewDragonChipIndex];
-      this.appServ.saveData.element1 += varInc_element1[NewDragonChipIndex];
-      this.appServ.saveData.element2 += varInc_element2[NewDragonChipIndex];
-      this.appServ.saveData.lvOffset += (varInc_hp[NewDragonChipIndex] + varInc_at[NewDragonChipIndex] + varInc_df[NewDragonChipIndex] + varInc_speed[NewDragonChipIndex]);
-      this.disabled = true;
     }
     this.appServ.saveData.turn--;
     this.router.navigate(['/game/dragongame'], { replaceUrl: true })

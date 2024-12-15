@@ -2,3 +2,38 @@
   background-color: #222222;
   color: #ffffff;
 }
+
+small#terminal:after {
+  content: '■';
+  animation: 3s Ray7Blinking linear infinite;
+}
+
+@keyframes Ray7Blinking {
+
+  0%,
+  20%,
+  40%,
+  60%,
+  80%,
+  100% {
+      visibility: visible;
+  }
+
+  5%,
+  10%,
+  15%,
+  25%,
+  30%,
+  35%,
+  45%,
+  50%,
+  55%,
+  65%,
+  70%,
+  75%,
+  85%,
+  90%,
+  95% {
+      visibility: hidden;
+  }
+}

@@ -14,6 +14,7 @@ export const Opening = async (component: DialogueComponent) => {
     setBG('welcome')
     setDragonCG('nomal01');
     setBGOpticity(1);
+    appServ.setBGM('music01')
     appServ.setAmbient('snd16')
     await toggleRay1();
 

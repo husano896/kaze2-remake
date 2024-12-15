@@ -28,6 +28,20 @@
     animation-timing-function: ease-out;
 }
 
+.anim-slideInFromLeft {
+    animation-name: slideInFromLeft;
+    animation-timing-function: ease-out;
+}
+
+.anim-slideInFromRight {
+    animation-name: slideInFromRight;
+    animation-timing-function: ease-out;
+}
+
+.anim-playerDamage {
+   animation-name: playerDamagedAnim;
+   animation-timing-function: ease-out;
+}
 @keyframes fadeIn {
     0% {
         opacity: 0;
@@ -75,4 +89,61 @@
         opacity: 1;
     }
 
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+
+@keyframes playerDamagedAnim {
+    0% {
+        transform: scale(1);
+        background-color: rgba(229, 0, 0, 0.5);
+    }
+
+    5% {
+        transform: scale(calc(1 + max(0.05, min(calc(var(--var-damage-percent)*0.15), 0.1))));
+    }
+
+    to {
+        transform: scale(1);
+        background-color: rgba(0, 0, 0, 0);
+    }
+}
+
+@keyframes damageText {
+
+    0%,
+    75% {
+        opacity: 1;
+    }
+
+    0% {
+        transform: scale(1.25);
+    }
+
+    25% {
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+    }
 }

@@ -696,6 +696,7 @@ export class SaveData implements IBattleData {
             go03: D_go3[varSet + 6],
             go04: D_go4[varSet + 6],
         }
+        return this.talkingGO;
     }
 
     get talkingParam() {

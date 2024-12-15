@@ -31,7 +31,10 @@ export class NewSaveComponent implements AfterViewInit {
 
   async onSubmit($event: any) {
     // this.appServ.loading = true;
-    const newSaveData = new SaveData();
+    if (!this.appServ.saveData) {
+      this.appServ.saveData = new SaveData();
+    }
+    const newSaveData = this.appServ.saveData;
     newSaveData.yourName = this.registerForm.value.yourName as string;
     newSaveData.dragonName = this.registerForm.value.dragonName as string;
     if (this.registerForm.value.gender === 'F') {

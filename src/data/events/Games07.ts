@@ -9,7 +9,7 @@ import { Games07a } from "./Games07a";
 
 /** 滅 び の 都 ヒ デ ィ ー ル */
 export const Games07 = async (component: DialogueComponent) => {
-  const { SetContentCompleted, ClearContent, AllFadeOut, Emoji, Content, Face, location, router, SetSkipCallback, setDialogOpticity, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { SetContentCompleted, AllFadeOut, Emoji, Content, Face, location, router, setDialogOpticity, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   const { debugMenu, lv } = location.getState() as { event: string, lv: string, debugMenu: boolean };
 

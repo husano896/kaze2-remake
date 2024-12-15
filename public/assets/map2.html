@@ -1,0 +1,1599 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!-- saved from url=(0022)http://internet.e-mail -->
+<HTML>
+
+<head>
+    <META NAME="Author" CONTENT="C_sugar">
+    <META HTTP-EQUIV="imagetoolbar" CONTENT="no">
+    <meta http-equiv='Page-Exit' content='blendTrans()'>
+    <META NAME="Keywords" CONTENT="JavaScript">
+    <script src="cgi_setservertime.js"></script>
+    <SCRIPT LANGUAGE="JavaScript" SRC="main.js"></SCRIPT>
+    <SCRIPT LANGUAGE="JavaScript" SRC="sub.js"></SCRIPT>
+    <SCRIPT LANGUAGE="JavaScript" SRC="layer.js"></SCRIPT>
+
+    <title>ダンジョン</title>
+    <script>
+        // setByServer();	// サーバ時間を取得
+
+        //================================================================================//
+        //                                   Maze 2                                       //
+        //     By C_sugar (URL:http://uk.geocities.com/sugar777pe/)                       //
+        //================================================================================//
+
+
+        var MazeH = 10;	// MAX 33
+        var MazeW = 10;
+        var StartPosX = 1;
+        var StartPosY = 1;
+        var PosX = 1;
+        var PosY = 1;
+        var MazeCode = new Array();
+        var MovTop = 1;
+        var MovBottom = 1;
+        var MovLeft = 1;
+        var MovRight = 1;
+        var ScreenShock = 0;
+        var WindowMx = 0;		// ウインドウ表示座標
+        var WindowMy = 0;
+        var varItemLog = "";	// 冒険クリア後に表示する取得した戦利品
+        var varGameOver = 0;	// 冒険終了フラグ
+        var varPresentItem = 0;	// プレゼントされる回数
+        var varDragonCnt = 0;		// 一定期間は絶対に他竜と出会わないカウンタ
+        var varTimID;			// インターバルタイマID
+        var varTimID2;			// インターバルタイマID
+        var varTimID3;			// インターバルタイマID
+        var varShellGet = 0;		// 床にシェルは落ちてるか？
+        var varWaitEsc = 0;		// WAIT処理で永久ループするのを防止
+
+
+        // DataLoad();
+        // PS_RyuCG();
+        // PS_DataChack('menu.html');
+
+        function NewMaze() {
+            for (i = 0; i <= MazeH; i++) {
+                MazeCode[i] = new Array(MazeW);
+            }
+            for (i = 0; i < MazeH; i++) {
+                for (j = 0; j <= MazeW; j++) {
+                    MazeCode[i][j] = "1";
+                }
+            }
+            MazeCode[StartPosY][StartPosX] = "0";
+            return;
+        }
+        function MakeMaze() {
+            NewMaze();
+            MovTop = 0;
+            MovLeft = 0;
+            DigMaze();
+            while ((PosY != StartPosY) || (PosX != StartPosX)) {
+                if (MovFlagChk() != 1) {
+                    ReturnPos();
+                } else {
+                    DigMaze();
+                }
+            }
+            return;
+        }
+
+        function DigMaze() {
+            var NumTbl = new Array();
+            var varCnt = 0;
+            if (MovTop == 1) {
+                NumTbl[varCnt] = 0; varCnt++;
+                //		NumTbl.push(0);
+            }
+            if (MovBottom == 1) {
+                NumTbl[varCnt] = 1; varCnt++;
+                //		NumTbl.push(1);
+            }
+            if (MovLeft == 1) {
+                NumTbl[varCnt] = 2; varCnt++;
+                //		NumTbl.push(2);
+            }
+            if (MovRight == 1) {
+                NumTbl[varCnt] = 3; varCnt++;
+                //		NumTbl.push(3);
+            }
+            Direction = Math.floor(Math.random() * NumTbl.length);
+            Direction = NumTbl[Direction];
+            switch (Direction) {
+                case 0:			// Top
+                    if ((PosChk(PosY - 2, PosX)) && (CodeChk(PosY - 2, PosX))) {
+                        MazeCode[PosY - 1][PosX] = "0";
+                        MazeCode[PosY - 2][PosX] = "0";
+                        PosY -= 2;
+                        NewMovFlag();
+                    } else {
+                        MovTop = 0;
+                    }
+                    break;
+                case 1:			// Bottom
+                    if ((PosChk(PosY + 2, PosX)) && (CodeChk(PosY + 2, PosX))) {
+                        MazeCode[PosY + 1][PosX] = "0";
+                        MazeCode[PosY + 2][PosX] = "0";
+                        PosY += 2;
+                        NewMovFlag();
+                    } else {
+                        MovBottom = 0;
+                    }
+                    break;
+                case 2:			// Left
+                    if ((PosChk(PosY, PosX - 2)) && (CodeChk(PosY, PosX - 2))) {
+                        MazeCode[PosY][PosX - 1] = "0";
+                        MazeCode[PosY][PosX - 2] = "0";
+                        PosX -= 2;
+                        NewMovFlag();
+                    } else {
+                        MovLeft = 0;
+                    }
+                    break;
+                case 3:			// Right
+                    if ((PosChk(PosY, PosX + 2)) && (CodeChk(PosY, PosX + 2))) {
+                        MazeCode[PosY][PosX + 1] = "0";
+                        MazeCode[PosY][PosX + 2] = "0";
+                        PosX += 2;
+                        NewMovFlag();
+                    } else {
+                        MovRight = 0;
+                    }
+                    break;
+            }
+            return;
+        }
+
+        function PosChk(Y, X) {
+            if ((Y >= 1) && (Y <= MazeH - 2) && (X >= 1) && (X <= MazeW - 2)) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+        function CodeChk(Y, X) {
+            if (MazeCode[Y][X] == "1") {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+        function NewMovFlag() {
+            MovTop = 1;
+            MovBottom = 1;
+            MovLeft = 1;
+            MovRight = 1;
+            return;
+        }
+        function MovFlagChk() {
+            if ((MovTop == 1) || (MovBottom == 1) || (MovLeft == 1) || (MovRight == 1)) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+        function ReturnPos() {
+
+            MazeCode[PosY][PosX] = "E";
+            if (MazeCode[PosY + 1][PosX] == "0") {
+                var MovY = 1;
+                var MovX = 0;
+            } else if (MazeCode[PosY - 1][PosX] == "0") {
+                var MovY = -1;
+                var MovX = 0;
+            } else if (MazeCode[PosY][PosX + 1] == "0") {
+                var MovY = 0;
+                var MovX = 1;
+            } else if (MazeCode[PosY][PosX - 1] == "0") {
+                var MovY = 0;
+                var MovX = -1;
+            }
+            PosY = PosY + MovY;
+            PosX = PosX + MovX;
+            MazeCode[PosY][PosX] = "E";
+            PosY = PosY + MovY;
+            PosX = PosX + MovX;
+            NewMovFlag();
+
+            return;
+        }
+
+        function SetMazeHtml() {
+            var MazeHTML = "";
+            for (var i = 0; i <= MazeH; i++) {
+                for (var j = 0; j <= MazeW; j++) {
+                    if ((MazeCode[i][j] == "0") || (MazeCode[i][j] == "E")) {
+                        MazeHTML += "<span class='Cell1'></span>";
+                    } else if (MazeCode[i][j] == "1") {
+                        MazeHTML += "<span class='Cell2'></span>";
+                    }
+                }
+                MazeHTML += "<br>";
+            }
+            DispMazeHtml(MazeHTML);
+            return;
+        }
+
+
+        function DispMazeHtml(MazeHTML) {
+            document.all.Maze.innerHTML = MazeHTML;
+            return;
+        }
+
+    </script>
+    <style>
+        .Cell2 {
+            width: 4px;
+            height: 4px;
+            font-size: 0px;
+        }
+
+        .Cell1 {
+            width: 4px;
+            height: 4px;
+            font-size: 0px;
+            background-color: "white";
+        }
+    </style>
+</head>
+
+
+
+<BODY TEXT="#ffffff" LINK="#ffccaa" VLINK="#ffccaa" BGCOLOR="#332200" onSelectStart="return false"
+    oncontextmenu="return false" ondragstart='return false'>
+    <style type="text/css">
+        <!--
+        textarea,
+        input,
+        select {
+            border: 1px solid #333333;
+            background-color: #333333;
+            color: #ffffff;
+            font-size: 14;
+        }
+        -->
+    </style>
+    <CENTER>
+        <TABLE cellSpacing=0 cellPadding=0 width=160 border=0>
+            <TR>
+                <TD><IMG SRC='image/map/null.jpg'></TD>
+                <TD><IMG SRC='image/map/null.jpg'></TD>
+                <TD><IMG SRC='image/map/null.jpg'></TD>
+                <TD><IMG SRC='image/map/null.jpg'></TD>
+                <TD><IMG SRC='image/map/null.jpg'></TD>
+            </TR>
+        </TABLE>
+    </CENTER>
+
+    <DIV ID='Ray0' STYLE='position:absolute;top:100px;left:120px; visibility: hidden;'>
+        <IMG src='image/dragon/"+fil+".gif' border=0 width=360 height=336 name='Dragon'>
+    </DIV>
+
+    <DIV ID='Maze' STYLE='position:absolute;top:24px;left:24px; visibility:visible;'>
+        <table width="100%" height="100%">
+            <tr>
+                <td align="center" valign="center" Style="background-color:silver;color:black;"></td>
+            </tr>
+        </table>
+    </DIV>
+
+    <DIV ID='Ray1' STYLE='position:absolute;top:24px;left:24px; visibility:visible;'>
+        <table width="8" height="8">
+            <tr>
+                <td align="center" valign="center" Style="background-color:#ff0000;color:black;"></td>
+            </tr>
+        </table>
+    </DIV>
+
+    <DIV ID='Ray2' STYLE='position:absolute;top:450px;left:30px; visibility: visible;'>
+        <CENTER>
+            <TABLE cellSpacing=0 cellPadding=0 width=70% border=0>
+                <TR>
+                    <TD>
+                        <TABLE cellSpacing=0 cellPadding=0 width=100% border=0>
+                            <TR>
+                                <TD width=100%>
+                                    <TABLE cellSpacing=0 cellPadding=0 border=0>
+                                        <TR>
+                                            <TD width=16> <IMG width=16 height=16 src='image/linez1.gif' border=0></TD>
+                                            <TD width=100%><IMG width=100% height=16 src='image/linez2.gif' border=0>
+                                            </TD>
+                                            <TD width=16><IMG width=16 height=16 src='image/linez3.gif' border=0></TD>
+                                        </TR>
+                                        <TR>
+                                            <TD height=100%><IMG width=16 height=100% src='image/linez8.gif' border=0>
+                                            </TD>
+                                            <TD>
+                                                <TABLE cellSpacing=0 cellPadding=0 width=100% border=0>
+                                                    <TR>
+                                                        <TD bgcolor=#333333 width=100%>
+                                                            <CENTER>
+                                                                <FORM NAME='MENUS'>
+                                                                    <INPUT TYPE='button' name='Btn' VALUE='N E X T ▼'
+                                                                        onclick="PS_SKIP();" onFocus='this.blur()'
+                                                                        disabled><BR>
+                                                                    <INPUT type='text' name='message1' size='80'
+                                                                        readonly>
+                                                                    <INPUT type='text' name='message2' size='80'
+                                                                        readonly>
+                                                                    <INPUT type='text' name='message3' size='80'
+                                                                        readonly>
+                                                                    <INPUT type='text' name='message4' size='80'
+                                                                        readonly>
+                                                            </CENTER>
+                                                            <TABLE cellSpacing=0 cellPadding=5 width=90% border=0>
+                                                                <FORM NAME='FoodForm'>
+                                                                </FORM>
+                                                            </TABLE>
+                                                        </TD>
+                                                    </TR>
+                                                </TABLE>
+                                            </TD>
+                                            <TD height=100%><IMG width=16 height=100% src='image/linez4.gif' border=0>
+                                            </TD>
+                                        </TR>
+                                        <TR>
+                                            <TD width=16> <IMG width=16 height=16 src='image/linez7.gif' border=0></TD>
+                                            <TD width=100%><IMG width=100% height=16 src='image/linez6.gif' border=0>
+                                            </TD>
+                                            <TD width=16> <IMG width=16 height=16 src='image/linez5.gif' border=0></TD>
+                                        </TR>
+                                    </TABLE>
+                                </TD>
+                                <TD></TD>
+                            </TR>
+                        </TABLE>
+                    </TD>
+                </TR>
+            </TABLE>
+        </CENTER>
+        </FORM>
+    </DIV>
+
+    <DIV ID='Ray3' STYLE='position:absolute;top:0px;left:380px; visibility:hidden;'>
+        <IMG src='image/KeyCnfg00.gif' border=0 USEMAP="#MAP">
+        <MAP NAME="MAP">
+            <AREA SHAPE=POLYGON COORDS="58,47,30,19,47,7,75,1,98,6,115,17,86,47" onClick="PS_Next2(38)">
+            <AREA SHAPE=POLYGON COORDS="87,50,118,20,128,32,136,65,130,90,118,107,88,78" onClick="PS_Next2(39)">
+            <AREA SHAPE=POLYGON COORDS="57,78,30,108,41,117,70,126,95,123,115,110,85,79" onClick="PS_Next2(40)">
+            <AREA SHAPE=POLYGON COORDS="27,19,17,34,10,57,13,84,26,104,55,75,56,50" onClick="PS_Next2(37)">
+            <AREA SHAPE=RECT COORDS="100,150,156,168" HREF="JavaScript:PS_Check()" onFocus='this.blur()'>
+            <AREA SHAPE=RECT COORDS="65,182,156,200" HREF="JavaScript:PS_GiveUp()" onFocus='this.blur()'>
+            <AREA SHAPE=RECT COORDS="80,210,156,230" HREF="JavaScript:PS_HpUp()" onFocus='this.blur()'>
+        </MAP>
+    </DIV>
+
+
+    <DIV ID='Ray4' STYLE='position:absolute;top:240px;left:150px; visibility:visible;'>
+        <CENTER>
+            <FORM NAME='WAIT'>
+                NOW LOADING<BR>
+                <INPUT type='text' name='message1' size='42' readonly>
+            </FORM>
+        </CENTER>
+    </DIV>
+
+    <DIV ID='Ray5' STYLE='position:absolute;top:40;left:230px; visibility:visible;'></DIV>
+
+    <DIV ID='Ray6' STYLE='position:absolute;top:150;left:50px; visibility:visible;'></DIV>
+
+
+    <SCRIPT LANGUAGE="JavaScript">
+        var x, y, sx, sy, cnt;
+        var mp;
+        var varNowFood = food;		// 冒険中の金残高
+        var varFil0 = "";		// マップ画像用
+        var varFil1 = "";
+        var varFil2 = "";
+        var varFil3 = "";
+        var varFil4 = "";
+        var varDragonNm;		// 出会うドラゴンの名前
+        var StartFlg = 0;		// 開始時の待ちバー表示フラグ（0:表示 1:無し）
+        var DathFlg = 1;		// キーロックフラグ（0:ロック無し 1:ロック）
+        var DragonFlg = 0;		// 孤竜対面モード解除フラグ(1: 解除 0:オフ)
+        var KeyStopFlg = 1;		// 調べるキー連続入力禁止フラグ
+        var MsgLop = 1;			// メッセージループ用
+        var varMapNo = 1;		// マップ番号
+        var varMapLv = 0;		// マップレベル
+        var varMapLvcnt = 3;	// マップレベルの種類の数
+        var varStX = 1;			// プレイヤー開始地点
+        var varStY = 1;
+        var varMX = varStX;	// プレイヤーの位置
+        var varMY = varStY;
+        var varMR = 0;			// プレイヤー向き(0:上　1:右　2:下　3:左)
+        var varOldMR = 0;
+        var CommandFlg = 0;		// 竜指示コマンド表示フラグ(1:表示 0:非表示)
+        var you2; var my2; var go200, go201, go202, go203, go204;
+        varMsg = new Array(DragonName + "は、洞窟へと足を踏み入れた…。", "", "", "", "");
+        var varBackupFood = 0;	// お金の一時保存
+        var varGetItem = new Array(3);
+        varGetItem[0] = new Array(20, 17, 14);		// Lv1ダンジョンで入手できるアイテム
+        varGetItem[1] = new Array(20, 17, 14, 6, 9, 13);	// Lv2ダンジョンで入手できるアイテム
+        varGetItem[2] = new Array(20, 17, 14, 9, 8);	// Lv3ダンジョンで入手できるアイテム
+        varGetItem[3] = new Array(16, 18, 13, 8, 7, 10);	// Lv4ダンジョンで入手できるアイテム
+
+
+        var varNowItem = new Array(varItem.length);
+        for (i = 0; i < varItem.length; i++) {		// 冒険前に今のアイテムを保存用変数に格納
+            varNowItem[i] = varItem[i];
+        }
+
+        varBackupFood = food;				// 冒険前にお金を保存用変数に格納
+
+        // 引数によりダンジョンレベルを測定
+        moto = 'lv3' //new String(parent.MAIN.location);
+        if (moto.search(/lv0/i) != -1) {
+            varMapLv = 4;			// イベント用ダンジョン
+            varMapNo = 1;
+            MazeH = 20;	// MAX 33
+            MazeW = 20;
+        } else if (moto.search(/lv1/i) != -1) {
+            varMapLv = 1;
+            varMapNo = 1;
+            MazeH = 9;	// MAX 33
+            MazeW = 9;
+        } else if (moto.search(/lv2/i) != -1) {
+            varMapLv = 2;
+            varMapNo = 1;
+            MazeH = 15;	// MAX 33
+            MazeW = 15;
+        } else if (moto.search(/lv3/i) != -1) {
+            varMapLv = 3;
+            varMapNo = 1;
+            MazeH = 25;	// MAX 33
+            MazeW = 25;
+        } else if (moto.search(/lv4/i) != -1) {
+            varMapLv = 4;
+            varMapNo = 1;
+            MazeH = 20;	// MAX 33
+            MazeW = 20;
+        }
+
+
+        document.MENUS.Btn.disabled = true;
+
+        MakeMaze();
+        SetMazeHtml();
+
+        with (document) {
+            write("<DIV ID = 'Ray3' STYLE='position:absolute;top:300px;left:20px; visibility:visible;'>");
+            write("<TABLE cellSpacing=0 cellPadding=0 width=80 border=0><TR><TD><TABLE cellSpacing=0 cellPadding=0 width=100%  border=0><TR><TD width=100%><TABLE cellSpacing=0 cellPadding=0 border=0><TR><TD width=16>  <IMG width=16   height=16 src='image/linez1.gif' border=0></TD><TD width=100%><IMG width=100% height=16 src='image/linez2.gif' border=0></TD><TD width=16><IMG width=16   height=16 src='image/linez3.gif' border=0></TD></TR><TR><TD height=100%><IMG width=16 height=100% src='image/linez8.gif' border=0></TD><TD><TABLE cellSpacing=0 cellPadding=0 width=100%  bgcolor=#333333 border=0>");
+            write("<TR bgcolor=#333333><FORM NAME='MY'><NOBR>" + DragonName + "</NOBR></TR>");
+            write("<TR><TD>H　P:</TD><TD><INPUT type='text' name='HP' size='5' readonly value='" + hp + "'></TD><TD>/　<TD><INPUT type='text' size='5' readonly value='" + Maxhp + "'></TD></TR>");
+            write("<TR><TD><nobr>シェル:</nobr></TD><TD><INPUT type='text' name='FOOD' size='5' readonly value='" + food + "'></TD><TD>/　<TD><INPUT type='text' size='5' readonly value='" + food + "'></TD></TR>");
+            write("</TABLE></TD><TD height=100%><IMG width=16 height=100% src='image/linez4.gif' border=0></TD></TR><TR><TD width=16>  <IMG width=16   height=16 src='image/linez7.gif' border=0></TD><TD width=100%><IMG width=100% height=16 src='image/linez6.gif' border=0></TD><TD width=16>  <IMG width=16   height=16 src='image/linez5.gif' border=0></TD></TR></TABLE></TD> <TD></TD> </TR></TABLE></TD></TR></TABLE><BR>");
+            write("</DIV>");
+            write("<DIV ID = 'Ray7' STYLE='position:absolute;top:100;left:20px; visibility:visible;'></DIV>");
+        }
+
+
+        // マップ画像先行読み込み
+        mapImage = new Image();
+        document.write("<DIV ID = 'Ray99' STYLE='position:absolute;top:300px;left:20px; visibility:hidden;'>");
+        for (cnt = 1; cnt <= 9; cnt++) {
+            document.write("<IMG src='image/map/map_0" + varMapNo + "_0" + cnt + ".jpg'  width=10 hight=10>");
+        }
+        for (cnt = 10; cnt <= 23; cnt++) {
+            document.write("<IMG src='image/map/map_0" + varMapNo + "_" + cnt + ".jpg' width=10 hight=10>");
+        }
+        document.write("</DIV>");
+
+        // 出口作成
+        do {
+            cnt = 0;
+            x = Math.round(Math.random() * (MazeW - 2)) + 1;
+            y = Math.round(Math.random() * (MazeH - 2)) + 1;
+            if (MazeCode[y - 1][x] == 1) cnt++;
+            if (MazeCode[y][x + 1] == 1) cnt++;
+            if (MazeCode[y + 1][x] == 1) cnt++;
+            if (MazeCode[y][x - 1] == 1) cnt++;
+            if (MazeCode[y][x] != 1) cnt += 10;
+            if ((y == varStY) && (x == varStX)) cnt = 0;	// スタート位置に出口は作れない
+        } while (cnt < 13)
+        MazeCode[y][x] = 2;
+        cnt = 0;
+
+        // 宝箱作成
+        if (varMapLv == 4) {
+            do {
+                x = Math.round(Math.random() * (MazeW - 2)) + 1;
+                y = Math.round(Math.random() * (MazeH - 2)) + 1;
+                if ((y != varStY) && (x != varStX) && (MazeCode[y][x] != 2) && (MazeCode[y][x] != 1)) {	// スタート位置や出口には宝箱を置けない
+                    if ((MazeCode[y - 1][x] != 2) && (MazeCode[y + 1][x] != 2) && (MazeCode[y][x + 1] != 2) && (MazeCode[y][x - 1] != 2)) {
+                        if ((MazeCode[y - 1][x] != 3) && (MazeCode[y + 1][x] != 3) && (MazeCode[y][x + 1] != 3) && (MazeCode[y][x - 1] != 3)) {
+                            MazeCode[y][x] = 3;
+                            cnt++;
+                        }
+                    }
+                }
+            } while (1 > cnt)
+        } else {
+            i = 0;
+            do {
+                x = Math.round(Math.random() * (MazeW - 2)) + 1;
+                y = Math.round(Math.random() * (MazeH - 2)) + 1;
+                if ((y != varStY) && (x != varStX) && (MazeCode[y][x] != 2) && (MazeCode[y][x] != 1)) {	// スタート位置や出口には宝箱を置けない
+                    if ((MazeCode[y - 1][x] != 2) && (MazeCode[y + 1][x] != 2) && (MazeCode[y][x + 1] != 2) && (MazeCode[y][x - 1] != 2)) {
+                        if ((MazeCode[y - 1][x] != 3) && (MazeCode[y + 1][x] != 3) && (MazeCode[y][x + 1] != 3) && (MazeCode[y][x - 1] != 3) && (MazeCode[y][x] != 3)) {
+                            MazeCode[y][x] = 3;
+                            cnt++;
+                        }
+                    }
+                    i++; if (i > 5900) cnt = 99;
+                }
+            } while (Math.round(varMapLv * 1.5) > cnt)
+        }
+
+        // 初期状態のプレイヤーの向きを決定
+        if (MazeCode[varMY - 1][varMX] != 1) varMR = 0;
+        if (MazeCode[varMY][varMX + 1] != 1) varMR = 1;
+        if (MazeCode[varMY + 1][varMX] != 1) varMR = 2;
+        if (MazeCode[varMY][varMX - 1] != 1) varMR = 3;
+        varOldMR = varMR;
+
+        PS_MapDraw();
+        window.document.onkeydown = PS_Next;
+        StartFlg = 1;
+        PS_Wait();
+        PS_MsgCmd();		// メッセージ表示のリフレッシュ
+
+
+
+
+        // 回復
+        function PS_HpUp() {
+            if (varGameOver || DathFlg) { 			// ゲームオーバー時は全てをロック
+            } else if (ItemCheck(9) == 1) {
+                DathFlg = 1;
+                if (ivent & 1) parent.SND.location.replace('snd10.html');
+                alertLAYER('Ray6', "注意<HR><br>回復するには" + varItemName[9] + "が必要です。<BR><p align=right><A HREF='JavaScript:PS_GiveUpChancel();' onFocus='this.blur()'><IMAGE SRC='image/btn_ok.gif' border=0></A></p>");
+            } else {
+                DathFlg = 1;
+                if (ivent & 1) parent.SND.location.replace('snd10.html');
+                alertLAYER('Ray6', "確認<HR><br>回復するには" + varItemName[9] + "を消費します。使いますか？<BR><p align=right><A HREF='JavaScript:PS_HpUp2();' onFocus='this.blur()'><IMAGE SRC='image/btn_ok.gif' border=0></A><A HREF='JavaScript:PS_GiveUpChancel();' onFocus='this.blur()'><IMAGE SRC='image/btn_no.gif' border=0></A></p>");
+            }
+        }
+
+        function PS_HpUp2() {
+            var a;
+            ItemErase(9);
+            ItemErase2(9);
+            hideLAYER('Ray6');
+            DathFlg = 0;
+            if (ivent & 1) parent.SND.location.replace('snd08.html');
+            a = Math.round((Math.random() * 20) + (Maxhp / 3));
+            hp += a;
+            if (hp > Maxhp) hp = Maxhp;
+            varMsg[1] = DragonName + "は " + varItemName[9] + "を使った。傷が " + a + " 回復した。";
+        }
+
+
+        // ギブアップ
+        function PS_GiveUp() {
+            if (varGameOver || DathFlg) { 			// ゲームオーバー時は全てをロック
+            } else if (ItemCheck(10) == 1) {
+                DathFlg = 1;
+                if (ivent & 1) parent.SND.location.replace('snd10.html');
+                alertLAYER('Ray6', "注意<HR><br>ギブアップするには" + varItemName[10] + "が必要です。<BR><p align=right><A HREF='JavaScript:PS_GiveUpChancel();' onFocus='this.blur()'><IMAGE SRC='image/btn_ok.gif' border=0></A></p>");
+            } else {
+                DathFlg = 1;
+                if (ivent & 1) parent.SND.location.replace('snd10.html');
+                alertLAYER('Ray6', "確認<HR><br>ギブアップするには" + varItemName[10] + "を消費します。使いますか？<BR><br><small>冒険で入手したアイテムとお金は失われます。</small><p align=right><A HREF='JavaScript:PS_GiveUp2();' onFocus='this.blur()'><IMAGE SRC='image/btn_ok.gif' border=0></A><A HREF='JavaScript:PS_GiveUpChancel();' onFocus='this.blur()'><IMAGE SRC='image/btn_no.gif' border=0></A></p>");
+            }
+        }
+
+        function PS_GiveUp2() {
+
+            hideLAYER('Ray6');
+            DathFlg = 1;
+            hp = Maxhp;
+
+            for (i = 0; i < varNowItem.length; i++) {	// アイテムを元に戻す
+                varItem[i] = varNowItem[i];
+            }
+            food = varBackupFood;			// お金も元に戻す
+            ItemErase(10);
+
+
+
+            // LoadTime  =  Math.floor(serverNow/1000/60); //早めにデータをセット(分)
+            LoadTime = Math.floor(new Date().getTime() / 1000 / 60); //早めにデータをセット(分)
+            DataSave();
+            location.replace("begin2.html");
+        }
+
+        function PS_GiveUpChancel() {
+            DathFlg = 0;
+            hideLAYER('Ray6');
+        }
+
+
+
+        // 調べる
+        function PS_Check() {
+            var i;
+
+            if (varGameOver || DathFlg) { 			// ゲームオーバー時は全てをロック
+            } else if ((KeyStopFlg == 0) && (DathFlg == 0)) {
+                KeyStopFlg = 1;
+                if (MazeCode[varMY][varMX] == 3) {
+                    varMsg[0] = DragonName + "は宝箱を調べた…";
+                    if (ivent & 1) parent.SND.location.replace('snd09.html');
+
+                    if ((bio & 128) && (varMapLv == 4)) {		// 発作治療アイテム
+                        varMsg[1] = "中に" + varItemName[15] + "が入っていた。" + DragonName + "はそれを口にくわえた。";
+                        ItemUse(15);
+                        varItemLog += varItemName[15] + "<br>";
+                        MazeCode[varMY][varMX] = 0;		// 宝箱消滅
+                        PS_MapDraw();					// マップ再描写
+                    } else if ((ItemCheck(25) == 0) && (varMapLv == 4)) {		// ニステアの滴
+                        varMsg[1] = "中に" + varItemName[32] + "が入っていた。" + DragonName + "はそれを口にくわえた。";
+                        ItemUse(32);
+                        varItemLog += varItemName[32] + "<br>";
+                        MazeCode[varMY][varMX] = 0;		// 宝箱消滅
+                        PS_MapDraw();					// マップ再描写
+                    } else if (((numVisits >= 41) && (numVisits <= 44)) && (varMapLv == 4)) {		// ささやかな財宝
+                        varMsg[1] = "中に" + varItemName[34] + "が入っていた。" + DragonName + "はそれを口にくわえた。";
+                        ItemUse(34);
+                        varItemLog += varItemName[34] + "<br>";
+                        MazeCode[varMY][varMX] = 0;		// 宝箱消滅
+                        PS_MapDraw();					// マップ再描写
+                    } else if (Math.round(Math.random() * 10) <= 3) {
+                        i = Math.round(Math.random() * 40 + 80);
+                        varMsg[1] = "中に" + i + "シェルが入っていた。" + DragonName + "はそれを口にくわえた。";
+                        varNowFood += i;
+                        MazeCode[varMY][varMX] = 0;		// 宝箱消滅
+                        PS_MapDraw();					// マップ再描写
+                    } else {
+                        do {
+                            i = Math.round(Math.random() * (varGetItem[varMapLv - 1].length - 1));
+                        } while (varGetItem[varMapLv - 1][i] <= 0);
+                        varMsg[1] = "中に" + varItemName[varGetItem[varMapLv - 1][i]] + "が入っていた。" + DragonName + "はそれを口にくわえた。";
+                        ItemUse(varGetItem[varMapLv - 1][i]);
+                        varItemLog += varItemName[varGetItem[varMapLv - 1][i]] + "<br>";
+                        MazeCode[varMY][varMX] = 0;		// 宝箱消滅
+                        PS_MapDraw();					// マップ再描写
+                    }
+                } else {
+                    if ((varMR == 0) && (MazeCode[varMY - 1][varMX] == 1)) {
+                        varMsg[0] = DragonName + "は、手前の壁を爪で穿った…";
+                    } else if ((varMR == 1) && (MazeCode[varMY][varMX + 1] == 1)) {
+                        varMsg[0] = DragonName + "は、手前の壁を牙でかじってみた…";
+                    } else if ((varMR == 2) && (MazeCode[varMY + 1][varMX] == 1)) {
+                        varMsg[0] = DragonName + "は、手前の壁に軽くのしかかった…";
+                    } else if ((varMR == 3) && (MazeCode[varMY][varMX - 1] == 1)) {
+                        varMsg[0] = DragonName + "は、手前の壁をよく凝視した…";
+                    } else {
+                        varMsg[0] = DragonName + "は足もとを調べた…";
+                    }
+                    if (varShellGet) {
+                        varMsg[1] = "しかし既に調べているので、何も見つからない…";
+                    } else {
+                        varShellGet = 1;
+                        if (Math.round(Math.random() * 10) <= 3) {
+                            varMsg[1] = "なんと、1シェルを発見した。";
+                            varNowFood++;
+                        } else {
+                            varMsg[1] = "しかし、何も見つけられなかった…";
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+        // ゲームオーバー
+        function PS_Dath() {
+            var j = 0;
+            hp = 0;
+            document.MY.HP.value = hp;	// ステータスを更新
+            if (ItemCheck(7) == 0) {
+                hp = Math.round(Maxhp / 3);
+                ItemErase(7);
+                ItemErase2(7);
+                PS_Command('Ray7', "ア イ テ ム 発 動<HR><br><small>突然 " + varItemName[7] + "が光ると、<br><nobr>力尽きたはずの孤竜の身代わりとなり</nobr><br>砕け散った！！<BR>ＨＰが" + Math.round(Maxhp / 3) + "回復した！</small><BR><p align=right><A HREF='JavaScript:alertEnd3();' onFocus='this.blur()'><IMAGE SRC='image/btn_ok.gif' border=0></A></p>");
+                if (ivent & 1) parent.SND.location.replace('snd08.html');
+            } else {
+                DathFlg = 1;
+                parent.MUSIC.location.replace('music00.html');
+                if (ivent & 1) parent.SND.location.replace('snd12.html');
+                for (j = 0; j < varNowItem.length; j++) {	// アイテムを元に戻す
+                    varItem[j] = varNowItem[j];
+                }
+                food = varBackupFood;			// お金も元に戻す
+
+                // LoadTime  =  Math.floor(serverNow/1000/60); //早めにデータをセット(分)
+                LoadTime = Math.floor(new Date().getTime() / 1000 / 60); //早めにデータをセット(分)
+                DataSave();
+                varGameOver = 1;
+                PS_Command('Ray7', "通 信 エ ラ ー<HR><br>孤竜の生命力が尽き、通信が途絶しました！<BR><br><small><nobr>入手したアイテム・お金は失われます。</nobr></small><BR><p align=right><A HREF='JavaScript:alertEnd2();' onFocus='this.blur()'><IMAGE SRC='image/btn_ok.gif' border=0></A></p>");
+            }
+        }
+
+
+        function PS_Dath2() {
+            location.replace("miss.html");
+        }
+
+
+        // マウスで歩く
+        function PS_Next2(key) {
+            event.keyCode = key;
+            PS_Next();
+        }
+
+        // 歩くルーチン
+        function PS_Next() {
+            var i = event.keyCode;
+
+            // 特殊キー入力割込み
+            if ((Math.abs(i) == 8) || (Math.abs(i) == 17) || (Math.abs(i) == 18) || (Math.abs(i) == 114)) {
+                ivent |= 16384;
+                DataSave();
+                alert("[ 禁止キー入力確認 ]\nこの入力キーはゲームを異常動作させます。");
+                location.href = "index99.html";
+            }
+
+
+            if (DathFlg) i = 0;			// 死んだら行動不可
+
+            if (varGameOver) { 			// ゲームオーバー時は全てをロック
+
+            } else if ((i == 32) || (i == 13) || (i == 0)) {
+                PS_Check();				// 調べるボタンを押せばルーチンへ
+            } else {
+                if ((i == 0) || (i == 38) || (i == 39) || (i == 40) || (i == 37)) {
+                    hp--;					// 行動するたびに減るHP
+                    if (hp <= 0) PS_Dath();
+                    varShellGet = 0;			// 調べるコマンド復旧
+                }
+
+                switch (varMR) {
+                    case 0:
+                        if (i == 38) varMR = 0; if (i == 39) varMR = 1; if (i == 40) varMR = 2; if (i == 37) varMR = 3;
+                        if ((i == 38) && (varMY > 1) && (MazeCode[varMY - 1][varMX] != 1)) varMY--;
+                        if (varOldMR == varMR) {
+                            if ((i == 39) && (varMX < MazeW) && (MazeCode[varMY][varMX + 1] != 1)) varMX++;
+                            if ((i == 40) && (varMY < MazeH) && (MazeCode[varMY + 1][varMX] != 1)) varMY++;
+                            if ((i == 37) && (varMX > 1) && (MazeCode[varMY][varMX - 1] != 1)) varMX--;
+                        }
+                        varOldMR = varMR;
+                        break;
+                    case 1:
+                        if (i == 37) varMR = 0; if (i == 38) varMR = 1; if (i == 39) varMR = 2; if (i == 40) varMR = 3;
+                        if ((i == 38) && (varMX < MazeW) && (MazeCode[varMY][varMX + 1] != 1)) varMX++;
+                        if (varOldMR == varMR) {
+                            if ((i == 37) && (varMY > 1) && (MazeCode[varMY - 1][varMX] != 1)) varMY--;
+                            if ((i == 39) && (varMY < MazeH) && (MazeCode[varMY + 1][varMX] != 1)) varMY++;
+                            if ((i == 40) && (varMX > 1) && (MazeCode[varMY][varMX - 1] != 1)) varMX--;
+                        }
+                        varOldMR = varMR;
+                        break;
+                    case 2:
+                        if (i == 40) varMR = 0; if (i == 37) varMR = 1; if (i == 38) varMR = 2; if (i == 39) varMR = 3;
+                        if ((i == 38) && (varMY < MazeH) && (MazeCode[varMY + 1][varMX] != 1)) varMY++;
+                        if (varOldMR == varMR) {
+                            if ((i == 40) && (varMY > 1) && (MazeCode[varMY - 1][varMX] != 1)) varMY--;
+                            if ((i == 37) && (varMX < MazeW) && (MazeCode[varMY][varMX + 1] != 1)) varMX++;
+                            if ((i == 39) && (varMX > 1) && (MazeCode[varMY][varMX - 1] != 1)) varMX--;
+                        }
+                        varOldMR = varMR;
+                        break;
+                    case 3:
+                        if (i == 39) varMR = 0; if (i == 40) varMR = 1; if (i == 37) varMR = 2; if (i == 38) varMR = 3;
+                        if ((i == 38) && (varMX > 1) && (MazeCode[varMY][varMX - 1] != 1)) varMX--;
+                        if (varOldMR == varMR) {
+                            if ((i == 39) && (varMY > 1) && (MazeCode[varMY - 1][varMX] != 1)) varMY--;
+                            if ((i == 40) && (varMX < MazeW) && (MazeCode[varMY][varMX + 1] != 1)) varMX++;
+                            if ((i == 37) && (varMY < MazeH) && (MazeCode[varMY + 1][varMX] != 1)) varMY++;
+                        }
+                        varOldMR = varMR;
+                        break;
+                }
+                if ((i == 0) || (i == 38) || (i == 39) || (i == 40) || (i == 37)) {
+                    PS_MapDraw();
+                    varDragonCnt++;		// 竜一定期間出会わないカウンタ加算
+                    if (ivent & 1) parent.SND.location.replace('snd11.html');
+                }
+
+                // 迷路クリア
+                if ((MazeCode[varMY][varMX] == 2) && (varGameOver == 0) && (hp > 0)) {
+                    if (varItemLog == "") {
+                        PS_Command('Ray7', "冒 険 ク リ ア<HR>今回は何も見つからなかった…。<br><BR><p align=right><A HREF='JavaScript:PS_MapEnd();' onFocus='this.blur()'><IMAGE SRC='image/btn_ok.gif' border=0></A></p>");
+                    } else {
+                        PS_Command('Ray7', "冒 険 ク リ ア<HR>" + varItemLog + "<BR>を、今回の冒険で手に入れた。<br><BR><p align=right><A HREF='JavaScript:PS_MapEnd();' onFocus='this.blur()'><IMAGE SRC='image/btn_ok.gif' border=0></A></p>");
+                    }
+                    DathFlg = 1;
+                } else if ((i == 0) || (i == 38) || (i == 39) || (i == 40) || (i == 37)) {
+                    if (StartFlg && (MazeCode[varMY][varMX] != 3) && (Math.round(Math.random() * 25) == 1)) {
+                        if ((varDragonCnt >= 5) && (varMapLv != 4) && (varGameOver == 0)) {		// 発作
+                            PS_DragonCome();	// 発作でなければドラゴンに会う
+                        }
+                    } else if (StartFlg == 0) {
+                        StartFlg = 1;
+                        PS_Wait();
+                    } else {
+                        moveLAYER('Ray4', 140, 420);
+                        showLAYER('Ray4');
+                        DathFlg = 1;
+                        varTimID3 = setTimeout("PS_JustWait()", 700);
+                    }
+                }
+
+            }
+        }
+
+        // 迷路クリア
+        function PS_MapEnd() {
+            hideLAYER('Ray7');
+            food = varNowFood;
+            hp = Maxhp;
+
+            // LoadTime  =  Math.floor(serverNow/1000/60); //早めにデータをセット(分)
+            LoadTime = Math.floor(new Date().getTime() / 1000 / 60); //早めにデータをセット(分)
+            DataSave();
+            location.replace("begin2.html");
+        }
+
+
+
+        // マップ描写
+        function PS_MapDraw() {
+            switch (varMR) {
+                case 0: if (MazeCode[varMY - 1][varMX] == 1) {
+                    varFil0 = "09"; varFil1 = "10"; varFil2 = "11"; varFil3 = "12"; varFil4 = "13";
+                } else if (MazeCode[varMY - 1][varMX] == 2) {
+                    varFil0 = "01"; varFil4 = "02";
+                    varFil1 = "03";
+                    varFil2 = "16";
+                    varFil3 = "04";
+                } else if (MazeCode[varMY - 1][varMX] == 3) {
+                    varFil0 = (MazeCode[varMY][varMX - 1] != 1) ? "19" : "01";
+                    varFil1 = (MazeCode[varMY - 1][varMX - 1] != 1) ? "06" : "03";
+                    varFil2 = (MazeCode[varMY - 2][varMX] != 1) ? "14" : "15";
+                    varFil3 = (MazeCode[varMY - 1][varMX + 1] != 1) ? "07" : "04";
+                    varFil4 = (MazeCode[varMY][varMX + 1] != 1) ? "20" : "02";
+                } else if (MazeCode[varMY][varMX] == 3) {
+                    varFil0 = (MazeCode[varMY][varMX - 1] != 1) ? "19" : "01";
+                    varFil1 = (MazeCode[varMY - 1][varMX - 1] != 1) ? "06" : "03";
+                    varFil2 = (MazeCode[varMY - 2][varMX] != 1) ? "17" : "18";
+                    varFil3 = (MazeCode[varMY - 1][varMX + 1] != 1) ? "07" : "04";
+                    varFil4 = (MazeCode[varMY][varMX + 1] != 1) ? "20" : "02";
+                } else {
+                    varFil0 = (MazeCode[varMY][varMX - 1] != 1) ? "19" : "01";
+                    varFil1 = (MazeCode[varMY - 1][varMX - 1] != 1) ? "06" : "03";
+                    varFil2 = (MazeCode[varMY - 2][varMX] != 1) ? "05" : "08";
+                    varFil3 = (MazeCode[varMY - 1][varMX + 1] != 1) ? "07" : "04";
+                    varFil4 = (MazeCode[varMY][varMX + 1] != 1) ? "20" : "02";
+                }
+                    break;
+                case 1: if (MazeCode[varMY][varMX + 1] == 1) {
+                    varFil0 = "09"; varFil1 = "10"; varFil2 = "11"; varFil3 = "12"; varFil4 = "13";
+                } else if (MazeCode[varMY][varMX + 1] == 2) {
+                    varFil0 = "01"; varFil4 = "02";
+                    varFil1 = "03";
+                    varFil2 = "16";
+                    varFil3 = "04";
+                } else if (MazeCode[varMY][varMX + 1] == 3) {
+                    varFil0 = (MazeCode[varMY - 1][varMX] != 1) ? "19" : "01";
+                    varFil1 = (MazeCode[varMY - 1][varMX + 1] != 1) ? "06" : "03";
+                    varFil2 = (MazeCode[varMY][varMX + 2] != 1) ? "14" : "15";
+                    varFil3 = (MazeCode[varMY + 1][varMX + 1] != 1) ? "07" : "04";
+                    varFil4 = (MazeCode[varMY + 1][varMX] != 1) ? "20" : "02";
+                } else if (MazeCode[varMY][varMX] == 3) {
+                    varFil0 = (MazeCode[varMY - 1][varMX] != 1) ? "19" : "01";
+                    varFil1 = (MazeCode[varMY - 1][varMX + 1] != 1) ? "06" : "03";
+                    varFil2 = (MazeCode[varMY][varMX + 2] != 1) ? "17" : "18";
+                    varFil3 = (MazeCode[varMY + 1][varMX + 1] != 1) ? "07" : "04";
+                    varFil4 = (MazeCode[varMY + 1][varMX] != 1) ? "20" : "02";
+                } else {
+                    varFil0 = (MazeCode[varMY - 1][varMX] != 1) ? "19" : "01";
+                    varFil1 = (MazeCode[varMY - 1][varMX + 1] != 1) ? "06" : "03";
+                    varFil2 = (MazeCode[varMY][varMX + 2] != 1) ? "05" : "08";
+                    varFil3 = (MazeCode[varMY + 1][varMX + 1] != 1) ? "07" : "04";
+                    varFil4 = (MazeCode[varMY + 1][varMX] != 1) ? "20" : "02";
+                }
+                    break;
+                case 2: if (MazeCode[varMY + 1][varMX] == 1) {
+                    varFil0 = "09"; varFil1 = "10"; varFil2 = "11"; varFil3 = "12"; varFil4 = "13";
+                } else if (MazeCode[varMY + 1][varMX] == 2) {
+                    varFil0 = "01"; varFil4 = "02";
+                    varFil1 = "03";
+                    varFil2 = "16";
+                    varFil3 = "04";
+                } else if (MazeCode[varMY + 1][varMX] == 3) {
+                    varFil0 = (MazeCode[varMY][varMX + 1] != 1) ? "19" : "01";
+                    varFil1 = (MazeCode[varMY + 1][varMX + 1] != 1) ? "06" : "03";
+                    varFil2 = (MazeCode[varMY + 2][varMX] != 1) ? "14" : "15";
+                    varFil3 = (MazeCode[varMY + 1][varMX - 1] != 1) ? "07" : "04";
+                    varFil4 = (MazeCode[varMY][varMX - 1] != 1) ? "20" : "02";
+                } else if (MazeCode[varMY][varMX] == 3) {
+                    varFil0 = (MazeCode[varMY][varMX + 1] != 1) ? "19" : "01";
+                    varFil1 = (MazeCode[varMY + 1][varMX + 1] != 1) ? "06" : "03";
+                    varFil2 = (MazeCode[varMY + 2][varMX] != 1) ? "17" : "18";
+                    varFil3 = (MazeCode[varMY + 1][varMX - 1] != 1) ? "07" : "04";
+                    varFil4 = (MazeCode[varMY][varMX - 1] != 1) ? "20" : "02";
+                } else {
+                    varFil0 = (MazeCode[varMY][varMX + 1] != 1) ? "19" : "01";
+                    varFil1 = (MazeCode[varMY + 1][varMX + 1] != 1) ? "06" : "03";
+                    varFil2 = (MazeCode[varMY + 2][varMX] != 1) ? "05" : "08";
+                    varFil3 = (MazeCode[varMY + 1][varMX - 1] != 1) ? "07" : "04";
+                    varFil4 = (MazeCode[varMY][varMX - 1] != 1) ? "20" : "02";
+                }
+                    break;
+                case 3: if (MazeCode[varMY][varMX - 1] == 1) {
+                    varFil0 = "09"; varFil1 = "10"; varFil2 = "11"; varFil3 = "12"; varFil4 = "13";
+                } else if (MazeCode[varMY][varMX - 1] == 2) {
+                    varFil0 = "01"; varFil4 = "02";
+                    varFil1 = "03";
+                    varFil2 = "16";
+                    varFil3 = "04";
+                } else if (MazeCode[varMY][varMX - 1] == 3) {
+                    varFil0 = (MazeCode[varMY + 1][varMX] != 1) ? "19" : "01";
+                    varFil1 = (MazeCode[varMY + 1][varMX - 1] != 1) ? "06" : "03";
+                    varFil2 = (MazeCode[varMY][varMX - 2] != 1) ? "14" : "15";
+                    varFil3 = (MazeCode[varMY - 1][varMX - 1] != 1) ? "07" : "04";
+                    varFil4 = (MazeCode[varMY - 1][varMX] != 1) ? "20" : "02";
+                } else if (MazeCode[varMY][varMX] == 3) {
+                    varFil0 = (MazeCode[varMY + 1][varMX] != 1) ? "19" : "01";
+                    varFil1 = (MazeCode[varMY + 1][varMX - 1] != 1) ? "06" : "03";
+                    varFil2 = (MazeCode[varMY][varMX - 2] != 1) ? "17" : "18";
+                    varFil3 = (MazeCode[varMY - 1][varMX - 1] != 1) ? "07" : "04";
+                    varFil4 = (MazeCode[varMY - 1][varMX] != 1) ? "20" : "02";
+                } else {
+                    varFil0 = (MazeCode[varMY + 1][varMX] != 1) ? "19" : "01";
+                    varFil1 = (MazeCode[varMY + 1][varMX - 1] != 1) ? "06" : "03";
+                    varFil2 = (MazeCode[varMY][varMX - 2] != 1) ? "05" : "08";
+                    varFil3 = (MazeCode[varMY - 1][varMX - 1] != 1) ? "07" : "04";
+                    varFil4 = (MazeCode[varMY - 1][varMX] != 1) ? "20" : "02";
+                }
+                    break;
+            }
+
+
+            if (MazeCode[varMY][varMX] == 2) {
+                varFil0 = "21"; varFil4 = "21";
+                varFil1 = "22"; varFil3 = "22";
+                varFil2 = "23";
+            }
+            self.document.images[0].src = 'image/map/map_0' + varMapNo + '_' + varFil0 + '.jpg';
+            self.document.images[1].src = 'image/map/map_0' + varMapNo + '_' + varFil1 + '.jpg';
+            self.document.images[2].src = 'image/map/map_0' + varMapNo + '_' + varFil2 + '.jpg';
+            self.document.images[3].src = 'image/map/map_0' + varMapNo + '_' + varFil3 + '.jpg';
+            self.document.images[4].src = 'image/map/map_0' + varMapNo + '_' + varFil4 + '.jpg';
+            moveLAYER('Ray1', 24 + varMX * 4 - 2, 24 + varMY * 4 - 2);
+        }
+
+
+
+        // 他の竜と出会う
+        function PS_DragonCome() {
+            var varDataBase = new Array();
+            var DrNam = new Array("かげまる", "ヒミコ", "タカマガハラ", "カントク", "ミッチャン", "サンペイ", "神威", "狸饂飩", "土竜餅", "影虎", "きよひめ", "おしず", "まさむね", "ごえもん", "りゅういち", "しんげん", "タマ", "ミケ", "ポチ", "アルギズ", "イェーラ", "ハガル", "ケーナズ", "ウル", "フェオ", "テティス", "サテラ", "リベウス", "ジーク", "プラウン", "ライデン", "スルムル", "ダンテ", "ユット", "カイル", "アーティ", "ファウス", "ラムダ", "サヌータ", "ヴィンス");
+
+            hideLAYER('Ray3');
+            DathFlg = 1;
+            varDragonCnt = 0;	// カウンタリセット
+            CommandFlg = 1;		// コマンド表示フラグ
+            varDataBase[0] = hp; hp = Math.round(Math.random() * hp + 50);
+            varDataBase[1] = at; at = Math.round(Math.random() * at + 50);
+            varDataBase[2] = df; df = Math.round(Math.random() * df + 50);
+            varDataBase[3] = speed; speed = Math.round(Math.random() * speed + 50);
+            varDataBase[4] = ivent; ivent = 0;
+            varDataBase[5] = element1; element1 = Math.round(Math.random() * 100);
+            varDataBase[6] = element2; element2 = Math.round(Math.random() * 100);
+            varDataBase[7] = DragonChip2; DragonChip2 = 0;
+            varDataBase[8] = bio; bio = 0;
+            varDataBase[9] = my;
+            varDataBase[10] = you;
+            varDataBase[11] = go01;
+            varDataBase[12] = go02;
+            varDataBase[13] = go03;
+            varDataBase[14] = go00;
+            varDataBase[15] = go04;
+            fil = "";
+            PS_RyuCG();
+            you2 = you; my2 = my; go200 = go00; go201 = go01; go202 = go02; go203 = go03; go204 = go04;
+            hp = varDataBase[0]; at = varDataBase[1];
+            df = varDataBase[2]; speed = varDataBase[3];
+            ivent = varDataBase[4]; element1 = varDataBase[5];
+            element2 = varDataBase[6]; DragonChip2 = varDataBase[7];
+            bio = varDataBase[8]; my = varDataBase[9];
+            you = varDataBase[10]; go01 = varDataBase[11];
+            go02 = varDataBase[12]; go03 = varDataBase[13];
+            go00 = varDataBase[14]; go04 = varDataBase[15];
+            self.document.Dragon.src = 'image/dragon/' + fil + '.gif';
+            showLAYER('Ray0');
+            fadeOpacity('Ray0', 1, 1);
+
+            varDragonNm = DrNam[Math.round(Math.random() * (DrNam.length - 1))];
+            cnt = Math.round(Math.random() * 20);
+
+            varMsg[0] = "偶然にも、別の里親の孤竜 " + varDragonNm + "と出会った！";
+            varMsg[1] = varDragonNm + "は突然の遭遇に戸惑っている。" + DragonName + "にどう指示しますか？";
+        }
+
+
+
+        // 話す
+        function PS_Talk() {
+            var i, cnt = 0;
+
+            if (ivent & 1) parent.SND.location.replace('snd10.html');
+            hideLAYER('Ray5');
+            cnt = Math.floor(Math.random() * 32);	// ▼メッセージの数に応じて変更せよ！
+            switch (cnt) {
+                case 0:
+                    varMsg[0] = "…ゴホッゴホッ…！！";
+                    varMsg[1] = "どうやら" + varDragonNm + "は、風邪をひいてしまっているらしい。";
+                    varMsg[2] = DragonName + "は、苦しくせき込む" + varDragonNm + "を沈痛な面持ちで見送った……。";
+                    if (hp < (Maxhp / 3)) {
+                        bio = bio | 8;
+                        varMsg[3] = "…気のせいか、せきを吸い込んだ" + DragonName + "は、喉に違和感を感じた。";
+                    } else {
+                        varMsg[3] = "";
+                    }
+                    break;
+                case 1:
+                    varMsg[0] = varDragonNm + ": キミの里親って、しっかりしてそうでうらやましい" + go201 + "。";
+                    varMsg[1] = my2 + "の里親はなんだか頼りない" + go201 + "。…ドジだし。";
+                    varMsg[2] = "[言い終わると、相手の首にかけている端末からの抗議のメッセージが表示された。]";
+                    varMsg[3] = DragonName + "： …ケンカしてるけど、お互い笑いあってる。…結局、仲がいい" + go01 + "。";
+                    break;
+                case 2:
+                    cnt = Math.round((at / 4) + Math.random() * 25) + 4;
+                    varMsg[0] = DragonName + ": ！！？う、うわ～～～～っ！！";
+                    varMsg[1] = "突然" + varDragonNm + "が襲い掛かってきた！" + DragonName + "は" + cnt + " の傷を負った。";
+                    varMsg[2] = varDragonNm + "：え？あっ……ごめん。 てっきり魔獣だと思った" + go201 + "…。";
+                    varMsg[3] = "ホントにごめん" + go00 + go01 + "…。";
+                    hp -= cnt;
+                    if (ivent & 1) parent.SND.location.replace('snd01.html'); PS_Shock(cnt);
+                    if (hp <= 0) PS_Dath();
+                    break;
+                case 3:
+                    varMsg[0] = varDragonNm + "：" + my2 + "は病気なんだって…。普通の病気と違って、治る気がしない" + go201 + "……。";
+                    varMsg[1] = DragonName + "：うん、" + my + "も" + go00 + go01 + "。 でも、" + my + "たちには里親さんがついてる" + go01 + "！";
+                    varMsg[2] = DragonName + "：もちろん、" + my + "も協力する" + go01 + "。 だから、大丈夫" + go00 + go01 + "！";
+                    varMsg[3] = varDragonNm + "：……ありがとう♪";
+                    break;
+
+                case 4:
+                    varMsg[0] = varDragonNm + "：キミは、あそこで食べるごはんの中で、何がいい" + go204 + "？";
+                    varMsg[1] = DragonName + "：？…… " + my + "はどらぐりーちゃむ！ でもクリーム煮も捨てがた…。";
+                    varMsg[2] = "[会話は、おなかから聞こえてくる竜の頼りない鳴き声のような音で中断された。]";
+                    varMsg[3] = DragonName + "：こんな話すると……おなかすいてくる" + go01 + "。";
+                    break;
+
+                case 5:
+                    varMsg[0] = varDragonNm + "：こういう場所って、なんだかちょっと落ち着く" + go201 + "…。";
+                    varMsg[1] = varDragonNm + "：これって、ただ単に" + my2 + "だけがそう感じてる" + go203 + "？";
+                    varMsg[2] = DragonName + "：竜の本能だって言う人もいるけど…本当はどうなんだろう。";
+                    varMsg[3] = DragonName + "：" + my + "も嫌いじゃないけど、たぶん竜それぞれだと思う" + go01 + "。";
+                    break;
+
+                case 6:
+                    varMsg[0] = varDragonNm + "：街にいると時々、避けられている気がする" + go201 + "…。";
+                    varMsg[1] = DragonName + "：うん…。だけど" + my + "は、あの街が好き" + go00 + go01 + "。";
+                    varMsg[2] = DragonName + "：海の香りや港の船や…。その街に住むみんながとっても好き" + go00 + go01 + "。";
+                    varMsg[3] = DragonName + "：だから、みんなに迷惑かけないよう、元気でいようって思う" + go01 + "。";
+                    break;
+
+                case 7:
+                    varMsg[0] = varDragonNm + "：あ、ごめん。今、急いでいる" + go201 + "。";
+                    varMsg[1] = varDragonNm + "：ちょっと通してくれる？";
+                    varMsg[2] = "[そう言うと" + varDragonNm + "は足早に立ち去っていった。]";
+                    varMsg[3] = "";
+                    break;
+
+                case 8:
+                    varMsg[0] = varDragonNm + "：あぁ…この辺、足もとが滑りやすいから気をつけてほしい" + go201 + "。";
+                    varMsg[1] = DragonName + "：うん、ありがと。 それにしても…痛くない…？";
+                    varMsg[2] = DragonName + "：鼻先をすりむいてるみたいだけど…。";
+                    varMsg[3] = varDragonNm + "：えっ？　た…大したことないから、気にしなくていい" + go201 + "。";
+                    break;
+
+                case 9:
+                    varMsg[0] = varDragonNm + "：あうぅ…道に迷ったんだけど…どっちに行ったらいい" + go204 + "？";
+                    varMsg[1] = DragonName + "：道筋は…「つうしんき」を見てる里親が導いてくれる" + go01 + "。";
+                    varMsg[2] = varDragonNm + "：えっ？ " + my2 + "の里親は………あ、マナーモード。";
+                    varMsg[3] = varDragonNm + "：ひっ……ひどぉい" + go201 + "！　　わぁぁぁん！";
+                    break;
+
+                case 10:
+                    varMsg[0] = varDragonNm + "：ダンジョンを歩いていると、毒気でどんどん体力が減っていくから、";
+                    varMsg[1] = varDragonNm + "：精霊根はたくさん持っておいたほうがいい" + go201 + "。";
+                    varMsg[2] = varDragonNm + "：思わぬ所で大ダメージ！ なんてこともあるから…。";
+                    varMsg[3] = varDragonNm + "：" + my2 + "からのアドバイス" + go200 + go201 + "！";
+                    break;
+
+                case 11:
+                    do {
+                        i = Math.round(Math.random() * (varGetItem[varMapLv - 1].length - 1));	// ダンジョンのアイテム検索
+                    } while (varGetItem[varMapLv - 1][i] <= 0);
+                    if (varPresentItem >= 3) {
+                        varItemLog += varItemName[varGetItem[varMapLv - 1][i]] + "<br>";
+                        varMsg[0] = varDragonNm + "：さっき、" + varItemName[varGetItem[varMapLv - 1][i]] + "を手に入れたんだ。";
+                        varMsg[1] = varDragonNm + "：もう持てないから…これ、あげる" + go201 + "！";
+                        varMsg[2] = DragonName + "：……でも… やっぱり悪い" + go01 + "。";
+                        varMsg[3] = varDragonNm + "：うぅん…そう。分かった" + go201 + "。 じゃぁ、他竜にあげる" + go201 + "。";
+                    } else {
+                        ItemUse(varGetItem[varMapLv - 1][i]);
+                        varPresentItem++;
+                        varItemLog += varItemName[varGetItem[varMapLv - 1][i]] + "<br>";
+                        varMsg[0] = varDragonNm + "：さっき、" + varItemName[varGetItem[varMapLv - 1][i]] + "を手に入れたんだ。";
+                        varMsg[1] = varDragonNm + "：もう持てないから…これ、あげる" + go201 + "！";
+                        varMsg[2] = "[" + DragonName + "は" + varItemName[varGetItem[varMapLv - 1][i]] + "を受け取ったが、遠慮している。]";
+                        varMsg[3] = "[" + varDragonNm + "は「いいよ」と身振りをしながら 横を通り過ぎていった。]";
+                    }
+                    break;
+
+                case 12:
+                    varMsg[0] = varDragonNm + "：精霊さんたちからもらった力を使うと、姿だけじゃなくて";
+                    varMsg[1] = varDragonNm + "：その力とも同調することができる…ってこと知ってるー？";
+                    varMsg[2] = varDragonNm + "：なかには、特殊な能力を持っている精霊もいるらしい" + go201 + "。";
+                    varMsg[3] = DragonName + "：へぇ…。いろんな精霊さんがいる" + go01 + "。";
+                    break;
+
+                case 13:
+                    varMsg[0] = varDragonNm + "：キミは空を飛んだこと、ある" + go203 + "？";
+                    varMsg[1] = varDragonNm + "：自分の翼で風をかき分けてる時って、すごく気持ちいい" + go201 + "！";
+                    varMsg[2] = DragonName + "：んん……。話を聞いたら大空を飛びたくなってきた" + go01 + "…。";
+                    break;
+
+                case 14:
+                    varMsg[0] = varDragonNm + "：あ、ちょっと里親さんの顔、近くで見せてくれない？";
+                    varMsg[1] = "[不思議に思いながらも、" + DragonName + "は自分の端末を差し出す。]";
+                    varMsg[2] = "[" + varDragonNm + "はいろいろな方向から眺めると、いたずらっぽく笑ってみせた。]";
+                    varMsg[3] = DragonName + "：理由を聞く前に行っちゃった" + go01 + "…。 な、なんだった" + go04 + "？";
+                    break;
+
+                case 15:
+                    varMsg[0] = varDragonNm + "：知ってる？　ＤＮＡ種って、" + my2 + "らに秘めた力を引き出すって噂。";
+                    varMsg[1] = varDragonNm + "：何でも、3回使えば 3種の力が引き出せるって話" + go200 + go201 + "。";
+                    varMsg[2] = DragonName + "：それって、どこで手に入る" + go04 + "？";
+                    varMsg[3] = varDragonNm + "：お店にあるらしいんだけれど、すごく高いみたい…。";
+                    break;
+
+                case 16:
+                    varMsg[0] = varDragonNm + "：壁や地面を調べると、たまに、光る粒のようなものが見つかる" + go201 + "！";
+                    varMsg[1] = varDragonNm + "：わずかなお金にしかならないけど、うれしい" + go201 + "。";
+                    varMsg[2] = DragonName + "：知ってる" + go01 + "。 でも、なんでそんなに集めて……。";
+                    varMsg[3] = DragonName + "：あ、もしかして…。 うん、応援してる" + go01 + "。";
+                    break;
+
+                case 17:
+                    varMsg[0] = varDragonNm + "：こんにち……は…？";
+                    varMsg[1] = "[あいさつをしようと近づいたが、触れることができずにすり抜けてしまった。]";
+                    varMsg[2] = "[慌てて振り返ってみても、そこには何もいない…。]";
+                    varMsg[3] = "[" + DragonName + "は おびえはじめた。]";
+                    break;
+
+                case 18:
+                    varMsg[0] = varDragonNm + "：ちょうどよかった。ちょっと、そこに立っていてくれる？";
+                    varMsg[1] = varDragonNm + "：今、新しく覚えた回復魔法の練習をしてた" + go201 + "。";
+                    varMsg[2] = "[普段話している言葉とも、ただの竜の鳴き声ともつかない竜語魔法が唱えられる。]";
+                    varMsg[3] = "[暖かい光が" + DragonName + "の体を包み込み、疲れが和らいでいくのが感じられた。]";
+                    if (ivent & 1) parent.SND.location.replace('snd08.html');
+                    hp += Math.round((Math.random() * 20) + (Maxhp / 3));
+                    if (Maxhp < hp) hp = Maxhp;
+                    break;
+
+                case 19:
+                    varMsg[0] = varDragonNm + "：ちょうどよかった。今新しく覚えた回復魔法の練習をしてた" + go201 + "。";
+                    varMsg[1] = "[普段話している言葉とも、ただの竜の鳴き声ともつかない竜語魔法が唱えられる。]";
+                    varMsg[2] = "[その瞬間、鋭い閃光が走り、収束した力が暴発して孤竜たちの体を吹き飛ばした！！]";
+                    varMsg[3] = varDragonNm + "：ごっ…ごめん……。まだ上手に使いこなせない" + go201 + "…。";
+                    if (ivent & 1) parent.SND.location.replace('snd08.html');
+                    hp -= 10;
+                    if (ivent & 1) parent.SND.location.replace('snd01.html'); PS_Shock(cnt);
+                    if (hp <= 0) PS_Dath();
+                    break;
+
+                case 20:
+                    varMsg[0] = DragonName + "：こんにちは。";
+                    varMsg[1] = DragonName + "：このまえ一緒に話して……って、聞いてる" + go03 + "？";
+                    varMsg[2] = varDragonNm + "：え？いや、ちょっと考えごとを…う～ん。";
+                    varMsg[3] = varDragonNm + "：…ごめん、また今度ね。";
+                    break;
+
+                case 21:
+                    varMsg[0] = DragonName + "：ねぇ、どらぐりーちゃむの『マキシム』って、何なのかな？";
+                    varMsg[1] = varDragonNm + "：知らなかった" + go203 + "！？ ポイルトップで知らない人は";
+                    varMsg[2] = varDragonNm + "：いないくらいの有名グルメ竜さんの名前" + go200 + go201 + "。";
+                    varMsg[3] = varDragonNm + "：マキシムさんがよく通うレストランで食べてみたい" + go201 + "…。";
+                    break;
+
+                case 22:
+                    varMsg[0] = varDragonNm + "：ど、どうしよう！！端末に何も映らなくなった" + go201 + "。";
+                    varMsg[1] = DragonName + "：お、落ち着いて！ ちょっと" + my + "に貸してほしい" + go01 + "。";
+                    varMsg[2] = DragonName + "：……やっぱり！ 大丈夫、電源が切れてるだけ" + go00 + go01 + "。 ほら！";
+                    varMsg[3] = varDragonNm + "：…あっ…本当にありがとう！";
+                    break;
+
+                case 23:
+                    varMsg[0] = varDragonNm + "：どこかに各属性を司る精霊がいて、その精霊たちは";
+                    varMsg[1] = varDragonNm + "：ちょっとやそっとでは、目の前に姿を現してくれない" + go201 + "。";
+                    varMsg[2] = varDragonNm + "：能力を持っていない者が その力を使おうとすると、";
+                    varMsg[3] = varDragonNm + "：制御しきれなくなってしまうから、って聞いたことがある" + go201 + "。";
+                    break;
+
+                case 24:
+                    varMsg[0] = varDragonNm + "：病気になると、アイテムを使って治さなきゃいけない" + go201 + "。";
+                    varMsg[1] = varDragonNm + "：一つのアイテムだけで治る場合もあるけど、";
+                    varMsg[2] = varDragonNm + "：二つのアイテムを、合わせて使わないと治らない病気もあるから、";
+                    varMsg[3] = varDragonNm + "：よく考えないといけない" + go201 + "。";
+                    break;
+
+                case 25:
+                    varMsg[0] = varDragonNm + "：恐怖症になった時は、本当にどうなることかと思った" + go201 + "。";
+                    varMsg[1] = varDragonNm + "：里親でさえ怖くなっちゃって…。あの時" + my2 + "との友情の証を";
+                    varMsg[2] = varDragonNm + "：見せてくれなきゃ、正気に戻れなかったかも\知\れない" + go201 + "…。";
+                    varMsg[3] = DragonName + "：里親さんとの友情の証かぁ…。うん、本当によかった" + go01 + "！";
+                    break;
+
+                case 26:
+                    varMsg[0] = varDragonNm + "：育成障害になったら、変身することもできなくなる" + go201 + "。";
+                    varMsg[1] = varDragonNm + "：え？治し方…？ よく分からないけど、抗生薬と……";
+                    varMsg[2] = varDragonNm + "：あえて強い成長を促してみたらどうかな。ショック治療で♪";
+                    varMsg[3] = DragonName + "：……まじめに考えてほしい" + go01 + "！";
+                    break;
+
+                case 27:
+                    varMsg[0] = varDragonNm + "：この前、道に迷って、人里離れた荒野の方まで行った時に";
+                    varMsg[1] = varDragonNm + "：なんだか砦のようなものがチラッと見えたような気がした" + go201 + "。";
+                    varMsg[2] = DragonName + "：砂嵐が阻む辺境のお城……。";
+                    varMsg[3] = DragonName + "：なんだか、冒険のにおいがする" + go01 + "！";
+                    break;
+
+                case 28:
+                    varMsg[0] = varDragonNm + "：大ケガすると「破傷風」になることがあるから、注意したほうがいい" + go201 + "。";
+                    varMsg[1] = varDragonNm + "：傷口から病原体が入ることで発病する感染症" + go200 + go201 + "。";
+                    varMsg[2] = DragonName + "：へぇ～！ すごい物知りやさん" + go00 + go01 + "！";
+                    break;
+
+                case 29:
+                    varMsg[0] = varDragonNm + "：風邪をひいたら、たとえ大したことなくても、ひどくなる前に";
+                    varMsg[1] = varDragonNm + "：しっかり睡眠をとって体を休めなきゃダメ" + go200 + go201 + "。";
+                    varMsg[2] = varDragonNm + "：マスクをつけてもいいんだけど…竜用のマスクって…。";
+                    varMsg[3] = DragonName + "：マスクって…？　ねぇ、どんなの？";
+                    break;
+
+                case 30:
+                    varMsg[0] = varDragonNm + "：キミはポイルトップ港から海に出たことってある" + go203 + "？";
+                    varMsg[1] = varDragonNm + "：冒険するんだったら、やっぱり海にも出てみなきゃ！";
+                    varMsg[2] = DragonName + "：…でも、あんまり遠出すると危ない" + go01 + "。";
+                    break;
+
+                case 31:
+                    varMsg[0] = varDragonNm + "：病気になったまま放っておいたら、大変なことになる" + go201 + "。";
+                    varMsg[1] = varDragonNm + "：取り返しがつかなくならないためにも、ナーガ草は切らすべきじゃない" + go201 + "。";
+                    break;
+
+                case 32:
+                    varMsg[0] = varDragonNm + "：どこかの谷に、遊ぶのがとっても好きな竜さんがいる" + go201 + "。";
+                    varMsg[1] = varDragonNm + "：ゲームに勝つと、ときどきいい物をくれる、っていう噂+" + go200 + go201 + "。";
+                    break;
+
+            }
+            DragonFlg = 1;
+        }
+
+
+
+        // 逃げる
+        function PS_Escape() {
+            var i, cnt = 0;
+
+            if (ivent & 1) parent.SND.location.replace('snd10.html');
+            hideLAYER('Ray5');
+            varMsg[0] = DragonName + " は 言いようのない不安を覚え、駆け足で走り出した。";
+
+            if ((Math.round(Math.random() * 2) == 1) && ((Maxhp / 1.2) > hp)) {
+                if (ivent & 1) parent.SND.location.replace('snd08.html');
+                varMsg[1] = varDragonNm + " は" + DragonName + " を取り押さえ、体中のケガを心配そうに見つめている。";
+                varMsg[2] = varDragonNm + " は、リカーブを" + DragonName + " にかけた。" + DragonName + " の傷が回復してゆく…。";
+                varMsg[3] = varDragonNm + " は、ケガが癒えるのを確認すると、そのままどこかへ立ち去っていった……。";
+                hp += Math.round((Math.random() * 20) + (Maxhp / 3));
+                if (Maxhp < hp) hp = Maxhp;
+                //		fadeOpacity('Ray0',0,0);
+                DragonFlg = 1;
+            } else if (Math.round(Math.random() * 2) == 1) {
+                varMsg[1] = "しかし" + varDragonNm + " は関心がないようで、追うこともせず 次第に闇へと消えていってしまった。";
+                //		fadeOpacity('Ray0',0,0);
+                DragonFlg = 1;
+            } else {
+                cnt += Math.round((Math.random() * 20) + (Maxhp / 2));
+                if (cnt < 5) cnt = 5;
+                varMsg[1] = "しかし 床に脚をとられてスリップし、そのまま大きく倒れ、" + cnt + " の傷を負ってしまった！";
+                hp -= cnt;
+                if (ivent & 1) parent.SND.location.replace('snd01.html'); PS_Shock(cnt);
+                if (hp <= 0) PS_Dath();
+
+                //		fadeOpacity('Ray0',0,0);
+                DragonFlg = 1;
+            }
+        }
+
+
+        // 貢物をあげる
+        function PS_Present() {
+            var i, cnt = 0;
+
+            if (ivent & 1) parent.SND.location.replace('snd10.html');
+            hideLAYER('Ray5');
+            cnt = Math.round(Math.random() * (20 * varMapLv) + 5);
+            if (cnt > varNowFood) cnt = varNowFood;
+            varNowFood -= cnt;
+
+            if (cnt == 0) {
+                varMsg[0] = DragonName + " は" + varDragonNm + " にあげるだけのシェルを持ち合わせてはいなかった。";
+            } else {
+                varMsg[0] = DragonName + " は" + varDragonNm + " に、" + cnt + " シェルをそっと手渡した。";
+            }
+
+            if ((Math.random() * 2) == 1) {
+                varMsg[1] = varDragonNm + "は " + DragonName + "の顔をしばらく見つめると、無言のまま去っていった……。";
+            } else if ((cnt < 13) || (varPresentItem >= 3)) {
+                varMsg[1] = varDragonNm + "は 機嫌がよくないのか、" + DragonName + " の手を爪で乱暴に振りはらった！";
+                cnt = Math.round(Maxhp * (0.2 * (varMapLv + 1)) + (Math.random() * 9)); if (cnt < 5) cnt = 5;
+                varMsg[2] = DragonName + "は 鋭い爪で引っかかれ " + cnt + " の傷を負った…。";
+                varMsg[3] = varDragonNm + "は やがて その場からいなくなってしまった……";
+                hp -= cnt;
+                if (ivent & 1) parent.SND.location.replace('snd01.html'); PS_Shock(cnt);
+                if (hp <= 0) PS_Dath();
+            } else if (Math.round(Math.random() * (21 - cnt)) <= 4) {
+                do {
+                    i = Math.round(Math.random() * (varGetItem[varMapLv].length - 1));	// ハイレベルダンジョンのアイテム検索
+                } while (varGetItem[varMapLv][i] <= 0);
+                varMsg[1] = varDragonNm + "は にっこりと微笑むと、お礼に " + varItemName[varGetItem[varMapLv][i]] + "を手渡し、再び闇の中へと消えていった……";
+                ItemUse(varGetItem[varMapLv][i]);
+                varPresentItem++;
+                varItemLog += varItemName[varGetItem[varMapLv][i]] + "<br>";
+            } else if (Math.round(Math.random() * (21 - cnt)) <= 10) {
+                do {
+                    i = Math.round(Math.random() * (varGetItem[varMapLv - 1].length - 1));	// ダンジョンのアイテム検索
+                } while (varGetItem[varMapLv - 1][i] <= 0);
+                varMsg[1] = varDragonNm + "は にっこりと微笑むと、お礼に " + varItemName[varGetItem[varMapLv - 1][i]] + "を手渡し、再び闇の中へ消えていった……";
+                ItemUse(varGetItem[varMapLv - 1][i]);
+                varPresentItem++;
+                varItemLog += varItemName[varGetItem[varMapLv - 1][i]] + "<br>";
+
+            } else {
+                varMsg[1] = varDragonNm + "は " + DragonName + "の顔をしばらく見つめると、無言のまま去っていった……。";
+            }
+            //	fadeOpacity('Ray0',0,0);
+            DragonFlg = 1;
+        }
+
+        // アラートレイヤー終了処理
+        function alertEnd3() {
+            hideLAYER('Ray7');
+        }
+
+        // アラートレイヤー終了処理
+        function alertEnd2() {
+            hideLAYER('Ray7');
+            location.replace("miss.html");
+        }
+
+
+        // アラートレイヤー終了処理
+        function alertEnd() {
+            hideLAYER('Ray5');
+        }
+
+
+
+        // アイテムを消費
+        function ItemErase2(addItem) {
+            var i;
+            var flg = 1;
+
+
+            for (i = 0; i < varNowItem.length; i += 2) {	// 同じアイテムを所有していれば個数を減少
+                if ((varNowItem[i] - varItmCod) == addItem) {
+                    if ((varNowItem[i + 1] - varItmCod) >= 1) varNowItem[i + 1]--;
+                    flg = 0;
+                }
+            }
+            ItemSort2();
+        }
+
+        // アイテムソート
+        function ItemSort2() {
+            var i = 0, j = 0, sam = 0;	// ループ用
+
+            // アイテム消費時のリストソート
+            sam = varNowItem.length - 1; i = 0;
+            do {
+                if ((varNowItem[i + 1] - varItmCod) <= 0) {
+                    for (j = i; j < varNowItem.length - 3; j += 2) {
+                        varNowItem[j] = varNowItem[j + 2];
+                        varNowItem[j + 1] = varNowItem[j + 3];
+                    }
+                    varNowItem[varNowItem.length - 2] = varItmCod;
+                    varNowItem[varNowItem.length - 1] = varItmCod;
+                    sam -= 2; i = -2;
+                }
+                i += 2;
+            } while (i < sam)
+        }
+
+
+
+        // メッセージ表示ルーチン ========================================================================================
+        function PS_MsgCmd() {
+            var varI = 0;
+            var varB = "";
+            var varP1;
+            var msgBuff = "";
+
+            // バッファの中からメッセージを取り出す
+            do {
+                msgBuff = varMsg[varI]; varI++;
+            } while ((msgBuff == "") && (varI < 5))
+
+            // 表示すべき文字が在れば表示処理
+            if (msgBuff != "") {
+                document.MENUS.Btn.disabled = false;
+                // 新しいメッセージがあれば改行する
+                if (MsgLop == 0) {
+                    document.MENUS.message4.value = document.MENUS.message3.value;
+                    document.MENUS.message3.value = document.MENUS.message2.value;
+                    document.MENUS.message2.value = document.MENUS.message1.value;
+                }
+
+                // メッセージの表示
+                varB = msgBuff.substring(0, MsgLop);
+                document.MENUS.message1.value = varB;
+                if (MsgLop < msgBuff.length) {
+                    MsgLop++;
+                    varTimID = setTimeout("PS_MsgCmd()", 60);
+                } else {
+                    varMsg[varI - 1] = "";
+                    MsgLop = 0;
+                    // if (ivent & 1) parent.SND.location.replace('snd00.html');
+                    varTimID = setTimeout("PS_MsgCmd()", 400);
+                }
+            } else {
+                // 表示する文字が無い場合、ボタンをＯＮ
+                KeyStopFlg = 0;
+                if (CommandFlg) {	// コマンド表示
+                    PS_Command('Ray5', "どう指示させますか？<HR><A HREF='JavaScript:PS_Talk();' onFocus='this.blur()'>話す</A>　<A HREF='JavaScript:PS_Escape();' onFocus='this.blur()'>逃げる</A>　<A HREF='JavaScript:PS_Present();' onFocus='this.blur()'>贈る</A><BR><p align=right></p>");
+                    CommandFlg = 0;
+                }
+
+                if (DragonFlg) {
+                    fadeOpacity('Ray0', 0, 0);
+                    DragonFlg = 0;
+                    showLAYER('Ray3');
+                    DathFlg = 0;
+                }
+                document.MY.HP.value = hp;	// ステータスを更新
+                document.MY.FOOD.value = varNowFood;
+                document.MENUS.Btn.disabled = true;
+                varTimID = setTimeout("PS_MsgCmd()", 100);
+            }
+        }
+
+
+
+        // 処理待ち ========================================================================================
+        function PS_JustWait() {
+            DathFlg = 1;
+            PS_Wait();
+            //	hideLAYER('Ray4');
+            //	setOpacity('Ray3',1);
+        }
+
+
+
+        // 画像読み込み待ち ========================================================================================
+        function PS_Wait() {
+            var i, strBuff, cnt;
+
+            strBuff = ""; cnt = 0;
+            for (i = 0; i <= (document.images.length - 1); i++) {
+                if (document.images[i].complete) {
+                    strBuff += "||||";
+                    cnt++;
+                }
+            }
+            document.WAIT.message1.value = strBuff;
+
+            // 永久ループを防止
+            if (varWaitEsc > 100) {
+                varWaitEsc = 0;
+                cnt = 999;
+            }
+
+            if (cnt >= (document.images.length - 1)) {
+                hideLAYER('Ray4');
+                showLAYER('Ray3');
+                DathFlg = 0;
+            } else {
+                varWaitEsc++;
+                varTimID3 = setTimeout("PS_Wait()", 50);
+            }
+        }
+
+
+        // 画面を揺らす ==============================================================================================
+        function PS_Shock(zoubun) {
+            var x, y;
+            if (zoubun > 200) zoubun = 200;
+            if (Math.abs(zoubun) < 10) zoubun = 10;
+
+            x = Math.round((Math.round(Math.random() * 2) + 1) * zoubun / 10);
+            y = Math.round((Math.round(Math.random() * 2) + 1) * zoubun / 10);
+            WindowMx += x; WindowMy += y;
+            zoubun *= -1;
+            parent.top.window.top.moveBy(x, y);
+
+            // 10回ループ
+            ScreenShock++;
+            if (ScreenShock > 10) {
+                ScreenShock = 0;
+                parent.top.window.top.moveBy(-WindowMx, -WindowMy);	// ウインドウを元の位置に戻す
+                WindowMx = 0; WindowMy = 0;
+            } else {
+                varTimID2 = setTimeout("PS_Shock(" + zoubun + ")", 10);
+            }
+        }
+
+
+        function PS_SKIP() {
+            var varI = 0;
+
+            //	document.MENUS.Btn.disabled = true;
+
+            if (MsgLop) {
+                // バッファの中からメッセージを取り出す
+                do {
+                    msgBuff = varMsg[varI]; varI++;
+                } while ((msgBuff == "") && (varI < 6))
+                document.MENUS.message1.value = msgBuff;
+                varMsg[varI - 1] = "";
+                MsgLop = 0;
+                clearTimeout(varTimID);
+                varTimID = setTimeout("PS_MsgCmd()", 80);
+                document.MENUS.Btn.disabled = true;
+            } else {
+                clearTimeout(varTimID);
+                //		if (ivent & 1) parent.SND.location.replace('snd04.html');
+                document.MENUS.Btn.disabled = false;
+                varTimID = setTimeout("PS_MsgCmd()", 80);
+            }
+        }
+
+
+        // 孤竜返答用アラート表示
+        function PS_Command(idName, msg) {
+            var i = "<CENTER><TABLE cellSpacing=0 cellPadding=0 width=280 border=0><TR><TD><TABLE cellSpacing=0 cellPadding=0 width=100%  border=0><TR><TD width=100%><TABLE cellSpacing=0 cellPadding=0 border=0><TR><TD width=16>  <IMG width=16   height=16 src='image/line1.gif' border=0></TD><TD width=100%><IMG width=100% height=16 src='image/line2.gif' border=0></TD><TD width=16><IMG width=16   height=16 src='image/line3.gif' border=0></TD></TR><TR><TD height=100%><IMG width=16 height=100% src='image/line8.gif' border=0></TD><TD><TABLE cellSpacing=0 cellPadding=0 width=100% border=0><TR><TD width=100%><TABLE cellSpacing=0 cellPadding=0 width=100% border=0>";
+            var j = "</TABLE></TD></TR></TABLE></TD><TD height=100%><IMG width=16 height=100% src='image/line4.gif' border=0></TD></TR><TR><TD width=16>  <IMG width=16   height=16 src='image/line7.gif' border=0></TD><TD width=100%><IMG width=100% height=16 src='image/line6.gif' border=0></TD><TD width=16>  <IMG width=16   height=16 src='image/line5.gif' border=0></TD></TR></TABLE></TD> <TD></TD> </TR></TABLE></TD></TR></TABLE></CENTER>";
+
+            showLAYER(idName);
+            if (document.getElementById) { //NN6,Mozilla,IE5用
+                document.getElementById(idName).style.backgroundColor = "#443333";
+                document.getElementById(idName).innerHTML = i + msg + j;
+            } else if (document.all) {       //IE4用
+                document.all(idName).style.backgroundColor = "#443333";
+                document.all(idName).innerHTML = i + msg + j;
+            } else if (document.layers) {    //NN4用
+                document.layers[idName].style.backgroundColor = "#443333";
+                document.layers[idName].innerHTML = i + msg + j;
+            }
+        }
+
+    </SCRIPT>
+
+
+</body>
+
+</HTML>

@@ -4,12 +4,9 @@ import { RootAnimations } from "@/app/app.service";
 import * as _ from "lodash-es";
 
 export const Games04a = async (component: DialogueComponent) => {
-  const { SetContentCompleted, ClearContent, AllFadeOut, Content, location, router, SetSkipCallback, setDialogOpticity, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { SetContentCompleted, ClearContent, AllFadeOut, Content, location, Back, SetSkipCallback, setDialogOpticity, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
   let skipped = false;
-
-  let origSave = _.cloneDeep(appServ.saveData);
-
-  const { lv, debugMenu } = location.getState() as { event: string, lv: string, debugMenu: boolean };
+  const { lv, } = location.getState() as { event: string, lv: string, debugMenu: boolean };
 
   let BossNameID = 0;
   switch (Number(lv)) {
@@ -44,15 +41,7 @@ export const Games04a = async (component: DialogueComponent) => {
     SetContentCompleted();
     await AllFadeOut();
 
-    if (debugMenu) {
-      appServ.saveData = origSave;
-      router.navigate(['/game/debug_events'], { replaceUrl: true })
-      return;
-
-    }
-    appServ.saveData.Save();
-    router.navigate(['/game/dragongame'], { replaceUrl: true })
-
+    Back()
   }
 
   SetSkipCallback(skipCallBack)

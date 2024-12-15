@@ -4,6 +4,8 @@ import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, EventType, Router, RouterModule } from '@angular/router';
 import { DialogueSystem } from '@/entities/DialogueSystem';
 import { debounceTime, Subscription } from 'rxjs';
+import { SaveData } from '@/entities/SaveData';
+import * as _ from 'lodash-es';
 
 @Component({
   selector: 'app-dialogue',
@@ -12,14 +14,23 @@ import { debounceTime, Subscription } from 'rxjs';
   templateUrl: './dialogue.component.html',
   styleUrl: './dialogue.component.scss'
 })
+
 export class DialogueComponent extends DialogueSystem implements AfterViewInit, OnDestroy {
   @ViewChild('bg') bg!: ElementRef<HTMLDivElement>;
-  @ViewChild('dragoncg') dragoncg!: ElementRef<HTMLImageElement>;
 
+  dragonCg?: string;
+
+  dragonCg2?: string;
+  emoji2?: string;
+  opacity: number = 0;
+  opacity2: number = 0;
   /** 跳過事件的Callback, 若未設定時則無法跳過 */
   skipCallBack?: Function;
 
   routerSubscription?: Subscription;
+
+  // 入場時的存檔
+  public origSave!: SaveData;
   constructor(injector: Injector, public readonly location: Location,
     public route: ActivatedRoute, public router: Router) {
     super(injector);
@@ -37,12 +48,12 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
         console.log('event', state.event)
         const ev = Events[state.event];
         if (ev) {
+          this.origSave = _.cloneDeep(this.appServ.saveData);
           ev.bind(this)(this);
-          
         }
         else {
           this.router.navigate(['/'], { replaceUrl: true });
-          throw new Error('[ERROR] 未指定Event或找不到Event!')
+          throw new Error(`未指定Event或找不到Event '${state.event}'!`)
         }
       }
     })
@@ -77,17 +88,24 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
   }
 
   setDragonCG = (cg: string) => {
-    this.dragoncg.nativeElement.src = `/assets/imgs/dragon/${cg}.gif`
+    // this.dragoncg.nativeElement.src = `/assets/imgs/dragon/${cg}.gif`
+    this.dragonCg = cg;
   }
 
+  setDragonCG2 = (cg: string) => {
+    this.dragonCg2 = cg;
+  }
   setBGOpticity = (v: number) => {
     this.bg.nativeElement.style.backgroundColor = `rgba(0,0,0,${1.0 - v})`;
   }
 
   setDragonCGOpticity = (v: number) => {
-    this.dragoncg.nativeElement.style.opacity = String(v);
+    this.opacity = v;
   }
 
+  setDragonCG2Opticity = (v: number) => {
+    this.opacity2 = v;
+  }
   setDialogOpticity = (v: number) => {
     this.dialog.nativeElement.style.opacity = String(v);
   }
@@ -95,10 +113,26 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
   AllFadeOut = async () => {
     this.setDialogOpticity(0);
     this.setDragonCGOpticity(0);
+    this.setDragonCG2Opticity(0);
     this.setBGOpticity(0);
     this.Face()
     this.SetContentCompleted();
     this.ClearContent();
     await this.appServ.Wait(3000);
+  }
+
+  Back = async () => {
+    const { debugMenu } = this.location.getState() as { event: string, lv: string, debugMenu: boolean };
+    if (debugMenu) {
+      this.appServ.saveData = this.origSave;
+      this.router.navigate(['/game/debug_events'], { replaceUrl: true })
+      return;
+    }
+    this.appServ.saveData.Save();
+    this.router.navigate(['/game/dragongame'], { replaceUrl: true })
+  }
+
+  get saveData() {
+    return this.appServ.saveData;
   }
 }

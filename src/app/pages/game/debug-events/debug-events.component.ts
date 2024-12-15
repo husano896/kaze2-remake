@@ -29,9 +29,12 @@ export class DebugEventsComponent implements AfterViewInit, OnDestroy {
   }
 
   goDialog(eventName: string, state?: {}) {
-    this.router.navigate(['/game/dialogue'], { state: { event: eventName, ...(state ? state : {}) } });
+    this.router.navigate(['/game/dialogue'], { replaceUrl: true, state: { event: eventName, ...(state ? state : {}) } });
   }
 
+  goToWelcome() {
+    this.router.navigate(['/welcome'], { replaceUrl: true, state: { debugMenu: true } })
+  }
   async noticeTest(n?: number) {
     this.waiting = true;
     switch (n) {
