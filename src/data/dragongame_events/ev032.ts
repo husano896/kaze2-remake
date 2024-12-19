@@ -3,15 +3,15 @@ import { EventFlag } from "../EventFlag";
 
 const ev032 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
 
     appServ.setBGM('music02')
     if (appServ.waitTimeMinutes >= 60) {
         Face('char00');
         /**
-……この前、トモダチとケンカしたって言ったよね？
-実はあれから、その仔と仲直りした{{go01}}。
-また一緒に遊ぼうね、って言ってくれた{{go01}}！
+            ……この前、トモダチとケンカしたって言ったよね？
+            実はあれから、その仔と仲直りした{{go01}}。
+            また一緒に遊ぼうね、って言ってくれた{{go01}}！
          */
         Content(`Scripts.Ev032.1.Content`)
         const result = (await Options([
@@ -25,7 +25,7 @@ const ev032 = async (component: DragongameComponent) => {
             `Scripts.Ev032.1.4.Action`
         ]));
 
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [高興] + 表情

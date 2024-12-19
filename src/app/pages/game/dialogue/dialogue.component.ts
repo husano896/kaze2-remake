@@ -6,31 +6,46 @@ import { DialogueSystem } from '@/entities/DialogueSystem';
 import { debounceTime, Subscription } from 'rxjs';
 import { SaveData } from '@/entities/SaveData';
 import * as _ from 'lodash-es';
+import { ChessGameComponent } from "@/components/chess-game/chess-game.component";
 
 @Component({
   selector: 'app-dialogue',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ChessGameComponent],
   templateUrl: './dialogue.component.html',
   styleUrl: './dialogue.component.scss'
 })
 
 export class DialogueComponent extends DialogueSystem implements AfterViewInit, OnDestroy {
   @ViewChild('bg') bg!: ElementRef<HTMLDivElement>;
+  @ViewChild(ChessGameComponent) chessGameComponent?: ChessGameComponent;
 
+  //#region 龍1
   dragonCg?: string;
+  opacity: number = 0;
+  //#endregion
 
+  //#region 龍2
   dragonCg2?: string;
   emoji2?: string;
-  opacity: number = 0;
   opacity2: number = 0;
+  //#endregion
+
   /** 跳過事件的Callback, 若未設定時則無法跳過 */
   skipCallBack?: Function;
 
-  routerSubscription?: Subscription;
+  /** 入場時的存檔, for Debug menu 測試劇情完後回復狀態用  */
+  private origSave!: SaveData;
 
-  // 入場時的存檔
-  public origSave!: SaveData;
+  /** 路由聆聽事件 */
+  private routerSubscription?: Subscription;
+
+  /** 是否啟用下棋小遊戲 */
+  enableChessGame?: boolean = false;
+  /** 是否將下棋小遊戲設為前景 */
+  chessGameActive?: boolean = false;
+  /** 下棋小遊戲是否開始 */
+  chessGameStart?: boolean = false;
   constructor(injector: Injector, public readonly location: Location,
     public route: ActivatedRoute, public router: Router) {
     super(injector);
@@ -39,12 +54,11 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
   override async ngAfterViewInit() {
 
     super.ngAfterViewInit();
-    console.log(this.bg.nativeElement);
-    this.routerSubscription = this.router.events.pipe(debounceTime(100)).subscribe((ev) => {
+    this.routerSubscription = this.router.events.pipe(debounceTime(100)).subscribe(async (ev) => {
       console.log('ev')
       const state = this.location.getState() as { event: string };
-      if (state) {
-
+      if (state?.event) {
+        await this.appServ.Wait(100)
         console.log('event', state.event)
         const ev = Events[state.event];
         if (ev) {
@@ -65,6 +79,8 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
       this.routerSubscription.unsubscribe();
     }
   }
+
+  /** 點選跳過 */
   async onSkipClick() {
     if (!this.skipCallBack) {
       this.appServ.Confirm(this.translateServ.instant('Scripts.Confirm.Title.Caution'), this.translateServ.instant('Noskip'))
@@ -75,6 +91,8 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
       this.translateServ.instant('Scripts.Confirm.Title.Caution'),
       this.translateServ.instant('Scripts.Confirm.ContentSkip'),
       true)) {
+      this.ClearContent();
+
       this.skipCallBack.bind(this)(this)
     }
   }

@@ -1,11 +1,11 @@
-<div class="container flex-column full-height gap">
+<div class="container flex-column full-height gap" style="contain: content;">
     <!-- 龍與背景-->
     <div id="bg" #bg>
         <div class="full-width full-height flex-row" style="justify-content: center;">
-            <div class="full-width full-height" style="transition: 1s linear; " [ngStyle]="{
+            <div class="dragon-cg-container"  [ngStyle]="{
                 width: dragonCg2 && opacity2 ? '100%' : '0%', 
                 display: dragonCg2 ? 'flex' : 'none',
-                opacity: opacity2}">
+                opacity: opacity2}" >
                 <img #dragoncgA id="dragoncgA" class="dragoncg" alt="dragon-cg" style="object-position: center;"
                     src="/assets/imgs/dragon/{{dragonCg2}}.gif" />
                 @if (emoji2) {
@@ -13,11 +13,11 @@
                     style="position: absolute; right:15%; top: 15%;" />
                 }
             </div>
-            <div class="full-width full-height" style="transition: 1s linear; " [ngStyle]="{
+            <div class="dragon-cg-container"  [ngStyle]="{
                     width: dragonCg && opacity ? '100%' : '0%', 
                     display: dragonCg ? 'flex' : 'none', 
-                    opacity: opacity}">
-                <img #dragoncg id="dragoncg" class="dragoncg" alt="dragon-cg" style="object-position: left;"
+                    opacity: opacity}" >
+                <img #dragoncg id="dragoncg" class="dragoncg" alt="dragon-cg" style="object-position: center;"
                     src="/assets/imgs/dragon/{{dragonCg}}.gif" />
                 @if (emoji) {
                 <img alt="dragon-emoji" src="/assets/imgs/mark_{{emoji}}.gif"
@@ -45,4 +45,13 @@
             [ngClass]="{waiting:isWaiting() && dialog.innerText.length > 0 && !contentCompleted}">▼</span>
         <a id="skip" (click)="onSkipClick()" [ngClass]="{disabled: !skipCallBack}">SKIP</a>
     </div>
+
+    <!-- 劇情使用：黑白棋小遊戲 -->
+    @if (enableChessGame) {
+    <div id="chess-game-container" [ngClass]="{active: !chessGameStart && chessGameActive , start: chessGameStart}"
+        style="position: absolute; width: 100%; height: 100%; top: 0;left: 0; z-index: 1; display: flex; align-items: center; justify-content: center;">
+        <app-chess-game [gameStart]="chessGameStart"></app-chess-game>
+    </div>
+    }
+    <!-- 劇情使用：貪吃蛇鬼抓人 -->
 </div>

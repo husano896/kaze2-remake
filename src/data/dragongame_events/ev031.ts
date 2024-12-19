@@ -3,17 +3,17 @@ import { EventFlag } from "../EventFlag";
 
 const ev031 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
 
     appServ.setBGM('music02')
     if (appServ.waitTimeMinutes >= 60) {
         Face('char00');
         /**
-ニエルサンから聞いた{{go01}}。{{my}}の病気、もしかしたら治るかもしれないんだって。
-まだちょっぴり不安だけど、でも、治るかもしれないんだって思うと、
-心の底から勇気がわいてくる{{go01}}。
-{{you}}も一緒にいてくれるから、きっと…大丈夫{{go00}}{{go01}}！
-病気と戦いつづけてれば、いつかきっと、幸せになれそうな気がする{{go01}}！
+            ニエルサンから聞いた{{go01}}。{{my}}の病気、もしかしたら治るかもしれないんだって。
+            まだちょっぴり不安だけど、でも、治るかもしれないんだって思うと、
+            心の底から勇気がわいてくる{{go01}}。
+            {{you}}も一緒にいてくれるから、きっと…大丈夫{{go00}}{{go01}}！
+            病気と戦いつづけてれば、いつかきっと、幸せになれそうな気がする{{go01}}！
          */
         Content(`Scripts.Ev031.1.Content`)
         const result = (await Options([
@@ -27,7 +27,7 @@ const ev031 = async (component: DragongameComponent) => {
             `Scripts.Ev031.1.4.Action`
         ]));
 
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [高興] + 表情

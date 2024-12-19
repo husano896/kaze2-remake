@@ -4,11 +4,11 @@ import { EventFlag } from "../EventFlag";
 /**「わずかな灯火」*/
 const ev097 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, Options, EmojiAndAdjustLove } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, Options, EmojiAndAdjustLove } = component
 
     appServ.setBGM('music13')
     if (appServ.waitTimeMinutes >= 60) {
-        
+
         Face('char00');
         /**
 {{you}}、{{my}}ね…今日は体の調子、すごくいい{{go01}}……。
@@ -51,17 +51,16 @@ const ev097 = async (component: DragongameComponent) => {
                 await Content(`Scripts.Ev097.1.4.Reply`)
                 break;
         }
-    } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
-        appServ.saveData.ivent |= EventFlag.回答事件;
+    } else if (!(saveData.ivent & EventFlag.回答事件)) {
+        saveData.ivent |= EventFlag.回答事件;
         Face('char06');
         /*
-"{{dragonName}}……平気そうな顔してるけど、本当はすごくつらいはずっす……。
-一刻も早く、孤竜を治してあげようっす！"
+            {{dragonName}}……平気そうな顔してるけど、本当はすごくつらいはずっす……。
+            一刻も早く、孤竜を治してあげようっす！
         */
         await Content(`Scripts.Ev097.2`)
         Face('char06a');
     } else {
-
         Face('char00');
         /** {{my}}、今日はとっても気分がいい{{go01}} …。 */
         await Content(`Scripts.Ev097.3`)

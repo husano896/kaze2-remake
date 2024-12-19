@@ -25,30 +25,34 @@ div#bg {
     background-color: rgba(0, 0, 0, 1.0);
     background-blend-mode: color;
     justify-content: center;
-    transition: 1.5s steps(15);
+    transition: 1.5s linear;
+    max-height: 60vh;
 }
 
 div#Ray2 {
-   position: absolute;
-   left: 0;
-   bottom: 0;
+    position: absolute;
+    left: 0;
+    bottom: 0;
 }
 
 div#Ray2>img {
     border: 1px solid gray;
 }
 
-img[src=""] {
-    visibility: hidden;
-}
 
 img.dragoncg {
+    // width: 100%;
     height: 100%;
-    width: 100%;
-    transition: 1.5s steps(15);
-    object-fit: cover;
+    transition: 1.5s linear;
+    margin: auto;
 }
 
+div.dragon-cg-container {
+    width: 100%;
+    height: 100%;
+    transition: 1.5s linear;
+    opacity: 0;
+}
 div#dialog {
     white-space: pre-line;
     overflow-y: auto;
@@ -97,4 +101,21 @@ a#skip.disabled {
         position: absolute;
     }
 
+}
+
+div#chess-game-container {
+    display: none;
+    opacity: 0;
+    transition: 0.5s ease-out;
+    pointer-events: none;
+    app-chess-game {
+        margin: auto;
+    }
+}
+div#chess-game-container.active {
+    opacity: 0.2;
+}
+div#chess-game-container.start {
+    opacity: 1;
+    pointer-events: all;
 }

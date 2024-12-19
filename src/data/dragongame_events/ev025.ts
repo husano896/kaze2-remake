@@ -3,18 +3,18 @@ import { EventFlag } from "../EventFlag";
 
 const ev025 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
 
     appServ.setBGM('music02')
     if (appServ.waitTimeMinutes >= 60) {
         Face('char00');
         /**
-"ねぇ、{{you}}は知ってる？
-{{my}}たち、竜 はね、この世界に人間がやって来るずっと昔からいる{{go01}}。
-人間は、今から1000年くらい前に、宇宙船に乗ってやって来たんだって。
-大昔に一度、人間と竜はすごく大きなケンカをしたんだけど、今では仲直りして、
-それからはずっと、お互い助け合いながら暮らしてる{{go01}}。
-ずっと前に、お母さんから聞いた昔話{{go00}}{{go01}}……。"
+            ねぇ、{{you}}は知ってる？
+            {{my}}たち、竜 はね、この世界に人間がやって来るずっと昔からいる{{go01}}。
+            人間は、今から1000年くらい前に、宇宙船に乗ってやって来たんだって。
+            大昔に一度、人間と竜はすごく大きなケンカをしたんだけど、今では仲直りして、
+            それからはずっと、お互い助け合いながら暮らしてる{{go01}}。
+            ずっと前に、お母さんから聞いた昔話{{go00}}{{go01}}……。
          */
         Content(`Scripts.Ev025.1.Content`)
         const result = (await Options([
@@ -28,7 +28,7 @@ const ev025 = async (component: DragongameComponent) => {
             `Scripts.Ev025.1.4.Action`
         ]));
 
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [高興] + 表情

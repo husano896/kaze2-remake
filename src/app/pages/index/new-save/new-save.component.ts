@@ -41,7 +41,7 @@ export class NewSaveComponent implements AfterViewInit {
       newSaveData.ivent |= EventFlag.性別;
     }
     try {
-      await this.appServ.Confirm('註冊', '功能尚未完成，以本機模式進行。')
+      await this.appServ.Confirm('Register', 'Register online is not completed yet, saving in local mode.')
 
       this.router.navigate(['/welcome'], { replaceUrl: true })
     }

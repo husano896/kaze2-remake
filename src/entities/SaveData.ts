@@ -237,7 +237,7 @@ export class SaveData implements IBattleData {
 
     /** 孤龍名字 */
     public dragonName: string = '孤竜';
-    public yourName: string = 'アイ．フライ';
+    public yourName: string = '里親';
     /** 到訪次數 */
     public numVisits: number = -1;
     public love: number = 0;
@@ -296,8 +296,8 @@ export class SaveData implements IBattleData {
         console.log('[SaveData]存檔：', this);
     }
 
-    public static Load() {
-        const s = localStorage.getItem(LocalStorageKey.save);
+    public static Load(rawString?: string) {
+        const s = rawString ?? localStorage.getItem(LocalStorageKey.save);
         if (!s) {
             return new SaveData();
         }
@@ -404,7 +404,6 @@ export class SaveData implements IBattleData {
         const ans4 = Math.abs(5 - ans2);
         console.log('nowLv', this.nowLv, 'ans', ans, 'ans2', ans2, 'ans3', ans3, 'ans4', ans4)
         this.PS_Set(0);
-
 
         if ((this.nowLv >= 10) && (ans3 > ans4) && (ans <= 4)) {
             fil = "fir01";

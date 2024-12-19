@@ -1,6 +1,5 @@
 import { RootAnimations } from "@/app/app.service";
 import { DialogueComponent } from "@/app/pages/game/dialogue/dialogue.component";
-import * as _ from "lodash-es";
 import { DragonChipFlag } from "../DragonChipFlag";
 
 /** ト ピ リ ア の 森 After */

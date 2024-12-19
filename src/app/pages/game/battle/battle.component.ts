@@ -389,9 +389,7 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
       this.startPlayerData.item[ItemID.復活の玉]--
       const restorePoint = Math.round(this.startPlayerData.Maxhp / 3);
       this.playerData.hp = restorePoint;
-      await this.Content(`{{dragonName}} は力尽きた……。しかしその瞬間 {{varItemName}}が光りだし
-{{dragonName}} の傷を {{restorePoint}} ポイント癒し、粉々に砕け散ってしまった…。
-{{dragonName}} は、辛うじて一命を取りとめた。`, {
+      await this.Content(`Game.Battle.PlayerRevive`, {
         dragonName: this.startPlayerData.dragonName,
         varItemName: this.appServ.t(`Data.Item.${ItemID.復活の玉}.Title`),
         restorePoint: String(restorePoint)
@@ -585,7 +583,7 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
       if (attacker === 1) {
         // 戰值足夠下獲得新技能
         if (this.NewSkillCheck()) {
-          this.appServ.Confirm('情報', `${this.playerData.dragonName}は、新たな技を編み出した！！`)
+          this.appServ.Confirm('Scripts.Confirm.Title.Information', `Game.Battle.NewSkill`)
         }
         this.Phase_Player()
       } else if (attacker === 2) {

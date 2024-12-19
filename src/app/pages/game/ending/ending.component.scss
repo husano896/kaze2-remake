@@ -22,7 +22,7 @@ div#bg {
     background-color: rgba(0,0,0,1.0);
     background-blend-mode: color;
     justify-content: center;
-    transition: 1.5s steps(15);
+    transition: 1.5s linear;
     animation: 10s waving ease-in-out infinite;
 }
 
@@ -30,7 +30,7 @@ div#dialog {
     white-space: break-spaces;
     overflow-y: auto;
     text-align: left;
-    transition: 3s steps(15);
+    transition: 3s linear;
     /** 要留給做漸變用的*/
     opacity: 1;
 }

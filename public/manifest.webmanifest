@@ -3,7 +3,7 @@
   "short_name": "Re竜の風詩2",
   "theme_color": "#7B644D",
   "background_color": "#000000",
-  "display": "fullscreen",
+  "display": "standalone",
   "scope": "./",
   "start_url": "./?utm_source=web_app_manifest",
   "id": "./?utm_source=web_app_manifest",

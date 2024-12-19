@@ -1,5 +1,4 @@
 import { DragongameComponent } from "@/app/pages/game/dragongame/dragongame.component";
-import { BioFlag } from "../BioFlag";
 
 const ev014 = async (component: DragongameComponent) => {
 

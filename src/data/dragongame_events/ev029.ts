@@ -3,27 +3,27 @@ import { EventFlag } from "../EventFlag";
 
 const ev029 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
 
     appServ.setBGM('music02')
     if (appServ.waitTimeMinutes >= 60) {
         Face('char01');
         /**
-次は、2度目の孤竜検診っすね。
-前回の反省点はちゃんと改善したっすか？
-こんな時に里親の権利を剥奪ってことになったら、シャレにならないっすからね。
-この仔には まだまだ{{yourName}} さんが必要なんっす…。
-いつもよりもしっかり{{dragonName}} の世話をしてやるっすよ！
+            次は、2度目の孤竜検診っすね。
+            前回の反省点はちゃんと改善したっすか？
+            こんな時に里親の権利を剥奪ってことになったら、シャレにならないっすからね。
+            この仔には まだまだ{{yourName}} さんが必要なんっす…。
+            いつもよりもしっかり{{dragonName}} の世話をしてやるっすよ！
          */
         await Content(`Scripts.Ev029.1`);
         Face('char01a');
-    } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
+    } else if (!(saveData.ivent & EventFlag.回答事件)) {
         Face('char00');
         /**
-前の診察の時はドキドキしたけれど、痛くなかった{{go01}}。
-だから、だんだんへっちゃらになってきた{{go01}}♪
-これってきっと、怖いことに立ち向かうことができるようにって
-神さまが与えてくれた力に違いない{{go01}}。 感謝しなくちゃ♪
+            前の診察の時はドキドキしたけれど、痛くなかった{{go01}}。
+            だから、だんだんへっちゃらになってきた{{go01}}♪
+            これってきっと、怖いことに立ち向かうことができるようにって
+            神さまが与えてくれた力に違いない{{go01}}。 感謝しなくちゃ♪
          */
         Content(`Scripts.Ev029.2.Content`)
         const result = (await Options([
@@ -37,7 +37,7 @@ const ev029 = async (component: DragongameComponent) => {
             `Scripts.Ev029.2.4.Action`
         ]));
 
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [高興] + 表情

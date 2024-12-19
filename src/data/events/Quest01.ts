@@ -1,6 +1,5 @@
 import { RootAnimations } from "@/app/app.service";
 import { DialogueComponent } from "@/app/pages/game/dialogue/dialogue.component";
-import * as _ from "lodash-es";
 import { DragonChipFlag } from "../DragonChipFlag";
 import { EventFlag } from "../EventFlag";
 
@@ -87,7 +86,7 @@ export const Quest01 = async (component: DialogueComponent) => {
 
   //#region 運氣不好沒被精靈獸襲擊（？？？）
   // 2 / 11 的機率
-  if (Math.round(Math.random() * 10) < 9) {
+  if (Math.round(Math.random() * 10) < 8) {
     const varsam = Math.round(Math.random() * 5) + 2;
     /**
      *ふぅ……あちこち行ったけれど、今回は見つけられなかった{{go01}}。

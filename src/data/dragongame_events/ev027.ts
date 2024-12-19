@@ -4,21 +4,21 @@ import { ItemID } from "../ItemID";
 
 const ev027 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
 
     appServ.setBGM('music02')
     if (appServ.waitTimeMinutes >= 60) {
         // 先前有拿到發作藥的場合
-        if (appServ.saveData.item[ItemID.精竜水]) {
+        if (saveData.item[ItemID.精竜水]) {
             Face('char09');
 
             /**
-クンクン……クンクン……なんか臭うっすね。
-…………あっ！　大変っす、{{yourName}} さん！
-この前、必死で手に入れた発作の薬が…腐っちゃってるっす……。
-これじゃ、もう使えないっすねぇ。うーん…保管が難しい薬っすね。
-ボクが代わりに捨てておくっすよ。
-[{{varItemName}}を失ってしまった]
+                クンクン……クンクン……なんか臭うっすね。
+                …………あっ！　大変っす、{{yourName}} さん！
+                この前、必死で手に入れた発作の薬が…腐っちゃってるっす……。
+                これじゃ、もう使えないっすねぇ。うーん…保管が難しい薬っすね。
+                ボクが代わりに捨てておくっすよ。
+                [{{varItemName}}を失ってしまった]
              */
             await Content(`Scripts.Ev027.1.1`, { varItemName: 'Data.Item.15.Title' })
             Face('char09a');
@@ -26,8 +26,8 @@ const ev027 = async (component: DragongameComponent) => {
         else {
             Face('char00');
             /**
-"どうして{{you}}は、{{my}}に優しくしてくれる{{go04}}？
-優しくされたのって初めてだから、{{my}}にはよく分からない{{go01}}。"
+                どうして{{you}}は、{{my}}に優しくしてくれる{{go04}}？
+                優しくされたのって初めてだから、{{my}}にはよく分からない{{go01}}。
              */
             Content(`Scripts.Ev027.1.2.Content`)
             const result = (await Options([
@@ -68,7 +68,7 @@ const ev027 = async (component: DragongameComponent) => {
                     break;
             }
         }
-    } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
+    } else if (!(saveData.ivent & EventFlag.回答事件)) {
         Face('char00');
         /**
 "実は……今日、他の竜とケンカした{{go01}}。
@@ -87,7 +87,7 @@ const ev027 = async (component: DragongameComponent) => {
             `Scripts.Ev027.2.4.Action`
         ]));
 
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [高興]
@@ -102,7 +102,7 @@ const ev027 = async (component: DragongameComponent) => {
                 await Content(`Scripts.Ev027.2.2.Reply`)
                 break;
             case 2:
-                 // [理解不能]
+                // [理解不能]
                 EmojiAndAdjustLove(13)
                 // うっ…それは、あんまり聞かないでほしい{{go01}}。
                 await Content(`Scripts.Ev027.2.3.Reply`)

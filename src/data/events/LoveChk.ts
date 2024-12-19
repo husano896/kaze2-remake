@@ -1,11 +1,11 @@
 import { DialogueComponent } from "@/app/pages/game/dialogue/dialogue.component";
-import _ from "lodash-es";
+import * as _ from "lodash-es";
 import { BioFlag } from "../BioFlag";
 
 export const LoveChk = async (component: DialogueComponent) => {
 
-  const { setBG, setDragonCG, setBGOpticity, setDialogOpticity, SetSkipCallback, setDragonCGOpticity, Face, Content, ClearContent, router, appServ, dialogStart$ } = component;
-  const { toggleRay1, setNotice, Wait, saveData } = appServ
+  const { ClearContent, setBG, setDragonCG, setBGOpticity, setDialogOpticity, Face, Content, router, appServ } = component;
+  const { setNotice, saveData } = appServ
 
   setBG('welcome')
   setDragonCG('nomal01');
@@ -25,9 +25,8 @@ export const LoveChk = async (component: DialogueComponent) => {
    */
   await Content('Scripts.LoveChk.1');
   Face('char01a');
-  await
-    // Ray07 友好度視窗
-    Face('');
+  // Ray07 友好度視窗
+  Face('');
   const nowLevel = Math.round(saveData.love / 100)
   const nowStars = _.range(nowLevel).map(() => '★').join('');
   const nowName = appServ.t(`Data.Love.${nowLevel}`)
@@ -37,6 +36,8 @@ export const LoveChk = async (component: DialogueComponent) => {
       stars: nowStars, loveName: nowName
     })
   )
+  component.skipWait = true;
+  ClearContent()
   /**
   -　検診中　-
   …ふむ、キミか……。どれどれ？
@@ -44,9 +45,12 @@ export const LoveChk = async (component: DialogueComponent) => {
   …………………
    */
   await Content('Scripts.LoveChk.2');
-
+  await appServ.Wait(1500)
 
   Face('char01');
+
+  component.skipWait = false;
+  ClearContent()
   /** あ…終わったみたいっすよ。 */
   await Content('Scripts.LoveChk.3');
   Face('char01a');

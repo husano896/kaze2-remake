@@ -105,16 +105,21 @@ export const PostEventAfterDragonGameEvent = async (component: DragongameCompone
 		ClearContent();
 		Face('char00')
 		Content(`‥‥？？！！`)
+		await appServ.Wait(1000)
 		const hackedMessages = appServ.t('Scripts.Notice.Hacked2.Content.1') as string;
 		const hackedMessagesLines = hackedMessages.split('\n');
 		console.log(hackedMessagesLines);
 		for (let i = 1; i < hackedMessagesLines.length; i++) {
 			appServ.setNotice2('', hackedMessagesLines.slice(0, i).join('\n'))
-			if (i === hackedMessagesLines.length - 1) {
+			if (i === hackedMessagesLines.length - 2) {
 				component.hacked = true;
 				component.skipWait = true;
 				console.log(component)
+				appServ.setRadialEffect('#FF0000', false, 500)
 				Face('char99')
+			}
+			else if (i === hackedMessagesLines.length - 1) {
+				appServ.setRadialEffect('#FF0000', true, 1000)
 			}
 			await appServ.Wait(2500)
 		}
@@ -127,13 +132,13 @@ export const PostEventAfterDragonGameEvent = async (component: DragongameCompone
 		appServ.setNotice2()
 		appServ.setNotice('SYSTEM CALL', 'Scripts.Notice.Hacked.Restore.Content')
 
+		appServ.setRadialEffect()
 		DisableAllActions(false)
 		Face('char00')
 
 		appServ.setBGM('music28');
 		appServ.saveData.ivent |= EventFlag.ハッキング二回目;
 		setDialogueSE('snd04');
-
 
 		component.skipWait = false;
 		Face('char02')

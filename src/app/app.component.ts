@@ -172,6 +172,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.appServ.toggleAudio();
   }
 
+  /** 修正聲音消失用的偏方... */
+  onGlobalUIClick() {
+    if (this.bgm?.nativeElement?.paused) {
+      this.bgm.nativeElement.play();
+    }
+  }
   get isAudioON(): boolean {
     return this.appServ.isAudioON();
   }

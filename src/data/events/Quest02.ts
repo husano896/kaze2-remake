@@ -2,12 +2,11 @@ import { RootAnimations } from "@/app/app.service";
 import { DialogueComponent } from "@/app/pages/game/dialogue/dialogue.component";
 import * as _ from "lodash-es";
 import { DragonChipFlag } from "../DragonChipFlag";
-import { EventFlag } from "../EventFlag";
 import { ItemID } from "../ItemID";
 
 /** カ ザ リ ナ 山 ・ 幸 い の 地 フ ッ フ ー ル */
 export const Quest02 = async (component: DialogueComponent) => {
-  const { SetContentCompleted, saveData, AllFadeOut, ClearContent, setDragonCG2Opticity, setDragonCG2, Content, Back, Emoji, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { saveData, AllFadeOut, ClearContent, setDragonCG2Opticity, setDragonCG2, Content, Back, setDialogOpticity, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   setBG('fufuru')
   setBGOpticity(1);
@@ -34,7 +33,7 @@ export const Quest02 = async (component: DialogueComponent) => {
       何にもない所だけれど、住みやすくていい場所よ。
       こんなに平和なのに…世の中は竜死病の猛威に蝕まれているのね…。
       孤竜：う…うん……。
-      [" + varsam + "ポイントの疲労を感じたと同時に、友好値が + 1上昇した]
+      [{{varsam}}ポイントの疲労を感じたと同時に、友好値が + 1上昇した]
      */
     await Content(`Scripts.Quest02.2`, { varsam: String(varsam) })
     appServ.saveData.hp -= varsam;
@@ -84,10 +83,12 @@ export const Quest02 = async (component: DialogueComponent) => {
     appServ.setSE('snd15')
     saveData.DragonChip1 |= DragonChipFlag.ショコラフッフール;
     await AllFadeOut();
+    Back()
+    return;
     //#endregion
   }
 
-  else if (saveData.item[ItemID.ナーガ草] || saveData.item[ItemID.抗生薬]) {
+  if (saveData.item[ItemID.ナーガ草] || saveData.item[ItemID.抗生薬]) {
     //#region 缺ナーガ草 或 抗生薬
     /**
      *孤竜：そういえば{{you}}と一緒に集めたアイテムの中に、それらしい素材があった{{go01}}。

@@ -3,26 +3,26 @@ import { EventFlag } from "../EventFlag";
 
 const ev024 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
 
     appServ.setBGM('music02')
     if (appServ.waitTimeMinutes >= 60) {
         Face('char02');
         /**
-発作を和らげる薬は見つかってるけれど、竜死病そのものを
-根本的に治療する薬は、まだできていないっすね…。
-世界中の人たちが研究してるのに、少しも成果が上がっていないなんて……。
-とにかく、ボクもいろいろと調べてみようと思ってるっす。
-資料館に行って、資料をかたっぱしから読んでみるっすよ！
-{{yourName}}さんは、{{dragonName}} のコト、よろしくお願いするっす！
+            発作を和らげる薬は見つかってるけれど、竜死病そのものを
+            根本的に治療する薬は、まだできていないっすね…。
+            世界中の人たちが研究してるのに、少しも成果が上がっていないなんて……。
+            とにかく、ボクもいろいろと調べてみようと思ってるっす。
+            資料館に行って、資料をかたっぱしから読んでみるっすよ！
+            {{yourName}}さんは、{{dragonName}} のコト、よろしくお願いするっす！
          */
         await Content(`Scripts.Ev024.1`)
         Face('char02a');
-    } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
+    } else if (!(saveData.ivent & EventFlag.回答事件)) {
         Face('char00');
         /**
-むにゃむにゃ…… なんだか、眠い{{go01}}……。
-せっかく、{{you}}が来てくれたのにぃ……。
+            むにゃむにゃ…… なんだか、眠い{{go01}}……。
+            せっかく、{{you}}が来てくれたのにぃ……。
          */
         Content(`Scripts.Ev024.2.Content`)
         const result = (await Options([
@@ -36,7 +36,7 @@ const ev024 = async (component: DragongameComponent) => {
             `Scripts.Ev024.2.4.Action`
         ]));
 
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [高興] + 表情

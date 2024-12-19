@@ -3,18 +3,18 @@ import { EventFlag } from "../EventFlag";
 
 const ev022 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
 
     appServ.setBGM('music18')
     if (appServ.waitTimeMinutes >= 60) {
         Face('char00');
         /**
-ねぇ、{{you}}はどうして、{{my}}を拾ってくれた{{go04}}？
-{{my}}を生んでくれたお母さんでさえ、病気を怖がって{{my}}を捨てたのに。
-{{you}}は、{{my}}の病気が怖くない{{go03}}？
-{{my}}は………怖い{{go01}}。
-死んだらどうなるんだろうとか、死ぬときはやっぱり苦しいのかな、とか、
-考えたくもないことが頭の中を回って、おかしくなっちゃいそう{{go00}}{{go01}}…。
+            ねぇ、{{you}}はどうして、{{my}}を拾ってくれた{{go04}}？
+            {{my}}を生んでくれたお母さんでさえ、病気を怖がって{{my}}を捨てたのに。
+            {{you}}は、{{my}}の病気が怖くない{{go03}}？
+            {{my}}は………怖い{{go01}}。
+            死んだらどうなるんだろうとか、死ぬときはやっぱり苦しいのかな、とか、
+            考えたくもないことが頭の中を回って、おかしくなっちゃいそう{{go00}}{{go01}}…。
          */
         Content(`Scripts.Ev022.1.Content`)
         const result = (await Options([
@@ -28,7 +28,7 @@ const ev022 = async (component: DragongameComponent) => {
             `Scripts.Ev022.1.4.Action`
         ]));
 
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [生氣]
@@ -55,7 +55,7 @@ const ev022 = async (component: DragongameComponent) => {
                 await Content(`Scripts.Ev022.1.4.Reply`)
                 break;
         }
-    } 
+    }
     SetContentCompleted()
 }
 

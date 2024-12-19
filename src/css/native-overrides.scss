@@ -53,6 +53,7 @@ ul {
     margin: 0;
 }
 
+/** 無設定網址的圖像直接隱藏，避免叉燒包*/
 img[src=""] {
     visibility: hidden;
 }

@@ -21,7 +21,16 @@ export class ChessGameComponent {
   static EnemyCellType = CellType.White;
   static PlayerCellType = CellType.Black;
 
-  @Input() gameStart?: boolean;
+  private _gameStart?: boolean;
+  @Input() get gameStart() {
+    return this._gameStart;
+  }
+  set gameStart(v) {
+    if (v) {
+      this.Reset();
+    }
+    this._gameStart = v;
+  }
 
   @Output() onGameProcess = new EventEmitter<{ enemy: number, player: number }>()
   @Output() onGameCompleted = new EventEmitter<{ enemy: number, player: number }>()

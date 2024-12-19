@@ -3,7 +3,7 @@ import { EventFlag } from "../EventFlag";
 
 const ev004 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, Options, EmojiAndAdjustLove } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, Options, EmojiAndAdjustLove } = component
 
     if (appServ.waitTimeMinutes >= 60) {
         appServ.setBGM('music20')
@@ -52,8 +52,8 @@ const ev004 = async (component: DragongameComponent) => {
                 await Content(`Scripts.Ev004.1.4.Reply`)
                 break;
         }
-    } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
-        appServ.saveData.ivent |= EventFlag.回答事件;
+    } else if (!(saveData.ivent & EventFlag.回答事件)) {
+        saveData.ivent |= EventFlag.回答事件;
         appServ.setBGM('music21')
         Face('char02');
         /*
@@ -64,7 +64,7 @@ const ev004 = async (component: DragongameComponent) => {
         突然 竜の姿が変化してしまう、そんな事例も確認されてるっす。
         孤竜に属性を与えると試合でも有利になるっすから、ぜひ使ってみようっす。
         */
-        await Content(`Scripts.Ev004.2`, {varItemName: 'Data.Item.17.Title'})
+        await Content(`Scripts.Ev004.2`, { varItemName: 'Data.Item.17.Title' })
         Face('char02a');
     } else {
         appServ.setBGM('music21')

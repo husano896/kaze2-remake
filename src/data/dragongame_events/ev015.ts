@@ -3,14 +3,22 @@ import { EventFlag } from "../EventFlag";
 
 const ev015 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options } = component
 
     appServ.setBGM('music12')
     if (appServ.waitTimeMinutes >= 60) {
         Face('char10');
+        /**
+            {{yourName}}さん、ちょっといいっすか……？
+            {{yourName}}さんには言いづらくて、まだ話してなかったんっすが……
+            先日の発作…… あれは、たまたま起きた病気じゃないんっす…。
+            実は{{dragonName}} は…「竜死病」という恐ろしい死病に感染しているんっす。
+            このまま放っておけば、いずれ{{dragonName}} は………
+            育成モジュールに病気進行度を表示しておいたっす。それまでに手を打つっすよ。
+         */
         await Content(`Scripts.Ev015.1`);
         Face('char10a');
-    } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
+    } else if (!(saveData.ivent & EventFlag.回答事件)) {
         Face('char00');
         /**
         ねえねえ、さっきは何を話していた{{go03}}…？
@@ -27,7 +35,7 @@ const ev015 = async (component: DragongameComponent) => {
             `Scripts.Ev015.2.4.Action`
         ]));
 
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [不懂]

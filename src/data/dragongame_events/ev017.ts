@@ -3,7 +3,7 @@ import { EventFlag } from "../EventFlag";
 
 const ev017 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
 
     appServ.setBGM('music13')
     if (appServ.waitTimeMinutes >= 60) {
@@ -19,7 +19,7 @@ const ev017 = async (component: DragongameComponent) => {
          */
         await Content(`Scripts.Ev017.1`);
         Face('char02a');
-    } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
+    } else if (!(saveData.ivent & EventFlag.回答事件)) {
         Face('char00');
         Emoji(6)
         /**
@@ -37,7 +37,7 @@ const ev017 = async (component: DragongameComponent) => {
             `Scripts.Ev017.2.4.Action`
         ]));
 
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [沮喪] + 表情

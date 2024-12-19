@@ -169,7 +169,7 @@ function PS_ElementAt(attacker: SaveData, victim: SaveData, victimAction: number
     } else {
       snd = ('snd01'); // PS_Shock2();
     }
-    return { messages, snd, params: { buffName: 'Data.Skill.04.Title' } }
+    return { messages, snd, params: { buffName: 'Data.Skill.4.Title' } }
   }
 
   victim.hp = victim.hp - varAns;
@@ -214,7 +214,7 @@ function PS_Masic18(attacker: SaveData, victim: SaveData, victimAction: number, 
     // varMsgColor[0] = L_MColor;
     // varMsgColor[1] = L_MColor;
     const messages = [`Game.Battle.SpecialAttack.Init`, `Game.Battle.Fail.Dodge`];
-    return { messages, params: { buffName: 'Data.Skill.04.Title' } }
+    return { messages, params: { buffName: 'Data.Skill.4.Title' } }
   }
   if (victimAction == 3) {
     // varMsgColor[0] = L_MColor;
@@ -318,7 +318,7 @@ function PS_Masic17(attacker: SaveData, victim: SaveData, victimAction: number, 
       snd = ('snd01'); // PS_Shock2();
     }
 
-    return { messages, snd, params: { buffName: 'Data.Skill.04.Title' } }
+    return { messages, snd, params: { buffName: 'Data.Skill.4.Title' } }
   }
   // varMsgColor[0] = L_MColor;
   // varMsgColor[1] = L_MColor;
@@ -389,7 +389,7 @@ function PS_Masic16(attacker: SaveData, victim: SaveData, victimAction: number, 
       snd = ('snd01'); // PS_Shock2();
     }
 
-    return { messages, snd, params: { buffName: 'Data.Skill.04.Title' } }
+    return { messages, snd, params: { buffName: 'Data.Skill.4.Title' } }
   }
   if (varAns > 1) {
     // varMsgColor[0] = L_MColor;
@@ -468,7 +468,7 @@ function PS_Masic15(attacker: SaveData, victim: SaveData, victimAction: number, 
       snd = ('snd01'); // PS_Shock2();
     }
 
-    return { messages, snd, params: { buffName: 'Data.Skill.04.Title' } }
+    return { messages, snd, params: { buffName: 'Data.Skill.4.Title' } }
   }
   if (varAns > 1) {
     // varMsgColor[0] = L_MColor;
@@ -575,7 +575,7 @@ function PS_Masic14(attacker: SaveData, victim: SaveData, victimAction: number, 
       snd = ('snd01'); // PS_Shock2();
     }
 
-    return { messages, snd, params: { buffName: 'Data.Skill.04.Title' } }
+    return { messages, snd, params: { buffName: 'Data.Skill.4.Title' } }
   }
   if (varAns > 1) {
     // varMsgColor[0] = L_MColor;
@@ -683,7 +683,7 @@ function PS_Masic13(attacker: SaveData, victim: SaveData, victimAction: number, 
     } else {
       snd = ('snd01'); // PS_Shock2();
     }
-    return { messages, snd, params: { buffName: 'Data.Skill.04.Title' } }
+    return { messages, snd, params: { buffName: 'Data.Skill.4.Title' } }
   }
   if (varAns > 1) {
     // varMsgColor[0] = L_MColor;
@@ -792,7 +792,7 @@ function PS_Masic12(attacker: SaveData, victim: SaveData, victimAction: number, 
       snd = ('snd01'); // PS_Shock2();
     }
 
-    return { messages, snd, params: { buffName: 'Data.Skill.04.Title' } }
+    return { messages, snd, params: { buffName: 'Data.Skill.4.Title' } }
   }
   if (varAns > 1) {
     // varMsgColor[0] = L_MColor;
@@ -898,7 +898,7 @@ function PS_Masic11(attacker: SaveData, victim: SaveData, victimAction: number, 
       snd = ('snd01'); // PS_Shock2();
     }
 
-    return { messages, snd, params: { buffName: 'Data.Skill.04.Title' } }
+    return { messages, snd, params: { buffName: 'Data.Skill.4.Title' } }
   }
   if (varAns > 1) {
     // varMsgColor[0] = L_MColor;
@@ -963,7 +963,7 @@ function PS_Masic10(attacker: SaveData, victim: SaveData, victimAction: number, 
     const messages = [`Game.Battle.SpecialAttack.Init4`,
       `Game.Battle.Counter.Buff`,
       `Game.Battle.SpecialAttack.08.Counter`];
-    return { messages, params: { buffName: 'Data.Skill.04' } }
+    return { messages, params: { buffName: 'Data.Skill.4' } }
   }
   if (Math.round(Math.random() * 3) > 1) {
     victim.speed = Math.round(victim.speed * 0.6);
@@ -1073,7 +1073,7 @@ function PS_Masic07(attacker: SaveData, victim: SaveData, victimAction: number, 
     const messages = [`Game.Battle.SpecialAttack.Init3`,
       `Game.Battle.Counter.Buff`,
       `Game.Battle.Fail.NoEffectOnVictim`];
-    return { messages, params: { buffName: 'Data.Skill.04.Title' } }
+    return { messages, params: { buffName: 'Data.Skill.4.Title' } }
   }
 
   let snd = '';
@@ -1116,7 +1116,7 @@ function PS_Masic06(attacker: SaveData, victim: SaveData, victimAction: number, 
     const messages = [`Game.Battle.SpecialAttack.Init3`,
       `Game.Battle.Counter.Buff`,
       `Game.Battle.SpecialAttack.12`];
-    return { messages, params: { buffName: 'Data.Skill.04.Title' } }
+    return { messages, params: { buffName: 'Data.Skill.4.Title' } }
   } else if ((victimAction == 4) && (Math.random() * 10 > 5)) {
     // varMsgColor[0] = L_MColor;
     // varMsgColor[1] = L_MColor;
@@ -1177,7 +1177,7 @@ function PS_Masic05(attacker: SaveData, victim: SaveData, victimAction: number, 
     const messages = [`Game.Battle.SpecialAttack.Init3`,
       `Game.Battle.Counter.Buff`,
       `Game.Battle.Fail.NoEffectOnVictim`];
-    return { messages, params: { buffName: 'Data.Skill.04.Title' } }
+    return { messages, params: { buffName: 'Data.Skill.4.Title' } }
   }
   if (Math.round((Math.random() * 7)) == 1) {
     const varAns = attacker.hp; attacker.hp = victim.hp; victim.hp = varAns;

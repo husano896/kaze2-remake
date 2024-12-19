@@ -3,23 +3,23 @@ import { EventFlag } from "../EventFlag";
 
 const ev034 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, Options, EmojiAndAdjustLove } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, Options, EmojiAndAdjustLove } = component
 
     appServ.setBGM('music01')
     if (appServ.waitTimeMinutes >= 60) {
 
         Face('char01');
         /**
-"{{yourName}}さんの世界には、星の伝説はあるっすか？
-ボクたちの世界にはいっぱいあるっす。そのなかでも、『ニステア』という
-星には、とっても不思議な言い伝えが残ってるんっすよ。
-『翠の星は涙星、遠い空から地を見つめ、翠の滴で海満たす』
+            {{yourName}}さんの世界には、星の伝説はあるっすか？
+            ボクたちの世界にはいっぱいあるっす。そのなかでも、『ニステア』という
+            星には、とっても不思議な言い伝えが残ってるんっすよ。
+            『翠の星は涙星、遠い空から地を見つめ、翠の滴で海満たす』
 
-泣き虫の星、ニステアの物語っす。"
+            泣き虫の星、ニステアの物語っす。"
          */
         await Content(`Scripts.Ev034.1`)
         Face('char01a');
-    } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
+    } else if (!(saveData.ivent & EventFlag.回答事件)) {
         Face('char00');
         /**
          * きゅ？  さっき、ニエルサンとどんな話をしてた{{go04}}？
@@ -35,7 +35,7 @@ const ev034 = async (component: DragongameComponent) => {
             // キミが泣き虫だって話。
             `Scripts.Ev034.2.4.Action`
         ]));
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [理解不能] + 表情

@@ -104,6 +104,13 @@ function GetBattleBG(battle: string) {
     case '-sabaku': {
       return 'sabaku2';
     }
+    // 四聖獸
+    case '-boss01':
+    case '-boss02':
+    case '-boss03':
+    case '-boss04': {
+      return 'hokora'
+    }
     default:
       return 'battle';
   }

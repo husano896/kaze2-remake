@@ -83,12 +83,15 @@ div#Ray7 {
     z-index: 2;
 }
 
-div#Ray7:after,
-div#Ray72:after {
+div#Ray7:after {
     content: '■';
     animation: 3s Ray7Blinking linear infinite;
 }
 
+div#Ray72:after {
+    content: '■';
+    animation: 1s Ray7Blinking linear infinite;
+}
 div#Ray72:after  {
     color: red;
 }

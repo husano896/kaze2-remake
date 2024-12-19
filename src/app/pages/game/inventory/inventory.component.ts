@@ -54,7 +54,9 @@ export class InventoryComponent {
       var varLoveFlg = 0;
       var varElementFlg = 0;	// 属性増加付与
       var varBioFlg = 0;		// 病気治癒
+      /** 50- 火屬性 / 50+ 水屬性  */
       var varElement1 = 0;	// 属性増分率
+        /** 50- 風屬性 / 50+ 地屬性  */
       var varElement2 = 0;
       var varMegane = 0;		// 眼鏡をつかったか？
       var varKyomuFlg = 0;	// 虚無の塊を使ったか？

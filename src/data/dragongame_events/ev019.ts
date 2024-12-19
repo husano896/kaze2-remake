@@ -3,7 +3,7 @@ import { EventFlag } from "../EventFlag";
 
 const ev019 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
 
     appServ.setBGM('music02')
     if (appServ.waitTimeMinutes >= 60) {
@@ -17,7 +17,7 @@ const ev019 = async (component: DragongameComponent) => {
          */
         await Content(`Scripts.Ev019.1`);
         Face('char01a');
-    } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
+    } else if (!(saveData.ivent & EventFlag.回答事件)) {
         Face('char00');
         /**
 「こりゅうけんしん」って、何をする{{go04}}？
@@ -35,7 +35,7 @@ const ev019 = async (component: DragongameComponent) => {
             `Scripts.Ev019.2.4.Action`
         ]));
 
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [高興]
@@ -50,7 +50,7 @@ const ev019 = async (component: DragongameComponent) => {
                 await Content(`Scripts.Ev019.2.2.Reply`)
                 break;
             case 2:
-                 // [驚訝] + 表情
+                // [驚訝] + 表情
                 EmojiAndAdjustLove(5)
                 // えぇ？　診断ミスっ…？
                 await Content(`Scripts.Ev019.2.3.Reply`)

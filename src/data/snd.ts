@@ -7,6 +7,11 @@ export const snd: { [sndName: string]: { f: string, loop: boolean } } = {
         f: 'snd02.wav',
         loop: false
     },
+    /* 環境音：サラ平原 */
+    'snd03': {
+        f: 'snd03.wav',
+        loop: true
+    },
     'snd04': {
         f: 'snd04.wav',
         loop: true

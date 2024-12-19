@@ -3,19 +3,19 @@ import { EventFlag } from "../EventFlag";
 
 const ev001 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted } = component
 
     appServ.setBGM('music21')
     Face('char01');
-    if (appServ.saveData.turn >= 40) {
+    if (saveData.turn >= 40) {
         /*
         モジュールが実行されて、画面にパラメータやコマンドが表示されたっすね。
         これらは飼育する上での基本になるっすから、また勉強してくださいっす。
         まずは餌やりっす。下の[餌をやる]を選んで、餌を孤竜に与えるっすよ♪
         */
         await Content(`Scripts.Ev001.1`)
-    } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
-        appServ.saveData.ivent |= EventFlag.回答事件;
+    } else if (!(saveData.ivent & EventFlag.回答事件)) {
+        saveData.ivent |= EventFlag.回答事件;
         /*
         餌やりはどうっすか？
         遺跡管理局が支給する餌以外の食事を与えると、どんどんお金(シェル)を

@@ -2,12 +2,15 @@
   style="align-items: center; contain: content;">
   <div class="flex-row full-width" style="justify-content: space-between; position: absolute; top: 0;">
     <div>
-      <button id="Back" routerLink="../dragongame" [replaceUrl]="true" [disabled]="rollingInterval">{{"Actions.Back" | translate | separateText}}</button>
+      <button id="Back" routerLink="../dragongame" [replaceUrl]="true" [disabled]="rollingInterval">{{"Actions.Back" |
+        translate | separateText}}</button>
     </div>
   </div>
-  <span style="color: #ffaa88; padding-top: 32px; text-align: center;">{{"街の資金配給所" | translate | separateText}}</span>
+  <span style="color: #ffaa88; text-align: center;">{{"街の資金配給所" | translate | separateText}}</span>
+  <br />
   <div class="padding-large gap full-width dark-bg boxed-content flex-column"
     style="text-align: center; align-items: center;">
+
     <b style="color: #ffaa99;">スロット値に応じて 育成資金を 街から支給しています。 </b>
     <br />
     <div class="flex-row gap">
@@ -24,13 +27,15 @@
     <h2 id="slotResult" [ngClass]="{'win' : !!winResult}">
       [{{moji[val[0]]}} {{moji[val[1]]}} {{moji[val[2]]}}]
     </h2>
-    <button id="Push" class="padding-large" type="button" [disabled]="turn <= 0 && !rollingInterval" (click)="onStartClick()">
+    <button id="Push" class="padding-large full-width" type="button" [disabled]="turn <= 0 && !rollingInterval"
+      (click)="onStartClick()">
       @if (turn > 0 || rollingInterval) {
-        PUSH
+      PUSH
       }
       @else {
-        {{'Scripts.Confirm.Action.NoTurn' | translate}} 
+      {{'Scripts.Confirm.Action.NoTurn' | translate}}
       }</button>
+      
   </div>
   <!-- 倍率 -->
 

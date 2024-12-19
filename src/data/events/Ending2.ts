@@ -2,9 +2,9 @@ import { RootAnimations } from "@/app/app.service";
 import { DialogueComponent } from "@/app/pages/game/dialogue/dialogue.component";
 
 export const Ending2 = async (component: DialogueComponent) => {
-    const { setBG, Face, setBGOpticity, setDragonCGOpticity, Content, setDialogOpticity, router, appServ, ClearContent, SetContentCompleted } = component;
+    const { location,  setBG, Face, setBGOpticity, setDragonCGOpticity, Content, setDialogOpticity, router, appServ, ClearContent, SetContentCompleted } = component;
     const { Anim, Wait } = appServ
-
+    const state = location.getState() || {};
     // 1
     setBG('last2');
     appServ.setAmbient()
@@ -274,7 +274,7 @@ export const Ending2 = async (component: DialogueComponent) => {
     SetContentCompleted()
     await Anim(RootAnimations.FadeOut);
 
-    router.navigate(['/game/ending'], { state: { ending: 'Ending2b', replaceUrl: true } });
+    router.navigate(['/game/ending'], { state: { ...state, ending: 'Ending2b', replaceUrl: true } });
 
     await Anim(RootAnimations.FadeIn);
 }

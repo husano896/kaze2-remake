@@ -3,15 +3,15 @@ import { EventFlag } from "../EventFlag";
 
 const ev037 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
 
     appServ.setBGM('music21')
     if (appServ.waitTimeMinutes >= 60) {
         Face('char00');
         /**
-"ねえねえ、{{you}}！
-さっきトモダチから聞いたんだけど、{{you}}のいる世界には
-「がっこう」ってところがあるって、ホント？"
+            ねえねえ、{{you}}！
+            さっきトモダチから聞いたんだけど、{{you}}のいる世界には
+            「がっこう」ってところがあるって、ホント？
          */
         Content(`Scripts.Ev037.1.Content`)
         const result = (await Options([
@@ -25,7 +25,7 @@ const ev037 = async (component: DragongameComponent) => {
             `Scripts.Ev037.1.4.Action`
         ]));
 
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [沮喪] + 表情
@@ -55,9 +55,9 @@ const ev037 = async (component: DragongameComponent) => {
     } else {
         Face('char00');
         /** 
-"あのね、他のトモダチも「がっこう」のこと、教えてほしいって。
-{{my}}にも、いっぱいお話 聞かせてほしい{{go01}}。"
-*/
+            あのね、他のトモダチも「がっこう」のこと、教えてほしいって。
+            {{my}}にも、いっぱいお話 聞かせてほしい{{go01}}。
+        */
         await Content(`Scripts.Ev037.2`)
     }
     SetContentCompleted()

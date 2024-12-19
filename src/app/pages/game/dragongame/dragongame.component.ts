@@ -8,7 +8,6 @@ import { DialogueSystem } from '@/entities/DialogueSystem';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -71,12 +70,18 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
     // 環境音
     this.appServ.setAmbient('snd16');
 
+    if (this.appServ.waitTimeMinutes >= 60 && this.saveData.ivent & EventFlag.回答事件) {
+      // TODO: 避免直接60分鐘未存檔
+      this.appServ.setLastLogin();
+    }
+
     const ev = DragonGameEvents[this.saveData.numVisits];
     // 入侵二周目時不進行原先事件
     if (!(this.saveData.ivent & EventFlag.ニステアイベント終了) || !(this.saveData.ivent & EventFlag.水晶ランタンイベント終了) ||
       (this.saveData.ivent & EventFlag.ハッキング二回目)) {
       if (!ev) {
         DragonGameEvents[1].bind(this)(this);
+        // 曾經的進度鎖應該用不到了...。
         console.warn(`[Dragongame] 尚未對應進行度 = ${this.saveData.numVisits}之事件！`)
       }
       else {
@@ -108,11 +113,11 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
     const bgm = this.appServ.getBGM()
     if (bgm.includes('music11')) {
       // 貓BGM
-      this.appServ.setRadialEffect('#FFCA28', true, 10000)
+      this.appServ.setRadialEffect('#FFCA2877', true, 10000)
     }
     else if (bgm.includes('music20')) {
       // midnight
-      this.appServ.setRadialEffect('#1A237E', true, 10000)
+      this.appServ.setRadialEffect('#1A237EAA', true, 10000)
     }
     else if (bgm.includes('music23')) {
       // 最期
@@ -238,7 +243,7 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
     }
     return varSysMsg.join('\r\n');
   }
-  // TODO: 狀態事件確認
+  // 狀態事件確認
   BioEventCheck(): string {
 
     if (this.appServ.waitTimeMinutes >= 60) {
@@ -254,7 +259,6 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
         }
       }
     }
-    console.log('waitMinutes', this.appServ.waitTimeMinutes);
     var varSysMsg = [];
     if ((this.saveData.bio & BioFlag.風邪) && (this.appServ.waitTimeMinutes > 10)) { // 風邪の進行
       varSysMsg.push(this.t('Scripts.Confirm.Bio.Kaze'));
@@ -407,6 +411,7 @@ ${this.t('Game.DragonGame.Df')}:- 1`);
   get loveText() {
     return `Data.Love.${Math.round((this.saveData?.love || 0) / 100)}`;
   }
+
   get hyoukaBuff() {
     // 進行度99時要求LV = 12, 100時的要求LV = 13, 但...
     return Math.floor(this.numVisits / 10) + 3;

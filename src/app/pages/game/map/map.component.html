@@ -4,85 +4,50 @@
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 1020 716" preserveAspectRatio="xMinYMin meet">
       <defs>
+        <!-- 一般地點 -->
         <linearGradient id="point1" x1="0%" x2="100%" y1="0%" y2="100%">
           <stop offset="0%" stop-color="#90CAF9CC" />
           <stop offset="100%" stop-color="#0D47A1FF" />
         </linearGradient>
+        <!-- 地城 -->
+        <linearGradient id="pointCave" x1="0%" x2="100%" y1="0%" y2="100%">
+          <stop offset="0%" stop-color="#8D6E63CC" />
+          <stop offset="100%" stop-color="#FF6F00FF" />
+        </linearGradient>
+        <!-- 重要地點 -->
+        <linearGradient id="pointImportant" x1="0%" x2="100%" y1="0%" y2="100%">
+          <stop offset="0%" stop-color="#FFEE58CC" />
+          <stop offset="100%" stop-color="#F57F17FF" />
+        </linearGradient>
+        <!-- 尚未完成 -->
+        <linearGradient id="pointNotReady" x1="0%" x2="100%" y1="0%" y2="100%">
+          <stop offset="0%" stop-color="#78909CCC" />
+          <stop offset="100%" stop-color="#263238FF" />
+        </linearGradient>
+        <!-- 家 -->
         <linearGradient id="pointHome" x1="0%" x2="100%" y1="0%" y2="100%">
           <stop offset="0%" stop-color="#A5D6A7CC" />
           <stop offset="100%" stop-color="#1B5E20FF" />
         </linearGradient>
       </defs>
       <image width="1020" height="716" xlink:href="/assets/imgs/worldMap.jpg" />
-      <circle cx="926" cy="284" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('ウリア大砂漠地帯', 15, 'games05', true);" (keypress)="GoTo('ウリア大砂漠地帯', 15, 'games05', true);" />
-      <circle cx="772" cy="374" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo(' 廃 坑 　　　(難易度　中)', 5, 'dungeon' , false, {lv:'lv5'})"
-        (keypress)="GoTo(' 廃 坑 　　　(難易度　中)', 5, 'dungeon' , false, {lv:'lv5'})" />
-      @if (game07ON) {
-      <circle cx="858" cy="614" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('滅 び の 都 ヒ デ ィ ー ル [通称 : 忌 ま わ し き 地]', 5, 'dialogue', false, {event: 'Games07'});"
-        (keypress)="GoTo('滅 び の 都 ヒ デ ィ ー ル [通称 : 忌 ま わ し き 地]', 5, 'dialogue', false, {event: 'Games07'});" />
-      }
-      <circle cx="548" cy="482" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('星 降 る 海 底 洞 窟 　　　(難易度　中)', 5, 'dungeon', false, {lv:'lv4'});"
-        (keypress)="GoTo('星 降 る 海 底 洞 窟 　　　(難易度　中)', 5, 'dungeon', false, {lv:'lv4'});" />
-      <circle cx="252" cy="392" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('街 の 雑 木 林', 5, 'games05', true, {lv: 9});"
-        (keypress)="GoTo('街 の 雑 木 林', 5, 'games05', true, {lv: 9});" />
-      <circle cx="660" cy="426" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('サ ラ 平 原', 5, 'games05', true, {lv:8});"
-        (keypress)="GoTo('サ ラ 平 原', 5, 'games05', true, {lv:8});" />
-      <circle cx="990" cy="310" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('忘 れ 去 ら れ し 古 城', 5, 'games05', true, {lv:7});"
-        (keypress)="GoTo('忘 れ 去 ら れ し 古 城', 5, 'games05', true, {lv:7});" />
-      <circle cx="926" cy="484" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('魔 獣 の 森', 5, 'games05', true, {lv:6});"
-        (keypress)="GoTo('魔 獣 の 森', 5, 'games05', true, {lv:6});" />
-      <circle cx="342" cy="48" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('飛 竜 保 護 区 ド ラ ゴ ン バ レ ー', 5, 'games05', true, {lv:5});" />
-      <circle cx="152" cy="598" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('幻 の 浮 島 ラ グ ナ ル ク ス', 40, 'games05', true, {lv:4});" />
-      <circle cx="296" cy="170" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('ド ラ ゴ ン の 古 代 遺 跡', 5, 'games05', true, {lv:3});" />
-      <circle cx="536" cy="176" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('カ ザ リ ナ 山 ・ 幸 い の 地 フ ッ フ ー ル', 5, 'dialogue', true, {event:'Quest02'});" />
-      <circle cx="684" cy="354" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('ト ピ リ ア の 森', 5, 'dialogue', true, {event: 'Quest01'});" />
-      <circle cx="948" cy="104" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('玄 武 洞 の ほ こ ら', 5, 'dialogue', true, {event:'Games04', lv:4});" />
-      <circle cx="682" cy="80" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('魔 風 穴 の ほ こ ら', 5, 'dialogue', true, {event:'Games04', lv:3});" />
-      <circle cx="446" cy="246" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('滑 昇 霧 の ほ こ ら', 5, 'dialogue', true, {event:'Games04', lv:2});" />
-      <circle cx="276" cy="334" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('陽 炎 の ほ こ ら', 5, 'dialogue', true, {event:'Games04', lv:1});" />
-      <circle cx="118" cy="228" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('海 流 の 洞 窟 　　　(難易度　低)', 5, 'dungeon', false, {lv:'lv1'});" />
-      <circle cx="256" cy="226" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('ド ラ ゴ ン の 洞 窟 　　　(難易度　中)', 5, 'dungeon', false, {lv:'lv2'});" />
-      <circle cx="656" cy="282" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('風 鳴 り の 洞 窟 　　　(難易度　高)', 5, 'dungeon', false, {lv:'lv3'});" />
-      <circle cx="318" cy="310" r="16" fill="url(#pointHome)" stroke="#00C853" stroke-width="4"
-        (click)="GoTo('ポ イ ル ト ッ プ の 街', 0, 'dragongame', false)" />
-      @if (bio) {
-      <!-- 發作用洞窟-->
-      <circle cx="542" cy="236" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('湖 ほ と り の 洞 窟　　　(特効薬の？？？)', 5, 'dungeon', false, {lv:'lv0'});" />
-      }
-      <!-- 二度發作用洞窟-->
-      @if ((bio) && (numVisits > 40)) {
-      <circle cx="856" cy="432" r="16" fill="url(#point1)" stroke="#2962FF" stroke-width="4"
-        (click)="GoTo('研 究 者 の 小 屋', 10, 'games02a', false)" />
+      @for (p of locations; track $index) {
+      <circle attr.cx="{{p.x}}" attr.cy="{{p.y}}" r="16" attr.fill="url(#{{p.fill}})" attr.stroke="{{p.stroke}}"
+        stroke-width="4"
+        (click)="GoTo(p.location.name, p.location.turn, p.location.url, p.location.bioCheck, p.location.state);"
+        (keypress)="GoTo(p.location.name, p.location.turn, p.location.url, p.location.bioCheck, p.location.state);" />
       }
     </svg>
-
   </div>
   <!-- 動作列-->
   <div class="game-bg padding-large full-width">
-    <div class="flex-row full-width" style="justify-content: space-between;">
-      <button id="Back" class="padding-large" routerLink="../dragongame" [replaceUrl]="true">
+    <div class="flex-row full-width" style="justify-content: space-between; align-items: center;">
+      <button id="Back" class="padding-large" routerLink="../dragongame" [replaceUrl]="true" style="width: 25%;">
         {{"Actions.Back" | translate | separateText}}</button>
+      <p>
+        <i class="fa-solid fa-battery-full"></i>
+        {{turn}} {{'Noun.Turn' | translate}}
+      </p>
     </div>
     <!-- 說明文字-->
     <small class="min-480">

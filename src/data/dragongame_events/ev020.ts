@@ -3,18 +3,18 @@ import { EventFlag } from "../EventFlag";
 
 const ev020 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
 
     appServ.setBGM('music18')
     if (appServ.waitTimeMinutes >= 60) {
         Emoji(6)
         Face('char00');
         /**
-"{{my}}、やっぱり、どうしても不安{{go00}}{{go01}}…。
-怖い{{go01}}。{{my}}、これからだんだん病気がひどくなって、そして死んじゃう{{go03}}？
-どうして……どうして{{my}}は、死ななきゃいけない{{go04}}？
-こんな怖い思いをして、苦しんで、死んでいくなんて…。
-{{my}}は、どうして生まれてきた{{go01}}……。"
+            {{my}}、やっぱり、どうしても不安{{go00}}{{go01}}…。
+            怖い{{go01}}。{{my}}、これからだんだん病気がひどくなって、そして死んじゃう{{go03}}？
+            どうして……どうして{{my}}は、死ななきゃいけない{{go04}}？
+            こんな怖い思いをして、苦しんで、死んでいくなんて…。
+            {{my}}は、どうして生まれてきた{{go01}}……。
          */
         Content(`Scripts.Ev020.1.Content`)
         const result = (await Options([
@@ -28,7 +28,6 @@ const ev020 = async (component: DragongameComponent) => {
             `Scripts.Ev020.1.4.Action`
         ]));
 
-        appServ.saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [高興]
@@ -55,7 +54,7 @@ const ev020 = async (component: DragongameComponent) => {
                 await Content(`Scripts.Ev020.1.4.Reply`)
                 break;
         }
-    } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
+    } else {
         Face('char00')
         Emoji(6)
         await Content(`Scripts.Ev020.2`)

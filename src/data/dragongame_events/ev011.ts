@@ -3,10 +3,10 @@ import { BioFlag } from "../BioFlag";
 
 const ev011 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted } = component
 
     if (appServ.waitTimeMinutes >= 60) {
-        if (appServ.saveData.bio & BioFlag.発作) {
+        if (saveData.bio & BioFlag.発作) {
 
             Face('char09');
             appServ.setBGM('music05')
@@ -32,12 +32,12 @@ const ev011 = async (component: DragongameComponent) => {
             {{you}}にあげる{{go01}}！
             [{{varItemName[21]}} を手に入れた！！]
              */
-            appServ.saveData.item[21] += 1;
+            saveData.item[21] += 1;
             await Content(`Scripts.Ev011.2`, { varItemName: 'Data.Item.21.Title' })
         }
     } else {
         // 根據發作是否已恢復，變更音樂
-        if (appServ.saveData.bio & BioFlag.発作) {
+        if (saveData.bio & BioFlag.発作) {
             appServ.setBGM('music05')
         }
         else {

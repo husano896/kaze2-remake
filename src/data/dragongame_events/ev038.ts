@@ -3,28 +3,28 @@ import { EventFlag } from "../EventFlag";
 
 const ev038 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, Options, EmojiAndAdjustLove } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, Options, EmojiAndAdjustLove } = component
 
     appServ.setBGM('music01')
     if (appServ.waitTimeMinutes >= 60) {
 
         Face('char07');
         /**
-"街で耳にしたことなんっすが、どこかに竜死病を治す、
-『翠の星の使者』と呼ばれる医者がいる、って噂を耳にしたっす。
-薬も使わずに、触れただけで治す――って。
-でも、これは本当に噂でしかないと思うっす。そんなことで治ったら……
-死んでいった孤竜たちは…………
-いや、何でもないっす。"
+            街で耳にしたことなんっすが、どこかに竜死病を治す、
+            『翠の星の使者』と呼ばれる医者がいる、って噂を耳にしたっす。
+            薬も使わずに、触れただけで治す――って。
+            でも、これは本当に噂でしかないと思うっす。そんなことで治ったら……
+            死んでいった孤竜たちは…………
+            いや、何でもないっす。
          */
         await Content(`Scripts.Ev038.1`)
         Face('char07a');
-    } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
+    } else if (!(saveData.ivent & EventFlag.回答事件)) {
         Face('char00');
         /**
-"ねぇ、{{you}}……。
-どうして、病気ってある{{go04}}？
-いくら考えても、{{my}}には分からない{{go01}}…。"
+            ねぇ、{{you}}……。
+            どうして、病気ってある{{go04}}？
+            いくら考えても、{{my}}には分からない{{go01}}…。
          */
         Content(`Scripts.Ev038.2.Content`)
         const result = (await Options([
@@ -37,7 +37,7 @@ const ev038 = async (component: DragongameComponent) => {
             // ごめん……分からない。
             `Scripts.Ev038.2.4.Action`
         ]));
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [生氣] + 表情 
@@ -67,8 +67,8 @@ const ev038 = async (component: DragongameComponent) => {
     } else {
         Face('char04');
         /*
-"さっきはあんなこと言っちゃったっすが、本当はボクも信じてみたいんっす。
-あの孤竜たちには、世界中の誰よりも奇跡が必要だと思うっすから……。"
+            さっきはあんなこと言っちゃったっすが、本当はボクも信じてみたいんっす。
+            あの孤竜たちには、世界中の誰よりも奇跡が必要だと思うっすから……。
         */
         await Content(`Scripts.Ev038.3`);
         Face('char04a');

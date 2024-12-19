@@ -3,17 +3,17 @@ import { EventFlag } from "../EventFlag";
 
 const ev026 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
 
     appServ.setBGM('music02')
     if (appServ.waitTimeMinutes >= 60) {
         Face('char00');
         /**
-さっき、ニエルサンに頼まれて、街の外におつかいに出かけた{{go01}}。
-そうしたら、海岸に大きな鉄の舟が突き刺さって立ってた{{go01}}。
-もしかしたら、あれが、大昔に人と竜のケンカで使われた{{go03}}？
-{{my}}は…あんな怖い舟とは戦いたくない{{go01}}。
-命がいくつあっても、足りなそうな気がする{{go01}}……。
+            さっき、ニエルサンに頼まれて、街の外におつかいに出かけた{{go01}}。
+            そうしたら、海岸に大きな鉄の舟が突き刺さって立ってた{{go01}}。
+            もしかしたら、あれが、大昔に人と竜のケンカで使われた{{go03}}？
+            {{my}}は…あんな怖い舟とは戦いたくない{{go01}}。
+            命がいくつあっても、足りなそうな気がする{{go01}}……。
          */
         Content(`Scripts.Ev026.1.Content`)
         const result = (await Options([
@@ -27,7 +27,7 @@ const ev026 = async (component: DragongameComponent) => {
             `Scripts.Ev026.1.4.Action`
         ]));
 
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [驚訝]

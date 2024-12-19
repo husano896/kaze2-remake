@@ -37,6 +37,63 @@ import ev036 from "./ev036";
 import ev037 from "./ev037";
 import ev038 from "./ev038";
 import ev039 from "./ev039";
+import ev040 from "./ev040";
+import ev041 from "./ev041";
+import ev042 from "./ev042";
+import ev043 from "./ev043";
+import ev044 from "./ev044";
+import ev045 from "./ev045";
+import ev046 from "./ev046";
+import ev047 from "./ev047";
+import ev048 from "./ev048";
+import ev049 from "./ev049";
+import ev050 from "./ev050";
+import ev051 from "./ev051";
+import ev052 from "./ev052";
+import ev053 from "./ev053";
+import ev054 from "./ev054";
+import ev055 from "./ev055";
+import ev056 from "./ev056";
+import ev057 from "./ev057";
+import ev058 from "./ev058";
+import ev059 from "./ev059";
+import ev060 from "./ev060";
+import ev061 from "./ev061";
+import ev062 from "./ev062";
+import ev063 from "./ev063";
+import ev064 from "./ev064";
+import ev065 from "./ev065";
+import ev066 from "./ev066";
+import ev067 from "./ev067";
+import ev068 from "./ev068";
+import ev069 from "./ev069";
+import ev070 from "./ev070";
+import ev071 from "./ev071";
+import ev072 from "./ev072";
+import ev073 from "./ev073";
+import ev074 from "./ev074";
+import ev075 from "./ev075";
+import ev076 from "./ev076";
+import ev077 from "./ev077";
+import ev078 from "./ev078";
+import ev079 from "./ev079";
+import ev080 from "./ev080";
+import ev081 from "./ev081";
+import ev082 from "./ev082";
+import ev083 from "./ev083";
+import ev084 from "./ev084";
+import ev085 from "./ev085";
+import ev086 from "./ev086";
+import ev087 from "./ev087";
+import ev088 from "./ev088";
+import ev089 from "./ev089";
+import ev090 from "./ev090";
+import ev091 from "./ev091";
+import ev092 from "./ev092";
+import ev093 from "./ev093";
+import ev094 from "./ev094";
+import ev095 from "./ev095";
+import ev096 from "./ev096";
 
 import ev097 from "./ev097";
 import ev098 from "./ev098";
@@ -118,8 +175,78 @@ const DragonGameEvents: { [eventName: string]: Function } = {
     38: ev038,
     /**「学校へ行こう？」*/
     39: ev039,
-    // 52: TODO: 發作發生
-    // 55: TODO: 發作自然治癒
+    /**「猫を飼う」 */
+    40: ev040,
+    /**「何気ない会話、その二」*/
+    41: ev041,
+    /**「意外な歌い手」*/
+    42: ev042,
+    /**「歌い手ニエル」*/
+    43: ev043,
+    /**「学校創設？」*/
+    44: ev044,
+    /**「ガセ発覚」*/
+    45: ev045,
+    /**「あこがれ」*/
+    46: ev046,
+    /**「愛を請う者達」*/
+    47: ev047,
+    /**「ピクニックイベント」*/
+    48: ev048,
+    /**「ピクニック前夜」*/
+    49: ev049,
+    /**「ピクニック中止、そして……」*/
+    50: ev050,
+    /**「体の不調」*/
+    51: ev051,
+    //#region 二次發作
+    //
+    52: ev052,
+    53: ev053,
+    54: ev054,
+    55: ev055,
+    //#endregion
+    56: ev056,
+    57: ev057,
+    58: ev058,
+    59: ev059,
+    60: ev060,
+    61: ev061,
+    62: ev062,
+    63: ev063,
+    64: ev064,
+    65: ev065,
+    66: ev066,
+    67: ev067,
+    68: ev068,
+    69: ev069,
+    70: ev070,
+    71: ev071,
+    72: ev072,
+    73: ev073,
+    74: ev074,
+    75: ev075,
+    76: ev076,
+    77: ev077,
+    78: ev078,
+    79: ev079,
+    80: ev080,
+    81: ev081,
+    82: ev082,
+    83: ev083,
+    84: ev084,
+    85: ev085,
+    86: ev086,
+    87: ev087,
+    88: ev088,
+    89: ev089,
+    90: ev090,
+    91: ev091,
+    92: ev092,
+    93: ev093,
+    94: ev094,
+    95: ev095,
+    96: ev096,
     /**「わずかな灯火」*/
     97: ev097,
     //#region BAD END確認

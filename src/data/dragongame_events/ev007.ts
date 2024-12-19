@@ -3,7 +3,7 @@ import { EventFlag } from "../EventFlag";
 
 const ev007 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted } = component
 
     appServ.setBGM('music21')
     if (appServ.waitTimeMinutes >= 60) {
@@ -18,8 +18,8 @@ const ev007 = async (component: DragongameComponent) => {
          */
         await Content(`Scripts.Ev007.1`)
         Face('char08a');
-    } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
-        appServ.saveData.ivent |= EventFlag.回答事件;
+    } else if (!(saveData.ivent & EventFlag.回答事件)) {
+        saveData.ivent |= EventFlag.回答事件;
         Face('char01');
         /*
         冒険に行ってみたっすか？

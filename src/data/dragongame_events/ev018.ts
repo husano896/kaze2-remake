@@ -3,7 +3,7 @@ import { EventFlag } from "../EventFlag";
 
 const ev018 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
 
     appServ.setBGM('music20')
     if (appServ.waitTimeMinutes >= 60) {
@@ -18,7 +18,7 @@ const ev018 = async (component: DragongameComponent) => {
          */
         await Content(`Scripts.Ev018.1`);
         Face('char04a');
-    } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
+    } else if (!(saveData.ivent & EventFlag.回答事件)) {
         Face('char00');
         /**
 さっき、トモダチに、{{my}}がかかってる病気のことを聞いてみた{{go01}}。
@@ -38,7 +38,7 @@ const ev018 = async (component: DragongameComponent) => {
             `Scripts.Ev018.2.4.Action`
         ]));
 
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // 答非所問
@@ -53,7 +53,7 @@ const ev018 = async (component: DragongameComponent) => {
                 await Content(`Scripts.Ev018.2.2.Reply`)
                 break;
             case 2:
-                 // [沮喪] + 表情
+                // [沮喪] + 表情
                 EmojiAndAdjustLove(6)
                 // ……。
                 await Content(`Scripts.Ev018.2.3.Reply`)

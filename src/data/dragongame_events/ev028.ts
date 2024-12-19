@@ -3,17 +3,17 @@ import { EventFlag } from "../EventFlag";
 
 const ev028 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
+    const { saveData, appServ, Face, Content, SetContentCompleted, EmojiAndAdjustLove, Options, Emoji } = component
 
     appServ.setBGM('music02')
     if (appServ.waitTimeMinutes >= 60) {
         Face('char00');
         /**
-昔の人と竜って、ケンカしたけれど、今は仲直りしてるんだよね。
-じゃあ、どんなに仲が悪くたって、お互い歩み寄れば仲直りできる{{go03}}？
-…………今、同じ竜舎のトモダチとケンカ中{{go00}}{{go01}}。
-やっぱり、{{my}}の方から歩み寄ればいい{{go03}}？
-でも、それはちょっとしたくない{{go00}}{{go01}}…。
+            昔の人と竜って、ケンカしたけれど、今は仲直りしてるんだよね。
+            じゃあ、どんなに仲が悪くたって、お互い歩み寄れば仲直りできる{{go03}}？
+            …………今、同じ竜舎のトモダチとケンカ中{{go00}}{{go01}}。
+            やっぱり、{{my}}の方から歩み寄ればいい{{go03}}？
+            でも、それはちょっとしたくない{{go00}}{{go01}}…。
          */
         Content(`Scripts.Ev028.1.Content`)
         const result = (await Options([
@@ -27,7 +27,7 @@ const ev028 = async (component: DragongameComponent) => {
             `Scripts.Ev028.1.4.Action`
         ]));
 
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [理解不能]

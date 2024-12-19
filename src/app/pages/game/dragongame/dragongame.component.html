@@ -10,7 +10,7 @@
         </p>
     </div>
     <!-- 能力視窗 與 龍 -->
-    <div id="Ray2" class="flex-row full-width full-height" style="contain: content; max-height: 50dvh;">
+    <div id="Ray2" class="flex-row full-width full-height" style="contain: content; max-height: 60dvh;">
 
         <div id="RayEX1" class="flex-row" style="position: absolute; right: 16px;top:16px;z-index: 2;">
             <div class="gap flex-row">
@@ -27,7 +27,8 @@
                     (pointerleave)="doc=''"><i class="fa-solid fa-floppy-disk"></i></button>
             </div>
         </div>
-        <div id="Ray3" class="flex-row full-width" style="z-index: 1; justify-content: space-between;">
+        <div id="Ray3" class="flex-row full-width"
+            style="z-index: 1; justify-content: space-between; min-height: 45dvh">
             @if (!hacked) {
             <!-- 能力表 -->
             <div class="boxed-content flex-column transparant-dark-bg padding-large"
@@ -126,7 +127,7 @@
     </div>
 
     <!-- 行動, 金錢, NEXT條 -->
-    <div id="Ray5" class="flex-column full-height padding-large" style="min-height: 25dvh; contain: content;">
+    <div id="Ray5" class="flex-column full-height padding-large" style="min-height: 20dvh; contain: content;">
 
         <div class="flex-row column-480 full-width full-height gap">
             <!-- 頭像-->

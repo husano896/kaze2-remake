@@ -3,28 +3,28 @@ import { EventFlag } from "../EventFlag";
 
 const ev035 = async (component: DragongameComponent) => {
 
-    const { appServ, Face, Content, SetContentCompleted, Options, EmojiAndAdjustLove } = component
+    const { saveData,appServ, Face, Content, SetContentCompleted, Options, EmojiAndAdjustLove } = component
 
     appServ.setBGM('music21')
     if (appServ.waitTimeMinutes >= 60) {
 
         Face('char04');
         /**
-"いやぁ……ひどい目にあったっす！
-最近、孤竜たちの間で、服や毛に引っつく草の実をぶつけ合う遊びが
-流行ってるみたいなんっすが、さっきも{{dragonName}} とその友だちに
-いっぱいくっつけられたっすぅ……。
-{{yourName}}さんからも叱っといてくださいっす。"
+            いやぁ……ひどい目にあったっす！
+            最近、孤竜たちの間で、服や毛に引っつく草の実をぶつけ合う遊びが
+            流行ってるみたいなんっすが、さっきも{{dragonName}} とその友だちに
+            いっぱいくっつけられたっすぅ……。
+            {{yourName}}さんからも叱っといてくださいっす。
          */
         await Content(`Scripts.Ev035.1`)
         Face('char04a');
-    } else if (!(appServ.saveData.ivent & EventFlag.回答事件)) {
+    } else if (!(saveData.ivent & EventFlag.回答事件)) {
         Face('char00');
         /**
-         * "さっき、ニエルサンに ゲンコツされた{{go01}}…。
-ニエルサンに「いたずらもほどほどにするっす！」って怒られて、
-すっごく痛かった{{go01}}……。
-ねぇ、やっぱり{{my}}が悪い{{go03}}？"
+            さっき、ニエルサンに ゲンコツされた{{go01}}…。
+            ニエルサンに「いたずらもほどほどにするっす！」って怒られて、
+            すっごく痛かった{{go01}}……。
+            ねぇ、やっぱり{{my}}が悪い{{go03}}？"
          */
         Content(`Scripts.Ev035.2.Content`)
         const result = (await Options([
@@ -37,7 +37,7 @@ const ev035 = async (component: DragongameComponent) => {
             // やり過ぎると捨てられるぞ。
             `Scripts.Ev035.2.4.Action`
         ]));
-        appServ.saveData.ivent |= EventFlag.回答事件;
+        saveData.ivent |= EventFlag.回答事件;
         switch (result.index) {
             case 0:
                 // [高興] 
@@ -67,9 +67,9 @@ const ev035 = async (component: DragongameComponent) => {
     } else {
         Face('char01');
         /*
-"まぁ、元気なのはいいことなんっすが、ボクの体毛にアレがひっつくと、
-なかなか取るのが大変なんっす……。
-{{yourName}}さんは、どうっすか？  毛の手入れとか大丈夫っすか？"
+            まぁ、元気なのはいいことなんっすが、ボクの体毛にアレがひっつくと、
+            なかなか取るのが大変なんっす……。
+            {{yourName}}さんは、どうっすか？  毛の手入れとか大丈夫っすか？
         */
         await Content(`Scripts.Ev035.3`);
         Face('char01a');
