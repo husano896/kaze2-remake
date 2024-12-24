@@ -73,13 +73,13 @@ export class Earn02Component implements AfterViewInit, OnDestroy {
       );
 
       this.appServ.saveData.food += varget;
-      this.appServ.Confirm('勝 負 判 定', `報奨金として、${varget}シェルを手に入れた！`)
+      this.appServ.Confirm(this.appServ.t('Game.Earn02.Result'), this.appServ.t('Game.Earn02.Win', { varget: String(varget) }))
       this.appServ.setSE('snd15');
     } else if (this.scoreEnemy > this.scorePlayer) {
-      this.appServ.Confirm('勝 負 判 定', `アナタの負けです。`)
+      this.appServ.Confirm(this.appServ.t('Game.Earn02.Result'), this.appServ.t('Game.Earn02.Lose'))
       this.appServ.setSE('snd10');
     } else if (this.scorePlayer == this.scoreEnemy) {
-      this.appServ.Confirm('勝 負 判 定', `引き分けとなりました。`)
+      this.appServ.Confirm(this.appServ.t('Game.Earn02.Result'), this.appServ.t('Game.Earn02.Draw'))
       this.appServ.setSE('snd10');
     }
   }

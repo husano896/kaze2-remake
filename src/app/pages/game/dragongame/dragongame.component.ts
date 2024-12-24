@@ -7,7 +7,7 @@ import { DragonGameEvents } from '@/data/dragongame_events';
 import { DialogueSystem } from '@/entities/DialogueSystem';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -228,8 +228,8 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
     if (!(this.saveData.ivent & 2048)) {
       if ((date == "1224") || (date == "1225")) {
         // 聖誕快樂
-        varSysMsg.push(this.t('Scripts.Confirm.MerryChirstmas'),
-          { ...this.saveData.talkingParam, varItemName: this.t('Data.Item.18.Title') });
+        varSysMsg.push(this.t('Scripts.Confirm.MerryChirstmas',
+          { ...this.saveData.talkingParam, varItemName: this.t('Data.Item.18.Title') }));
         this.saveData.item[ItemID.生ケーキ] += 1;
         this.saveData.ivent = (this.saveData.ivent | EventFlag.期間限定);
       }
@@ -373,7 +373,7 @@ ${this.t('Game.DragonGame.Df')}:- 1`);
 
   //#region 系統操作
   isAudioON(): boolean {
-    return this.appServ.isAudioON()
+    return this.appServ.AudioON;
   }
 
   toggleAudio() {
@@ -486,7 +486,7 @@ ${this.t('Game.DragonGame.Df')}:- 1`);
   }
 
   get cgName() {
-    return this.saveData?.cgName || '/assets/imgs/dragon/nomal00.gif';
+    return this.saveData?.cgName || 'nomal00';
   }
   get money() {
     return this.saveData?.food || 0;

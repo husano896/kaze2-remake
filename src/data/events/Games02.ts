@@ -1,16 +1,15 @@
 import { DialogueComponent } from "@/app/pages/game/dialogue/dialogue.component";
 import { RootAnimations } from "@/app/app.service";
-import _ from "lodash";
 import { ItemID } from "../ItemID";
 import { firstValueFrom } from "rxjs";
-
+/** 研究者的小屋 */
 export const Games02 = async (component: DialogueComponent) => {
   const { Back, ClearContent, Content, setDialogOpticity, AllFadeOut, saveData, Face, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   appServ.setAmbient('')
   appServ.setBGM('music13')
   setBG('kenkyu')
-  setDragonCG(saveData.PS_RyuCG());
+  setDragonCG(saveData.cgName);
   setBGOpticity(1);
   await appServ.Anim(RootAnimations.FadeIn, 3000);
 

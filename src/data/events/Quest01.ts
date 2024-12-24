@@ -18,7 +18,7 @@ export const Quest01 = async (component: DialogueComponent) => {
   if ((appServ.saveData.numVisits == 46) && (appServ.saveData.ivent & EventFlag.貓事件) && !(appServ.saveData.ivent & EventFlag.貓咪飼料草)) {
     appServ.setBGM('music18')
     // TODO: 孤龍從右側滑入
-    setDragonCG(appServ.saveData.PS_RyuCG())
+    setDragonCG(appServ.saveData.cgName)
     setDragonCGOpticity(1);
 
     /**
@@ -52,7 +52,7 @@ export const Quest01 = async (component: DialogueComponent) => {
   if (appServ.saveData.DragonChip1 & DragonChipFlag.トピリア) {
 
     // TODO: 孤龍從右側滑入
-    setDragonCG(appServ.saveData.PS_RyuCG())
+    setDragonCG(appServ.saveData.cgName)
     setDragonCGOpticity(1);
     const varsam = Math.round(Math.random() * 5) + 2;
     await Content(`Scripts.Quest01.2`, {varsam: String(varsam)})
@@ -66,7 +66,7 @@ export const Quest01 = async (component: DialogueComponent) => {
 
   //#region 一般事件
   // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.PS_RyuCG())
+  setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
   /**
    *……なんだか新鮮な空気…。すごく心地いい{{go01}}。

@@ -1,28 +1,31 @@
 <div class="container flex-column" style="align-items: center;">
     <br />
-    <b style="color:#ffaa88">{{'遺跡管理局' | separateText}}</b>
+    <b style="color:#ffaa88">{{'Game.Retire.Title' | translate | separateText}}</b>
     <br />
     <div class="boxed-content flex-column transparant-dark-bg" style="padding: 16px;">
-        <p>こちらでは、残念ながら、忙しくて孤竜を育てきれない方、育成が負担になってしまった方のための手続きを行っています。</p>
-        <br />
-        <p>里親の権利を放棄される際には、こちらへサインをお願いします。</p>
-        <p>孤竜は自然に帰され、その中で短い生涯を終えることでしょう。</p>
-        <p style="color: red;">あなたのもとを離れた孤竜は、二度と戻ってはきません。</p>
+        <p>{{'Game.Retire.Warning1' | translate}}</p>
+        <p style="color: red;">{{'Game.Retire.Warning2' | translate}}</p>
     </div>
     <br />
     <br />
     <br />
     <br />
-    <div class="boxed-content flex-column transparant-dark-bg padding-large" style="width: max(50%, 30dvh); max-width: 75%; z-index: 1;">
-        <p>サインしますか？</p>
+    <div class="boxed-content flex-column transparant-dark-bg padding-large"
+        style="width: max(50%, 30dvh); max-width: 75%; z-index: 1;">
+        <p>{{'Game.Retire.Confirm' | translate}}</p>
 
         <div class="flex-row" style="justify-content: end;">
-            <a (click)="Delete()">
-                <img class="full-width" alt="OK" src="/assets/imgs/btn_ok.gif" />
-            </a>
+
             <a routerLink="../menu">
                 <img class="full-width" alt="NO" src="/assets/imgs/btn_no.gif" />
             </a>
+            <a (click)="Delete()" [ngClass]="{disabled: countDown > 0}">
+                <img class="full-width" alt="OK" src="/assets/imgs/btn_ok.gif" />
+            </a>
+
+            @if (countDown > 0) {
+            <span style="color:red;">[{{countDown}}]</span>
+            }
         </div>
     </div>
 </div>

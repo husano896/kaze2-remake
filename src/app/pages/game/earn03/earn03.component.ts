@@ -98,7 +98,7 @@ export class Earn03Component implements AfterViewInit, OnDestroy {
         // GAME OVER
         clearInterval(this.timeInterval);
         this.appServ.setSE('snd14')
-        this.appServ.Confirm('失 敗', `ロジック解除に失敗しました`)
+        this.appServ.Confirm(this.appServ.t('Game.Earn03.Lose.Title'), this.appServ.t('Game.Earn03.Lose.Description'))
         this.timeInterval = null;
       } else {
         this.timeLeft--;
@@ -160,8 +160,8 @@ export class Earn03Component implements AfterViewInit, OnDestroy {
       const usedTime = 120 - this.timeLeft;
       const varCnt = Math.round(((this.timeLeft + 120) * (this.timeLeft + 120) + 40000) / 500);
       this.appServ.saveData.food += varCnt;
-      this.appServ.Confirm('ロ ジ ッ ク 解 除',
-        `ロジックを解いた為 残り ${this.timeLeft}秒 より ${varCnt}シェル生み出された!`
+      this.appServ.Confirm(this.appServ.t('Game.Earn03.Win.Title'),
+        this.appServ.t('Game.Earn03.Win.Description', {timeLeft: String(this.timeLeft), varCnt: String(varCnt)})
       )
       this.appServ.setSE('snd15')
       if (!this.personalBest || usedTime < this.personalBest) {

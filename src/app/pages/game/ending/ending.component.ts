@@ -24,7 +24,7 @@ export class EndingComponent implements AfterViewInit, OnDestroy {
   endrollProcess = 0;
   goodEnding?: boolean
 
-  constructor(private readonly location: Location,
+  constructor(public readonly location: Location,
     public readonly router: Router,
     private readonly translateServ: TranslateService,
     public readonly appServ: AppService) {

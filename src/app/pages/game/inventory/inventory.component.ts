@@ -7,6 +7,8 @@ import { AppService } from '@/app/app.service';
 import { FormsModule } from '@angular/forms';
 import { BioFlag } from '@/data/BioFlag';
 import { DragonChipFlag } from '@/data/DragonChipFlag';
+import { EventFlag } from '@/data/EventFlag';
+import { ItemID } from '@/data/ItemID';
 
 
 const varInc_hp = new Array(0, 30, 10, 10, 100, 50, 20, 50, 10, 50, 50, 200, 20, 0, 5, 50, 100, 100, 5, 10, 200);
@@ -56,7 +58,7 @@ export class InventoryComponent {
       var varBioFlg = 0;		// 病気治癒
       /** 50- 火屬性 / 50+ 水屬性  */
       var varElement1 = 0;	// 属性増分率
-        /** 50- 風屬性 / 50+ 地屬性  */
+      /** 50- 風屬性 / 50+ 地屬性  */
       var varElement2 = 0;
       var varMegane = 0;		// 眼鏡をつかったか？
       var varKyomuFlg = 0;	// 虚無の塊を使ったか？
@@ -75,9 +77,9 @@ export class InventoryComponent {
         switch (index) {
           case 1:				// タリスマン
             varBioFlg += 4;
-            if (this.appServ.saveData.element1 > 0) { varElement1 += 2; } else { varElement1 -= 2 }
-            if (this.appServ.saveData.element2 > 0) { varElement2 += 2; } else { varElement2 -= 2 }
-            this.appServ.saveData.item[index]--;
+            if (this.saveData.element1 > 0) { varElement1 += 2; } else { varElement1 -= 2 }
+            if (this.saveData.element2 > 0) { varElement2 += 2; } else { varElement2 -= 2 }
+            this.saveData.item[index]--;
             break;
           case 2:				// 太陽の珠
             varElement1 -= 10;
@@ -94,8 +96,8 @@ export class InventoryComponent {
           case 6: 				// ナーガ草
             varElement1 += 5;
             varBioFlg += 32;
-            varHpFlg = this.appServ.saveData.Maxhp;
-            this.appServ.saveData.item[index]--;
+            varHpFlg = this.saveData.Maxhp;
+            this.saveData.item[index]--;
             break;
           case 7:				// 復活の玉
             varElement2 += 1;
@@ -104,12 +106,12 @@ export class InventoryComponent {
           case 8: 				// 友情の証
             varElement1 -= 5;
             varBioFlg += 16;
-            this.appServ.saveData.item[index]--;
+            this.saveData.item[index]--;
             break;
           case 9:				// 精霊根
             varElement1 += 1;
-            varHpFlg = Math.round((Math.random() * 20) + (this.appServ.saveData.Maxhp / 3));
-            this.appServ.saveData.item[index]--;
+            varHpFlg = Math.round((Math.random() * 20) + (this.saveData.Maxhp / 3));
+            this.saveData.item[index]--;
             break;
           case 10:				// 召喚の杖
             varElement2 -= 1;
@@ -121,29 +123,29 @@ export class InventoryComponent {
             break;
           case 12:				// ＤＮＡ種
             varDNAFlg = 1;
-            this.appServ.saveData.item[index]--;
+            this.saveData.item[index]--;
             break;
           case 13: 				// ユニコーンの角
             varElement2 -= 5;
             varBioFlg = 262144;
-            this.appServ.saveData.item[index]--;
+            this.saveData.item[index]--;
             break;
           case 14:  				// 光きのこ
             varElement2 += 3;
             varMaxHpFlg += 1;
             varAtFlg += 1;
-            this.appServ.saveData.item[index]--;
+            this.saveData.item[index]--;
             break;
           case 15:				// 精竜水
             varElement1 += 1;
             break;
           case 16:				// 誇りの賞状
             varHyousyou = 1;
-            this.appServ.saveData.item[index]--;
+            this.saveData.item[index]--;
             break;
           case 17:				// 万物の素
             varElementFlg = 1;	// 属性増分ON
-            this.appServ.saveData.item[index]--;
+            this.saveData.item[index]--;
             break;
           case 18:				// ホイップケーキ
             varElement1 += 3;
@@ -152,14 +154,15 @@ export class InventoryComponent {
             varDfFlg += 2;
             varAtFlg += 2;
             varLoveFlg += 40;
-            this.appServ.saveData.item[index]--;
+            this.saveData.item[index]--;
             break;
           case 19:				// 虚無の塊
             varKyomuFlg = 1;
-            if (this.appServ.saveData.DragonChip2 == 0) {
-              this.appServ.saveData.element1 = 50;
-              this.appServ.saveData.element2 = 50;
-              this.appServ.saveData.item[index]--;
+            // 契約印變身中不可使用
+            if (this.saveData.DragonChip2 == 0) {
+              this.saveData.element1 = 50;
+              this.saveData.element2 = 50;
+              this.saveData.item[index]--;
             }
             break;
           case 20:				// 魔法のクジ
@@ -173,23 +176,23 @@ export class InventoryComponent {
             } else {
               varFoodFlg += (1 + Math.round(Math.random()));
             }
-            this.appServ.saveData.item[index]--;
+            this.saveData.item[index]--;
             break;
           case 21:				// 幻の秘石
             varLoveFlg += 100;
             varElement2 += 10;
             varLoveFlg += 10;
-            this.appServ.saveData.item[index]--;
+            this.saveData.item[index]--;
             break;
           case 23:				// 抗生薬
             varBioFlg += 2;
             varElement1 -= 3;
-            this.appServ.saveData.item[index]--;
+            this.saveData.item[index]--;
             break;
           case 24:				// 催酔薬
             varSleepFlg = 1;
             varElement2 -= 3;
-            this.appServ.saveData.item[index]--;
+            this.saveData.item[index]--;
             break;
           case 25:				// 忌まわしき地への道標
             varMichisirube = 1;
@@ -200,147 +203,274 @@ export class InventoryComponent {
       })
 
       if (varMegane) {		// 属性の解析
-        varBuffs.push("＞現在の仔竜の内部因子を透かしてみた……");
-        if (this.appServ.saveData.element1 < 50) { varBuffs.push("炎レベル：" + ((50 - this.appServ.saveData.element1) * 2) + "/ 目標:100"); }
-        if (this.appServ.saveData.element1 > 50) { varBuffs.push("水レベル：" + ((this.appServ.saveData.element1 - 50) * 2) + "/ 目標:100"); }
-        if (this.appServ.saveData.element1 == 50) { varBuffs.push("炎/水　　無属性"); }
-        if (this.appServ.saveData.element2 < 50) { varBuffs.push("風レベル：" + ((50 - this.appServ.saveData.element2) * 2) + "/ 目標:100"); }
-        if (this.appServ.saveData.element2 > 50) { varBuffs.push("地レベル：" + ((this.appServ.saveData.element2 - 50) * 2) + "/ 目標:100"); }
-        if (this.appServ.saveData.element2 == 50) { varBuffs.push("風/地　　無属性"); }
+        // ＞現在の仔竜の内部因子を透かしてみた……
+        varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Megane.Description'));
+        if (this.saveData.element1 < 50) {
+          // 炎レベル：{{val}} / 目標:100
+          varBuffs.push(
+            this.appServ.t("Game.Inventory.ItemEffect.Megane.Fire", {
+              val: String((50 - this.saveData.element1) * 2)
+            })
+          );
+        }
+        if (this.saveData.element1 > 50) {
+          // 水レベル：{{val}} / 目標:100
+          varBuffs.push(
+            this.appServ.t("Game.Inventory.ItemEffect.Megane.Water", {
+              val: String((this.saveData.element1 - 50) * 2)
+            })
+          );
+        }
+        if (this.saveData.element1 == 50) {
+          // 炎/水　　無属性
+          varBuffs.push(this.appServ.t("Game.Inventory.ItemEffect.Megane.FWBalance"));
+        }
+        if (this.saveData.element2 < 50) {
+          // 風レベル：{{val}} / 目標:100
+          varBuffs.push(
+            this.appServ.t("Game.Inventory.ItemEffect.Megane.Wind", {
+              val: String((50 - this.saveData.element2) * 2)
+            })
+          );
+        }
+        if (this.saveData.element2 > 50) {
+          // 地レベル：{{val}} / 目標:100
+          varBuffs.push(
+            this.appServ.t("Game.Inventory.ItemEffect.Megane.Earth", {
+              val: String((this.saveData.element2 - 50) * 2)
+            })
+          );
+        }
+        if (this.saveData.element2 == 50) {
+          // 風/地　　無属性
+          varBuffs.push(this.appServ.t("Game.Inventory.ItemEffect.Megane.WEBalance"));
+        }
       }
 
       if (varElementFlg) {		// 属性の増加(虚無の塊使用時は非表示)
-        if (varKyomuFlg && this.appServ.saveData.DragonChip2 == 0) {
+        if (varKyomuFlg && this.saveData.DragonChip2 == 0) {
         } else {
           if (varHyousyou) {							// 誇りの賞状を使うと強化
             varElement1 = Math.round(varElement1 * 2);
             varElement2 = Math.round(varElement2 * 2);
           }
-          this.appServ.saveData.element1 += varElement1;
-          this.appServ.saveData.element2 += varElement2;
+          this.saveData.element1 += varElement1;
+          this.saveData.element2 += varElement2;
           if (varElement1 < 0) {
-            varBuffs.push("＞炎属性:" + Math.abs(varElement1 * 2) + "ポイント増加");
-            varBuffs.push("＞水属性:" + Math.abs(varElement1 * 2) + "ポイント低下");
+            // ＞炎属性:{{val}}ポイント増加
+            varBuffs.push(this.appServ.t("Game.Inventory.ItemEffect.Element.FireUp", {
+              val: String(Math.abs(varElement1 * 2))
+            }));
+            // ＞水属性:{{val}}ポイント低下
+            varBuffs.push(this.appServ.t("Game.Inventory.ItemEffect.Element.WaterDown", {
+              val: String(Math.abs(varElement1 * 2))
+            }));
           }
           if (varElement1 > 0) {
-            varBuffs.push("＞水属性:" + Math.abs(varElement1 * 2) + "ポイント増加");
-            varBuffs.push("＞炎属性:" + Math.abs(varElement1 * 2) + "ポイント低下");
+            // ＞水属性:{{val}}ポイント増加
+            varBuffs.push(this.appServ.t("Game.Inventory.ItemEffect.Element.WaterUp", {
+              val: String(Math.abs(varElement1 * 2))
+            }));
+            // ＞炎属性:{{val}}ポイント低下
+            varBuffs.push(this.appServ.t("Game.Inventory.ItemEffect.Element.FireDown", {
+              val: String(Math.abs(varElement1 * 2))
+            }));
           }
           if (varElement2 < 0) {
-            varBuffs.push("＞風属性:" + Math.abs(varElement2 * 2) + "ポイント増加");
-            varBuffs.push("＞地属性:" + Math.abs(varElement2 * 2) + "ポイント低下");
+            // ＞風属性:{{val}}ポイント増加
+            varBuffs.push(this.appServ.t("Game.Inventory.ItemEffect.Element.WindUp", {
+              val: String(Math.abs(varElement2 * 2))
+            }));
+            // ＞地属性:{{val}}ポイント低下
+            varBuffs.push(this.appServ.t("Game.Inventory.ItemEffect.Element.EarthDown", {
+              val: String(Math.abs(varElement2 * 2))
+            }));
           }
           if (varElement2 > 0) {
-            varBuffs.push("＞地属性:" + Math.abs(varElement2 * 2) + "ポイント増加");
-            varBuffs.push("＞風属性:" + Math.abs(varElement2 * 2) + "ポイント低下");
-            if (!varBuffs.length) varBuffs.push("属性変化なし");
+            // ＞地属性:{{val}}ポイント増加
+            varBuffs.push(this.appServ.t("Game.Inventory.ItemEffect.Element.EarthUp", {
+              val: String(Math.abs(varElement2 * 2))
+            }));
+            // ＞風属性:{{val}}ポイント低下
+            varBuffs.push(this.appServ.t("Game.Inventory.ItemEffect.Element.WindDown", {
+              val: String(Math.abs(varElement2 * 2))
+            }));
+            if (!varBuffs.length) {
+              // 属性変化なし
+              varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Element.NoEffect'));
+            }
           }
         }
       }
 
       if (varDNAFlg) {		// DNA種
-        if (!(this.appServ.saveData.DragonChip1 & 128)) {
-          this.appServ.saveData.DragonChip1 |= 128;
-          varBuffs.push("＞体内に" + this.appServ.t('Data.DragonType.8.Title') + " の力が備わった。");
+        if (!(this.saveData.DragonChip1 & DragonChipFlag.ジン)) {
+          this.saveData.DragonChip1 |= DragonChipFlag.ジン;
+          // ＞体内に {{dragonTypeName}} の力が備わった。
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.DNA.Unlocked', {
+            dragonTypeName: this.appServ.t(`Data.DragonType.8.Title`)
+          }));
           this.appServ.setSE('snd15')
-        } else if (!(this.appServ.saveData.DragonChip1 & 1)) {
-          this.appServ.saveData.DragonChip1 |= 1;
-          varBuffs.push("＞体内に" + this.appServ.t('Data.DragonType.1.Title') + " の力が備わった。");
+        } else if (!(this.saveData.DragonChip1 & DragonChipFlag.バルバチェイン)) {
+          this.saveData.DragonChip1 |= DragonChipFlag.バルバチェイン;
+          // ＞体内に {{dragonTypeName}} の力が備わった。
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.DNA.Unlocked', {
+            dragonTypeName: this.appServ.t(`Data.DragonType.1.Title`)
+          }));
           this.appServ.setSE('snd15')
-        } else if (!(this.appServ.saveData.DragonChip1 & 8192)) {
-          this.appServ.saveData.DragonChip1 |= 8192;
-          varBuffs.push("＞体内に" + this.appServ.t('Data.DragonType.14.Title') + " の力が備わった。<BR>" + this.appServ.t('Data.Item.12.Title') + "による構成要素は全て発現し尽くした。");
+        } else if (!(this.saveData.DragonChip1 & DragonChipFlag.バジリコック)) {
+          this.saveData.DragonChip1 |= DragonChipFlag.バジリコック;
+          // ＞体内に {{dragonTypeName}} の力が備わった。
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.DNA.Unlocked', {
+            dragonTypeName: this.appServ.t(`Data.DragonType.14.Title`)
+          }));
+          // {{varItemName}} による構成要素は全て発現し尽くした。
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.DNA.AllUnlocked', {
+            varItemName: this.appServ.t('Data.Item.12.Title')
+          }));
           this.appServ.setSE('snd15')
         } else {
-          varBuffs.push("＞DNAをこれ以上構成することはできなかった。");
+          // ＞DNAをこれ以上構成することはできなかった。
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.DNA.NoMore'));
         }
       }
 
       if (varBioFlg) {			// 病気回復
-        if ((varBioFlg & 2) && (this.appServ.saveData.bio & 4) && varElementFlg) {
-          this.appServ.saveData.bio ^= 4; varBuffs.push("＞育成障害が緩和してゆく…。");
+        if ((varBioFlg & 2) && (this.saveData.bio & 4) && varElementFlg) {
+          this.saveData.bio ^= 4;
+          // ＞育成障害が緩和してゆく…。
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Bio.4'));
         }
-        if ((varBioFlg & 2) && (this.appServ.saveData.bio & 2)) {
-          this.appServ.saveData.bio ^= 2;
-          varBuffs.push("＞痙攣が治まってゆく…。");
+        if ((varBioFlg & 2) && (this.saveData.bio & 2)) {
+          this.saveData.bio ^= 2;
+          // ＞痙攣が治まってゆく…。
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Bio.2'));
         }
-        if ((varBioFlg & BioFlag.恐怖) && (this.appServ.saveData.bio & BioFlag.恐怖)) {
-          this.appServ.saveData.bio ^= BioFlag.恐怖;
-          varBuffs.push("＞呪縛が解き放たれ、恐怖症が消え去った。");
+        if ((varBioFlg & 16) && (this.saveData.bio & BioFlag.恐怖)) {
+          this.saveData.bio ^= BioFlag.恐怖;
+          // ＞呪縛が解き放たれ、恐怖症が消え去った。
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Bio.16'));
         }
-        if ((varBioFlg & 4) && (this.appServ.saveData.bio & 16) && (varBioFlg & 2)) {
-          this.appServ.saveData.bio ^= 16;
-          varBuffs.push("＞呪縛が解き放たれ、恐怖症が消え去った。");
+        if ((varBioFlg & 4) && (this.saveData.bio & 16) && (varBioFlg & 2)) {
+          this.saveData.bio ^= 16;
+          // ＞呪縛が解き放たれ、恐怖症が消え去った。
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Bio.16'));
         }
-        if ((varBioFlg & 32) && (this.appServ.saveData.bio & 32) && (varBioFlg & 2)) {
-          this.appServ.saveData.bio ^= 32;
-          varBuffs.push("＞調合薬により、重症が治まってゆく…。");
+        if ((varBioFlg & 32) && (this.saveData.bio & 32) && (varBioFlg & 2)) {
+          this.saveData.bio ^= 32;
+          // ＞調合薬により、重症が治まってゆく…。
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Bio.32'));
         }
         if (varBioFlg & 262144) {
-          if (this.appServ.saveData.bio & 128) {
-            this.appServ.saveData.bio = 128;
+          if (this.saveData.bio & 128) {
+            this.saveData.bio = 128;
           }
           else {
-            this.appServ.saveData.bio = 0;
+            this.saveData.bio = 0;
           }
-          varBuffs.push("＞全てのステータスが浄化された！");
+          // ＞全てのステータスが浄化された！
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Bio.All'));
         }
         if (!varBuffs.length) {
-          varBuffs.push("＞ステータスには特に問題はありません。");
+          // ＞ステータスには特に問題はありません。
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Bio.NoEffect'));
         }
       }
 
-      if ((this.appServ.saveData.overLv > this.appServ.saveData.numVisits) && (varMaxHpFlg || varDfFlg || varAtFlg || varSpeedFlg) && !(this.appServ.saveData.ivent & 256)) {	// 2週目は問題なし
-        varBuffs.push("＞孤竜は満腹で、アイテムの効果が出なかった。");
+      if ((this.saveData.overLv > this.saveData.numVisits)
+        && (varMaxHpFlg || varDfFlg || varAtFlg || varSpeedFlg) && !(this.saveData.ivent & EventFlag.周目通關)) {	// 2週目は問題なし
+        // ＞孤竜は満腹で、アイテムの効果が出なかった。
+        varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Food.NoEffect'));
       } else {
-        if (varMaxHpFlg) { this.appServ.saveData.Maxhp += varMaxHpFlg; varBuffs.push("＞生命力:" + varMaxHpFlg + "ポイント増加"); }
-        if (varDfFlg) { this.appServ.saveData.df += varDfFlg; varBuffs.push("＞体格:" + varDfFlg + "ポイント増加"); }
-        if (varAtFlg) { this.appServ.saveData.at += varAtFlg; varBuffs.push("＞筋力:" + varAtFlg + "ポイント増加"); }
-        if (varSpeedFlg) { this.appServ.saveData.speed += varSpeedFlg; varBuffs.push("＞瞬力:" + varSpeedFlg + "ポイント増加"); }
+        if (varMaxHpFlg) {
+          this.saveData.Maxhp += varMaxHpFlg;
+          // ＞生命力: {{val}}ポイント増加
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Maxhp', { val: varMaxHpFlg }));
+        }
+        if (varDfFlg) {
+          this.saveData.df += varDfFlg;
+          // ＞体格: {{val}}ポイント増加
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Df', { val: varDfFlg }));
+        }
+        if (varAtFlg) {
+          this.saveData.at += varAtFlg;
+          // ＞筋力: {{val}}ポイント増加
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.At', { val: varAtFlg }));
+        }
+        if (varSpeedFlg) {
+          this.saveData.speed += varSpeedFlg;
+          // ＞瞬力: {{val}}ポイント増加
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Speed', { val: varSpeedFlg }));
+        }
       }
-      if (varHpFlg) { this.appServ.saveData.hp = Math.min(this.appServ.saveData.Maxhp, this.appServ.saveData.hp + varHpFlg); varBuffs.push("＞生命力:" + varHpFlg + "ポイント回復"); }
+      if (varHpFlg) {
+        this.saveData.hp = Math.min(this.saveData.Maxhp, this.saveData.hp + varHpFlg);
+        // ＞生命力: {{val}}ポイント回復
+        varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Hp', { val: varHpFlg }));
+      }
       this.appServ.setSE('snd08')
-      if (varLoveFlg > 0) { this.appServ.saveData.love += varLoveFlg; varBuffs.push("＞愛情度がアップした。"); }
-      if (varLoveFlg < 0) { this.appServ.saveData.love -= varLoveFlg; varBuffs.push("＞愛情度がダウンした。"); }
+      if (varLoveFlg > 0) {
+        this.saveData.love += varLoveFlg;
+        // ＞愛情度がアップした。
+        varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Love'));
+      }
       if (varKyomuFlg) {
-        if (this.appServ.saveData.DragonChip2 == 0) {
-          varBuffs.push("＞全ての属性値は無へと帰した…");
+        if (this.saveData.DragonChip2 == 0) {
+          // ＞全ての属性値は無へと帰した…
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Kyomu.Cleared'));
         } else {
-          varBuffs.push("＞虚無の塊は変身中は使えない。");
+          // ＞虚無の塊は変身中は使えない。
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Kyomu.CantUse'));
         }
       }
       if (varFoodFlg) {
-        this.appServ.saveData.food += varFoodFlg; varBuffs.push("＞シェル:" + varFoodFlg + "シェル 生み出された。");
+        this.saveData.food += varFoodFlg;
+        // ＞シェル: {{val}}シェル 生み出された。
+        varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Money', { val: varFoodFlg }));
       }
       if (varFukatuFlg) {
-        varBuffs.push("＞" + this.appServ.t('Data.Item.7.Title') + "は危険が迫らないと発動しません。");
+        // ＞{{varItemName}} は危険が迫らないと発動しません。
+        varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Fukatu', { varItemName: this.appServ.t(`Data.Item.${ItemID.復活の玉}.Title`) }));
       }
       if (varSleepFlg) {
-        this.appServ.saveData.bio |= BioFlag.眠酔; varBuffs.push("＞孤竜は、深い眠りへと落ちていった…。");
+        this.saveData.bio |= BioFlag.眠酔;
+        // ＞孤竜は、深い眠りへと落ちていった…。
+        varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Sleep'));
       }
 
       if (varMichisirube) {
         if (varBuffs.length > 0) {
-          varBuffs.push("＞" + this.appServ.t('Data.Item.25.Title') + "は、他のアイテムと同時には使えない。");
+          // ＞{{varItemName}} は、他のアイテムと同時には使えない。
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Michisirube.CantUse', {
+            varItemName: this.appServ.t(`Data.Item.${ItemID.忌地への道標}.Title`)
+          }));
         } else {
-          varBuffs.push("＞" + this.appServ.t('Data.Item.25.Title') + "には、こう記されている。<BR>");
-          varBuffs.push(
-            "<small>「竜と人の行く末に幸いあれ　辿り直されし道程が",
-            "暗き帳に包まれし時　新たな道を示す者なり",
-            "過ぎし日の過ちが　やがて時の流れを塞ぐ時",
-            "祖を打ち破らんとする者なり",
-            "尽きる事無き神獣の持つ灯火と",
-            "島持つ岬より降りし知恵の滴りを携え",
-            "南東の果てを尋ねよ",
-            "されど　いかなる者も我らを称え給うな",
-            "罪と咎を負う我らを」<BR></small>");
+          /*
+            ＞{{varItemName}} には、こう記されている。
+            <small>「竜と人の行く末に幸いあれ　辿り直されし道程が
+            暗き帳に包まれし時　新たな道を示す者なり
+            過ぎし日の過ちが　やがて時の流れを塞ぐ時
+            祖を打ち破らんとする者なり
+            尽きる事無き神獣の持つ灯火と
+            島持つ岬より降りし知恵の滴りを携え
+            南東の果てを尋ねよ
+            されど　いかなる者も我らを称え給うな
+            罪と咎を負う我らを」</small>
+          */
+          varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Michisirube.Content', {
+            varItemName: this.appServ.t(`Data.Item.${ItemID.忌地への道標}.Title`)
+          }));
         }
       }
       if (varBuffs.length === 0) {
-        varBuffs.push("＞特に何も起こらなかった。");
+        // ＞特に何も起こらなかった。
+        varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.NoEffect'));
       }
       this.selectedItems = []
-      await this.appServ.Confirm(`${this.appServ.saveData.dragonName}はアイテムを使用した。`, varBuffs.join('\r\n'))
+      // {{dragonName}} はアイテムを使用した。
+      await this.appServ.Confirm(this.appServ.t('Game.Inventory.ItemUsed', {
+        dragonName: this.saveData.dragonName
+      }), varBuffs.join('\r\n'))
       this.disabled = false;
     }
 
@@ -353,31 +483,31 @@ export class InventoryComponent {
       if (this.saveData.DragonChip2 != 0) {
         const OldDragonChipIndex = Math.log2(this.saveData.DragonChip2);
         console.log(OldDragonChipIndex)
-        this.appServ.saveData.Maxhp -= varInc_hp[OldDragonChipIndex];
-        this.appServ.saveData.at -= varInc_at[OldDragonChipIndex];
-        this.appServ.saveData.df -= varInc_df[OldDragonChipIndex];
-        this.appServ.saveData.speed -= varInc_speed[OldDragonChipIndex];
-        this.appServ.saveData.element1 -= varInc_element1[OldDragonChipIndex];
-        this.appServ.saveData.element2 -= varInc_element2[OldDragonChipIndex];
-        this.appServ.saveData.lvOffset -= (varInc_hp[OldDragonChipIndex] + varInc_at[OldDragonChipIndex] + varInc_df[OldDragonChipIndex] + varInc_speed[OldDragonChipIndex]);
+        this.saveData.Maxhp -= varInc_hp[OldDragonChipIndex];
+        this.saveData.at -= varInc_at[OldDragonChipIndex];
+        this.saveData.df -= varInc_df[OldDragonChipIndex];
+        this.saveData.speed -= varInc_speed[OldDragonChipIndex];
+        this.saveData.element1 -= varInc_element1[OldDragonChipIndex];
+        this.saveData.element2 -= varInc_element2[OldDragonChipIndex];
+        this.saveData.lvOffset -= (varInc_hp[OldDragonChipIndex] + varInc_at[OldDragonChipIndex] + varInc_df[OldDragonChipIndex] + varInc_speed[OldDragonChipIndex]);
       }
       // 套用新的契約加護印效果
       if (this.selectedSkin) {
         const NewDragonChipIndex = Math.log2(this.selectedSkin);
         console.log(this.selectedSkin, NewDragonChipIndex);
-        this.appServ.saveData.Maxhp += varInc_hp[NewDragonChipIndex];
-        this.appServ.saveData.at += varInc_at[NewDragonChipIndex];
-        this.appServ.saveData.df += varInc_df[NewDragonChipIndex];
-        this.appServ.saveData.speed += varInc_speed[NewDragonChipIndex];
-        this.appServ.saveData.element1 += varInc_element1[NewDragonChipIndex];
-        this.appServ.saveData.element2 += varInc_element2[NewDragonChipIndex];
-        this.appServ.saveData.lvOffset += (varInc_hp[NewDragonChipIndex] + varInc_at[NewDragonChipIndex] + varInc_df[NewDragonChipIndex] + varInc_speed[NewDragonChipIndex]);
+        this.saveData.Maxhp += varInc_hp[NewDragonChipIndex];
+        this.saveData.at += varInc_at[NewDragonChipIndex];
+        this.saveData.df += varInc_df[NewDragonChipIndex];
+        this.saveData.speed += varInc_speed[NewDragonChipIndex];
+        this.saveData.element1 += varInc_element1[NewDragonChipIndex];
+        this.saveData.element2 += varInc_element2[NewDragonChipIndex];
+        this.saveData.lvOffset += (varInc_hp[NewDragonChipIndex] + varInc_at[NewDragonChipIndex] + varInc_df[NewDragonChipIndex] + varInc_speed[NewDragonChipIndex]);
         this.disabled = true;
       }
 
-      this.appServ.saveData.DragonChip2 = this.selectedSkin;
+      this.saveData.DragonChip2 = this.selectedSkin;
     }
-    this.appServ.saveData.turn--;
+    this.saveData.turn--;
     this.router.navigate(['/game/dragongame'], { replaceUrl: true })
   }
 
@@ -393,14 +523,14 @@ export class InventoryComponent {
     return this.selectedSkin >= 0;
   }
   get turn() {
-    return this.appServ.saveData.turn;
+    return this.saveData.turn;
   }
 
   get isNoItem() {
-    return !this.appServ.saveData.item.find(i => i > 0)
+    return !this.saveData.item.find(i => i > 0)
   }
   get items() {
-    return this.appServ.saveData.item;
+    return this.saveData.item;
   }
 
   get saveData() {

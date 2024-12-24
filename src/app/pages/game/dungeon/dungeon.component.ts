@@ -158,7 +158,7 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
   dragonCg?: string;
   //#endregion
 
-  constructor(injector: Injector, private readonly location: Location, private readonly router: Router) {
+  constructor(injector: Injector, private readonly router: Router) {
     super(injector);
   }
 
@@ -181,7 +181,7 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
     }
 
     // 備份入場前的存檔
-    this.saveDataWhenEnter = _.cloneDeep(this.appServ.saveData);
+    this.saveDataWhenEnter = _.clone(this.appServ.saveData);
     this.dungeon = dungeon;
     this.mazeW = dungeon.MazeW;
     this.mazeH = dungeon.MazeH;
@@ -1255,5 +1255,34 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
         return this.playerY + 1
     }
     return this.playerY;
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeyDown($event: KeyboardEvent) {
+    if (!this.disableAllActions) {
+      return;
+    }
+    switch ($event.key?.toLowerCase()) {
+      case 'arrowup':
+      case 'w':
+        $event.preventDefault();
+        this.Next(DungeonDirection.Up);
+        break;
+      case 'arrowright':
+      case 'd':
+        $event.preventDefault();
+        this.Next(DungeonDirection.Right);
+        break;
+      case 'arrowleft':
+      case 'a':
+        $event.preventDefault();
+        this.Next(DungeonDirection.Left);
+        break;
+      case 'arrowdown':
+      case 's':
+        $event.preventDefault();
+        this.Next(DungeonDirection.Down);
+        break;
+    }
   }
 }

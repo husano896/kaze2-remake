@@ -6,7 +6,7 @@
         separateText}}</button>
     </div>
     <!-- 中文：數字華容道-->
-    <span style="color: #ffaa88; text-align: center;">数 遊 戯 板</span>
+    <span style="color: #ffaa88; text-align: center;">{{'Game.Earn03.Title' | translate}}</span>
     <span></span>
   </div>
 
@@ -45,7 +45,7 @@
       </div>
       @if (personalBest){ <span>BEST: {{personalBest}}秒</span>}
       <br>
-      <span style="color: #ffaa99; text-align: center;">5ターンで発動します。左上から昇順揃えにすると勝ち。</span>
+      <span style="color: #ffaa99; text-align: center;">{{'Game.Earn03.Description' | translate}}</span>
       <br />
       <button id="Push" class="padding-large" type="button" [disabled]="turn < 5 || timeInterval"
         (click)="onStartClick()">

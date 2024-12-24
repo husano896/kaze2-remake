@@ -21,7 +21,7 @@ export const Quest07 = async (component: DialogueComponent) => {
   if (appServ.saveData.DragonChip1 & DragonChipFlag.ヴァンパネラ) {
 
     // TODO: 孤龍從右側滑入
-    setDragonCG(appServ.saveData.PS_RyuCG())
+    setDragonCG(appServ.saveData.cgName)
     setDragonCGOpticity(1);
     // const varsam = Math.round(Math.random() * 5) + 2;
     /**
@@ -41,7 +41,7 @@ export const Quest07 = async (component: DialogueComponent) => {
 
   //#region 一般事件
   // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.PS_RyuCG())
+  setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
 
   /** 

@@ -1,17 +1,18 @@
 import { AfterViewInit, Component, ElementRef, Injector, OnDestroy, ViewChild } from '@angular/core';
 import { Events } from '@/data/events';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute, EventType, Router, RouterModule } from '@angular/router';
 import { DialogueSystem } from '@/entities/DialogueSystem';
 import { debounceTime, Subscription } from 'rxjs';
 import { SaveData } from '@/entities/SaveData';
 import * as _ from 'lodash-es';
 import { ChessGameComponent } from "@/components/chess-game/chess-game.component";
+import { SnakeGameComponent } from '@/components/snake-game/snake-game.component';
 
 @Component({
   selector: 'app-dialogue',
   standalone: true,
-  imports: [CommonModule, RouterModule, ChessGameComponent],
+  imports: [CommonModule, RouterModule, ChessGameComponent, SnakeGameComponent],
   templateUrl: './dialogue.component.html',
   styleUrl: './dialogue.component.scss'
 })
@@ -19,6 +20,8 @@ import { ChessGameComponent } from "@/components/chess-game/chess-game.component
 export class DialogueComponent extends DialogueSystem implements AfterViewInit, OnDestroy {
   @ViewChild('bg') bg!: ElementRef<HTMLDivElement>;
   @ViewChild(ChessGameComponent) chessGameComponent?: ChessGameComponent;
+
+  @ViewChild(SnakeGameComponent) snackGameComponent?: SnakeGameComponent;
 
   //#region 龍1
   dragonCg?: string;
@@ -46,7 +49,15 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
   chessGameActive?: boolean = false;
   /** 下棋小遊戲是否開始 */
   chessGameStart?: boolean = false;
-  constructor(injector: Injector, public readonly location: Location,
+
+  /** 是否啟用貪吃蛇小遊戲 */
+  enableSnakeGame?: boolean = false;
+  /** 是否將貪吃蛇小遊戲設為前景 */
+  snakeGameActive?: boolean = false;
+  /** 貪吃蛇小遊戲是否開始 */
+  snakeGameStart?: boolean = false;
+
+  constructor(injector: Injector,
     public route: ActivatedRoute, public router: Router) {
     super(injector);
   }
@@ -62,7 +73,7 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
         console.log('event', state.event)
         const ev = Events[state.event];
         if (ev) {
-          this.origSave = _.cloneDeep(this.appServ.saveData);
+          this.origSave = _.clone(this.appServ.saveData);
           ev.bind(this)(this);
         }
         else {

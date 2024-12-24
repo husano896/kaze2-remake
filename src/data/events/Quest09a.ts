@@ -15,7 +15,7 @@ export const Quest09a = async (component: DialogueComponent) => {
   appServ.setBGM('music11')
 
   // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.PS_RyuCG())
+  setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
   setDialogOpticity(1);
 
@@ -48,7 +48,7 @@ export const Quest09a = async (component: DialogueComponent) => {
     力ある限り 私はお前の味方だ…。これからも宜しく頼むぞ…。
     [残留思念{{dragonTypeName}}の力を手に入れた！]
    */
-  await Content(`Scripts.Quest09.1.6`)
+  await Content(`Scripts.Quest09.1.6`, {dragonTypeName: appServ.t(`Data.DragonType.3.Title`)})
   saveData.DragonChip1 |= DragonChipFlag.マンドレイク;
   appServ.setSE('snd15')
   await AllFadeOut()

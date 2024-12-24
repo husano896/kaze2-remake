@@ -4,7 +4,7 @@
       <button id="Back" routerLink="../dragongame" [replaceUrl]="true">{{"Actions.Back" | translate |
         separateText}}</button>
     </div>
-    <span style="color: #ffaa88; text-align: center;">街 の 盤 戦 道 場</span>
+    <span style="color: #ffaa88; text-align: center;">{{'Game.Earn02.Title' | translate}}</span>
     <span></span>
   </div>
 
@@ -33,7 +33,7 @@
       <span class="large-font">{{scorePlayer}}：{{scoreEnemy}}</span>
       }
       <br>
-      <span style="color: #ffaa99; text-align: center;">1回5ターンでスコア湧金式リバーシを行えます。</span>
+      <span style="color: #ffaa99; text-align: center;">{{'Game.Earn02.Description' | translate}}</span>
       <br />
       <button id="Push" class="padding-large" type="button" [disabled]="turn < 5 || started" (click)="onStartClick()">
         {{turn >=5 ? 'START' : ('Scripts.Confirm.Action.NoTurn' | translate)}}

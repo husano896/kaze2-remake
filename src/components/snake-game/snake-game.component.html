@@ -1,0 +1,48 @@
+<div id="game-board" [ngStyle]="{'--var-boardWidth' :boardWidth, '--var-boardHeight' :boardHeight}">
+  <!-- 場景邊界的繪製-->
+  <ng-container>
+    <!-- 左邊邊界-->
+    <div class="mountain" style="width: calc(100% / var(--var-boardWidth));height: 100%; left: 0; top: 0;"></div>
+    <!-- 右邊邊界-->
+    <div class="mountain" style="width: calc(100% / var(--var-boardWidth));height: 100%; right:0; top: 0;"></div>
+    <!-- 上方邊界-->
+    <div class="mountain" style="width: 100%;height: calc(100% / var(--var-boardWidth)); top: 0;left: 0;"></div>
+    <!-- 下方邊界-->
+    <div class="mountain" style="width: 100%;height: calc(100% / var(--var-boardWidth)); bottom: 0;left: 0; "></div>
+  </ng-container>
+  <!-- 玩家身體繪製-->
+  @for (item of playerBodies; track $index) {
+  <div class="cell body" [ngStyle]="{'--var-x' : item.x, '--var-y' : item.y}"></div>
+  }
+  <!-- 玩家頭繪製-->
+  <div class="cell head" [ngStyle]="{'--var-x' : playerX, '--var-y' : playerY}">
+    ●
+  </div>
+  <!-- 目標點繪製-->
+  @if (pointX > 0 && pointY > 0) {
+  <div class="cell point" [ngStyle]="{'--var-x' : pointX, '--var-y' : pointY}">
+    <span style="margin:auto;">▲</span>
+  </div>
+  }
+</div>
+<div id="controls" (pointerdown)="$event.stopPropagation()">
+  <div class="flex-row full-width">
+    <div></div>
+    <button type="button" (pointerdown)="SetDirection(1)">
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+    <div></div>
+  </div>
+  <div class="flex-row full-width">
+
+    <button type="button" (pointerdown)="SetDirection(4)">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <button type="button" (pointerdown)="SetDirection(3)">
+      <i class="fa-solid fa-arrow-down"></i>
+    </button>
+    <button type="button" (pointerdown)="SetDirection(2)">
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
+  </div>
+</div>

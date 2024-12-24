@@ -10,7 +10,6 @@
 }
 
 button {
-  color: white;
   transition: 0.5s ease-out;
 }
 
@@ -72,21 +71,6 @@ span#continue-icon {
 
 span#continue-icon.waiting {
   visibility: visible;
-}
-
-@keyframes blinking {
-  0% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-
 }
 
 a#skip.disabled {
@@ -186,8 +170,6 @@ div#Ray3 {
 
 div#mini-map-container {
   position: absolute;
-  // width: 100%;
-  // height: 100%;
   top: 0px;
   right: 0px;
   display: flex;
@@ -245,6 +227,5 @@ div#Ray4 {
 div#Ray3.disabled,
 div#MazeMiniMap.disabled {
   opacity: 0.1;
-
   background: rgba(0, 0, 0, 0);
 }

@@ -14,7 +14,7 @@
     </div>
     <!-- 龍與背景-->
     <div id="bg" #bg [ngStyle]="{backgroundImage: 'url(/assets/imgs/bg/' + battleBG +  '.jpg)' }">
-        <img #dragoncg id="dragoncg" alt="dragon-cg" [src]="enemyData.cgName"
+        <img #dragoncg id="dragoncg" alt="dragon-cg" [src]="'/assets/imgs/dragon/' + enemyData.cgName +'.gif'"
             [ngClass]="{'damaged': damageToEnemy > 0, enter:!enterAnim, dead: enemyData.hp<=0}"
             [ngStyle]="{'--var-damage-percent' : damageToEnemy / enemyData.Maxhp}" />
         @if (damageToEnemy) {
@@ -130,7 +130,7 @@
         @if (battleResult|| playerAction || content.length > 0 || pendingTexts.length >0) {
         <div class="flex-row full-width padding-large"
             style="position: absolute; height: 100%; margin: auto; pointer-events: none; opacity: 0.25; top: 0; width: calc(99%);justify-content: center;">
-            <img class="full-height" [src]="playerData.cgName" alt="player-dragoncg" />
+            <img class="full-height" [src]="'/assets/imgs/dragon/' + playerData.cgName + '.gif'" alt="player-dragoncg" />
         </div>
         }
         @if (damageToPlayer) {

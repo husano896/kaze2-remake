@@ -59,7 +59,7 @@ export const Games04a = async (component: DialogueComponent) => {
   ClearContent();
 
   // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.PS_RyuCG())
+  setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
   await appServ.Wait(3000);
 

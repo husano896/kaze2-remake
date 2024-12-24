@@ -25,6 +25,9 @@ import { Quest09a } from "./Quest09a";
 import { Quest10 } from "./Quest10";
 import { Quest10a } from "./Quest10a";
 import { Games02 } from "./Games02";
+import { Games08 } from "./Games08";
+import { Games08a } from "./Games08a";
+import { Quest05 } from "./Quest05";
 /**
  * 當執行帶有await的腳本時，如果離開該Component了，會不會造成Memory Leak?
  * -- 不會，他會被GC給回收掉
@@ -40,10 +43,10 @@ export const Events: { [eventName: string]: Function } = {
 
     /** 研究者的小屋 */
     Games02,
+
     /** 神獸之祠 */
     Games04,
     Games04a,
-
 
     /** トピリアの森 */
     Quest01,
@@ -60,8 +63,9 @@ export const Events: { [eventName: string]: Function } = {
     Quest04,
     Quest04a,
 
-    /** Quest05 ドラゴンの丘 因為有小遊戲暫時先等等 */
-
+    /** ドラゴンの丘 */
+    Quest05,
+    
     /** 魔獣の森 */
     Quest06,
     Quest06a,
@@ -83,5 +87,7 @@ export const Events: { [eventName: string]: Function } = {
     Quest10a,
     
     /** 滅びの都ヒディ */
-    Games07
+    Games07,
+    Games08,
+    Games08a
 }

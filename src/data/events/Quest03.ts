@@ -20,7 +20,7 @@ export const Quest03 = async (component: DialogueComponent) => {
   if (appServ.saveData.DragonChip1 & DragonChipFlag.ゾンドドレイク) {
     appServ.setBGM('music01')
     // TODO: 孤龍從右側滑入
-    setDragonCG(appServ.saveData.PS_RyuCG())
+    setDragonCG(appServ.saveData.cgName)
     setDragonCGOpticity(1);
     /** ……ドキドキ。…ゾンドドレイク、いる{{go03}}…？ */
     await Content(`Scripts.Quest03.2.1`)
@@ -41,7 +41,7 @@ export const Quest03 = async (component: DialogueComponent) => {
   //#region 一般事件
   appServ.setBGM('music15')
   // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.PS_RyuCG())
+  setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
   /**
    *……ドキドキ…ビクビク…。なんだか暗くて重々しい空気が流れている{{go01}}…。

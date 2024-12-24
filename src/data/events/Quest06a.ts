@@ -16,7 +16,7 @@ export const Quest06a = async (component: DialogueComponent) => {
 
   //#region 一般事件
   // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.PS_RyuCG())
+  setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
   // TODO: 孤龍從右側滑入
   setDragonCG2('best03')
@@ -37,8 +37,6 @@ export const Quest06a = async (component: DialogueComponent) => {
    */
   await Content(`Scripts.Quest06.1.8`)
 
-
-  appServ.setSE('snd15')
   /**
     力ある限り、オレはオマエの味方だ…。
     [魔獣{{dragonTypeName}}の力を手に入れた！]
@@ -47,6 +45,7 @@ export const Quest06a = async (component: DialogueComponent) => {
     { dragonTypeName: appServ.t('Data.DragonType.4.Title') })
   saveData.DragonChip1 |= DragonChipFlag.DragonHeadBuck;
 
+  appServ.setSE('snd15')
   await AllFadeOut();
   Back()
 }

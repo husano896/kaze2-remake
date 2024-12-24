@@ -1,11 +1,11 @@
 import { RootAnimations } from "@/app/app.service";
 import { EndingComponent } from "@/app/pages/game/ending/ending.component";
 import { firstValueFrom } from "rxjs";
-import { ItemID } from "../ItemID";
-
 export async function Ending2b(component: EndingComponent) {
-    const { setBG, setBGOpticity, Content, Clear, setDialogOpticity, startEndRoll, router, appServ, dialogComplete$ } = component;
+    const { location, setBG, setBGOpticity, Content, Clear, setDialogOpticity, startEndRoll, router, appServ, dialogComplete$ } = component;
     const { Wait } = appServ
+
+    const { debugMenu } = location.getState() as { event: string, lv: string, debugMenu: boolean };
 
     component.goodEnding = true;
     setBG('goodend');
@@ -69,8 +69,9 @@ export async function Ending2b(component: EndingComponent) {
     // 80
     // 周目結束處理
 
-    if (!appServ.saveData.item[ItemID.忌地への道標]) {
-        await appServ.Confirm('注意', '因未持有過關道具，將跳過二週目處理。');
+    // 周目結束處理
+    if (debugMenu) {
+        await appServ.Confirm('注意', '因為Debug, 不做二週目處理.');
     } else {
         appServ.saveData.NewGamePlus(true)
     }

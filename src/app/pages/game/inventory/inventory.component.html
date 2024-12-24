@@ -3,20 +3,24 @@
     <!-- 分頁-->
     @if (dragonChip1) {
     <div id="RayTab" class="flex-row gap-large">
-        <button [disabled]="disabled" (click)="onTabClick('item')">所持物</button>
-        <button [disabled]="disabled" (click)="onTabClick('skin')">姿變更</button>
+        <button [disabled]="disabled" (click)="onTabClick('item')">{{'Game.Inventory.Tab.Item.Title' |
+            translate}}</button>
+        <button [disabled]="disabled" (click)="onTabClick('skin')">{{'Game.Inventory.Tab.Skin.Title' |
+            translate}}</button>
     </div>
     }
     <div class="flex-row full-height full-width" style="overflow: auto; gap: 8px;">
         <!-- 分頁內容 -->
         <div id="RayTabContent" class="flex-column full-height full-width gap-large">
             <ng-container *ngIf="tab === 'item'">
-                <b class="min-480">{{turn > 0 ? '使用するアイテムを選択してください。' : ('Scripts.Confirm.Action.NoTurn' | translate)}}
+                <b class="min-480">{{(turn > 0 ? 'Game.Inventory.Tab.Item.Description' :
+                    'Scripts.Confirm.Action.NoTurn') | translate}}
                 </b>
                 <div class="flex-row full-width full-height gap" style="overflow: hidden;">
                     <div class="padding-large gap full-width full-height game-bg boxed-content" style="overflow: auto;">
                         @if (isNoItem && !debug) {
-                        <div class="boxed-content padding-large full-width">沒有道具。</div>
+                        <div class="boxed-content padding-large full-width">{{'Game.Inventory.Tab.Item.NoItem' |
+                            translate}}</div>
                         }
                         @for (i of items; track $index; let index = $index) {
                         @if ((i > 0 || debug) && index > 0) {
@@ -35,8 +39,9 @@
                 </div>
             </ng-container>
             <ng-container *ngIf="tab === 'skin'">
-                <b class="min-480">{{turn > 0 ? '契約済み一覧です。変更したい姿を選択して下さい。' : ('Scripts.Confirm.Action.NoTurn' |
-                    translate)}}
+                <b class="min-480">{{(turn > 0 ? 'Game.Inventory.Tab.Skin.Description' :
+                    'Scripts.Confirm.Action.NoTurn') |
+                    translate}}
                 </b>
 
                 <div class="flex-row full-width full-height gap" style="overflow: hidden;">
@@ -81,7 +86,7 @@
             separateText}}</button>
         <button [disabled]="!selectedItemsCount || turn <= 0 || disabled" (click)="useItem()">
             @if (turn > 0) {
-            {{tab === 'item' ? '使用' : '變更'}}
+            {{(tab === 'item' ? 'Game.Inventory.Tab.Item.Use' : 'Game.Inventory.Tab.Skin.Use') | translate}}
             }
             @else {
             <span>{{'Scripts.Confirm.Action.NoTurn' | translate}}</span>

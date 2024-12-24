@@ -1,22 +1,16 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { AppService } from './app.service';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
-import { Subscription, catchError } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageKey } from '@/entities/LocalStorageKey';
-
+import { Howler } from 'howler';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit, AfterViewInit {
-
-  @ViewChild('bgm') private readonly bgm!: ElementRef<HTMLAudioElement>;
-  @ViewChild('se') private readonly se!: ElementRef<HTMLAudioElement>;
-  @ViewChild('messageSE') private readonly messageSE!: ElementRef<HTMLAudioElement>;
-  @ViewChild('ambient') private readonly ambient!: ElementRef<HTMLAudioElement>;
-
+export class AppComponent {
   //#region 創龍曆
   /** 創龍曆年數字 */
   year: number = 0;
@@ -43,10 +37,10 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.loading = false;
 
         this.calculateDate();
+        Howler.mute(!this.isAudioON);
         // 再找找看有沒有比較好的地方計算CG
         this.appServ.saveData.PS_RyuCG();
         this.appServ.saveData.Save();
-        this.messageSE?.nativeElement?.pause();
 
         // 避免遊戲中直接打叉離開
         window.onbeforeunload = (ev) => {
@@ -98,13 +92,6 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
     }, 1000)
     */
-  }
-
-  ngOnInit(): void { }
-
-  ngAfterViewInit(): void {
-    // 初始化與綁定聲音元素
-    this.appServ.Init({ bgmEl: this.bgm, seEl: this.se, ambientEl: this.ambient, messageSEEl: this.messageSE });
   }
 
   calculateDate() {
@@ -172,14 +159,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.appServ.toggleAudio();
   }
 
-  /** 修正聲音消失用的偏方... */
-  onGlobalUIClick() {
-    if (this.bgm?.nativeElement?.paused) {
-      this.bgm.nativeElement.play();
-    }
-  }
+
   get isAudioON(): boolean {
-    return this.appServ.isAudioON();
+    return this.appServ.AudioON;
   }
 
   set loading(v: boolean) {

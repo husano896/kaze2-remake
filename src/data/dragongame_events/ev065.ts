@@ -19,7 +19,7 @@ const ev065 = async (component: DragongameComponent) => {
             {{dragonName}}  宛の手紙と… これが……。
             竜死病治療の手がかり[{{varItemName[25]}} を受け取った]
          */
-        await Content(`Scripts.Ev065.1`)
+        await Content(`Scripts.Ev065.1`, {varItemName: appServ.t(`Data.Item.${ItemID.忌地への道標}.Title`)})
         Face('char04a')
 
     } else if (!(saveData.ivent & EventFlag.回答事件)) {

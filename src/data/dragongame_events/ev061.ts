@@ -19,7 +19,7 @@ const ev061 = async (component: DragongameComponent) => {
                 [{{varItemName[15]}} を失ってしまった]
              */
             saveData.item[ItemID.精竜水] = 0;
-            await Content(`Scripts.Ev061.1`, { varItemName: appServ.t(`Data.Item.$${ItemID.精竜水}.Title`) })
+            await Content(`Scripts.Ev061.1`, { varItemName: appServ.t(`Data.Item.${ItemID.精竜水}.Title`) })
             Face('char07a')
         }
         else {

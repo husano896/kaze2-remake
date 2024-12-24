@@ -31,7 +31,7 @@ export const Quest06 = async (component: DialogueComponent) => {
     appServ.setBGM('music01')
 
     // TODO: 孤龍從右側滑入
-    setDragonCG(appServ.saveData.PS_RyuCG())
+    setDragonCG(appServ.saveData.cgName)
     setDragonCGOpticity(1);
 
     // TODO: 孤龍從右側滑入
@@ -47,7 +47,7 @@ export const Quest06 = async (component: DialogueComponent) => {
 
   appServ.setBGM('music25')
   // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.PS_RyuCG())
+  setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
 
   //#region 未帶狗狗型態龍「ゾンドドレイク」入場

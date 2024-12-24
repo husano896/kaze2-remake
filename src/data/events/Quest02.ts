@@ -22,7 +22,7 @@ export const Quest02 = async (component: DialogueComponent) => {
   if (appServ.saveData.DragonChip1 & DragonChipFlag.ショコラフッフール) {
 
     // TODO: 孤龍從右側滑入
-    setDragonCG(appServ.saveData.PS_RyuCG())
+    setDragonCG(appServ.saveData.cgName)
     setDragonCGOpticity(1);
     setDragonCG2('best14')
     setDragonCG2Opticity(1);
@@ -56,7 +56,7 @@ export const Quest02 = async (component: DialogueComponent) => {
   ClearContent();
 
   // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.PS_RyuCG())
+  setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
   /**
    *フッフール：きゃ……だ…誰？

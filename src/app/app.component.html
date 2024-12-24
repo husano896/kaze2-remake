@@ -1,12 +1,8 @@
 <!-- 全站用指示器-->
 <app-loading *ngIf="loading"></app-loading>
-<!-- 聲音-->
-<audio #bgm loop ></audio>
-<audio #se></audio>
-<audio #messageSE loop src="/assets/audio/se/snd04.wav"></audio>
-<audio #ambient loop autoplay></audio>
+
 <!-- 全局UI -->
-<div class="global-ui" (click)="onGlobalUIClick()">
+<div class="global-ui">
     <div class="container">
         <div id="RayDebug">
         </div>

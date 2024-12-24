@@ -14,17 +14,19 @@
         <form class="boxed-content flex-column gap padding-large" style="width: 100%; max-width: 360px;"
             [formGroup]="registerForm" (ngSubmit)="onSubmit($event)">
 
+            @if (!newGamePlus) {
             <label for="yourName">{{"Register.Yourname" | translate | separateText}}</label>
             <input type='text' id="yourName" name='yourName' formControlName="yourName" maxlength='6' required>
-
+            }
             <label for="dragonName">{{"Register.Dragonname" | translate | separateText}}</label>
             <input type='text' id="dragonName" name='dragonName' formControlName='dragonName' maxlength='6' required>
 
+            @if (!newGamePlus) {
             <label for="password">{{"Register.Password" | translate | separateText}}
                 ({{registerForm.value.password?.length || 0}} / Min 4)</label>
             <input type='password' autocomplete="new-password" id="password" name='password' formControlName='password'
                 maxlength='64' minlength="4" required>
-
+            }
             <span>{{"Register.DragonGender" | translate | separateText}}</span>
             <div class="flex-row gap">
                 <input type='radio' name='gender' formControlName='gender' id="genderM" value='M' required>

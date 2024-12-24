@@ -147,3 +147,15 @@
         opacity: 0;
     }
 }
+
+@keyframes waving {
+    0% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(0.8)
+    }
+    to {
+        filter: brightness(1);
+    }
+}

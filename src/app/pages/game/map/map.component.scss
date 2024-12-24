@@ -13,20 +13,21 @@
 
 @media (orientation: landscape) {
   svg, map {
-    width: 99%;
+    width: 100%;
     height: auto;
 
   }
 
   div#map-container {
     overflow-x: hidden;
+    height: fit-content;
   }
 }
 
 @media (orientation: portrait) {
   svg, map {
     width: auto;
-    height: 99%;
+    height: 100%;
   }
 
   div#map-container {

@@ -108,7 +108,7 @@ export class Earn01Component implements AfterViewInit, OnDestroy {
       }
     }
     if (this.winResult) {
-      this.appServ.Confirm('ス ロ ッ ト 成 績', this.winResult)
+      this.appServ.Confirm(this.appServ.t('Game.Earn01.Result'), this.winResult)
       this.appServ.setSE('snd15')
     } else {
       this.appServ.setSE();

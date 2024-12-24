@@ -103,13 +103,13 @@ export class MapComponent implements AfterViewInit {
       }
     },
     {
-      x: 342, y: 48, fill: 'pointNotReady', stroke: "#546E7A",
+      x: 342, y: 48, fill: 'point1', stroke: "#2962FF",
       location: {
         name: '飛 竜 保 護 区 ド ラ ゴ ン バ レ ー',
         turn: 5,
         url: 'dialogue',
         bioCheck: true,
-        state: { lv: 5 }
+        state: { event: 'Quest05' }
       }
     },
     {
@@ -253,22 +253,7 @@ export class MapComponent implements AfterViewInit {
 
     //#region 發作中禁止前往
     if (bioCheck && this.appServ.saveData.bio) {
-      if (url === 'dungeon') {
-        // 針對不同地方有不同的禁止進入提示文字
-        switch (state?.lv) {
-          case 'lv0': {
-            // 發作藥洞窟
-            if (this.appServ.saveData.numVisits >= 40) {
-              this.appServ.Confirm(
-                this.appServ.t(title),
-                `この洞窟の入り口は土砂で塞がってしまっている。
-復旧するまで立ち入れません。`)
-              return;
-            }
-            break;
-          }
-        }
-      } else if (url === 'dialogue') {
+      if (url === 'dialogue') {
         switch (state?.event) {
           // 神獸寺廟
           case 'Games04':
@@ -345,13 +330,38 @@ export class MapComponent implements AfterViewInit {
     //#endregion
 
     switch (url) {
-      case 'map': {
+
+      case 'dialogue': {
+        if (state?.event === 'Games07') {
+          // 滅 び の 都 ヒ デ ィ ー ル
+          if ([82, 83].includes(this.appServ.saveData.numVisits)) {
+            // 看護人生病了QQ
+            this.appServ.Confirm(this.appServ.t(title), `この地へは、ニエルが同伴しなければ行くことができません。`)
+            return;
+          }
+        }
+        break;
+      }
+      case 'dungeon': {
+        // 針對不同地方有不同的禁止進入提示文字
         switch (state?.lv) {
+
+          case 'lv0': {
+            // 發作藥洞窟
+            if (this.appServ.saveData.numVisits >= 40) {
+              this.appServ.Confirm(
+                this.appServ.t(title),
+                `この洞窟の入り口は土砂で塞がってしまっている。
+復旧するまで立ち入れません。`)
+              return;
+            }
+            break;
+          }
           case 'lv4':
             // 星 降 る 海 底 洞 窟
             if (!this.appServ.saveData.item[ItemID.忌地への道標]) {
               this.appServ.Confirm(this.appServ.t(title), `今の段階では、この洞窟に入るのは非常に危険です。
-入るには「道標」などが必要です。`)
+  入るには「道標」などが必要です。`)
               return;
             }
             break;
@@ -362,17 +372,7 @@ export class MapComponent implements AfterViewInit {
               return;
             }
             break;
-        }
-        break;
-      }
-      case 'dialogue': {
-        if (state?.event === 'Games07') {
-          // 滅 び の 都 ヒ デ ィ ー ル
-          if ([82, 83].includes(this.appServ.saveData.numVisits)) {
-            // 看護人生病了QQ
-            this.appServ.Confirm(this.appServ.t(title), `この地へは、ニエルが同伴しなければ行くことができません。`)
-            return;
-          }
+
         }
       }
     }
@@ -384,27 +384,11 @@ export class MapComponent implements AfterViewInit {
     }
 
     console.log(url, state);
-    // 還在測試階段 先把神獸寺廟跟家裡跟地下城以外的擋起來
-    if (!(
-      url.includes('dungeon') ||
-      (url.includes('dialogue') && [
-        'Games04',
-        'Games02',
-        // 'Games07', 
-        'Quest01',
-        'Quest02',
-        'Quest03',
-        'Quest04',
-        'Quest06',
-        'Quest07',
-        'Quest08',
-        'Quest09',
-        'Quest10'].includes(state?.event || '')) ||
-      url.includes('dragongame'))) {
-
+    // 劇情做完啦！恭喜！
+    /**
       this.appServ.Confirm(this.appServ.t(title), '尚未實作')
       return;
-    }
+     */
     this.appServ.saveData.turn -= turn;
     this.router.navigate([`/game/${url}`], { replaceUrl: true, state })
   }
@@ -423,7 +407,7 @@ export class MapComponent implements AfterViewInit {
         y: 614,
         fill: 'pointImportant', stroke: "#FDD835",
         location: {
-          name: "GoTo('滅 び の 都 ヒ デ ィ ー ル [通称 : 忌 ま わ し き 地]",
+          name: "滅 び の 都 ヒ デ ィ ー ル [通称 : 忌 ま わ し き 地]",
           turn: 5,
           url: 'dialogue',
           state: { event: 'Games07' }

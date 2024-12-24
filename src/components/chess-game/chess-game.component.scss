@@ -11,15 +11,6 @@
   contain: content;
 }
 
-
-@media (orientation: landscape) {
-
-  :host {
-    height: 100%;
-    width: auto;
-  }
-}
-
 div.cell {
   box-sizing: border-box;
   border: 1px solid black;

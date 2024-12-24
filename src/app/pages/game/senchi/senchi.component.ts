@@ -22,22 +22,22 @@ export class SenchiComponent implements OnInit {
     { cost: 10000, id: 18, chip: DragonChipFlag.ラジェスト },
   ]
   checkResult: string[] = [];
-  constructor(private appServ: AppService) {
-
-  }
+  constructor(private appServ: AppService) {}
 
   ngOnInit(): void {
     // 已畢業！
     const highestCostDragonType = _.maxBy(this.dragonTypes, d => d.cost);
     if (highestCostDragonType && this.appServ.saveData.DragonChip1 & highestCostDragonType?.chip) {
-      this.checkResult = ['これ以上、贈呈されるものはありません。']
+      // これ以上、贈呈されるものはありません。
+      this.checkResult = [this.appServ.t('Game.Senchi.AllCompleted')]
       return;
     }
     this.dragonTypes.forEach(t => {
       if (!(this.appServ.saveData.DragonChip1 & t.chip) && this.exp >= t.cost) {
         this.appServ.saveData.DragonChip1 |= t.chip;
         this.checkResult.push(
-          this.appServ.t(`{{dragonName}}は、{{dragonTypeName}}の力を得た！`,
+          // {{dragonName}}は、{{dragonTypeName}}の力を得た！
+          this.appServ.t('Game.Senchi.Get',
             { dragonName: this.appServ.saveData.dragonName, dragonTypeName: this.appServ.t(`Data.DragonType.${t.id}.Title`) }
           )
         );
@@ -45,7 +45,8 @@ export class SenchiComponent implements OnInit {
     })
     if (!this.checkResult.length) {
       this.checkResult.push(
-        this.appServ.t(`まだ、贈呈されるほどの戦値を獲得していません。`)
+        // まだ、贈呈されるほどの戦値を獲得していません。
+        this.appServ.t('Game.Senchi.NotCompleted')
       )
     }
   }

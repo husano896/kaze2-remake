@@ -3,6 +3,7 @@ import { EventFlag } from '@/data/EventFlag';
 import { SaveData } from '@/entities/SaveData';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { AfterViewInit, Component } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -22,7 +23,7 @@ export class NewSaveComponent implements AfterViewInit {
     gender: new FormControl('', [Validators.required]),
   })
 
-  constructor(private appServ: AppService, private router: Router) {
+  constructor(private appServ: AppService, private router: Router, private location: Location) {
 
   }
   ngAfterViewInit(): void {
@@ -42,11 +43,15 @@ export class NewSaveComponent implements AfterViewInit {
     }
     try {
       await this.appServ.Confirm('Register', 'Register online is not completed yet, saving in local mode.')
-
       this.router.navigate(['/welcome'], { replaceUrl: true })
     }
     finally {
       this.appServ.loading = false;
     }
+  }
+
+  get newGamePlus() {
+    const state = this.location.getState() as { newGamePlus: boolean };
+    return state?.newGamePlus;
   }
 }

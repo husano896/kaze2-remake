@@ -3,23 +3,23 @@
 
     <br />
     <b class="lage-font" style="color: #ffaa88">
-        {{'ログイン' | translate |separateText}}
+        {{'Login.Title' | translate | separateText}}
     </b>
     <br>
-    <small>ゲームを続けるのに必要な情報を入力下さい。</small>
+    <small>{{'Login.Description' | translate}}</small>
     <br />
     <form [formGroup]="loginForm" class="boxed-content flex-column gap padding-large"
         style="width: 100%; max-width: 360px;">
 
-        <label for="id">{{"ID" | translate | separateText}}</label>
-        <input id="id" name='id' formControlName="id" maxlength='32' required>
+        <label for="id">{{"Login.ID" | translate | separateText}}</label>
+        <input id="id"  autocomplete="username" name='id' formControlName="id" maxlength='32' required>
 
-        <label for="password">{{"パスワード" | translate | separateText}}</label>
-        <input type='password' id="password" name='password' formControlname='password' maxlength='64' minlength="8"
+        <label for="password">{{"Login.Password" | translate | separateText}}</label>
+        <input type='password' autocomplete="current-password" id="password" name='password' formControlname='password' maxlength='64' minlength="8"
             required>
         <hr />
         <button type="button" (click)="Login()" disabled>
-            {{"ログインする" | translate | separateText}}
+            {{"Login.LoginAction" | translate | separateText}}
         </button>
         <button type="button" (click)="Login()">
             {{"Load from local" | translate }}

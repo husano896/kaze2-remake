@@ -2,20 +2,20 @@
   style="text-align: center; justify-content: center;">
 
   <span style="color: #ffaa88;">
-    {{"褒賞贈呈所" | translate | separateText}}
+    {{"Game.Senchi.Title" | translate | separateText}}
   </span>
 
   <div class="padding-large gap full-width full-height game-bg boxed-content flex-column gap"
     style="overflow: auto; text-align: center;">
     <span style="color: #ffaa88;">
-      獲得した戦値に応じて褒賞を差し上げる贈呈所です。
+      {{'Game.Senchi.Description' | translate}}
     </span>
-    <span>今の戦値：{{exp}}</span>
+    <span>{{'Game.Senchi.NowExp' | translate}} {{exp}}</span>
     @for (t of dragonTypes; track $index) {
     <label class="boxed-content game-bg" [ngClass]="{disabled: !hasChip(t.chip)}">
       <span>{{('Data.DragonType.' + t.id + ".Title") | translate }}</span>
       <br />
-      <small>戦値：{{t.cost}}</small>
+      <small>{{'Game.Senchi.ReqExp' | translate}}{{t.cost}}</small>
     </label>
     }
     <hr />
@@ -28,7 +28,7 @@
   <hr />
   <!-- 動作-->
   <div id="RayActions" class="flex-row gap-large" style="justify-content: space-between;">
-    <button class="full-width" routerLink="../dragongame">{{"Actions.Back" | translate | separateText}}</button>
+    <button class="full-width" routerLink="../dragongame" replaceUrl="">{{"Actions.Back" | translate | separateText}}</button>
 
   </div>
 </div>

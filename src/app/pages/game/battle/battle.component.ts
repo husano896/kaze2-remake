@@ -83,7 +83,6 @@ export class BattleComponent extends DialogueSystem implements AfterViewInit, On
   }
   onLose?: { href: string, state: any }
   constructor(injector: Injector,
-    private readonly location: Location,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute) {
     super(injector)
@@ -104,10 +103,10 @@ export class BattleComponent extends DialogueSystem implements AfterViewInit, On
     this.appServ.setBGM(resolvedData.battleMusic)
 
     // 我方入場時的狀態
-    this.startPlayerData = _.cloneDeep(this.playerData);
+    this.startPlayerData = _.clone(this.playerData);
 
     // 敵方入場時的狀態
-    this.startEnemyData = _.cloneDeep(this.startEnemyData);
+    this.startEnemyData = _.clone(this.startEnemyData);
 
     // 戰鬥ID
     this.battleID = resolvedData.battleID;
@@ -362,12 +361,12 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
     this.startPlayerData.hp = this.startPlayerData.Maxhp;							// 勝利時は体力自動回復
     if (this.isFromDebugMenu) {
 
-      this.appServ.saveData = this.startPlayerData;
+      this.appServ.saveData = _.clone(this.startPlayerData);
       this.router.navigate(['/game/debug_battle'], { replaceUrl: true })
       return;
     }
     // 將新的玩家資料往回帶
-    this.appServ.saveData = this.startPlayerData;
+    this.appServ.saveData = _.clone(this.startPlayerData);
     this.appServ.saveData.Save();
     if (this.onWin) {
       // 通常用到這個就是Last boss打輸了......。
@@ -429,12 +428,12 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
     this.appServ.setBGM()
     this.appServ.setSE()
     if (this.isFromDebugMenu) {
-      this.appServ.saveData = this.startPlayerData;
+      this.appServ.saveData = _.clone(this.startPlayerData);
       this.router.navigate(['/game/debug_battle'], { replaceUrl: true })
       return;
     }
     this.startPlayerData.hp = 1;
-    this.appServ.saveData = this.startPlayerData;
+    this.appServ.saveData = _.clone(this.startPlayerData);
     if (this.onLose) {
       // 通常用到這個就是Last boss打輸了......。
       this.router.navigate([this.onLose.href], { replaceUrl: true, state: this.onLose.state })
@@ -462,12 +461,11 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
     this.appServ.setSE()
     // Debug目錄來的
     if (this.isFromDebugMenu) {
-
       this.router.navigate(['/game/debug_battle'], { replaceUrl: true })
       return;
     }
     this.startPlayerData.hp = this.appServ.saveData.hp;
-    this.appServ.saveData = this.startPlayerData;
+    this.appServ.saveData = _.clone(this.startPlayerData);
     this.appServ.saveData.Save();
 
     this.router.navigate(['/game/dragongame'], { replaceUrl: true })
@@ -583,7 +581,7 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
       if (attacker === 1) {
         // 戰值足夠下獲得新技能
         if (this.NewSkillCheck()) {
-          this.appServ.Confirm('Scripts.Confirm.Title.Information', `Game.Battle.NewSkill`)
+          this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Information'), this.appServ.t(`Game.Battle.NewSkill`))
         }
         this.Phase_Player()
       } else if (attacker === 2) {

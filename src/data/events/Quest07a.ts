@@ -15,7 +15,7 @@ export const Quest07a = async (component: DialogueComponent) => {
   // BGM設定
   appServ.setBGM('music11')
 
-  setDragonCG(appServ.saveData.PS_RyuCG())
+  setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1)
   /**
    *突然何をする{{go01}}！？

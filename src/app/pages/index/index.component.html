@@ -48,7 +48,7 @@
                     <ul>
                         <li>
                             <a class="outline-text" routerLink="new_save" replaceUrl="true">
-                                ● {{(newGamePlus ? 'Index.Action_NewGamePlus': 'Index.Action_NewGame' ) | translate |
+                                ● {{'Index.Action_NewGame' | translate |
                                 separateText}}
                                 <!--は じ め か ら-->
                                 <!--二周目以降：？ ？ ？ ？ か ら -->
@@ -79,7 +79,7 @@
                             </a>
                         </li>
                         <li>
-                            <a routerLink="index_doc/2" replaceUrl="true"> 
+                            <a routerLink="index_doc/2" replaceUrl="true">
                                 <small>
                                     <!-- サイト公開のきっかけ-->
                                     ◆ {{"Index.Link_SitePublishMotivation" | translate}}
@@ -96,6 +96,8 @@
                             </a>
                         </li>
                         <li><small><a routerLink="credits" replaceUrl="true">● CREDITS</a></small></li>
+
+                        <li><small><a routerLink="faq" replaceUrl="true">● FAQ</a></small></li>
                     </ul>
                 </div>
 
@@ -121,4 +123,3 @@
     </div>
     <br />
 </div>
-

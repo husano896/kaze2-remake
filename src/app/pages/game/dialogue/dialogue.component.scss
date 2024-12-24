@@ -9,10 +9,6 @@
     color: white;
 }
 
-button {
-    color: white;
-}
-
 div#bg {
     contain: content;
     height: 100%;
@@ -52,7 +48,9 @@ div.dragon-cg-container {
     height: 100%;
     transition: 1.5s linear;
     opacity: 0;
+    margin: 0 -25%;
 }
+
 div#dialog {
     white-space: pre-line;
     overflow-y: auto;
@@ -76,21 +74,6 @@ span#continue-icon.waiting {
     visibility: visible;
 }
 
-@keyframes blinking {
-    0% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-
-}
-
 a#skip.disabled {
     visibility: hidden;
 }
@@ -103,19 +86,36 @@ a#skip.disabled {
 
 }
 
-div#chess-game-container {
-    display: none;
+div#game-container {
     opacity: 0;
     transition: 0.5s ease-out;
-    pointer-events: none;
-    app-chess-game {
+
+    app-chess-game,  app-snake-game  {
         margin: auto;
     }
 }
-div#chess-game-container.active {
+
+@media (orientation: landscape) {
+
+    div#game-container {
+        height: auto;
+        width: 75%;
+    }
+}
+
+@media (orientation: portrait) {
+
+    div#game-container {
+        height: 100%;
+        width: 100%;
+    }
+}
+div#game-container.active {
     opacity: 0.2;
 }
-div#chess-game-container.start {
+
+div#game-container.start {
     opacity: 1;
     pointer-events: all;
+
 }

@@ -16,7 +16,7 @@ export const Quest08a = async (component: DialogueComponent) => {
   appServ.setBGM('music11')
 
   // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.PS_RyuCG())
+  setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
   setDragonCG2('best04')
   setDragonCG2Opticity(1);

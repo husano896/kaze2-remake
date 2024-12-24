@@ -1,8 +1,8 @@
 import { EventFlag } from '@/data/EventFlag';
-import { snd } from '@/data/snd';
+import { HowlAudio } from '@/data/HowlAudio';
 import { LocalStorageKey } from '@/entities/LocalStorageKey';
 import { SaveData } from '@/entities/SaveData';
-import { ElementRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { SwUpdate } from '@angular/service-worker';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,16 +25,14 @@ export class AppService {
   public static registeredTimes: number = 0;
 
   /** 背景音樂元素 */
-  public bgmEl?: ElementRef<HTMLAudioElement>;
+  // public bgmEl?: ElementRef<HTMLAudioElement>;
 
-  /** 效果音元素 */
-  public seEl?: ElementRef<HTMLAudioElement>;
+  public BGM?: Howl;
+  public BGMString?: string | null;
 
-  /** 環境音元素 */
-  public ambientEl?: ElementRef<HTMLAudioElement>;
-
-  /** 對話音元素 */
-  public messageSEEl?: ElementRef<HTMLAudioElement>;
+  public SE?: Howl;
+  public Ambient?: Howl;
+  public MessageSE?: Howl = HowlAudio.SE['snd04'];
 
   /** 讀取旗標 */
   public loading: boolean = true;
@@ -134,53 +132,33 @@ export class AppService {
     await Promise.all(removalPromises);
     location.href = '/';
   }
-  /** 將生成的元素與Service綁定 */
-  Init = ({ bgmEl, seEl, ambientEl, messageSEEl }: {
-    bgmEl: ElementRef<HTMLAudioElement>,
-    seEl: ElementRef<HTMLAudioElement>,
-    ambientEl: ElementRef<HTMLAudioElement>,
-    messageSEEl: ElementRef<HTMLAudioElement>,
-  }) => {
-    this.bgmEl = bgmEl;
-    this.seEl = seEl;
-    this.ambientEl = ambientEl;
-    this.messageSEEl = messageSEEl;
-    bgmEl.nativeElement.volume = 0.5;
-    seEl.nativeElement.volume = 0.4;
-    ambientEl.nativeElement.volume = 0.3;
 
-    console.log(`[AppService] 綁定聲音元素：\r\n`,
-      'BGM', bgmEl, '\r\n',
-      'SE', seEl, '\r\n',
-      'Ambient', ambientEl, '\r\n',
-      'this', this, '\r\n'
-    )
-  }
 
   setMessageSE(v?: boolean, fileName?: string) {
-    if (!this.messageSEEl) {
-      return;
+
+    if (fileName !== undefined) {
+      this.MessageSE?.stop();
+      this.MessageSE = HowlAudio.SE[fileName]
+
     }
     if (fileName != undefined) {
-      if (!fileName) {
-        this.messageSEEl.nativeElement.muted = true;
-      }
-      else {
-        this.messageSEEl.nativeElement.muted = false;
-        this.messageSEEl.nativeElement.src = `/assets/audio/se/${fileName}.wav`;
-      }
+      console.log('set', fileName, this.MessageSE)
     }
-    if (!this.messageSEEl.nativeElement.src.length) {
+    // 設定為不存在的語音時不動作
+    if (!this.MessageSE) {
       return;
     }
+    this.MessageSE?.mute(false)
+    this.MessageSE?.pause()
     if (v) {
-      if (this.messageSEEl.nativeElement.paused) {
-        this.messageSEEl.nativeElement.currentTime = 0;
-        this.messageSEEl.nativeElement.play()
+      if (!this.MessageSE?.playing()) {
+        this.MessageSE?.loop(true)
+        this.MessageSE?.play();
       }
-    } else if (!this.messageSEEl.nativeElement.paused) {
-      this.messageSEEl.nativeElement.pause();
+    } else {
+      this.MessageSE?.pause();
     }
+
   }
 
   // Ray7對應
@@ -209,83 +187,59 @@ export class AppService {
   }
 
   getBGM() {
-    if (!this.bgmEl?.nativeElement) {
-      return '';
-    }
-    return this.bgmEl.nativeElement.src;
+    return this.BGMString || '';
   }
+
   setBGM = (bgm?: string | null | undefined) => {
-    if (!this.bgmEl?.nativeElement) {
-      return;
+    if (this.BGM && (!bgm || this.BGM !== HowlAudio.BGM[bgm])) {
+      this.BGM.loop(false);
+      this.BGM.stop();
+      this.BGM.off('load')
+      this.BGM.unload();
     }
-    if (!bgm?.length) {
-      if (!this.bgmEl.nativeElement.paused) {
-        this.bgmEl.nativeElement.src = '';
-        this.bgmEl?.nativeElement.pause()
-      }
-      return;
-    }
-    if (!this.bgmEl.nativeElement.src.includes(bgm) || this.bgmEl.nativeElement.paused) {
-      this.bgmEl.nativeElement.src = `/assets/audio/bgm/${bgm}.mp3`
-      this.bgmEl.nativeElement.currentTime = 0;
-      this.bgmEl.nativeElement.play();
-      this.bgmEl.nativeElement.onload = (() => {
-        if (this.bgmEl?.nativeElement.paused) {
-          this.bgmEl?.nativeElement.play();
-        }
-      })
+    this.BGMString = bgm;
+    if (!bgm) {
+      return
     }
 
+    if (this.BGMString === bgm && this.BGM?.playing()) {
+      return;
+    }
+    this.BGM = HowlAudio.BGM[bgm];
+    if (!this.BGM) {
+      return;
+    }
+    if (this.BGM.state() === 'loaded') {
+      this.BGM.play()
+      this.BGM?.loop(true)
+    } else {
+      this.BGM.load();
+      this.BGM.once('load', () => {
+        this.BGM?.seek(0);
+        this.BGM?.loop(true)
+        this.BGM?.play();
+      });
+    }
+    console.log(this.BGM)
   }
 
   setSE = (se?: string | null | undefined) => {
-    if (!this.seEl?.nativeElement) {
+    if (!se) {
       return;
     }
-
-    if (!se?.length) {
-      if (!this.seEl.nativeElement.paused) {
-        this.seEl?.nativeElement.pause()
-      }
-      return;
-    }
-
-    const s = snd[se];
-    if (!s) {
-      console.warn('尚未支援的音效：', se)
-      return;
-    }
-    this.seEl.nativeElement.src = `/assets/audio/se/${s.f}`
-    this.seEl.nativeElement.currentTime = 0;
-    this.seEl.nativeElement.loop = s.loop;
-    this.seEl.nativeElement.play();
+    this.SE = HowlAudio.SE[se];
+    this.SE?.play();
   }
 
   setAmbient = (am?: string | null | undefined) => {
-    if (!this.ambientEl?.nativeElement) {
+
+    this.Ambient?.pause();
+    if (!am) {
       return;
     }
-
-    if (!am?.length) {
-      if (!this.ambientEl.nativeElement.paused) {
-        this.ambientEl?.nativeElement.pause()
-      }
-      return;
-    }
-
-    const s = snd[am];
-    if (!s) {
-      console.warn('尚未支援的音效：', am)
-      return;
-    }
-
-    if (this.ambientEl) {
-      if (!this.ambientEl.nativeElement.src.includes(s.f)) {
-        this.ambientEl.nativeElement.src = `/assets/audio/se/${s.f}`
-      }
-      this.ambientEl.nativeElement.loop = s.loop;
-      this.ambientEl.nativeElement.play();
-    }
+    this.Ambient = HowlAudio.SE[am];
+    this.Ambient?.loop(true);
+    this.Ambient.play();
   }
 
   Anim = async (animName: string, length = 3000) => {
@@ -346,27 +300,19 @@ export class AppService {
       ![0, 10, 100].includes(this.saveData?.numVisits)
     )
   }
-  isAudioON(): boolean {
-    if (!this.bgmEl) {
-      return false;
-    }
-    return !this.bgmEl.nativeElement.muted;
+  get AudioON() {
+    return !(this.saveData?.ivent & EventFlag.開啟音樂);
   }
 
   toggleAudio() {
-    if (!this.bgmEl || !this.seEl || !this.ambientEl || !this.messageSEEl) {
-      return;
+    if (this.saveData.ivent & EventFlag.開啟音樂) {
+      this.saveData.ivent ^= EventFlag.開啟音樂;
+    } else {
+      this.saveData.ivent |= EventFlag.開啟音樂;
     }
-    this.bgmEl.nativeElement.muted = this.isAudioON();
-    this.ambientEl.nativeElement.muted = this.bgmEl.nativeElement.muted;
-    this.seEl.nativeElement.muted = this.bgmEl.nativeElement.muted;
-    this.messageSEEl.nativeElement.muted = this.bgmEl.nativeElement.muted;
-    if (this.bgmEl.nativeElement.paused) {
-      this.bgmEl.nativeElement.play()
-    }
-    if (this.ambientEl.nativeElement.paused) {
-      this.ambientEl.nativeElement.play()
-    }
+    Howler.mute(!this.AudioON);
+    this.setSE('snd10')
+
   }
 
   get textSpeed() {

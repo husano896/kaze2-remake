@@ -3,8 +3,11 @@ import { EndingComponent } from "@/app/pages/game/ending/ending.component";
 import { firstValueFrom, } from "rxjs";
 
 export async function Ending1b(component: EndingComponent) {
-    const { setBG, setBGOpticity, Content, startEndRoll, setDialogOpticity, router, appServ, dialogComplete$ } = component;
+    const { location, setBG, setBGOpticity, Content, startEndRoll, setDialogOpticity, router, appServ, dialogComplete$ } = component;
     const { Wait } = appServ
+
+    const { debugMenu } = location.getState() as { event: string, lv: string, debugMenu: boolean };
+
     setBG('badend');
     Content(`Scripts.Ending1.4`)
     await firstValueFrom(dialogComplete$);
@@ -17,8 +20,8 @@ export async function Ending1b(component: EndingComponent) {
     await appServ.Anim(RootAnimations.FadeOut);
 
     // 周目結束處理
-    if (appServ.saveData.numVisits !== 100) {
-        await appServ.Confirm('注意', '因爲跳關，將跳過二週目處理。');
+    if (debugMenu) {
+        await appServ.Confirm('注意', '因為Debug, 不做二週目處理.');
     } else {
         appServ.saveData.NewGamePlus(false)
     }

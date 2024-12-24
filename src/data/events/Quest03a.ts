@@ -17,7 +17,7 @@ export const Quest03a = async (component: DialogueComponent) => {
 
   //#region 一般事件
   // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.PS_RyuCG())
+  setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
   /**
    *……すっごく怖かった{{go01}}…。

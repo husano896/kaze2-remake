@@ -4,6 +4,7 @@ import { ItemID } from "@/data/ItemID";
 import { BioFlag } from "@/data/BioFlag";
 import { IBattleData } from "@/data/battle";
 import { DragonChipFlag } from "@/data/DragonChipFlag";
+import * as _ from "lodash-es";
 
 const ITEM_SIZE = 35;
 
@@ -262,18 +263,25 @@ export class SaveData implements IBattleData {
 
     public exp: number = 0;
     public lastLogin: number = 0;
+
+    /** 多周目次數 */
+    public newGamePlusTimes: number = 0;
     /** 異常狀態 */
     public bio: number = 0x0;
     public ID: any = '';
-    public cgName: string = '/assets/imgs/dragon/nomal01.gif';
+    public cgName: string = 'nomal01.gif';
     /** 日文使用：依照角色等級與屬性改變說話方式 */
     public talkingGO: any = {};
 
     /** LV偏差值, 原程式內叫lv，一週目時為0, 二週目之後以通關前的屬性決定等級偏差 */
     public lvOffset: number = 0;
 
-    constructor() {
-        this.Reset();
+    constructor(saveData?: SaveData) {
+        if (saveData) {
+
+        } else {
+            this.Reset();
+        }
     }
 
     /** 新存檔的初始化, 來自於new.html */
@@ -296,6 +304,37 @@ export class SaveData implements IBattleData {
         console.log('[SaveData]存檔：', this);
     }
 
+    public ToOnlineSave() {
+        // 只送出有必要的欄位
+        const payload = _.pick([
+            'dragonName',
+            'yourName',
+            'numVisits',
+            'love',
+            'turn',
+            'food',
+            'item',
+            'Maxhp',
+            'hp',
+            'at',
+            'df',
+            'speed',
+            'element1',
+            'element2',
+            'ivent',
+            'DragonChip1',
+            'DragonChip2',
+            'magic',
+            'magicS',
+            'exp',
+            'lastLogin',
+            'newGamePlusTimes',
+            'bio',
+            'lvOffset',
+            'item'
+        ])
+        return payload;
+    }
     public static Load(rawString?: string) {
         const s = rawString ?? localStorage.getItem(LocalStorageKey.save);
         if (!s) {
@@ -395,7 +434,7 @@ export class SaveData implements IBattleData {
     /**
      * 計算使用的CG
      */
-    PS_RyuCG = () => {
+    PS_RyuCG() {
         let fil = 'nomal01';
 
         const ans = Math.floor((this.element1 + 5) / 10);
@@ -654,7 +693,7 @@ export class SaveData implements IBattleData {
             this.PS_Set(0);
         }
 
-        this.cgName = `/assets/imgs/dragon/${fil}.gif`;
+        this.cgName = fil;
         return fil;
     }
 
@@ -737,7 +776,6 @@ export class SaveData implements IBattleData {
     NewGamePlus(clearFlag: boolean) {
 
         const varItemFlg = this.item[ItemID.下手な似顔絵];	// 下手な似顔絵の個数を保存
-
         // アイテム欄をリセット
         this.item = new Array(ITEM_SIZE).fill(0);
 
@@ -746,6 +784,7 @@ export class SaveData implements IBattleData {
             this.item[ItemID.下手な似顔絵] = varItemFlg;
         }
         this.numVisits = -1;
+        this.newGamePlusTimes++;
         if (clearFlag) {
             this.Maxhp = Math.round(this.Maxhp / 3);
             this.df = Math.round(this.df / 3);
@@ -775,14 +814,17 @@ export class SaveData implements IBattleData {
         this.element1 = 50;
         this.element2 = 50;
         this.bio = 0;
-        this.ivent = 256;
+        this.ivent = (this.ivent & EventFlag.開啟音樂) ? EventFlag.開啟音樂 : 0;
+        this.ivent |= EventFlag.周目通關;
         this.DragonChip2 = 0;
+
+        this.lvOffset = (this.Maxhp + this.at + this.df + this.speed - 10);
+        if (this.lvOffset <= 0) {
+            this.lvOffset = 1
+        };
     }
 
     /** 是否啟用現代化調整開關 */
-    get modern() {
-        return false;
-    }
 
     //#region 加強畫面顯示
 

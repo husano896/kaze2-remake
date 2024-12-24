@@ -23,7 +23,7 @@ export const Quest08 = async (component: DialogueComponent) => {
   await appServ.Anim(RootAnimations.FadeIn, 3000);
 
   // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.PS_RyuCG())
+  setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
   setDialogOpticity(1);
 

@@ -6,10 +6,6 @@
     color: white;
 }
 
-button {
-    color: white;
-}
-
 div#bg {
     contain: content;
     width: 100%;
@@ -33,16 +29,4 @@ div#dialog {
     transition: 3s linear;
     /** 要留給做漸變用的*/
     opacity: 1;
-}
-
-@keyframes waving {
-    0% {
-        filter: brightness(1);
-    }
-    50% {
-        filter: brightness(0.8)
-    }
-    to {
-        filter: brightness(1);
-    }
 }

@@ -42,13 +42,13 @@ const ev066 = async (component: DragongameComponent) => {
             Content(`Scripts.Ev066.Neko.2.Content`)
             const result = (await Options([
                 // うん。
-                `Scripts.Ev066.2.1.Action`,
+                `Scripts.Ev066.Neko.2.1.Action`,
                 // なんで猫なんかに！
-                `Scripts.Ev066.2.2.Action`,
+                `Scripts.Ev066.Neko.2.2.Action`,
                 // どうでもいいよ。
-                `Scripts.Ev066.2.3.Action`,
+                `Scripts.Ev066.Neko.2.3.Action`,
                 // 優しいんだな。
-                `Scripts.Ev066.2.4.Action`
+                `Scripts.Ev066.Neko.2.4.Action`
             ]));
 
             saveData.ivent |= EventFlag.回答事件;
@@ -57,25 +57,25 @@ const ev066 = async (component: DragongameComponent) => {
                     // [高興]
                     EmojiAndAdjustLove(14)
                     // ごめん……あと、ありがと……。
-                    await Content(`Scripts.Ev066.2.1.Reply`)
+                    await Content(`Scripts.Ev066.Neko.2.1.Reply`)
                     break;
                 case 1:
                     // [沮喪]
                     EmojiAndAdjustLove(16)
                     // きゅっ、ご、ごめん！
-                    await Content(`Scripts.Ev066.2.2.Reply`)
+                    await Content(`Scripts.Ev066.Neko.2.2.Reply`)
                     break;
                 case 2:
                     // [沮喪] + 表情
                     EmojiAndAdjustLove(6)
                     // う………分かった{{go01}}……。
-                    await Content(`Scripts.Ev066.2.3.Reply`)
+                    await Content(`Scripts.Ev066.Neko.2.3.Reply`)
                     break;
                 case 3:
                     // [理解不能]
                     EmojiAndAdjustLove(13)
                     // ううん。 {{you}}もやさしい{{go01}}！
-                    await Content(`Scripts.Ev066.2.4.Reply`)
+                    await Content(`Scripts.Ev066.Neko.2.4.Reply`)
                     break;
             }
         }

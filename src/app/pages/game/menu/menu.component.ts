@@ -4,6 +4,7 @@ import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { AppService } from '@/app/app.service';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { Howler } from 'howler';
 
 @Component({
   selector: 'app-menu',
@@ -17,10 +18,7 @@ export class MenuComponent implements AfterViewInit {
 
   }
   ngAfterViewInit(): void {
-    this.appServ.setBGM()
-    this.appServ.setAmbient()
-    this.appServ.setMessageSE()
-    this.appServ.setSE();
+    Howler.stop();
   }
 
   startGame($event: Event) {
@@ -36,7 +34,7 @@ export class MenuComponent implements AfterViewInit {
   }
 
   get isAudioON(): boolean {
-    return this.appServ.isAudioON();
+    return this.appServ.AudioON;
   }
 
   get debug() {

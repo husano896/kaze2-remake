@@ -1,0 +1,88 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+div#game-board {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+  contain: content;
+
+  div.cell {
+    aspect-ratio: 1;
+    --var-cell-width: calc(100% / var(--var-boardWidth));
+    --var-cell-height: calc(100% / var(--var-boardHeight));
+    width: var(--var-cell-width);
+    height: var(var(--var-cell-height));
+    left: calc(var(--var-cell-width) * var(--var-x));
+    top: calc(var(--var-cell-height) * var(--var-y));
+    position: absolute;
+  }
+
+  div.cell.head {
+    background: green;
+    color: white;
+    border: 1px solid lightgreen;
+    border-radius: 8px;
+    animation: 1s pointPlayer linear infinite;
+    box-sizing: border-box;
+  }
+
+  div.cell.body {
+    background: greenyellow;
+  }
+
+  div.mountain {
+    background: brown;
+    position: absolute;
+  }
+
+  div.cell.point {
+    background: red;
+    animation: 1s pointAnim linear infinite;
+  }
+}
+
+div#controls {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  div,
+  button {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@keyframes pointAnim {
+
+  0%,
+  to {
+    background: red;
+  }
+
+  50% {
+    background: palevioletred;
+  }
+
+}
+
+@keyframes pointPlayer {
+
+  0%,
+  to {
+    background: green;
+  }
+
+  50% {
+    background: darkgreen;
+  }
+
+}

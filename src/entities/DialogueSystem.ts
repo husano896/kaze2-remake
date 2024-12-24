@@ -1,4 +1,5 @@
 import { AppService } from "@/app/app.service";
+import { Location } from '@angular/common';
 import { ViewChild, ElementRef, Directive, AfterViewInit, OnDestroy, OnInit, Injector, ChangeDetectorRef } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { Subject, firstValueFrom } from "rxjs";
@@ -46,18 +47,25 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
     public customSound?: string;
 
     public skipWait?: boolean;
+
     /** 指向時的提示文字 */
     doc: string = '';
 
+    /** 目前位置以及位置資訊，例如lv, debugMenu */
+    public readonly location: Location;
     public changeDetectionRef!: ChangeDetectorRef;
+
     constructor(injector: Injector) {
         this.appServ = injector.get(AppService);
         this.translateServ = injector.get(TranslateService);
         this.changeDetectionRef = injector.get(ChangeDetectorRef);
+
+        this.location = injector.get(Location);
     }
 
     ngOnDestroy(): void {
         clearInterval(this.textInterval);
+        this.appServ.setMessageSE(false);
     }
 
     ngAfterViewInit(): void {
@@ -90,17 +98,21 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
                 if (!this.pendingTexts.length) {
                     this.content += '\r\n';
                 }
+                // 若對話還在進行，進行捲動
+                if (this.dialog?.nativeElement) {
+                    this.dialog.nativeElement.scrollTo({ top: this.dialog.nativeElement.scrollHeight });
+                }
             } else {
                 this.appServ.setMessageSE();
                 // if (!this.skipWait) {
                 this.dialogComplete$.next(0);
-                this.SetContentCompleted();
+                if (!this.contentCompleted) {
+                    this.SetContentCompleted();
+                }
                 // }
             }
 
-            if (this.dialog?.nativeElement) {
-                this.dialog.nativeElement.scrollTo({ top: this.dialog.nativeElement.scrollHeight });
-            }
+
         }, interval);
     }
 
@@ -110,6 +122,7 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
             this.dialog.nativeElement.scrollTo({ top: this.dialog.nativeElement.scrollHeight });
         }
         this.contentCompleted = true;
+        this.appServ.setMessageSE();
     }
 
     /** 設定頭圖 */

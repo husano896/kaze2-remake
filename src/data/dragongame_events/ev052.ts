@@ -16,7 +16,7 @@ const ev052 = async (component: DragongameComponent) => {
             今は{{yourName}} さんがそばにいてやることが、一番の薬なんっす！！
          */
         await Content(`Scripts.Ev052.1`)
-        Face('char09a');
+        Face('char09a');    
     } else {
         // 根據發作是否已恢復，變更音樂
         if (saveData.bio & BioFlag.発作) {

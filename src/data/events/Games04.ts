@@ -53,7 +53,7 @@ export const Games04 = async (component: DialogueComponent) => {
       return;
     }
     // TODO: 孤龍從右側滑入
-    setDragonCG(appServ.saveData.PS_RyuCG())
+    setDragonCG(appServ.saveData.cgName)
     setDragonCGOpticity(1);
     skipped = true;
     SetSkipCallback()
@@ -156,7 +156,7 @@ export const Games04 = async (component: DialogueComponent) => {
     return;
   }
   // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.PS_RyuCG())
+  setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
   await appServ.Wait(3000);
   await Content(`Scripts.Games04.1.2`)

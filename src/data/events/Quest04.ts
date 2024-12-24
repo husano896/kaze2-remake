@@ -59,7 +59,7 @@ export const Quest04 = async (component: DialogueComponent) => {
   await Content(`Scripts.Quest04.1.2`)
 
   // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.PS_RyuCG())
+  setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
   ClearContent()
   /*
