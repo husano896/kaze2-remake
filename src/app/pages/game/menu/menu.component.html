@@ -20,11 +20,18 @@
                     {{"Game.Menu.Audio" | translate | separateText}}：
                     {{isAudioON ? 'ON':'OFF'}}
                 </a></li>
+            @if (!registered) {
+            <li><a routerLink="/game/re_register" replaceUrl="true">
+                    {{"Game.Menu.ReRegister" | translate | separateText}}
+                </a>
+            </li>
+            }
             <!--ゲ ー ム を 終 わ る-->
             <li><a routerLink="/" replaceUrl="true">
                     {{"Game.Menu.Leave" | translate | separateText}}
                 </a>
             </li>
+
             <ng-container *ngIf="debug">
                 <br />
                 <span>Test Menu</span>

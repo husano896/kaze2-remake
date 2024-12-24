@@ -11,10 +11,13 @@
             {{'Register.RegisterForm' | translate |separateText}}
         </b>
         <br>
-        <form class="boxed-content flex-column gap padding-large" style="width: 100%; max-width: 360px;"
-            [formGroup]="registerForm" (ngSubmit)="onSubmit($event)">
-
+        <form class="boxed-content flex-column gap padding-large" style="width: 100%; max-width: 480px;"
+            [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            
             @if (!newGamePlus) {
+            <label for="ID">{{"Login.ID" | translate | separateText}}</label>
+            <input type='text' id="ID" name='ID' formControlName='ID' maxlength='32' required>
+
             <label for="yourName">{{"Register.Yourname" | translate | separateText}}</label>
             <input type='text' id="yourName" name='yourName' formControlName="yourName" maxlength='6' required>
             }
@@ -39,10 +42,17 @@
                 {{"Register.Submit" | translate |separateText}}
             </button>
 
+            <br/>
+            <button type="button" [disabled]="registerForm.invalid" (click)="onSubmit(true)">
+                {{"Register.RegisterToLocal" | translate |separateText}}
+            </button>
         </form>
         <br>
+
+        @if (!newGamePlus) {
         <small>[{{'Register.Hint.DontForgetPassword' | translate}}]</small>
         <br>
+        }
         <a routerLink=".." replaceUrl="true">{{"Actions.PrevPage" | translate | separateText}}</a>
         <br>
     </div>

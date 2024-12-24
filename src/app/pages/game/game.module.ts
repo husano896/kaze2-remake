@@ -27,6 +27,10 @@ const routes: Routes = [
     loadComponent: () => import('./begin/begin.component').then(m => m.BeginComponent)
   },
   {
+    path: 're_register',
+    loadComponent: () => import('./re-register/re-register.component').then(m => m.ReRegisterComponent)
+  },
+  {
     path: 'dialogue',
     loadComponent: () => import('./dialogue/dialogue.component').then(m => m.DialogueComponent)
   },

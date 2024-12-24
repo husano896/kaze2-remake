@@ -12,18 +12,21 @@
         style="width: 100%; max-width: 360px;">
 
         <label for="id">{{"Login.ID" | translate | separateText}}</label>
-        <input id="id"  autocomplete="username" name='id' formControlName="id" maxlength='32' required>
+        <input id="id" autocomplete="username" name='id' formControlName="id" maxlength='32' required>
 
         <label for="password">{{"Login.Password" | translate | separateText}}</label>
-        <input type='password' autocomplete="current-password" id="password" name='password' formControlname='password' maxlength='64' minlength="8"
-            required>
+        <input type='password' autocomplete="current-password" id="password" name='password' formControlName='password'
+            maxlength='64' minlength="4" required>
         <hr />
-        <button type="button" (click)="Login()" disabled>
+        <button type="button" (click)="Login()" [disabled]="loginForm.invalid">
             {{"Login.LoginAction" | translate | separateText}}
         </button>
-        <button type="button" (click)="Login()">
-            {{"Load from local" | translate }}
+        @if (localFileExist) {
+        <br />
+        <button type="button" (click)="LoginLocal()">
+            {{"Login from local" | translate }}
         </button>
+        }
         <!-- <button type="button"  (click)="Login()">
             {{"Sign In With Google" | translate}}
         </button> -->

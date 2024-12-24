@@ -1,0 +1,30 @@
+<div class="container flex-column" style="align-items: center;">
+    <br />
+    <b style="color:#ffaa88">{{'Game.Retire.Title' | translate | separateText}}</b>
+    <br />
+    <form class="boxed-content flex-column transparant-dark-bg padding-large"
+        style="width: 100%;max-width: 480px; z-index: 1; gap:8px;" (ngSubmit)="Register()" [formGroup]="registerForm">
+        <p>{{'Game.ReRegister.Title' | translate}}</p>
+        <br />
+        <label for="ID">{{"Login.ID" | translate | separateText}}</label>
+        <input type='text' id="ID" name='ID' formControlName='ID' maxlength='32' required>
+
+        <label for="password">{{"Login.Password" | translate | separateText}}
+            ({{registerForm.value.password?.length || 0}} / Min 4)</label>
+        <input type='password' autocomplete="new-password" id="password" name='password' formControlName='password'
+            maxlength='64' minlength="4" required>
+
+        <button type="submit" [disabled]="registerForm.invalid || loading">
+            {{"Register.Submit" | translate |separateText}}
+        </button>
+
+        <br>
+        <small>[{{'Register.Hint.DontForgetPassword' | translate}}]</small>
+        <br>
+
+        <a routerLink=".." replaceUrl="true">{{"Actions.PrevPage" | translate | separateText}}</a>
+        <br>
+    </form>
+</div>
+
+<img alt="bg_menu" src="/assets/imgs/bg_menu.gif" style="position: absolute; bottom: 0; width: 100%;" />

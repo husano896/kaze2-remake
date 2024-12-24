@@ -48,4 +48,8 @@ export class MenuComponent implements AfterViewInit {
   get waitH() {
     return this.appServ.waitTimeHours;
   }
+
+  get registered() {
+    return this.appServ.saveData.registered;
+  }
 }

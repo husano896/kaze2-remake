@@ -7,9 +7,11 @@ import { DragonGameEvents } from '@/data/dragongame_events';
 import { DialogueSystem } from '@/entities/DialogueSystem';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-dragongame',
@@ -28,7 +30,8 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
 
   public hacked?: boolean;
   constructor(injector: Injector,
-    public router: Router) {
+    public router: Router,
+    public http: HttpClient,) {
     super(injector);
   }
   ngOnInit(): void {
@@ -388,7 +391,22 @@ ${this.t('Game.DragonGame.Df')}:- 1`);
   async Save() {
     this.appServ.loading = true;
     // TODO: 存檔API
-    await Promise.resolve()
+    if (this.saveData.registered) {
+      try {
+        await firstValueFrom(
+          this.http.put('/save', {
+            saveData: this.saveData.ToOnlineSave(),
+            btlid: this.saveData.btlid,
+            guid: this.saveData.guid
+          })
+        )
+      } catch (err) {
+        this.appServ.Confirm(
+          this.appServ.t('Scripts.Confirm.Title.Warning'),
+          "將進度保存至量子網時發生問題！"
+        )
+      }
+    }
     this.router.navigate(['/game'], { replaceUrl: true });
   }
   //#endregion

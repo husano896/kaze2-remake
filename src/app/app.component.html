@@ -50,7 +50,7 @@
         <!-- 詢問視窗 -->
         <div id="Ray8" *ngIf="confirmContent" (click)="$event.stopPropagation();"
             (keypress)="$event.stopPropagation();">
-            <div class="flex-column boxed-content game-bg padding-large gap">
+            <div class="flex-column boxed-content game-bg padding-large gap" style="max-width: 100%;">
                 <ng-container *ngIf="confirmTitle">
                     <b>{{confirmTitle}}</b>
                     <hr />

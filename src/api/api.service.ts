@@ -29,7 +29,4 @@ export class ApiService implements HttpInterceptor {
     );
   }
 
-  SaveGame() {
-
-  }
 }

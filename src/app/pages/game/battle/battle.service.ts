@@ -146,7 +146,7 @@ export class BattleService implements Resolve<IBattleServiceResolveData> {
       })
     } else {
       // 網路對戰
-      const onlineData = await firstValueFrom(this.http.get(`https://api.re-kaze2.xflydragon.cc/battle/${battleID}`)) as IBattleData;
+      const onlineData = await firstValueFrom(this.http.get(`/battle/${battleID}`)) as IBattleData;
       enemySaveData.DragonChip1 = onlineData.DragonChip2;
       enemySaveData.DragonChip2 = onlineData.DragonChip2;
       enemySaveData.Maxhp = onlineData.Maxhp;

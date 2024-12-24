@@ -238,7 +238,7 @@ export class SaveData implements IBattleData {
 
     /** 孤龍名字 */
     public dragonName: string = '孤竜';
-    public yourName: string = '里親';
+    public yourName: string = '';
     /** 到訪次數 */
     public numVisits: number = -1;
     public love: number = 0;
@@ -258,8 +258,8 @@ export class SaveData implements IBattleData {
     public DragonChip1: number = 0x0;
     /** 目前使用契約加護印變身中的種族 */
     public DragonChip2: number = 0x0;
-    public magic: any = '';
-    public magicS: any = '';
+    public magic: number = 0;
+    public magicS: number = 0;
 
     public exp: number = 0;
     public lastLogin: number = 0;
@@ -276,6 +276,10 @@ export class SaveData implements IBattleData {
     /** LV偏差值, 原程式內叫lv，一週目時為0, 二週目之後以通關前的屬性決定等級偏差 */
     public lvOffset: number = 0;
 
+    //#region DB使用欄位勿傳
+    public btlid: string = '';
+    public guid: string = ''
+    //#endregion
     constructor(saveData?: SaveData) {
         if (saveData) {
 
@@ -306,7 +310,7 @@ export class SaveData implements IBattleData {
 
     public ToOnlineSave() {
         // 只送出有必要的欄位
-        const payload = _.pick([
+        const payload = _.pick(this, [
             'dragonName',
             'yourName',
             'numVisits',
@@ -335,14 +339,14 @@ export class SaveData implements IBattleData {
         ])
         return payload;
     }
-    public static Load(rawString?: string) {
-        const s = rawString ?? localStorage.getItem(LocalStorageKey.save);
+    public static Load(rawData?: any) {
+        const s = (rawData?.yourName) ? rawData : (rawData ?? localStorage.getItem(LocalStorageKey.save));
         if (!s) {
             return new SaveData();
         }
         try {
             const save = new SaveData();
-            const o = JSON.parse(s);
+            const o = typeof (s) === 'string' ? JSON.parse(s) : s;
             Object.entries(o).forEach(([key, v]) => {
                 (save as any)[key] = v;
             });
@@ -356,6 +360,9 @@ export class SaveData implements IBattleData {
             return save;
         } catch (err) {
             console.warn(`[SaveDate] 讀取存檔失敗：`, err);
+            if (rawData) {
+                throw new Error();
+            }
         }
         return new SaveData();
     }
@@ -784,7 +791,7 @@ export class SaveData implements IBattleData {
             this.item[ItemID.下手な似顔絵] = varItemFlg;
         }
         this.numVisits = -1;
-        this.newGamePlusTimes++;
+        this.newGamePlusTimes = (this.newGamePlusTimes || 0) + 1;
         if (clearFlag) {
             this.Maxhp = Math.round(this.Maxhp / 3);
             this.df = Math.round(this.df / 3);
@@ -880,6 +887,10 @@ export class SaveData implements IBattleData {
 
     get battlePower() {
         return this.Maxhp + this.at + this.df + this.speed;
+    }
+
+    get registered() {
+        return this.btlid && this.guid;
     }
 }
 
