@@ -1,6 +1,6 @@
 import { AppService } from '@/app/app.service';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -11,12 +11,15 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './developer-story.component.html',
   styleUrl: './developer-story.component.scss'
 })
-export class DeveloperStoryComponent implements OnDestroy {
+export class DeveloperStoryComponent implements OnInit, OnDestroy {
 
   constructor(private appServ: AppService) {
 
   }
 
+  ngOnInit(): void {
+      this.appServ.setBGM('music29')
+  }
   ngOnDestroy(): void {
     // 退出時結束音樂（如果播放中）
     this.appServ.setBGM()

@@ -34,7 +34,30 @@ export class LoginComponent implements OnInit {
         password: this.loginForm.value.password
       }))) as { saveData: any }
 
-      this.appServ.saveData = SaveData.Load(resp.saveData);
+      const newSaveData = SaveData.Load(resp.saveData);
+      //#region 若跟本地存檔不同人的判定
+      if (Boolean(this.appServ.saveData.yourName) && (
+        newSaveData.yourName !== this.appServ.saveData.yourName ||
+        newSaveData.dragonName !== this.appServ.saveData.dragonName ||
+        newSaveData.numVisits !== this.appServ.saveData.numVisits ||
+        newSaveData.newGamePlusTimes !== this.appServ.saveData.newGamePlusTimes
+      )) {
+        if (!(await this.appServ.Confirm(this.appServ.t(`Login.Continue.Confirm`),
+          this.appServ.t(`Login.Continue.Status`, {
+            numVisits2: newSaveData.numVisits,
+            newGamePlus2: newSaveData.newGamePlusTimes,
+            dragonName2: newSaveData.dragonName,
+            yourName2: newSaveData.yourName,
+            numVisits1: this.appServ.saveData.numVisits,
+            newGamePlus1: this.appServ.saveData.newGamePlusTimes,
+            dragonName1: this.appServ.saveData.dragonName,
+            yourName1: this.appServ.saveData.yourName
+          }), true))) {
+          return;
+        }
+      }
+      //#endregion
+      this.appServ.saveData = newSaveData;
       console.log(resp);
 
       // newGamePlus判定

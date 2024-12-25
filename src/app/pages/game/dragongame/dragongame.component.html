@@ -106,7 +106,7 @@
                 (click)="$event.preventDefault();petDragon();" (keypress)="$event.preventDefault();">
                 <img alt="dragon-cg" src="/assets/imgs/dragon/{{cgName}}.gif" />
                 <img alt="dragon-emoji" *ngIf="emoji" src="/assets/imgs/mark_{{emoji}}.gif"
-                    style="position: absolute; right:15%; top: 15%;" />
+                    style="position: absolute; right:10%; top: 15%;" />
             </div>
             <!-- 選項-->
             <div id="Ray4" class="flex-column transparant-dark-bg boxed-content padding-large"
@@ -199,11 +199,14 @@
         <div class="boxed-content game-bg flex-column padding-large gap"
             style="max-width: 100%; max-height: 100%;min-width: 30%; margin: auto;">
             <br />
-            <button class="large-font" [routerLink]="'/game/earn01'" replaceUrl="true">資金調度1 [SLOT]</button>
+            <button class="large-font" [routerLink]="'/game/earn01'" replaceUrl="true">{{"Game.Earn01.Title" | translate
+                | separateText}}</button>
             <br />
-            <button class="large-font" [routerLink]="'/game/earn02'" replaceUrl="true">資金調度2 [Chess]</button>
+            <button class="large-font" [routerLink]="'/game/earn02'" replaceUrl="true">{{"Game.Earn02.Title" | translate
+                | separateText}}</button>
             <br />
-            <button class="large-font" [routerLink]="'/game/earn03'" replaceUrl="true">資金調度3 [Number Board]</button>
+            <button class="large-font" [routerLink]="'/game/earn03'" replaceUrl="true">{{"Game.Earn03.Title" | translate
+                | separateText}}</button>
             <br>
             <hr />
             <button type="button" (click)="openDialog=undefined;">
@@ -219,14 +222,16 @@
             style="max-width: 100%; max-height: 100%; min-width: 30%; margin: auto; min-width: 256px;">
             <br />
 
-            <button class="large-font" [routerLink]="'/game/battle_list'" replaceUrl="true">戦闘する</button>
+            <button class="large-font" [routerLink]="'/game/battle_list'" replaceUrl="true">{{'Game.Battle.Button' |
+                translate}}</button>
             @if (stMagic > 0){
             <br />
             <button class="large-font" [routerLink]="'/game/skill'" replaceUrl="true">
-                技装備</button>
+                {{'Game.Skill.Title' | translate}}</button>
             }
             <br />
-            <button class="large-font" [routerLink]="'/game/senchi'" replaceUrl="true">贈呈所</button>
+            <button class="large-font" [routerLink]="'/game/senchi'" replaceUrl="true">{{'Game.Senchi.Title' |
+                translate}}</button>
             <br />
             <hr />
             <button type="button" (click)="openDialog=undefined;">

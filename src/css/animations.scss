@@ -1,7 +1,7 @@
 .anim-fadeIn {
     opacity: 1;
     animation-name: fadeIn;
-    animation-timing-function: steps(30);
+    animation-timing-function: linear;
     /** 預設三秒*/
     animation-duration: 3s;
     pointer-events: none;
@@ -10,7 +10,7 @@
 .anim-fadeOut {
     opacity: 0;
     animation-timing-function: steps(30);
-    animation: fadeOut 3s steps(30);
+    animation-name: fadeOut;
     /** 預設三秒*/
     animation-duration: 3s;
     pointer-events: none;

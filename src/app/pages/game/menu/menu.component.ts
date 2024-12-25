@@ -19,6 +19,7 @@ export class MenuComponent implements AfterViewInit {
   }
   ngAfterViewInit(): void {
     Howler.stop();
+    this.appServ.setBGM()
   }
 
   startGame($event: Event) {

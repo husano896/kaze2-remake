@@ -9,7 +9,7 @@
     <small>{{'Login.Description' | translate}}</small>
     <br />
     <form [formGroup]="loginForm" class="boxed-content flex-column gap padding-large"
-        style="width: 100%; max-width: 360px;">
+        style="width: 100%; max-width: 360px;" (ngSubmit)="Login()">
 
         <label for="id">{{"Login.ID" | translate | separateText}}</label>
         <input id="id" autocomplete="username" name='id' formControlName="id" maxlength='32' required>
@@ -18,7 +18,7 @@
         <input type='password' autocomplete="current-password" id="password" name='password' formControlName='password'
             maxlength='64' minlength="4" required>
         <hr />
-        <button type="button" (click)="Login()" [disabled]="loginForm.invalid">
+        <button type="submit" [disabled]="loginForm.invalid">
             {{"Login.LoginAction" | translate | separateText}}
         </button>
         @if (localFileExist) {

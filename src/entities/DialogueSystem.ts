@@ -255,6 +255,19 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
         }
     }
 
+    Anim = async (layer: string, animName: string, duration: number, func: string = 'linear') => {
+        const el = document.querySelector(`#${layer}`) as HTMLElement
+        if (el) {
+            el.classList.add(animName)
+            await this.appServ.Wait(duration)
+            el.classList.remove(animName);
+            el.style.animationTimingFunction = func;
+            el.style.animationDuration = `${duration}ms`;
+        } else {
+            console.warn(`[hideLayer]指定的Layer ${layer}不存在！`)
+            console.trace();
+        }
+    }
     abs(n: number) {
         return Math.abs(n)
     }

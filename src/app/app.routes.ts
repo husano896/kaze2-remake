@@ -39,6 +39,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/index/login/login.component').then(m => m.LoginComponent)
     },
     {
+        path: 'developer_story',
+        loadComponent: () => import('./pages/index/developer-story/developer-story.component').then(m => m.DeveloperStoryComponent)
+    },
+    {
         path: 'game',
         loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule)
     },

@@ -139,7 +139,6 @@ export class AppService {
     if (fileName !== undefined) {
       this.MessageSE?.stop();
       this.MessageSE = HowlAudio.SE[fileName]
-
     }
     if (fileName != undefined) {
       console.log('set', fileName, this.MessageSE)
@@ -148,13 +147,15 @@ export class AppService {
     if (!this.MessageSE) {
       return;
     }
+
+    if (v && this.MessageSE.playing()) {
+      return;
+    }
     this.MessageSE?.mute(false)
     this.MessageSE?.pause()
     if (v) {
-      if (!this.MessageSE?.playing()) {
-        this.MessageSE?.loop(true)
-        this.MessageSE?.play();
-      }
+      this.MessageSE?.loop(true)
+      this.MessageSE?.play();
     } else {
       this.MessageSE?.pause();
     }

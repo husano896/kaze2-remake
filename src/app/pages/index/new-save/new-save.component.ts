@@ -26,20 +26,15 @@ export class NewSaveComponent implements AfterViewInit, OnInit {
     gender: new FormControl('', [Validators.required]),
   })
 
-  constructor(private appServ: AppService, private router: Router, private location: Location, private http: HttpClient) {
-
-  }
+  constructor(private appServ: AppService, private router: Router, private location: Location, private http: HttpClient) {  }
 
   ngOnInit(): void {
       if (this.newGamePlus) {
-        // 將畫面上的隱藏欄位補齊
-
-        this.registerForm.patchValue({
-          ID: this.appServ.saveData.yourName,
-          yourName: this.appServ.saveData.yourName,
-          password: this.appServ.saveData.yourName,
-          
-        });
+        // 將畫面上的隱藏欄位確認移除
+        this.registerForm.controls.ID.clearValidators();
+        this.registerForm.controls.yourName.clearValidators();
+        this.registerForm.controls.password.clearValidators();
+        this.registerForm.controls.yourName.setValue(this.appServ.saveData.yourName);
       }
   }
   ngAfterViewInit(): void {
