@@ -8,6 +8,7 @@ import { SaveData } from '@/entities/SaveData';
 import * as _ from 'lodash-es';
 import { ChessGameComponent } from "@/components/chess-game/chess-game.component";
 import { SnakeGameComponent } from '@/components/snake-game/snake-game.component';
+import { RootAnimations } from '@/app/app.service';
 
 @Component({
   selector: 'app-dialogue',
@@ -147,6 +148,9 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
     this.Face()
     this.SetContentCompleted();
     this.ClearContent();
+    this.Emoji();
+    this.Anim('dragoncg', RootAnimations.FadeOut, 1500);
+    this.Anim('dragoncg2', RootAnimations.FadeOut, 1500);
     await this.appServ.Wait(3000);
   }
 

@@ -1,11 +1,11 @@
 
-import { IBattleRouteState } from "@/app/pages/game/battle/battle.service";
 import { DialogueComponent } from "@/app/pages/game/dialogue/dialogue.component";
 import { EventFlag } from "../EventFlag";
+import { RootAnimations } from "@/app/app.service";
 
 /** 滅 び の 都 ヒ デ ィ ー ル After 最終決戰腳本 After*/
 export const Games08a = async (component: DialogueComponent) => {
-  const { saveData, ClearContent, AllFadeOut, Content, Face, location, router, setDialogOpticity, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { saveData, ClearContent, AllFadeOut, Content, Face, location, router, Anim, setDialogOpticity, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   const { debugMenu } = location.getState() as { event: string, lv: string, debugMenu: boolean };
 
@@ -64,6 +64,8 @@ export const Games08a = async (component: DialogueComponent) => {
   appServ.setRadialEffect('#000000', true, 500)
   setDragonCG('boss')
   setDragonCGOpticity(1)
+
+  Anim('dragoncg', RootAnimations.FadeIn, 500);
   Face()
   /** シュブニグラス：グルル……！ */
   await Content(`Scripts.Games08.2.09`)
@@ -86,6 +88,7 @@ export const Games08a = async (component: DialogueComponent) => {
   await Content(`Scripts.Games08.2.12`)
 
   appServ.setRadialEffect('#000000', true, 500)
+  appServ.setSE('snd04')
   Face('char41')
   /** チィッ！ */
   await Content(`Scripts.Games08.2.13`)
@@ -113,6 +116,7 @@ export const Games08a = async (component: DialogueComponent) => {
   appServ.setAmbient('snd18')
   appServ.setSE('snd21')
   setDragonCGOpticity(0)
+  Anim('dragoncg', RootAnimations.FadeOut, 250, 'ease-out');
   await appServ.Wait(1500)
 
   Face('char07')

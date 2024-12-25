@@ -54,7 +54,7 @@ div#bg {
 }
 
 img#dragoncg.enter {
-    animation: 1s slideInLeft cubic-bezier(0.075, 0.82, 0.165, 1);
+    animation: 1s slideInFromRight cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 img#dragoncg {
@@ -76,16 +76,6 @@ span#continue-icon {
 
 span#continue-icon.waiting {
     visibility: visible;
-}
-
-@keyframes slideInLeft {
-    0% {
-        transform: translateX(-100%);
-    }
-
-    to {
-        transform: translateX(0);
-    }
 }
 
 div#Ray1 {

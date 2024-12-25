@@ -6,7 +6,7 @@ import { ItemID } from "../ItemID";
 
 /** カ ザ リ ナ 山 ・ 幸 い の 地 フ ッ フ ー ル */
 export const Quest02 = async (component: DialogueComponent) => {
-  const { saveData, AllFadeOut, ClearContent, setDragonCG2Opticity, setDragonCG2, Content, Back, setDialogOpticity, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { saveData, AllFadeOut, ClearContent, setDragonCG2Opticity, setDragonCG2, Anim, Content, Back, setDialogOpticity, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   setBG('fufuru')
   setBGOpticity(1);
@@ -26,6 +26,8 @@ export const Quest02 = async (component: DialogueComponent) => {
     setDragonCGOpticity(1);
     setDragonCG2('best14')
     setDragonCG2Opticity(1);
+    Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out');
+    Anim('dragoncg2', RootAnimations.SlideInFromLeft, 1000, 'ease-out');
     const varsam = Math.round(Math.random() * 5) + 2;
     /**
      *孤竜：……こんにちは{ { go00 } } { { go01 } }…。
@@ -43,9 +45,9 @@ export const Quest02 = async (component: DialogueComponent) => {
   }
   //#endregion
 
-
   setDragonCG2('best14')
   setDragonCG2Opticity(1);
+  Anim('dragoncg2', RootAnimations.FadeIn, 1000);
   /**
    *……どうしよう…。困ったわ。
     私の仔が「重症」にかかっちゃって……治療薬の材料がないと、あの仔が…。
@@ -55,9 +57,9 @@ export const Quest02 = async (component: DialogueComponent) => {
 
   ClearContent();
 
-  // TODO: 孤龍從右側滑入
   setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
+  await Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out');
   /**
    *フッフール：きゃ……だ…誰？
     孤竜：…!

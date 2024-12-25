@@ -4,7 +4,7 @@ import { DragonChipFlag } from "../DragonChipFlag";
 
 /** ドラゴンの古代遺跡 After */
 export const Quest03a = async (component: DialogueComponent) => {
-  const { setDragonCG2, ClearContent, Content, Back, AllFadeOut, setDialogOpticity, saveData, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity, setDragonCG2Opticity } = component;
+  const { setDragonCG2, ClearContent, Content, Back, AllFadeOut, setDialogOpticity, saveData, appServ, setBG, Anim, setDragonCG, setBGOpticity, setDragonCGOpticity, setDragonCG2Opticity } = component;
 
   setBG('iseki')
   setBGOpticity(1);
@@ -16,9 +16,11 @@ export const Quest03a = async (component: DialogueComponent) => {
   appServ.setBGM('music11')
 
   //#region 一般事件
-  // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.cgName)
-  setDragonCGOpticity(1);
+  // TODO: 孤龍從右側滑入\
+  setDragonCG('best12')
+  setDragonCG2(appServ.saveData.cgName)
+  setDragonCG2Opticity(1);
+  Anim('dragoncg2', RootAnimations.SlideInFromRight, 1000, 'ease-out'); 
   /**
    *……すっごく怖かった{{go01}}…。
     あの……ごめんなさい。 でも、{{my}}は墓荒らしなんかじゃない{{go01}}。
@@ -27,10 +29,8 @@ export const Quest03a = async (component: DialogueComponent) => {
   await Content(`Scripts.Quest03.1.5`)
 
   ClearContent();
-
-  setDragonCG2('best12')
-  setDragonCG2Opticity(1);
-  await appServ.Wait(1500)
+  setDragonCGOpticity(1);
+  await Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out'); 
   /**
    *ゾンドドレイク：…スマヌ。どうやら墓荒らしではないようだな…。
     私は、この地を守るべく遺跡に仕えし者。見ての通り亡霊ではあるが、

@@ -5,7 +5,7 @@ import { ItemID } from "../ItemID";
 
 /** 幻の浮島ラグナルクス */
 export const Quest04 = async (component: DialogueComponent) => {
-  const { saveData, SetContentCompleted, setDragonCG2, setDragonCG2Opticity, ClearContent, Content, Back, Emoji, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { saveData, SetContentCompleted, setDragonCG2, setDragonCG2Opticity, Anim, ClearContent, Content, Back, Emoji, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   setBG('ragunaroku')
   setBGOpticity(1);
@@ -39,10 +39,10 @@ export const Quest04 = async (component: DialogueComponent) => {
       ここに足を踏み入れることができるのは、全ての属性を極めし者だけだ…。
       貴様には、まだその資格はない。早々に立ち去るがよい。命あるうちにな…。
     */
-      await Content(`Scripts.Quest04.1.1`)
-      SetContentCompleted();
-      Back();
-      return;
+    await Content(`Scripts.Quest04.1.1`)
+    SetContentCompleted();
+    Back();
+    return;
   }
   //#endregion 
 
@@ -61,6 +61,7 @@ export const Quest04 = async (component: DialogueComponent) => {
   // TODO: 孤龍從右側滑入
   setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 500, 'ease-out');
   ClearContent()
   /*
     …{{my}} は、人間のことをそうは思わない{{go01}}。

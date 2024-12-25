@@ -6,7 +6,7 @@ import { ItemID } from "../ItemID";
 import { IBattleRouteState } from "@/app/pages/game/battle/battle.service";
 
 export const Games04 = async (component: DialogueComponent) => {
-  const { ClearContent, Content, location, router, SetSkipCallback, setDialogOpticity, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { ClearContent, Content, location, router, SetSkipCallback, setDialogOpticity, appServ, Anim, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
   let skipped = false;
 
   const { lv, debugMenu } = location.getState() as { event: string, lv: string, debugMenu: boolean };
@@ -55,6 +55,7 @@ export const Games04 = async (component: DialogueComponent) => {
     // TODO: 孤龍從右側滑入
     setDragonCG(appServ.saveData.cgName)
     setDragonCGOpticity(1);
+
     skipped = true;
     SetSkipCallback()
 
@@ -158,7 +159,8 @@ export const Games04 = async (component: DialogueComponent) => {
   // TODO: 孤龍從右側滑入
   setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
-  await appServ.Wait(3000);
+  await Anim('dragoncg', RootAnimations.SlideInFromRight, 1000);
+  await appServ.Wait(1000);
   await Content(`Scripts.Games04.1.2`)
   if (skipped) {
     return;

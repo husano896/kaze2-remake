@@ -4,7 +4,7 @@ import { DragonChipFlag } from "../DragonChipFlag";
 
 /** ドラゴンの古代遺跡 */
 export const Quest03 = async (component: DialogueComponent) => {
-  const { SetContentCompleted, setDragonCG2, setDragonCG2Opticity, ClearContent, Content, Back, Emoji, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { SetContentCompleted, setDragonCG2, setDragonCG2Opticity, ClearContent, Content, Anim, Back, Emoji, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   setBG('iseki')
   setBGOpticity(1);
@@ -22,6 +22,7 @@ export const Quest03 = async (component: DialogueComponent) => {
     // TODO: 孤龍從右側滑入
     setDragonCG(appServ.saveData.cgName)
     setDragonCGOpticity(1);
+    Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out');
     /** ……ドキドキ。…ゾンドドレイク、いる{{go03}}…？ */
     await Content(`Scripts.Quest03.2.1`)
     /*ゾンドドレイク：…うむ。聞こえておるぞ…。
@@ -43,6 +44,7 @@ export const Quest03 = async (component: DialogueComponent) => {
   // TODO: 孤龍從右側滑入
   setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out')
   /**
    *……ドキドキ…ビクビク…。なんだか暗くて重々しい空気が流れている{{go01}}…。
     薄暗くて、よく見えないけれど、壁には、ドラゴンのような生き物と…。
@@ -59,13 +61,11 @@ export const Quest03 = async (component: DialogueComponent) => {
 
   Emoji(6)
   /** 孤竜：びくぅぅっ？！？！ */
-  await Content(`Scripts.Quest03.1.3`)
-
-  setDragonCG2('best12')
-  setDragonCG2Opticity(1)
+  Content(`Scripts.Quest03.1.3`)
+  await Anim('dragoncg', RootAnimations.SlideOutToLeftPeek, 2000, 'ease-in');
+  (document.querySelector('#dragoncg') as HTMLElement).style.transform = 'translateX(-50%)';
   await appServ.Wait(1500)
-
-  Emoji(1)
+  
   /**
    *孤竜:…誰…？？？
     姿なき声：我はこの地を守りし者…。墓荒しの罪人め。

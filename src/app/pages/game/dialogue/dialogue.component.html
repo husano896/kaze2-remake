@@ -2,22 +2,24 @@
     <!-- 龍與背景-->
     <div id="bg" #bg>
         <div class="full-width full-height flex-row" style="justify-content: center;">
-            <div class="dragon-cg-container" [ngStyle]="{
-                width: dragonCg2 && opacity2 ? '100%' : '0%', 
-                display: dragonCg2 ? 'flex' : 'none',
+            <div class="dragon-cg-container" id="dragoncg2" [ngStyle]="{
+                maxWidth: dragonCg2 ? '100%' : '0%',
+                maxHeight: dragonCg2 ? '100%' : '0%',
+                display: dragonCg2 ? 'block' : 'none',
                 opacity: opacity2}">
-                <img #dragoncgA id="dragoncgA" class="dragoncg" alt="dragon-cg" attr.dragonType={{dragonCg2}}
+                <img #dragoncgA class="dragoncg" alt="dragon-cg" attr.dragonType={{dragonCg2}}
                     src="/assets/imgs/dragon/{{dragonCg2}}.gif" />
                 @if (emoji2) {
                 <img alt="dragon-emoji" src="/assets/imgs/mark_{{emoji2}}.gif"
                     style="position: absolute; right:15%; top: 15%;" />
                 }
             </div>
-            <div class="dragon-cg-container" [ngStyle]="{
-                    width: dragonCg && opacity ? '100%' : '0%', 
-                    display: dragonCg ? 'flex' : 'none', 
+            <div class="dragon-cg-container" id="dragoncg" [ngStyle]="{
+                    maxWidth: dragonCg ? '100%' : '0%',
+                    maxHeight: dragonCg ? '100%' : '0%',
+                    display: dragonCg ? 'block' : 'none',
                     opacity: opacity}">
-                <img #dragoncg id="dragoncg" class="dragoncg" alt="dragon-cg" attr.dragonType={{dragonCg}}
+                <img #dragoncg class="dragoncg" alt="dragon-cg" attr.dragonType={{dragonCg}}
                     src="/assets/imgs/dragon/{{dragonCg}}.gif" />
                 @if (emoji) {
                 <img alt="dragon-emoji" src="/assets/imgs/mark_{{emoji}}.gif"
@@ -64,7 +66,7 @@
         <!-- 提示玩家該繼續點擊的圖示-->
         <span id="continue-icon" class="large-font"
             [ngClass]="{waiting:isWaiting() && dialog.innerText.length > 0 && !contentCompleted}">▼</span>
-        <a id="skip" (click)="onSkipClick()" [ngClass]="{disabled: !skipCallBack}">SKIP</a>
+        <!-- <a id="skip" (click)="onSkipClick()" [ngClass]="{disabled: !skipCallBack}">SKIP</a>-->
     </div>
 
 </div>

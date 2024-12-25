@@ -14,7 +14,7 @@ import { DragonChipFlag } from "../DragonChipFlag";
  */
 /** サラ平原 */
 export const Quest08 = async (component: DialogueComponent) => {
-  const { saveData, SetContentCompleted, setDragonCG2, setDragonCG2Opticity, Content, Back, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { saveData, SetContentCompleted, setDragonCG2, setDragonCG2Opticity, Content, Anim, Back, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   setBG('heigen')
   setBGOpticity(1);
@@ -25,6 +25,8 @@ export const Quest08 = async (component: DialogueComponent) => {
   // TODO: 孤龍從右側滑入
   setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out');
+
   setDialogOpticity(1);
 
   // BGM設定
@@ -47,8 +49,6 @@ export const Quest08 = async (component: DialogueComponent) => {
 
 
   //#region 一般事件
-  setDragonCG2('best04')
-  setDragonCG2Opticity(1);
   /**
     空一面 晴れわたってて、とっても気持ちいい{{go01}}。
     太陽にさらされた草の匂いがいっぱいする{{go01}}。 それに小さな生き物の気配もしてる{{go01}}。
@@ -56,6 +56,9 @@ export const Quest08 = async (component: DialogueComponent) => {
   */
   await Content(`Scripts.Quest08.1.2`)
 
+  setDragonCG2('best04')
+  setDragonCG2Opticity(1);
+  await Anim('dragoncg2', RootAnimations.SlideInFromLeft, 1000, 'ease-out');
   /*
     管狐：んきゅ？
     さっき何かいたような気がしたよぅー？　気のせいだったのかなぅ。

@@ -3,10 +3,11 @@ import _ from "lodash";
 import { ItemID } from "../ItemID";
 import { EventFlag } from "../EventFlag";
 import { Games08 } from "./Games08";
+import { RootAnimations } from "@/app/app.service";
 
 /** 滅 び の 都 ヒ デ ィ ー ル */
 export const Games07 = async (component: DialogueComponent) => {
-    const { Back, saveData, ClearContent, SetContentCompleted, AllFadeOut, Emoji, Content, Face, location, router, setDialogOpticity, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+    const { Back, saveData, ClearContent, SetContentCompleted, AllFadeOut, Emoji, Content, Face, Anim, location, router, setDialogOpticity, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
     const { debugMenu, lv } = location.getState() as { event: string, lv: string, debugMenu: boolean };
 
@@ -63,6 +64,7 @@ export const Games07 = async (component: DialogueComponent) => {
         Face()
         setDragonCG(saveData.cgName)
         setDragonCGOpticity(1)
+        Anim('dragoncg', RootAnimations.SlideInFromRight, 500);
         /* きゅ？ */
         await Content(`Scripts.Games07.First.06`)
 
@@ -103,6 +105,7 @@ export const Games07 = async (component: DialogueComponent) => {
         Face()
         setDragonCG(saveData.cgName)
         setDragonCGOpticity(1)
+        Anim('dragoncg', RootAnimations.FadeIn, 1000);
         /** じゃあ！ {{my}}達が病気になることって、ずっと昔から分かってた{{go03}}？ */
         await Content(`Scripts.Games07.First.10`)
 
@@ -162,6 +165,7 @@ export const Games07 = async (component: DialogueComponent) => {
         /** そうだ。 */
         await Content(`Scripts.Games07.First.20`)
 
+        await Anim('dragoncg', RootAnimations.FadeOut, 1000);
         setDragonCGOpticity(0)
         Face('char02')
         /** ……わかったっす……聞かせてほしいっす。 */
@@ -197,7 +201,8 @@ export const Games07 = async (component: DialogueComponent) => {
 
         Face()
         setDragonCGOpticity(1)
-        Emoji(5)
+        Anim('dragoncg', RootAnimations.FadeIn, 1000);
+        // Emoji(5)
         /** ……うそっ！　だって{{my}}たち、こうして生きてる{{go01}}。 */
         await Content(`Scripts.Games07.First.25`)
 
@@ -362,10 +367,11 @@ export const Games07 = async (component: DialogueComponent) => {
         appServ.setSE('snd11')
         setBG('last2')
         setBGOpticity(1)
-        setDragonCG(appServ.saveData.cgName)
+        setDragonCG(saveData.cgName)
         await appServ.Wait(3000)
-
         setDragonCGOpticity(1)
+        Anim('dragoncg', RootAnimations.SlideInFromRight, 500, 'ease-out');
+
         setDialogOpticity(1)
         /**
          *……。
@@ -599,9 +605,10 @@ export const Games07 = async (component: DialogueComponent) => {
          */
         await Content(`Scripts.Games07.Event1.04`)
 
-        Face('')
+        Face()
         setDragonCG(appServ.saveData.cgName)
         setDragonCGOpticity(1)
+        Anim('dragoncg', RootAnimations.SlideInFromRight, 500, 'ease-out');
         /**
          * ものー……もーじぇ？　みーみる！？
          */

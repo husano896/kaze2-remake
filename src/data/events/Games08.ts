@@ -1,10 +1,11 @@
 import { IBattleRouteState } from "@/app/pages/game/battle/battle.service";
 import { DialogueComponent } from "@/app/pages/game/dialogue/dialogue.component";
 import { EventFlag } from "../EventFlag";
+import { RootAnimations } from "@/app/app.service";
 
 /** 滅 び の 都 ヒ デ ィ ー ル 最終決戰腳本 */
 export const Games08 = async (component: DialogueComponent) => {
-  const { saveData, Content, Face, location, router, setDialogOpticity, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { saveData, Content, Face, location, router, setDialogOpticity, appServ, Anim, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   const { debugMenu } = location.getState() as { event: string, lv: string, debugMenu: boolean };
 
@@ -84,6 +85,7 @@ export const Games08 = async (component: DialogueComponent) => {
   Face()
   setDragonCG('boss')
   setDragonCGOpticity(1)
+  Anim('dragoncg', RootAnimations.FadeIn, 500);
   appServ.setRadialEffect('#000000', true, 1000)
   /** キシャァァー――！！ */
   await Content(`Scripts.Games08.1.11`)

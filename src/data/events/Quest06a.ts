@@ -4,7 +4,7 @@ import { DragonChipFlag } from "../DragonChipFlag";
 
 /** 魔獣の森 After */
 export const Quest06a = async (component: DialogueComponent) => {
-  const { setDragonCG2, Content, Back, AllFadeOut, setDialogOpticity, saveData, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity, setDragonCG2Opticity } = component;
+  const { setDragonCG2, Content, Back, AllFadeOut, setDialogOpticity, Anim, saveData, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity, setDragonCG2Opticity } = component;
 
   setBG('woods')
   setBGOpticity(1);
@@ -15,12 +15,14 @@ export const Quest06a = async (component: DialogueComponent) => {
   appServ.setBGM('music11')
 
   //#region 一般事件
-  // TODO: 孤龍從右側滑入
   setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
-  // TODO: 孤龍從右側滑入
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out');
+
   setDragonCG2('best03')
   setDragonCG2Opticity(1);
+  Anim('dragoncg2', RootAnimations.SlideInFromRight, 1000, 'ease-out');
+
   /**
     魔獣：うっ……痛みが…ない？？
     オマエか？　オマエがオレの傷を癒してくれたのか？

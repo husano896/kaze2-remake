@@ -4,7 +4,7 @@ import { RootAnimations } from "@/app/app.service";
 import * as _ from "lodash-es";
 
 export const Games04a = async (component: DialogueComponent) => {
-  const { SetContentCompleted, ClearContent, AllFadeOut, Content, location, Back, SetSkipCallback, setDialogOpticity, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { SetContentCompleted, ClearContent, AllFadeOut, Content, location, Back, SetSkipCallback, setDialogOpticity, Anim, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
   let skipped = false;
   const { lv, } = location.getState() as { event: string, lv: string, debugMenu: boolean };
 
@@ -61,7 +61,8 @@ export const Games04a = async (component: DialogueComponent) => {
   // TODO: 孤龍從右側滑入
   setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
-  await appServ.Wait(3000);
+  await Anim('dragoncg', RootAnimations.SlideInFromRight, 1000);
+  await appServ.Wait(1000);
 
 
   /**

@@ -5,7 +5,7 @@ import { ItemID } from "../ItemID";
 
 /** サラ平原 After */
 export const Quest08a = async (component: DialogueComponent) => {
-  const { AllFadeOut, saveData, setDragonCG2, setDragonCG2Opticity, Content, Back, setDialogOpticity, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { AllFadeOut, saveData, setDragonCG2, setDragonCG2Opticity, Content, Back, setDialogOpticity, Anim, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   setBG('heigen')
   setBGOpticity(1);
@@ -18,8 +18,11 @@ export const Quest08a = async (component: DialogueComponent) => {
   // TODO: 孤龍從右側滑入
   setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out');
+
   setDragonCG2('best04')
   setDragonCG2Opticity(1);
+  Anim('dragoncg2', RootAnimations.SlideInFromLeft, 1000, 'ease-out');
 
   await appServ.Wait(1500)
   setDialogOpticity(1);

@@ -2,9 +2,9 @@ import { RootAnimations } from "@/app/app.service";
 import { DialogueComponent } from "@/app/pages/game/dialogue/dialogue.component";
 import { DragonChipFlag } from "../DragonChipFlag";
 
-/** 古城 */
+/** 被遺忘的古城 */
 export const Quest07 = async (component: DialogueComponent) => {
-  const { setDragonCG2, setDragonCG2Opticity, SetContentCompleted, ClearContent, Content, Back, Emoji, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { setDragonCG2, setDragonCG2Opticity, SetContentCompleted, Content, Back, Anim, Emoji, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   setBG('kojyou')
   setBGOpticity(1);
@@ -17,12 +17,15 @@ export const Quest07 = async (component: DialogueComponent) => {
   // BGM設定
   appServ.setBGM('music13')
 
+  // TODO: 孤龍從右側滑入
+  setDragonCG(appServ.saveData.cgName)
+  setDragonCGOpticity(1);
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out');
+
   //#region 先前有成功打過架了
   if (appServ.saveData.DragonChip1 & DragonChipFlag.ヴァンパネラ) {
 
-    // TODO: 孤龍從右側滑入
-    setDragonCG(appServ.saveData.cgName)
-    setDragonCGOpticity(1);
+
     // const varsam = Math.round(Math.random() * 5) + 2;
     /**
       …おばさん…また何か企んでない{{go01}}。
@@ -40,9 +43,6 @@ export const Quest07 = async (component: DialogueComponent) => {
   //#endregion
 
   //#region 一般事件
-  // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.cgName)
-  setDragonCGOpticity(1);
 
   /** 
    ……こんなところにお城がある{{go01}}…。
@@ -51,6 +51,7 @@ export const Quest07 = async (component: DialogueComponent) => {
   await Content(`Scripts.Quest07.1.1`)
   setDragonCG2('best01')
   setDragonCG2Opticity(1);
+  Anim('dragoncg2', RootAnimations.SlideInFromLeft, 1000, 'ease-out');
   await appServ.Wait(1500)
   Emoji(1)
   /**

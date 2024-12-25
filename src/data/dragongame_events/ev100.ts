@@ -5,7 +5,7 @@ import { RootAnimations } from "@/app/app.service";
 /**「去り逝く者」*/
 const ev100 = async (component: DragongameComponent) => {
 
-    const { dialogComplete$, appServ, Face, Content, SetContentCompleted, DisableAllActions, router } = component
+    const {  appServ, Face, Content, SetContentCompleted, DisableAllActions, router } = component
     DisableAllActions(true);
     appServ.setBGM('music23')
 
@@ -20,7 +20,6 @@ const ev100 = async (component: DragongameComponent) => {
     await Content(`Scripts.Ev100.1`)
     Face('char10a')
 
-    await firstValueFrom(dialogComplete$);
     SetContentCompleted()
 
     await appServ.Anim(RootAnimations.FadeOut);

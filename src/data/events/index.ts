@@ -12,7 +12,7 @@ import { Quest01a } from "./Quest01a";
 import { Quest02 } from "./Quest02";
 import { Quest03 } from "./Quest03";
 import { Quest03a } from "./Quest03a";
-import { Quest04 } from "./Quest04";
+import {Quest04 } from "./Quest04";
 import { Quest04a } from "./Quest04a";
 import { Quest06 } from "./Quest06";
 import { Quest06a } from "./Quest06a";
@@ -34,12 +34,13 @@ import { Quest05 } from "./Quest05";
  * ref: https://stackoverflow.com/questions/61136851/memory-leak-in-promise
  */
 export const Events: { [eventName: string]: Function } = {
+    //#region 演出確認OK
     Opening,
-    Ending1,
-    Ending2,
+    LoveChk,
     Miss,
     Eventend,
-    LoveChk,
+    Ending1,
+    Ending2,
 
     /** 研究者的小屋 */
     Games02,
@@ -47,6 +48,11 @@ export const Events: { [eventName: string]: Function } = {
     /** 神獸之祠 */
     Games04,
     Games04a,
+
+    /** 滅びの都ヒディ */
+    Games07,
+    Games08,
+    Games08a,
 
     /** トピリアの森 */
     Quest01,
@@ -65,7 +71,7 @@ export const Events: { [eventName: string]: Function } = {
 
     /** ドラゴンの丘 */
     Quest05,
-    
+
     /** 魔獣の森 */
     Quest06,
     Quest06a,
@@ -81,13 +87,13 @@ export const Events: { [eventName: string]: Function } = {
     /** 街の雑木林 */
     Quest09,
     Quest09a,
-    
+
+    //#endregion
+
+
     /** ウリア大砂漠地帯 */
     Quest10,
     Quest10a,
-    
-    /** 滅びの都ヒディ */
-    Games07,
-    Games08,
-    Games08a
+
+
 }

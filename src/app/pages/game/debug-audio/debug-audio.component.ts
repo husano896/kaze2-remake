@@ -1,6 +1,6 @@
 import { AppService } from '@/app/app.service';
 import { Component, OnDestroy } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -11,7 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './debug-audio.component.scss'
 })
 export class DebugAudioComponent implements OnDestroy {
-  constructor( private readonly appServ: AppService) {
+  constructor(private readonly appServ: AppService) {
 
   }
   playBGM(bgm?: string) {

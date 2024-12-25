@@ -1,4 +1,4 @@
-import { AppService } from "@/app/app.service";
+import { AppService, RootAnimations } from "@/app/app.service";
 import { Location } from '@angular/common';
 import { ViewChild, ElementRef, Directive, AfterViewInit, OnDestroy, OnInit, Injector, ChangeDetectorRef } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
@@ -10,14 +10,11 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
     /** 網頁上的#dialog文章元素，繼承DialogueSystem的Component必須實作此元素 */
     @ViewChild('dialog') dialog!: ElementRef<HTMLDivElement>;
 
-    /** 對話開始聆聽事件 */
-    public dialogStart$: Subject<any> = new Subject<any>();
-
     /** 對話結束聆聽事件 */
     public dialogComplete$: Subject<any> = new Subject<any>();
 
     /** 對話結束聆聽事件 */
-    public optionSelect$: Subject<{ index: number, value: string }> = new Subject<{ index: number, value: string }>()
+    private optionSelect$: Subject<{ index: number, value: string }> = new Subject<{ index: number, value: string }>()
 
     /** 已加入佇列，待顯示到畫面上的文字 */
     public pendingTexts: string[] = [];
@@ -216,7 +213,6 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
 
     /** 點擊對話框的快轉 */
     FastForward() {
-        this.dialogStart$.next(0);
         if (this.pendingTexts.length == 0) {
             this.dialogComplete$.next(0);
             this.SetContentCompleted();
@@ -255,14 +251,15 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
         }
     }
 
-    Anim = async (layer: string, animName: string, duration: number, func: string = 'linear') => {
+    Anim = async (layer: string, animName: RootAnimations, duration: number, func: string = 'linear') => {
         const el = document.querySelector(`#${layer}`) as HTMLElement
+        console.log(el)
         if (el) {
-            el.classList.add(animName)
-            await this.appServ.Wait(duration)
-            el.classList.remove(animName);
+            el.classList.add(`anim-${animName}`)
             el.style.animationTimingFunction = func;
             el.style.animationDuration = `${duration}ms`;
+            await this.appServ.Wait(duration)
+            el.classList.remove(`anim-${animName}`);
         } else {
             console.warn(`[hideLayer]指定的Layer ${layer}不存在！`)
             console.trace();

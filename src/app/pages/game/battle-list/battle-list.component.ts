@@ -43,8 +43,8 @@ export class BattleListComponent implements OnInit {
     this.activatedRoute.data.subscribe((data: any) => {
       console.log(data)
       this.list = data.data;
+      this.appServ.setBGM('music31')
     })
-
   }
 
   Reload() {

@@ -14,7 +14,7 @@ import { EventFlag } from "../EventFlag";
  */
 /** ウリア大砂漠地帯 After aka 家暴完現場 */
 export const Quest10a = async (component: DialogueComponent) => {
-  const { setDragonCG2, setDragonCG2Opticity, AllFadeOut, Back, Emoji, ClearContent, saveData, Content, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { setDragonCG2, setDragonCG2Opticity, AllFadeOut, Back, Anim, saveData, Content, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   setBG('sabaku2')
   setBGOpticity(1);
@@ -23,8 +23,13 @@ export const Quest10a = async (component: DialogueComponent) => {
 
   // TODO: 孤龍從右側滑入
   setDragonCG(appServ.saveData.cgName)
+  setDragonCG2('best20')
+
   setDragonCGOpticity(1);
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 500, 'ease-out');
+  Anim('dragoncg2', RootAnimations.SlideInFromLeft, 500, 'ease-out');
   setDialogOpticity(1);
+
   appServ.setBGM('music35')
 
   /**
@@ -37,17 +42,17 @@ export const Quest10a = async (component: DialogueComponent) => {
    */
   await Content(`Scripts.Quest10.1.5`)
 
-  setDragonCGOpticity(0);
 
-  await appServ.Wait(1500);
+
   /**
     弧竜：グスッ……うぁぁ…あぁ…。
     おとうさん：……。
    */
   await Content(`Scripts.Quest10.1.6`)
 
-  setDragonCG2('best20')
-  setDragonCG2Opticity(1)
+  await Anim('dragoncg', RootAnimations.FadeOut, 1000);
+  setDragonCGOpticity(0);
+  
   await appServ.Wait(1500)
   /**
     さらばだ…私のかわいい息子よ…。

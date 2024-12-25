@@ -6,8 +6,8 @@ import { ItemID } from "../ItemID";
 
 /** 魔獣の森 */
 export const Quest06 = async (component: DialogueComponent) => {
-  const { AllFadeOut, saveData, SetContentCompleted, setDragonCG2, setDragonCG2Opticity, ClearContent, Content, Back, Emoji, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
-
+  const { AllFadeOut, saveData, location, SetContentCompleted, setDragonCG2, setDragonCG2Opticity, Anim, ClearContent, Content, Back, Emoji, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const state = location.getState() || {}
   setBG('woods')
   setBGOpticity(1);
 
@@ -16,6 +16,10 @@ export const Quest06 = async (component: DialogueComponent) => {
 
   setDialogOpticity(1);
 
+  // TODO: 孤龍從右側滑入
+  setDragonCG(appServ.saveData.cgName)
+  setDragonCGOpticity(1);
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out');
 
   //#region 先前有成功救援過了
   if (saveData.DragonChip1 & DragonChipFlag.DragonHeadBuck) {
@@ -30,13 +34,13 @@ export const Quest06 = async (component: DialogueComponent) => {
     // BGM設定
     appServ.setBGM('music01')
 
-    // TODO: 孤龍從右側滑入
     setDragonCG(appServ.saveData.cgName)
     setDragonCGOpticity(1);
+    Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out');
 
-    // TODO: 孤龍從右側滑入
     setDragonCG2('best03')
     setDragonCG2Opticity(1);
+    Anim('dragoncg2', RootAnimations.SlideInFromRight, 1000, 'ease-out');
 
     await Content(`Scripts.Quest06.2.1`)
     SetContentCompleted();
@@ -46,10 +50,6 @@ export const Quest06 = async (component: DialogueComponent) => {
   //#endregion
 
   appServ.setBGM('music25')
-  // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.cgName)
-  setDragonCGOpticity(1);
-
   //#region 未帶狗狗型態龍「ゾンドドレイク」入場
   if (!(saveData.DragonChip2 & DragonChipFlag.ゾンドドレイク)) {
     /*
@@ -78,11 +78,15 @@ export const Quest06 = async (component: DialogueComponent) => {
 
   ClearContent();
   component.skipWait = true;
-
+  await Anim('dragoncg', RootAnimations.SlideOutToLeft, 1000, 'ease-in')
+  setDragonCGOpticity(0)
   /** - 探索中 - */
   await Content(`Scripts.Quest.Discovering`)
   await appServ.Wait(1500)
   component.skipWait = false;
+
+  setDragonCGOpticity(1)
+  Anim('dragoncg', RootAnimations.SlideInFromLeft, 1000, 'ease-out')
 
   //#region 運氣不好 沒聞到東西QQ
   if (Math.round(Math.random() * 10) < 1) {
@@ -103,6 +107,7 @@ export const Quest06 = async (component: DialogueComponent) => {
   setDragonCG2('best03')
   setDragonCG2Opticity(1);
   Emoji(1)
+  await Anim('dragoncg2', RootAnimations.SlideInFromLeft, 1000, 'ease-out')
   /*
     大変っ！　そこの茂みに、なにやら大きな動物が横たわっている{{go01}}！
     ケガ…してる{{go01}}？ 息はあるけれど動かない{{go01}}…。
@@ -131,6 +136,7 @@ export const Quest06 = async (component: DialogueComponent) => {
   await AllFadeOut();
   router.navigate(['/game/dialogue'], {
     state: {
+      ...state,
       event: 'Quest06a'
     },
     replaceUrl: true

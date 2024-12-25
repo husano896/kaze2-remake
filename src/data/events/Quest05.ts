@@ -17,7 +17,7 @@ document.write(<IMG width=100% src='image/bg_dragonhill.jpg' border=0></DIV>);
  */
 /** TODO: ドラゴンの丘 */
 export const Quest05 = async (component: DialogueComponent) => {
-  const { AllFadeOut, saveData, setDragonCG2, Emoji, setDragonCG2Opticity, SetContentCompleted, ClearContent, Content, Back, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { AllFadeOut, saveData, setDragonCG2, Emoji, setDragonCG2Opticity, Anim, ClearContent, Content, Back, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   setBG('dragonhill')
   setBGOpticity(1);
@@ -29,6 +29,7 @@ export const Quest05 = async (component: DialogueComponent) => {
   appServ.setBGM('music11')
 
   setDragonCG(saveData.cgName)
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out')
   setDragonCGOpticity(1)
 
   if (saveData.DragonChip1 & DragonChipFlag.ママルバーン) {
@@ -39,8 +40,10 @@ export const Quest05 = async (component: DialogueComponent) => {
       ねぇ…。僕と遊ぼうよ。
     */
 
-    setDragonCG2('best08')
+    setDragonCG2(saveData.cgName)
+    setDragonCG('best08')
     setDragonCG2Opticity(1)
+    Anim('dragoncg2', RootAnimations.SlideInFromRight, 1000, 'ease-out')
     await Content(`Scripts.Quest05.2.1`)
     //#endregion
   } else {
@@ -55,7 +58,7 @@ export const Quest05 = async (component: DialogueComponent) => {
     ClearContent()
     setDragonCG2('best08')
     setDragonCG2Opticity(1)
-    await appServ.Wait(1500)
+    await Anim('dragoncg2', RootAnimations.SlideInFromRight, 1000, 'ease-out')
     /** 
       バサッバササッ！！
       孤竜：あっ…こ、こんにちわ…
@@ -79,6 +82,8 @@ export const Quest05 = async (component: DialogueComponent) => {
 
   component.enableSnakeGame = true;
   component.snakeGameActive = true;
+  setDragonCG('')
+  ClearContent()
   /**
     じゃ、さっそく僕を捕まえてごらん。
     連続15回捕まえるか失敗すれば、そこでゲーム終了だからね！
@@ -121,6 +126,12 @@ export const Quest05 = async (component: DialogueComponent) => {
   */
   await Content(`Scripts.Quest05.Game.Win`)
   component.enableSnakeGame = false;
+  setDragonCG(saveData.cgName)
+
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out')
+  await Anim('dragoncg2', RootAnimations.SlideInFromRight, 1000, 'ease-out')
+  ClearContent()
+
   if (saveData.DragonChip1 & DragonChipFlag.ママルバーン) {
     /**
       ふぅ…今回も楽しかったよ。キミと一緒にいると楽しいなぁ。

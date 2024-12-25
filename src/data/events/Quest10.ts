@@ -14,7 +14,7 @@ import { EventFlag } from "../EventFlag";
  */
 /** ウリア大砂漠地帯 */
 export const Quest10 = async (component: DialogueComponent) => {
-  const { AllFadeOut, Back, Emoji, ClearContent, saveData, Content, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { AllFadeOut, Back, Emoji, ClearContent, saveData, Content, setDialogOpticity, Anim, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   setBG('sabaku')
   setBGOpticity(1);
@@ -25,6 +25,7 @@ export const Quest10 = async (component: DialogueComponent) => {
   // TODO: 孤龍從右側滑入
   setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 1000);
   setDialogOpticity(1);
 
   //#region 已經打完你爸

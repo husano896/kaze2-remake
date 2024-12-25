@@ -1,24 +1,17 @@
 .anim-fadeIn {
-    opacity: 1;
     animation-name: fadeIn;
-    animation-timing-function: linear;
     /** 預設三秒*/
-    animation-duration: 3s;
     pointer-events: none;
 }
 
 .anim-fadeOut {
-    opacity: 0;
-    animation-timing-function: steps(30);
     animation-name: fadeOut;
     /** 預設三秒*/
-    animation-duration: 3s;
     pointer-events: none;
 }
 
 .anim-blinking {
     animation-name: blinking;
-    animation-duration: 1s;
     animation-timing-function: ease-out;
     animation-iteration-count: infinite;
 }
@@ -38,10 +31,32 @@
     animation-timing-function: ease-out;
 }
 
-.anim-playerDamage {
-   animation-name: playerDamagedAnim;
-   animation-timing-function: ease-out;
+.anim-slideOutToLeft {
+    animation-name: slideOutToLeft;
+    animation-timing-function: ease-out;
 }
+
+.anim-slideOutToLeftPeek {
+    animation-name: slideOutToLeftPeek;
+    animation-timing-function: ease-out;
+    transform: translateX(-50%);
+}
+
+.anim-slideOutToRight {
+    animation-name: slideOutToRight;
+    animation-timing-function: ease-out;
+}
+
+.anim-playerDamage {
+    animation-name: playerDamagedAnim;
+    animation-timing-function: ease-out;
+}
+
+.anim-earthquake {
+    animation-name: shake;
+    animation-timing-function: linear;
+}
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
@@ -111,6 +126,41 @@
     }
 }
 
+@keyframes slideOutToLeft {
+    0% {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes slideOutToLeftPeek {
+    0% {
+        transform: translateX(0);
+    }
+
+    50%,
+    75% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes slideOutToRight {
+    0% {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
 
 @keyframes playerDamagedAnim {
     0% {
@@ -152,10 +202,42 @@
     0% {
         filter: brightness(1);
     }
+
     50% {
         filter: brightness(0.8)
     }
+
     to {
         filter: brightness(1);
+    }
+}
+
+@keyframes earthquake {
+
+    0%,
+    10%,
+    20%,
+    30%,
+    40%,
+    50%,
+    60%,
+    70%,
+    80%,
+    90%,
+    100% {
+        transform: translateY(0%);
+    }
+
+    5%,
+    15%,
+    25%,
+    35%,
+    45%,
+    55%,
+    65%,
+    75%,
+    85%,
+    95% {
+        transform: translateY(5%);
     }
 }

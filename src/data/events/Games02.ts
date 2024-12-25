@@ -4,12 +4,12 @@ import { ItemID } from "../ItemID";
 import { firstValueFrom } from "rxjs";
 /** 研究者的小屋 */
 export const Games02 = async (component: DialogueComponent) => {
-  const { Back, ClearContent, Content, setDialogOpticity, AllFadeOut, saveData, Face, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { Back, ClearContent, Content, setDialogOpticity, AllFadeOut, saveData, Face, Anim, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   appServ.setAmbient('')
   appServ.setBGM('music13')
   setBG('kenkyu')
-  setDragonCG(saveData.cgName);
+  setDragonCG('nomal00');
   setBGOpticity(1);
   await appServ.Anim(RootAnimations.FadeIn, 3000);
 
@@ -29,6 +29,7 @@ export const Games02 = async (component: DialogueComponent) => {
   // TODO: 孤龍從右側滑入
   setDragonCGOpticity(1);
   await appServ.Wait(1500)
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 500, 'ease-out');
   /**
     孤竜：でも…
    */

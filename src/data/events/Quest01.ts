@@ -5,7 +5,7 @@ import { EventFlag } from "../EventFlag";
 
 /** ト ピ リ ア の 森 */
 export const Quest01 = async (component: DialogueComponent) => {
-  const { SetContentCompleted, ClearContent, Content, Back, Emoji, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { SetContentCompleted, ClearContent, Anim, Content, Back, Emoji, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   setBG('forest')
   setBGOpticity(1);
@@ -14,13 +14,15 @@ export const Quest01 = async (component: DialogueComponent) => {
   await appServ.Anim(RootAnimations.FadeIn, 3000);
 
   setDialogOpticity(1);
+
+  setDragonCG(appServ.saveData.cgName)
+  setDragonCGOpticity(1);
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out')
+  
   //#region 猫イベントの脅威
   if ((appServ.saveData.numVisits == 46) && (appServ.saveData.ivent & EventFlag.貓事件) && !(appServ.saveData.ivent & EventFlag.貓咪飼料草)) {
     appServ.setBGM('music18')
     // TODO: 孤龍從右側滑入
-    setDragonCG(appServ.saveData.cgName)
-    setDragonCGOpticity(1);
-
     /**
      * ふぅ、ふぅ……。この森のどこかに薬草があるはず{{go00}} {{go01}}。
       きゅぅ…どこ…？　どこに生えてる{{go04}}？ あぁ……。
@@ -28,10 +30,16 @@ export const Quest01 = async (component: DialogueComponent) => {
       あっちの茂みに行ってみる{{go01}}。
      */
     await Content(`Scripts.Quest01.3.1`)
+
+    Anim('dragoncg', RootAnimations.SlideOutToLeft, 1000, 'ease-out')
+    setDragonCGOpticity(0)
+
     ClearContent();
 
     /** - 探索中 - */
     await Content(`Scripts.Quest.Discovering`)
+    Anim('dragoncg', RootAnimations.SlideInFromLeft, 1000, 'ease-out')
+    setDragonCGOpticity(0)
     Emoji(5)
     /**
      *見つけたっ！　でも、どれがその草なんだろう…。
@@ -51,11 +59,14 @@ export const Quest01 = async (component: DialogueComponent) => {
   //#region 先前有成功打過架了
   if (appServ.saveData.DragonChip1 & DragonChipFlag.トピリア) {
 
-    // TODO: 孤龍從右側滑入
-    setDragonCG(appServ.saveData.cgName)
-    setDragonCGOpticity(1);
     const varsam = Math.round(Math.random() * 5) + 2;
-    await Content(`Scripts.Quest01.2`, {varsam: String(varsam)})
+    /**
+      ……いつ来ても気持ちいい空気…。すごく心地いい{{go01}}。
+      木漏れ日が気持ちいい{{go01}}。 耳を澄ますとトピリアの鳴き声が聞こえてくる{{go01}}。
+      …森深く入ると、またトピリアに怒られる{{go01}}。おとなしくこの近くだけにいる{{go01}}。
+      [HPが - {{varsam}}。 友好値が + 1 変化した]
+     */
+    await Content(`Scripts.Quest01.2`, { varsam: String(varsam) })
     appServ.saveData.hp -= varsam;
     appServ.saveData.love++;
     SetContentCompleted();
@@ -68,6 +79,7 @@ export const Quest01 = async (component: DialogueComponent) => {
   // TODO: 孤龍從右側滑入
   setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out');
   /**
    *……なんだか新鮮な空気…。すごく心地いい{{go01}}。
     木漏れ日が気持ちいい{{go01}}。 耳を澄ますと、森の中のいろんな音が響く{{go01}}。
@@ -78,6 +90,8 @@ export const Quest01 = async (component: DialogueComponent) => {
 
   ClearContent();
   component.skipWait = true;
+  await Anim('dragoncg', RootAnimations.SlideOutToLeft, 1000, 'ease-in');
+  setDragonCGOpticity(0)
 
   /** - 探索中 - */
   await Content(`Scripts.Quest.Discovering`)
@@ -94,6 +108,8 @@ export const Quest01 = async (component: DialogueComponent) => {
       少し疲れたけれど、でも とても楽しかった{{go01}}！
       [HPが - ${varsam}。 友好値が + 1 変化した]
      */
+    Anim('dragoncg', RootAnimations.SlideInFromLeft, 1000, 'ease-out');
+    setDragonCGOpticity(1)
     await Content(`Scripts.Quest01.1.2.1`, { varsam: String(varsam) })
     appServ.saveData.hp -= varsam;
     appServ.saveData.love++;
@@ -103,6 +119,9 @@ export const Quest01 = async (component: DialogueComponent) => {
   //#endregion
 
   //#region 被襲擊了！
+
+  Anim('dragoncg', RootAnimations.SlideInFromLeft, 500, 'ease-out');
+  setDragonCGOpticity(1)
   Emoji(1)
   /**
    *いたっ！　いた{{go01}}！

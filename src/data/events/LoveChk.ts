@@ -1,10 +1,11 @@
 import { DialogueComponent } from "@/app/pages/game/dialogue/dialogue.component";
 import * as _ from "lodash-es";
 import { BioFlag } from "../BioFlag";
+import { RootAnimations } from "@/app/app.service";
 
 export const LoveChk = async (component: DialogueComponent) => {
 
-  const { ClearContent, setBG, setDragonCG, setBGOpticity, setDialogOpticity, Face, Content, router, appServ } = component;
+  const { ClearContent, setBG, setDragonCG, setBGOpticity, setDialogOpticity, setDragonCGOpticity, Anim, Face, Content, router, appServ } = component;
   const { setNotice, saveData } = appServ
 
   setBG('welcome')
@@ -38,6 +39,7 @@ export const LoveChk = async (component: DialogueComponent) => {
   )
   component.skipWait = true;
   ClearContent()
+  setBGOpticity(0)
   /**
   -　検診中　-
   …ふむ、キミか……。どれどれ？
@@ -50,11 +52,15 @@ export const LoveChk = async (component: DialogueComponent) => {
   Face('char01');
 
   component.skipWait = false;
-  ClearContent()
+  setBGOpticity(1)
   /** あ…終わったみたいっすよ。 */
   await Content('Scripts.LoveChk.3');
   Face('char01a');
 
+  ClearContent()
+
+  setDragonCGOpticity(1)
+  Anim('dragoncg', RootAnimations.FadeIn, 1000);
   /// #region 命運的判斷
   // Ray07 友好度視窗
   Face('');

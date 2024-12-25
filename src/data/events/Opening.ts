@@ -1,17 +1,17 @@
 import { RootAnimations } from "@/app/app.service";
 import { DialogueComponent } from "@/app/pages/game/dialogue/dialogue.component";
-import { firstValueFrom, timer } from "rxjs";
 import { EventFlag } from "../EventFlag";
 
 // varBaseFaice為說完話後的頭圖
 export const Opening = async (component: DialogueComponent) => {
     console.log(this)
-    const { saveData, setBG, setDragonCG, setBGOpticity, setDialogOpticity, SetSkipCallback, setDragonCGOpticity, Face, Content, ClearContent, router, appServ, dialogStart$ } = component;
+    const { saveData, Back, setBG, Anim, setDragonCG, setBGOpticity, setDialogOpticity, setDragonCGOpticity, Face, Content, ClearContent, appServ } = component;
     const { toggleRay1, setNotice, Wait } = appServ
 
     const skip = () => {
-        router.navigate(['/game/dragongame'])
+        Back()
     }
+    
     setBG('welcome')
     setDragonCG('nomal01');
     setBGOpticity(1);
@@ -35,21 +35,23 @@ export const Opening = async (component: DialogueComponent) => {
          */
         await Content(`Scripts.Opening2.1`)
         Face('char01a');
-
-        setDragonCGOpticity(1);
         ClearContent();
-        await Wait(1500);
+
+        await Anim('dragoncg', RootAnimations.FadeIn, 1500);
+        setDragonCGOpticity(1)
 
         /** 孤竜：…。きゅぅ… */
         await Content(`Scripts.Opening2.2`)
 
         Face('char09');
-        setDragonCGOpticity(0);
         /** あっ……。 */
-        await Content(`Scripts.Opening2.3`)
+        Content(`Scripts.Opening2.3`)
+
+        await Anim('dragoncg', RootAnimations.FadeOut, 1500);
+        setDragonCGOpticity(0)
 
         Face('char09a');
-        
+
         /** [{DragonName}}は 突然の訪問者に戸惑い 驚いて竜舎の中へ逃げていった] */
         await Content(`Scripts.Opening2.4`);
 
@@ -72,12 +74,13 @@ export const Opening = async (component: DialogueComponent) => {
          */
         await Content(`Scripts.Opening1.1`)
         Face('char04a');
-        
+
 
         // 24
-        setDragonCGOpticity(1);
         ClearContent();
-        await Wait(1500);
+
+        await Anim('dragoncg', RootAnimations.FadeIn, 1500);
+        setDragonCGOpticity(1)
 
         // 30
         /**
@@ -87,21 +90,23 @@ export const Opening = async (component: DialogueComponent) => {
             孤竜：{{my}}まだ心の準備ができてない{{go01}}。
          */
         await Content(`Scripts.Opening1.2`)
-        
+
 
         // 32
         Face('char09');
 
-        setDragonCGOpticity(0);
         /** あっ……。 */
-        await Content(`Scripts.Opening1.3`)
+        Content(`Scripts.Opening1.3`)
+        await Anim('dragoncg', RootAnimations.FadeOut, 1500);
+        setDragonCGOpticity(0);
+
         Face('char09a');
-        
+
 
         // 33
         /** [{{dragonName}}は 突然の知らせに戸惑い 驚いて街の方へ逃げていった] */
         await Content(`Scripts.Opening1.4`);
-        
+
 
         //34
         Face('char04');
@@ -112,7 +117,7 @@ export const Opening = async (component: DialogueComponent) => {
          */
         await Content(`Scripts.Opening1.5`);
         Face('char04a');
-        
+
 
         // 36
         Face('char01');
@@ -128,12 +133,12 @@ export const Opening = async (component: DialogueComponent) => {
         Face('char01a');
 
     }
-    
+
 
     // 38
     setBGOpticity(0);
-    await Wait(1500);
     setBG('home');
+    await Wait(1500);
     setBGOpticity(1);
     await Wait(1500);
     appServ.setBGM('music21');
@@ -150,15 +155,17 @@ export const Opening = async (component: DialogueComponent) => {
      */
     await Content(`Scripts.Opening1.7`);
     Face('char01');
-    
+
 
     // 47
-    setDragonCGOpticity(1);
+    await Anim('dragoncg', RootAnimations.FadeIn, 1500);
+    setDragonCGOpticity(1)
+
     /**
         孤竜：きゅうぅぅ～…。
      */
     await Content(`Scripts.Opening1.8`);
-    
+
 
     // 49
 
@@ -173,7 +180,7 @@ export const Opening = async (component: DialogueComponent) => {
      */
     await Content(`Scripts.Opening1.9`);
     Face('char04a');
-    
+
 
     // 52
     Face('char01');

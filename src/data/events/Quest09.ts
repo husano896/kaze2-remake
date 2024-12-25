@@ -4,7 +4,7 @@ import { DragonChipFlag } from "../DragonChipFlag";
 
 /** 街の雑木林 */
 export const Quest09 = async (component: DialogueComponent) => {
-  const { Emoji, ClearContent, saveData, SetContentCompleted, Content, Back, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { Emoji, ClearContent, saveData, SetContentCompleted, Anim, Content, Back, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   setBG('forest2')
   setBGOpticity(1);
@@ -15,6 +15,7 @@ export const Quest09 = async (component: DialogueComponent) => {
   // TODO: 孤龍從右側滑入
   setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out');
   setDialogOpticity(1);
 
   // BGM設定
@@ -52,9 +53,18 @@ export const Quest09 = async (component: DialogueComponent) => {
   */
   await Content(`Scripts.Quest09.1.2`)
 
-  Emoji(1)
+  Emoji(6)
   /** 孤竜：どきぃぃっ？！？！ */
-  await Content(`Scripts.Quest09.1.3`)
+  Content(`Scripts.Quest09.1.3`)
+  await Anim('dragoncg', RootAnimations.SlideOutToLeftPeek, 2000, 'ease-out');
+  (document.querySelector('#dragoncg') as HTMLElement).style.transform = 'translateX(-50%)';
+  /**
+    孤竜：…ハラハラ
+    謎の声：モゾモゾ…ズズズズ…。
+    孤竜：何かが…茂みの奥からやってくる{{go01}}！
+    謎の声：シャゲェーーー！
+   */
+  await Content(`Scripts.Quest09.1.4`)
 
   router.navigate(['/game/battle'], {
     state: {

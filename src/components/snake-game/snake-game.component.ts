@@ -151,7 +151,7 @@ export class SnakeGameComponent {
     if (!this.direction) {
       this.direction = direction;
       clearInterval(this.GameInterval);
-      this.GameInterval = setInterval(this.onTimerTick.bind(this), 150)
+      this.GameInterval = setInterval(this.onTimerTick.bind(this), 100)
       return;
     }
     if (direction === SnakeDirection.Down && this.direction === SnakeDirection.Up ||

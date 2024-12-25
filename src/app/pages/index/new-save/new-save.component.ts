@@ -26,32 +26,34 @@ export class NewSaveComponent implements AfterViewInit, OnInit {
     gender: new FormControl('', [Validators.required]),
   })
 
-  constructor(private appServ: AppService, private router: Router, private location: Location, private http: HttpClient) {  }
+  constructor(private appServ: AppService, private router: Router, private location: Location, private http: HttpClient) { }
 
   ngOnInit(): void {
-      if (this.newGamePlus) {
-        // 將畫面上的隱藏欄位確認移除
-        this.registerForm.controls.ID.clearValidators();
-        this.registerForm.controls.yourName.clearValidators();
-        this.registerForm.controls.password.clearValidators();
-        this.registerForm.controls.yourName.setValue(this.appServ.saveData.yourName);
-      }
+    if (this.newGamePlus) {
+      // 將畫面上的隱藏欄位確認移除
+      this.registerForm.controls.ID.clearValidators();
+      this.registerForm.controls.yourName.clearValidators();
+      this.registerForm.controls.password.clearValidators();
+      this.registerForm.controls.yourName.setValue(this.appServ.saveData.yourName);
+    }
   }
   ngAfterViewInit(): void {
     console.log(this.registerForm)
   }
 
   async onSubmit(local?: boolean) {
+    let newSaveData: SaveData;
     if (!this.newGamePlus) {
       if (Boolean(this.appServ.saveData.yourName)) {
-        if (!(await this.appServ.Confirm(('Scripts.Confirm.Title.Warning'), '目前的裝置內已有進度，是否繼續？'))) {
+        if (!(await this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Warning'),
+          this.appServ.t('Register.Ovewrite.Confirm'), true))) {
           return;
         }
       } else {
-        this.appServ.saveData = new SaveData();
+        newSaveData = new SaveData();
       }
     }
-    const newSaveData = this.appServ.saveData;
+    newSaveData = this.appServ.saveData;
     newSaveData.yourName = this.registerForm.value.yourName as string;
     newSaveData.dragonName = this.registerForm.value.dragonName as string;
 
@@ -81,8 +83,10 @@ export class NewSaveComponent implements AfterViewInit, OnInit {
           newSaveData.btlid = resp.btlid;
           newSaveData.guid = resp.guid;
         }
+
         await this.appServ.Confirm('登 録 完 了', 'IDをメモしたら進んで下さい')
       }
+      this.appServ.saveData = newSaveData;
       // 二週目處理
       if (this.newGamePlus) {
         newSaveData.numVisits = 1;

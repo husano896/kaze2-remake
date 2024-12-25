@@ -11,7 +11,15 @@ import { firstValueFrom, timer } from 'rxjs';
 export enum RootAnimations {
   FadeIn = 'fadeIn',
   FadeOut = 'fadeOut',
-  PlayerDamage = 'playerDamage'
+  PlayerDamage = 'playerDamage',
+  Blinking = 'blinking',
+  Shock = 'shock',
+  SlideInFromLeft = 'slideInFromLeft',
+  SlideInFromRight = 'slideInFromRight' ,
+  SlideOutToLeft = 'slideOutToLeft',
+  SlideOutToRight = 'slideOutToRight',
+  // Quest09使用：被嚇跑後又從左邊偷看
+  SlideOutToLeftPeek = 'slideOutToLeftPeek', 
 }
 
 @Injectable({

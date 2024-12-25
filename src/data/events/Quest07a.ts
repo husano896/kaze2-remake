@@ -4,7 +4,7 @@ import { DragonChipFlag } from "../DragonChipFlag";
 
 /** 古城 After */
 export const Quest07a = async (component: DialogueComponent) => {
-  const { setDragonCG2, ClearContent, Content, Back, AllFadeOut, setDialogOpticity, saveData, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity, setDragonCG2Opticity } = component;
+  const { setDragonCG2, ClearContent, Content, Back, AllFadeOut, setDialogOpticity, Anim, saveData, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity, setDragonCG2Opticity } = component;
 
   setBG('kojyou')
   setBGOpticity(1);
@@ -15,8 +15,11 @@ export const Quest07a = async (component: DialogueComponent) => {
   // BGM設定
   appServ.setBGM('music11')
 
-  setDragonCG(appServ.saveData.cgName)
+  setDragonCG2(appServ.saveData.cgName)
+  setDragonCG('best01')
+
   setDragonCGOpticity(1)
+  Anim('dragoncg2', RootAnimations.SlideInFromRight, 1000, 'ease-out');
   /**
    *突然何をする{{go01}}！？
     この城には悪い魔物が住んでる{{go01}}！
@@ -25,8 +28,8 @@ export const Quest07a = async (component: DialogueComponent) => {
   await Content(`Scripts.Quest07.1.3`)
 
   // TODO: 孤龍從右側滑入
-  setDragonCG2('best01')
-  setDragonCG2Opticity(1)
+  setDragonCGOpticity(1)
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out');
   ClearContent()
   await appServ.Wait(1500)
 

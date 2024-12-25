@@ -2,8 +2,7 @@
   <!-- 小地圖-->
   <div id="mini-map-container" [ngClass]="{ open: miniMapOpen}">
     <div id="MazeMiniMap" [ngStyle]="{'--var-mazeW': mazeW}"
-      [ngClass]="{ disabled: disableAllActions || !contentCompleted}"
-      (click)="onMiniMapPress($event)"
+      [ngClass]="{ disabled: disableAllActions || !contentCompleted}" (click)="onMiniMapPress($event)"
       (keypress)="onMiniMapPress($event)">
       @for (mazeRow of mazeData; track $index; let Y = $index) {
       @for (mazeColumn of mazeRow; track $index; let X = $index) {
@@ -36,7 +35,8 @@
       }
     </div>
 
-    <img #dragoncg id="dragoncg" alt="dragon-cg" [src]="dragonCg" [ngClass]="{active:!!guestDragon}" />
+    <img #dragoncg id="dragoncg" alt="dragon-cg" src="/assets/imgs/dragon/{{dragonCg}}.gif"
+      [ngClass]="{active:!!guestDragon}" />
 
     <!-- 導航 -->
     <div id="Ray3" [ngClass]="{disabled: disableAllActions}">
@@ -127,11 +127,11 @@
     <!-- 提示玩家該繼續點擊的圖示-->
     <span id="continue-icon" class="large-font"
       [ngClass]="{waiting:isWaiting() && dialog.innerText.length > 0 && !contentCompleted}">▼</span>
-      @if (damageToPlayer) {
-        <div class="damage-text" [ngStyle]="{color: damageToPlayer > 0 ? '#D50000' : '#66FF6A' }">
-            <span style="margin: auto; font-size: min(20vw, 20vh);">{{abs(damageToPlayer)}}</span>
-        </div>
-        }
+    @if (damageToPlayer) {
+    <div class="damage-text" [ngStyle]="{color: damageToPlayer > 0 ? '#D50000' : '#66FF6A' }">
+      <span style="margin: auto; font-size: min(20vw, 20vh);">{{abs(damageToPlayer)}}</span>
+    </div>
+    }
   </div>
 
 </div>

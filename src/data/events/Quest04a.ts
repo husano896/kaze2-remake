@@ -4,7 +4,7 @@ import { DragonChipFlag } from "../DragonChipFlag";
 
 /** 幻の浮島ラグナルクス After */
 export const Quest04a = async (component: DialogueComponent) => {
-  const { setDragonCG2, ClearContent, Content, Back, AllFadeOut, setDialogOpticity, saveData, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity, setDragonCG2Opticity } = component;
+  const { setDragonCG2, ClearContent, Content, Back, AllFadeOut, setDialogOpticity, Anim, saveData, appServ, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity, setDragonCG2Opticity } = component;
 
   setBG('ragunaroku')
   setBGOpticity(1);
@@ -15,9 +15,11 @@ export const Quest04a = async (component: DialogueComponent) => {
   appServ.setBGM('music25')
 
   //#region 一般事件
-  // TODO: 孤龍從右側滑入
-  setDragonCG(appServ.saveData.cgName)
-  setDragonCGOpticity(1);
+  setDragonCG2(appServ.saveData.cgName)
+  setDragonCG('best11')
+
+  setDragonCG2Opticity(1);
+  Anim('dragoncg2', RootAnimations.SlideInFromRight, 1000, 'ease-out');
   /**
     …ハアッ、ハアッ…。
     ……。
@@ -25,9 +27,8 @@ export const Quest04a = async (component: DialogueComponent) => {
   await Content(`Scripts.Quest04.1.5`)
 
   ClearContent();
-
-  setDragonCG2('best11')
-  setDragonCG2Opticity(1);
+  setDragonCGOpticity(1);
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 500, 'ease-out');
   await appServ.Wait(1500)
   /**
     …馬鹿な…この私が、こんな奴に負けるだと…？
