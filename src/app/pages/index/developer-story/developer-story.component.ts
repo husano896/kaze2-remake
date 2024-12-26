@@ -29,4 +29,5 @@ export class DeveloperStoryComponent implements OnInit, OnDestroy {
   playBGM(bgm?: string) {
     this.appServ.setBGM(bgm)
   }
+
 }

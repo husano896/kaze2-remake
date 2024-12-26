@@ -6,6 +6,7 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0",
     "build": "node utils/updateI18n.cjs && ng build",
+    "build-cicd": "ng build",
     "watch": "ng build --watch --configuration development",
     "update:i18n": "node utils/updateI18n.cjs",
     "test": "ng test"

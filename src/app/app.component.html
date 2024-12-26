@@ -50,8 +50,7 @@
         <!-- 詢問視窗 -->
         <div id="Ray8" *ngIf="confirmContent" (click)="$event.stopPropagation();"
             (keypress)="$event.stopPropagation();">
-            <div class="flex-column boxed-content game-bg padding-large gap"
-                style="max-width: 100%; max-height: 100%;">
+            <div class="flex-column boxed-content game-bg padding-large gap" style="max-width: 100%; max-height: 90%;">
                 <ng-container *ngIf="confirmTitle">
                     <b>{{confirmTitle}}</b>
                     <hr />
@@ -73,7 +72,8 @@
         <!-- 遊戲設定-->
         <div *ngIf="settingsOn" id="RaySettings" (click)="$event.stopPropagation();"
             (keypress)="$event.stopPropagation();">
-            <div class="boxed-content game-bg flex-column padding-large gap full-height" style="margin: auto;">
+            <div class="boxed-content game-bg flex-column padding-large gap full-height"
+                style="margin: auto;  max-height: 90%;">
                 <b style="text-align: center;">- SETTINGS -</b>
 
                 <div class="flex-column gap full-height" style="overflow: auto;">
@@ -130,7 +130,7 @@
         </div>
         <!-- 錯誤顯示 -->
         <div id="RayEX_ErrorHandler" class="boxed-content transparant-dark-bg" *ngIf="error.length > 0">
-            <div class="boxed-content game-bg flex-column padding-large " style="max-width: 100%; max-height: 100%;;">
+            <div class="boxed-content game-bg flex-column padding-large " style="max-width: 100%; max-height: 90%;">
                 <span>ERROR</span>
                 <hr />
                 <div class="flex-column full-height" style="overflow:auto">

@@ -101,6 +101,7 @@ const dungeonData: { [id: string]: IDungeonData } = {
     MazeH: 20,
     MazeW: 20,
     varGetItem: [ItemID.誇りの賞状, ItemID.生ケーキ, ItemID.友情の証, ItemID.復活の玉, ItemID.召喚の杖],
+    // 為了BGM不同要特地開一個...
     bgm: 'music16',
     treasureCount: 1
   }

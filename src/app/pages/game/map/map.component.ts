@@ -34,7 +34,7 @@ export class MapComponent implements AfterViewInit {
   private _locations: Array<IMapLocation> = [
     {
       x: 926, y: 284, fill: "point1", stroke: "#2962FF", location: {
-        name: 'ウリア大砂漠地帯(CAUTION:危険地帯!)',
+        name: 'Game.Map.Quest10.Title',
         turn: 15,
         url: 'dialogue',
         bioCheck: true,
@@ -46,7 +46,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 772, y: 374, fill: "pointCave", stroke: "#FFA726",
       location: {
-        name: ' 廃 坑 　　　(難易度　中)',
+        name: 'Game.Map.Dungeon.5.Title',
         turn: 5,
         url: 'dungeon',
         state: { lv: 'lv5' }
@@ -55,7 +55,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 548, y: 482, fill: "pointCave", stroke: "#FFA726",
       location: {
-        name: '星 降 る 海 底 洞 窟 　　　(難易度　中)',
+        name: 'Game.Map.Dungeon.4.Title',
         turn: 5, url: 'dungeon',
         state: { lv: 'lv4' }
       }
@@ -63,7 +63,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 252, y: 392, fill: "point1", stroke: "#2962FF",
       location: {
-        name: '街 の 雑 木 林',
+        name: 'Game.Map.Quest09.Title',
         turn: 5,
         url: 'dialogue',
         bioCheck: true,
@@ -75,7 +75,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 660, y: 426, fill: 'point1', stroke: "#2962FF",
       location: {
-        name: 'サ ラ 平 原',
+        name: 'Game.Map.Quest08.Title',
         turn: 5,
         url: 'dialogue',
         bioCheck: true,
@@ -85,7 +85,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 990, y: 310, fill: 'point1', stroke: "#2962FF",
       location: {
-        name: '忘 れ 去 ら れ し 古 城',
+        name: 'Game.Map.Quest07.Title',
         turn: 5,
         url: 'dialogue',
         bioCheck: true,
@@ -95,7 +95,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 926, y: 484, fill: 'point1', stroke: "#2962FF",
       location: {
-        name: '魔 獣 の 森',
+        name: 'Game.Map.Quest06.Title',
         turn: 5,
         url: 'dialogue',
         bioCheck: true,
@@ -105,7 +105,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 342, y: 48, fill: 'point1', stroke: "#2962FF",
       location: {
-        name: '飛 竜 保 護 区 ド ラ ゴ ン バ レ ー',
+        name: 'Game.Map.Quest05.Title',
         turn: 5,
         url: 'dialogue',
         bioCheck: true,
@@ -115,7 +115,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 152, y: 598, fill: 'point1', stroke: "#2962FF",
       location: {
-        name: '幻 の 浮 島 ラ グ ナ ル ク ス',
+        name: 'Game.Map.Quest04.Title',
         turn: 40,
         url: 'dialogue',
         bioCheck: true,
@@ -135,7 +135,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 536, y: 176, fill: "point1", stroke: "#2962FF",
       location: {
-        name: 'カ ザ リ ナ 山 ・ 幸 い の 地 フ ッ フ ー ル',
+        name: 'Game.Map.Quest02.Title',
         turn: 5,
         url: 'dialogue',
         bioCheck: true,
@@ -145,7 +145,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 684, y: 354, fill: "point1", stroke: "#2962FF",
       location: {
-        name: 'ト ピ リ ア の 森',
+        name: 'Game.Map.Quest01.Title',
         turn: 5,
         url: 'dialogue',
         bioCheck: true,
@@ -155,7 +155,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 948, y: 104, fill: "point1", stroke: "#2962FF",
       location: {
-        name: '玄 武 洞 の ほ こ ら',
+        name: 'Game.Map.Temple.Earth.Title',
         turn: 5,
         url: 'dialogue',
         bioCheck: true,
@@ -165,7 +165,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 682, y: 80, fill: "point1", stroke: "#2962FF",
       location: {
-        name: '魔 風 穴 の ほ こ ら',
+        name: 'Game.Map.Temple.Wind.Title',
         turn: 5,
         url: 'dialogue',
         bioCheck: true,
@@ -175,7 +175,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 446, y: 246, fill: "point1", stroke: "#2962FF",
       location: {
-        name: '滑 昇 霧 の ほ こ ら',
+        name: 'Game.Map.Temple.Water.Title',
         turn: 5,
         url: 'dialogue',
         bioCheck: true,
@@ -185,7 +185,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 276, y: 334, fill: "point1", stroke: "#2962FF",
       location: {
-        name: '陽 炎 の ほ こ ら',
+        name: 'Game.Map.Temple.Fire.Title',
         turn: 5,
         url: 'dialogue',
         bioCheck: true,
@@ -195,7 +195,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 118, y: 228, fill: "pointCave", stroke: "#FFA726",
       location: {
-        name: '海 流 の 洞 窟 　　　(難易度　低)',
+        name: 'Game.Map.Dungeon.1.Title',
         turn: 5,
         url: 'dungeon',
         state: { lv: 'lv1' }
@@ -204,7 +204,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 256, y: 226, fill: "pointCave", stroke: "#FFA726",
       location: {
-        name: 'ド ラ ゴ ン の 洞 窟 　　　(難易度　中)',
+        name: 'Game.Map.Dungeon.2.Title',
         turn: 5,
         url: 'dungeon',
         state: { lv: 'lv2' }
@@ -213,7 +213,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 656, y: 282, fill: "pointCave", stroke: "#FFA726",
       location: {
-        name: '風 鳴 り の 洞 窟 　　　(難易度　高)',
+        name: 'Game.Map.Dungeon.3.Title',
         turn: 5,
         url: 'dungeon',
         state: { lv: 'lv3' }
@@ -222,7 +222,7 @@ export class MapComponent implements AfterViewInit {
     {
       x: 318, y: 310, fill: "pointHome", stroke: "#00C853",
       location: {
-        name: 'ポ イ ル ト ッ プ の 街', turn: 0, url: 'dragongame'
+        name: 'Game.Map.Home.Title', turn: 0, url: 'dragongame'
       },
     }
   ]
@@ -259,70 +259,71 @@ export class MapComponent implements AfterViewInit {
           case 'Games04':
             this.appServ.Confirm(
               this.appServ.t(title),
-              `この祠を現在の健康状態で探索するのは危険です。`)
+              this.appServ.t('Game.Map.Temple.Bio'))
             return;
           //ト ピ リ ア の 森
           case 'Quest01':
             this.appServ.Confirm(
               this.appServ.t(title),
-              `この森を現在の健康状態で探索するのは危険です。`)
+              this.appServ.t('Game.Map.Quest01.Bio'))
             return;
 
           //カ ザ リ ナ 山 ・ 幸 い の 地 フ ッ フ ー ル
           case 'Quest02':
             this.appServ.Confirm(
               this.appServ.t(title),
-              `この森を現在の健康状態で探索するのは危険です。`)
+              
+              this.appServ.t('Game.Map.Quest02.Bio'))
             return;
 
           //ド ラ ゴ ン の 古 代 遺 跡
           case 'Quest03':
             this.appServ.Confirm(
               this.appServ.t(title),
-              `この遺跡を現在の健康状態で探索するのは危険です。`)
+              this.appServ.t('Game.Map.Quest03.Bio'))
             return;
           // 幻 の 浮 島 ラ グ ナ ル ク ス
           case 'Quest04':
             this.appServ.Confirm(
               this.appServ.t(title),
-              `現在の健康状態でこの島に渡るのは危険です。`)
+              this.appServ.t('Game.Map.Quest04.Bio'))
             return;
           // 飛 竜 保 護 区 ド ラ ゴ ン バ レ ー
           case 'Quest05':
             this.appServ.Confirm(
               this.appServ.t(title),
-              `現在の健康状態でこの丘に行くのは危険です。`)
+              this.appServ.t('Game.Map.Quest05.Bio'))
             return;
           // 魔 獣 の 森
           case 'Quest06':
             this.appServ.Confirm(
               this.appServ.t(title),
-              `現在の健康状態でこの森に入るのは危険です。`)
+              this.appServ.t('Game.Map.Quest06.Bio'))
             return;
           // 忘 れ 去 ら れ し 古 城
           case 'Quest07':
             this.appServ.Confirm(
               this.appServ.t(title),
-              `現在の健康状態でこの古城に入るのは危険です。`)
+              this.appServ.t('Game.Map.Quest07.Bio'))
             return;
           // サ ラ 平 原
           case 'Quest08':
             this.appServ.Confirm(
               this.appServ.t(title),
-              `現在の健康状態でこの平原に行くのは危険です。`)
+              this.appServ.t('Game.Map.Quest08.Bio'))
             return;
           // 街 の 雑 木 林
           case 'Quest09':
             this.appServ.Confirm(
               this.appServ.t(title),
-              `現在の健康状態でこの林に入るのは危険です。`)
+              this.appServ.t('Game.Map.Quest09.Bio'))
             return;
           // ウリア大砂漠地帯
           // 林北家（笑）
           case 'Quest10':
             this.appServ.Confirm(
               this.appServ.t(title),
-              `この遺跡を現在の健康状態で探索するのは危険です。`)
+              this.appServ.t('Game.Map.Quest10.Bio'))
             return;
         }
       }
@@ -336,7 +337,7 @@ export class MapComponent implements AfterViewInit {
           // 滅 び の 都 ヒ デ ィ ー ル
           if ([82, 83].includes(this.appServ.saveData.numVisits)) {
             // 看護人生病了QQ
-            this.appServ.Confirm(this.appServ.t(title), `この地へは、ニエルが同伴しなければ行くことができません。`)
+            this.appServ.Confirm(this.appServ.t(title), this.appServ.t('Game.Map.TheFinal.NoCompanion'))
             return;
           }
         }
@@ -351,8 +352,7 @@ export class MapComponent implements AfterViewInit {
             if (this.appServ.saveData.numVisits >= 40) {
               this.appServ.Confirm(
                 this.appServ.t(title),
-                `この洞窟の入り口は土砂で塞がってしまっている。
-復旧するまで立ち入れません。`)
+                this.appServ.t('Game.Map.Dungeon.0.Blocked'))
               return;
             }
             break;
@@ -360,15 +360,15 @@ export class MapComponent implements AfterViewInit {
           case 'lv4':
             // 星 降 る 海 底 洞 窟
             if (!this.appServ.saveData.item[ItemID.忌地への道標]) {
-              this.appServ.Confirm(this.appServ.t(title), `今の段階では、この洞窟に入るのは非常に危険です。
-  入るには「道標」などが必要です。`)
+              this.appServ.Confirm(this.appServ.t(title), 
+              this.appServ.t('Game.Map.Dungeon.4.Requirement'))
               return;
             }
             break;
           case 'lv5':
             // 廃 坑
             if (!((this.appServ.saveData.numVisits >= 41) && (this.appServ.saveData.numVisits <= 44))) {
-              this.appServ.Confirm(this.appServ.t(title), `有刺鉄線と「立ち入り禁止」の立て札があり、入ることができない。`)
+              this.appServ.Confirm(this.appServ.t(title),  this.appServ.t('Game.Map.Dungeon.5.Requirement'))
               return;
             }
             break;
@@ -407,7 +407,7 @@ export class MapComponent implements AfterViewInit {
         y: 614,
         fill: 'pointImportant', stroke: "#FDD835",
         location: {
-          name: "滅 び の 都 ヒ デ ィ ー ル [通称 : 忌 ま わ し き 地]",
+          name: "Game.Map.TheFinal.Title",
           turn: 5,
           url: 'dialogue',
           state: { event: 'Games07' }
@@ -422,7 +422,7 @@ export class MapComponent implements AfterViewInit {
         fill: 'pointImportant', stroke: "#FDD835",
         location: {
 
-          name: "湖 ほ と り の 洞 窟　　　(特効薬の？？？)",
+          name: "Game.Map.Dungeon.0.Title",
           turn: 5,
           url: 'dungeon',
           state: { lv: 'lv0' }
@@ -435,7 +435,7 @@ export class MapComponent implements AfterViewInit {
           fill: 'pointImportant', stroke: "#FDD835",
           location: {
 
-            name: "研 究 者 の 小 屋",
+            name: "Game.Map.Researcher.Title",
             turn: 10,
             url: 'dialogue',
             state: {

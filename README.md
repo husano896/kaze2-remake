@@ -28,13 +28,13 @@ Mobile device support is also planned with PWA support, and expected to provide 
   - [x] Docs1
   - [x] Docs2
   - [x] Docs3
-  - [] New game (Currently works in local)
-  - [] Continue (Currently works in local)
+  - [x] New game 
+  - [x] Continue 
   - [x] Credits
-- [] Game Menu
+- [x] Game Menu
   - Delete save
-- [] Game System
-  - [] Saving / Loading (Currently works in local)
+- [x] Game System
+  - [x] Saving / Loading
   - [x] Items
   - [x] Skins
   - [x] Battle
@@ -59,35 +59,39 @@ Mobile device support is also planned with PWA support, and expected to provide 
   - [] Home events (39/100)
     - [x] (1~20) 初回檢診
     - [x] (21~30) 二次檢診
-    - [] (31~40) 三次檢診
-    - [] (41~50) 四次檢診
-    - [] (51~60) 五次檢診
-    - [] (61~70) 六次檢診
-    - [] (71~80) 七次檢診
-    - [] (81~90) 八次檢診
-    - [] (91~100) 最後次檢診
-  - [] Map Events
+    - [x] (31~40) 三次檢診
+    - [x] (41~50) 四次檢診
+    - [x] (51~60) 五次檢診
+    - [x] (61~70) 六次檢診
+    - [x] (71~80) 七次檢診
+    - [x] (81~90) 八次檢診
+    - [x] (91~100) 最後次檢診
+  - [x] Map Events
     - [x] Games04 (神獸)
-    - [] Games07 滅びの都ヒディール
+    - [x] Games07 滅びの都ヒディール
     - [x] Quest01 (トピリアの森)
     - [x] Quest02 (カザリナ山・幸いの地フッフール)
     - [x] Quest03 (ドラゴンの古代遺跡)
     - [x] Quest04 (幻の浮島ラグナルクス)
-    - [] Quest05 (飛竜保護区ドラゴンバレー)
+    - [x] Quest05 (飛竜保護区ドラゴンバレー)
     - [x] Quest06 (魔獣の森)
     - [x] Quest07 (忘れ去られし古城)
-    - [] Quest08 (サラ平原)
-    - [] Quest09 (街の雑木林)
-    - [] Quest10 (ウリア大砂漠地帯)
+    - [x] Quest08 (サラ平原)
+    - [x] Quest09 (街の雑木林)
+    - [x] Quest10 (ウリア大砂漠地帯)
 - [] I18n
-  - [] Japanese (ja)
+  - [x] Japanese (ja)
   - [] Traditional Chinese (zh_hant)
   - [] English (en) 
 - [] API
   - [x] Battle (with old game-can version data)
     - [GET] /api/battle?battlePower=:battlePower 
     - [GET] /api/battle/:battleID
-  - [] Save / Load
+  - [x] Save / Load
+    - [POST] /api/save
+    - [PUT] /api/save
+    - [DELETE] /api/save
+    - [POST] /api/login
   - [] Ranking...? (Low priority)
 
 ## Minor Changes
@@ -101,3 +105,4 @@ Mobile device support is also planned with PWA support, and expected to provide 
 - In Minigame01 "SLOT Machine" (街 の 資 金 配 給 所), rewards list details can be collapsed, 
 - In all minigames, Start button will be disabled instead of showing "turn is not enough" message.
 - In battle point redeem (褒 賞 贈 呈 所), rewards will automatically be redeemed without clicking "check" button.
+- much more needed to be written...
