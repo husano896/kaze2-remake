@@ -13,18 +13,19 @@
         <br>
         <form class="boxed-content flex-column gap padding-large" style="width: 100%; max-width: 480px;"
             [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-            
-            @if (!newGamePlus) {
-            <label for="ID">{{"Login.ID" | translate | separateText}}</label>
-            <input type='text' id="ID" name='ID' formControlName='ID' maxlength='32' required>
 
-            <label for="yourName">{{"Register.Yourname" | translate | separateText}}</label>
+            @if (!newGamePlus) {
+
+            <label for="yourName">{{"Register.Yourname" | translate | separateText}} (Max 8)</label>
             <input type='text' id="yourName" name='yourName' formControlName="yourName" maxlength='8' required>
             }
-            <label for="dragonName">{{"Register.Dragonname" | translate | separateText}}</label>
+            <label for="dragonName">{{"Register.Dragonname" | translate | separateText}} (Max 8)</label>
             <input type='text' id="dragonName" name='dragonName' formControlName='dragonName' maxlength='8' required>
 
             @if (!newGamePlus) {
+            <label for="ID">{{"Login.ID" | translate | separateText}} (Max 32)</label>
+            <input type='text' id="ID" name='ID' formControlName='ID' maxlength='32' required>
+
             <label for="password">{{"Register.Password" | translate | separateText}}
                 ({{registerForm.value.password?.length || 0}} / Min 4)</label>
             <input type='password' autocomplete="new-password" id="password" name='password' formControlName='password'
@@ -42,7 +43,7 @@
                 {{"Register.Submit" | translate |separateText}}
             </button>
 
-            <br/>
+            <br />
             <button type="button" [disabled]="registerForm.invalid" (click)="onSubmit(true)">
                 {{"Register.RegisterToLocal" | translate |separateText}}
             </button>

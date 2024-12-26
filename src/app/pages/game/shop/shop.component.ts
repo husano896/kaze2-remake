@@ -134,30 +134,30 @@ export class ShopComponent implements OnInit, AfterContentChecked {
       }
       if (varMaxHpFlg) {
         this.appServ.saveData.Maxhp += varMaxHpFlg;
-        varbuff.push("生命力:" + this.PS_Mark(varMaxHpFlg))
+        varbuff.push(this.appServ.t('Game.DragonGame.Maxhp') + ':'  + this.PS_Mark(varMaxHpFlg))
       }
       if (varHpFlg) {
         this.appServ.saveData.hp += varHpFlg;
-        varbuff.push("傷治癒:" + this.PS_Mark(varHpFlg))
+        varbuff.push(this.appServ.t('Game.DragonGame.RecoverHP') + ':'  + this.PS_Mark(varHpFlg))
       }
       if (varDfFlg) {
         this.appServ.saveData.df += varDfFlg;
-        varbuff.push("体格:" + this.PS_Mark(varDfFlg));
+        varbuff.push(this.appServ.t('Game.DragonGame.Df') + ':' + this.PS_Mark(varDfFlg));
       }
       if (varAtFlg) {
         this.appServ.saveData.at += varAtFlg;
-        varbuff.push("筋力:" + this.PS_Mark(varAtFlg));
+        varbuff.push(this.appServ.t('Game.DragonGame.At') + ':' + this.PS_Mark(varAtFlg));
       }
       if (varSpeedFlg) {
         this.appServ.saveData.speed += varSpeedFlg;
-        varbuff.push("瞬力:" + this.PS_Mark(varSpeedFlg));
+        varbuff.push(this.appServ.t('Game.DragonGame.Spd') + ':' + this.PS_Mark(varSpeedFlg));
       }
       if (varLoveFlg) {
         this.appServ.saveData.love += varLoveFlg;
-        varbuff.push("愛情度:" + this.PS_Mark(varLoveFlg));
+        varbuff.push(this.appServ.t('Game.DragonGame.LoveLV') + ':' + this.PS_Mark(varLoveFlg));
       }
       this.disabled = true;
-      await this.appServ.Confirm(`${this.appServ.saveData.dragonName}は、餌をおいしそうにほおばった。`, varbuff.join('\r\n'))
+      await this.appServ.Confirm(this.appServ.t('Game.Shop.Food.Feed.Message', {dragonName: this.saveData.dragonName}), varbuff.join('\r\n').trim())
       this.router.navigate(['/game/dragongame'], { replaceUrl: true })
 
     }

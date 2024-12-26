@@ -1,44 +1,48 @@
 <div class="container flex-column " style="align-items: center;">
   <br />
-  <b style="color:#ffaa88;text-align: center;">{{"ゲーム補助ウインドウ" | separateText}}</b>
   <br />
   <div class="boxed-content flex-column full-width padding">
-
-      <span style="text-align: center;">
-          重製後日談
-      </span>
-      <br />
-      <span>為何會想重製這款遊戲呢？</span>
-      <hr />
-      <blockquote>
-        <b>因為想發刀</b>（笑），主要是續作的「仔龍的風詩」畫風可愛，劇情也不錯外，就總感覺背後應該有很深的背景故事。
-        <br/>
-        與後作不同，本作的整體劇情會比較沈重一點，特別是有<a href="#" (click)="playBGM('music20')">「蒼の夜半」這首BGM時的場景，也...共鳴感蠻強的。</a>
-        <br/>
-        本作在以前在狼之樂園版上也有人貼，但一方面是至今也沒什麼人在玩了，一方面是日文大家應該都看不懂，更重要的是他只能用IE開來玩。
-        <br/>
-        這在2025的現在要推廣實在是很有難度，因此在跟原作者Garyu詢問過後，決定把本作翻新（或者該說移植？），
-        <br/>
-        跟原作者討論的結果是「因為這款遊戲有多個製作者的創作（不論是圖像、文本、音樂），因此請盡可能地以原作的方式呈現。」
-        <br/>
-        我也不會美術，音樂盡可能用手邊工具呈現當年的樣貌
-      </blockquote>
-      <br>
-      <span>使用技術</span>
-      <hr>
-      <blockquote>
-        Angular (Frontend) + Cloudflare Workers (Backend) + Cloudflare Pages (Hosting)
-        <br/>
-        除了域名外基本都是免費的，免費額度應該不會這麼快用完吧吧吧
-        <br/>
-        REAPER(DAW) + Windows XP GS(SoundFont)
-        <br/>
-        用來重現當年在早期Windows聽到的原味樂器庫
-      </blockquote>
+    <br/>
+    <h2 style="text-align: center;">
+      重製後日談
+    </h2>
+    <br />
+    <span>為何會想重製這款遊戲呢？</span>
+    <hr />
+    <blockquote>
+      <b>因為想發刀</b>（笑），主要是續作的「仔龍的風詩」畫風可愛，劇情也不錯外，就總感覺背後應該有很深的背景故事。裡面很多音樂也讓人忘不了。
       <br />
       <br />
-      <a routerLink="/" replaceUrl="true" style="text-align: center;">{{'Actions.PrevPage' | translate}}</a>
-      <br />
-      <br />
+      與後作不同，本作的整體劇情會比較沈重一點，特別是有
+      <br /><a routerLink="." (click)="playBGM('music20')">「蒼の夜半」這首BGM時</a>的場景，也...共鳴感蠻強的。
+      <br /><br/>
+      <button>衛生紙（停止音樂）</button>
+      <br /><br />
+      本作在以前在狼之樂園/鱗目界域（皆是早期的論壇）上也有人貼，但一方面是至今也沒什麼人在玩了，一方面是日文大家應該都看不懂，更重要的是他只能用IE開來玩。
+      <br /><br />
+      這在2025的現在要推廣實在是很有難度，因此在<a href="https://x.com/GaryuTown/status/1833621837542293565"
+        target="blank">跟原作者Garyu詢問過後</a>，決定把本作翻新（或者該說移植？）
+      <br /><br />
+      跟原作者討論的結果是「因為這款遊戲有多個製作者的創作（不論是圖像、文本、音樂），因此請盡可能地以原作的方式呈現。」
+      <br /><br />
+      我也不會美術，音樂盡可能用手邊工具呈現當年的樣貌。
+    </blockquote>
+    <br>
+    <span>使用技術</span>
+    <hr>
+    <blockquote>
+      Angular (Frontend) + Cloudflare Workers (Backend) + Cloudflare Pages (Hosting)
+      <br /><br />
+      除了域名外基本都是免費的，免費額度應該不會這麼快用完吧吧吧
+      <br /><br />
+      REAPER(DAW) + Windows XP GS(SoundFont)
+      <br /><br />
+      用來重現當年在早期Windows聽到的原味樂器庫
+    </blockquote>
+    <br />
+    <br />
+    <a routerLink="/" replaceUrl="true" style="text-align: center;">{{'Actions.PrevPage' | translate}}</a>
+    <br />
+    <br />
   </div>
 </div>

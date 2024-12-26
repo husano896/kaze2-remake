@@ -96,6 +96,7 @@ export class NewSaveComponent implements AfterViewInit, OnInit {
         this.router.navigate(['/welcome'], { replaceUrl: true })
       }
     } catch (err) {
+      console.log(err);
       this.appServ.Confirm('Register', JSON.stringify(err));
     }
     finally {

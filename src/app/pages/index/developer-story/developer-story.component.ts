@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-developer-story',
   standalone: true,
-  imports: [SeparateTextPipe, TranslateModule, RouterModule],
+  imports: [TranslateModule, RouterModule],
   templateUrl: './developer-story.component.html',
   styleUrl: './developer-story.component.scss'
 })
@@ -18,7 +18,7 @@ export class DeveloperStoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-      this.appServ.setBGM('music29')
+      // this.appServ.setBGM('music29')
   }
   ngOnDestroy(): void {
     // 退出時結束音樂（如果播放中）

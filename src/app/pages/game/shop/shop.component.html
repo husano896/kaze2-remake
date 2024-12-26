@@ -47,11 +47,11 @@
                     <input type="checkbox" [(ngModel)]="selectedItems[index]"
                         [disabled]="(!selectedItems[index] && money - totalCost < i.cost) || ownItems[i.id]>= 9" />
                     <div class="flex-column">
-                        <p> {{('Data.Item.' + (i.id) + '.Title') | translate}} (持有：{{ownItems[i.id] || 0}})</p>
+                        <p> {{('Data.Item.' + (i.id) + '.Title') | translate}} ({{'Game.Shop.Item.Owned' | translate}}：{{ownItems[i.id] || 0}})</p>
                         <small [innerHTML]="('Data.Item.' + (i.id) + '.Description') | translate"></small>
                         <small>{{i.cost}} {{'Noun.ShellMoney' | translate}}</small>
                         @if (ownItems[i.id]>= 9) {
-                        <small style="color: red;">持有數量已達上限</small>
+                        <small style="color: red;">{{'Game.Shop.Item.MaxLimitMessage' | translate}}</small>
                         }
                     </div>
                     }
@@ -63,12 +63,12 @@
             </div>
         </ng-container>
         <small class="flex-row" style="text-align: end;">
-            購入額
+            {{'Game.Shop.BuyAmount' | translate}}
             <span style="color:#dd9900">{{totalCost}}</span>
             {{'Noun.ShellMoney' | translate}}　
-            所持金 <span style="color:#dd9900"> {{money}} </span>
+            {{'Game.Shop.OwnedMoney' | translate}} <span style="color:#dd9900"> {{money}} </span>
             {{'Noun.ShellMoney' | translate}}
-            残 <span style="color:#dd9900"> {{turn}} </span> {{'Noun.Turn' | translate}}
+            {{'Game.Shop.RestMoney' | translate}} <span style="color:#dd9900"> {{turn}} </span> {{'Noun.Turn' | translate}}
         </small>
     </div>
     <!-- 已選中的項目-->

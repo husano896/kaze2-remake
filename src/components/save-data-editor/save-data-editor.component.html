@@ -122,10 +122,10 @@
 
         <details>
             <summary>生效契約加護印(DragonChip2)</summary>
-            <select [(ngModel)]="data.DragonChip2">
+            <select [(ngModel)]="data.DragonChip2" >
 
                 @for (dragonChip of dragonChips; let index = $index; track $index;) {
-                <option [value]="dragonChip">
+                <option [ngValue]="dragonChip" >
                     {{('Data.DragonType.' + index + '.Title') | translate}}
                 </option>
                 }
