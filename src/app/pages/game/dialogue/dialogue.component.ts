@@ -81,6 +81,8 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
           this.router.navigate(['/'], { replaceUrl: true });
           throw new Error(`未指定Event或找不到Event '${state.event}'!`)
         }
+      } else {
+        console.warn('state is not exist!');
       }
     })
   }

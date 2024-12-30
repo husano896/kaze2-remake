@@ -27,8 +27,6 @@ export class AppComponent {
     // 路由事件訂閱
     this.subscriptions.push(router.events.subscribe(e => {
 
-      // Android 防誤觸返回？
-      history.pushState(null, '')
       if (e instanceof NavigationStart) {
         this.loading = true;
 
@@ -38,6 +36,9 @@ export class AppComponent {
       }
 
       if (e instanceof NavigationEnd || e instanceof NavigationCancel || e instanceof NavigationError) {
+
+      // Android 防誤觸返回？
+        history.pushState(history.state, '')
         this.loading = false;
 
         this.calculateDate();
