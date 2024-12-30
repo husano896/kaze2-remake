@@ -22,6 +22,7 @@ const ev027 = async (component: DragongameComponent) => {
              */
             await Content(`Scripts.Ev027.1.1`, { varItemName: 'Data.Item.15.Title' })
             Face('char09a');
+            saveData.item[ItemID.精竜水] = 0;
         }
         else {
             Face('char00');

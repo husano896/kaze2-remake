@@ -31,6 +31,7 @@ const ev053 = async (component: DragongameComponent) => {
                 [{{varItemName[21]}}を手に入れた！！]
              */
             await Content(`Scripts.Ev053.2`, { varItemName: appServ.t(`Data.Item.${ItemID.幻の秘石}.Title`) })
+            saveData.item[ItemID.幻の秘石]++;
         }
     } else {
         // 根據發作是否已恢復，變更音樂

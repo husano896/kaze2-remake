@@ -26,6 +26,7 @@ export const Quest10a = async (component: DialogueComponent) => {
   setDragonCG2('best20')
 
   setDragonCGOpticity(1);
+  setDragonCG2Opticity(1);
   Anim('dragoncg', RootAnimations.SlideInFromRight, 500, 'ease-out');
   Anim('dragoncg2', RootAnimations.SlideInFromLeft, 500, 'ease-out');
   setDialogOpticity(1);
@@ -52,7 +53,7 @@ export const Quest10a = async (component: DialogueComponent) => {
 
   await Anim('dragoncg', RootAnimations.FadeOut, 1000);
   setDragonCGOpticity(0);
-  
+  setDragonCG('')
   await appServ.Wait(1500)
   /**
     さらばだ…私のかわいい息子よ…。

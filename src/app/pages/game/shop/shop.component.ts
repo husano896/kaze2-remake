@@ -134,11 +134,11 @@ export class ShopComponent implements OnInit, AfterContentChecked {
       }
       if (varMaxHpFlg) {
         this.appServ.saveData.Maxhp += varMaxHpFlg;
-        varbuff.push(this.appServ.t('Game.DragonGame.Maxhp') + ':'  + this.PS_Mark(varMaxHpFlg))
+        varbuff.push(this.appServ.t('Game.DragonGame.Maxhp') + ':' + this.PS_Mark(varMaxHpFlg))
       }
       if (varHpFlg) {
         this.appServ.saveData.hp += varHpFlg;
-        varbuff.push(this.appServ.t('Game.DragonGame.RecoverHP') + ':'  + this.PS_Mark(varHpFlg))
+        varbuff.push(this.appServ.t('Game.DragonGame.RecoverHP') + ':' + this.PS_Mark(varHpFlg))
       }
       if (varDfFlg) {
         this.appServ.saveData.df += varDfFlg;
@@ -157,9 +157,20 @@ export class ShopComponent implements OnInit, AfterContentChecked {
         varbuff.push(this.appServ.t('Game.DragonGame.LoveLV') + ':' + this.PS_Mark(varLoveFlg));
       }
       this.disabled = true;
-      await this.appServ.Confirm(this.appServ.t('Game.Shop.Food.Feed.Message', {dragonName: this.saveData.dragonName}), varbuff.join('\r\n').trim())
-      this.router.navigate(['/game/dragongame'], { replaceUrl: true })
 
+      // 我吃飽了！或我沒錢了！
+      if (this.money < this.totalCost) {
+        this.selectedFood = -1;
+      }
+
+      await this.appServ.Confirm(this.appServ.t('Game.Shop.Food.Feed.Message', { dragonName: this.saveData.dragonName }), varbuff.join('\r\n').trim())
+
+      if (this.money < (_.min(this.foodsCosts) as number) ||
+        this.saveData.eatFailMessage) {
+        this.router.navigate(['/game/dragongame'], { replaceUrl: true })
+      } else {
+        this.disabled = false;
+      }
     }
   }
 

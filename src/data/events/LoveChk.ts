@@ -9,7 +9,7 @@ export const LoveChk = async (component: DialogueComponent) => {
   const { setNotice, saveData } = appServ
 
   setBG('welcome')
-  setDragonCG('nomal01');
+  setDragonCG(saveData.cgName);
   setBGOpticity(1);
   appServ.setAmbient('snd16')
 

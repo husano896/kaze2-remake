@@ -528,14 +528,6 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
           varItemName: this.appServ.t(`Data.Item.${ItemID.精竜水}.Title`)
         })
       }
-      // 過關道具
-      else if (this.dungeon.varMapLv === 4 && !this.appServ.saveData.item[ItemID.ニステアの滴] && !this.getItems.includes(ItemID.ニステアの滴)) {
-        this.getItems.push(ItemID.ニステアの滴);
-        this.getItemsLog.push(ItemID.ニステアの滴)
-        await this.Content('Scripts.Dungeon.Check.2.1', {
-          varItemName: this.appServ.t(`Data.Item.${ItemID.ニステアの滴}.Title`)
-        })
-      }
       // 貓咪先生的財寶！
       else if (this.dungeon.varMapLv === 4 && this.appServ.saveData.numVisits >= 41 && this.appServ.saveData.numVisits <= 44) {
         this.getItems.push(ItemID.ささやかな財宝);
@@ -544,6 +536,15 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
           varItemName: this.appServ.t(`Data.Item.${ItemID.ささやかな財宝}.Title`)
         })
       }
+      // 過關道具
+      else if (this.dungeon.varMapLv === 4 && !this.appServ.saveData.item[ItemID.ニステアの滴] && !this.getItems.includes(ItemID.ニステアの滴)) {
+        this.getItems.push(ItemID.ニステアの滴);
+        this.getItemsLog.push(ItemID.ニステアの滴)
+        await this.Content('Scripts.Dungeon.Check.2.1', {
+          varItemName: this.appServ.t(`Data.Item.${ItemID.ニステアの滴}.Title`)
+        })
+      }
+
       // 4 / 11 機率獲得金錢
       else if (Math.round(Math.random() * 10) <= 3) {
         const money = Math.round(Math.random() * 40 + 80);

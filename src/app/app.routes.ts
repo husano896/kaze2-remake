@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, GuardResult, MaybeAsync, RouterStateSnapshot, Routes } from '@angular/router';
 
 export const routes: Routes = [
     {
@@ -44,7 +44,8 @@ export const routes: Routes = [
     },
     {
         path: 'game',
-        loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule)
+        loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule),
+
     },
     /** Google OAuth 要求 */
     {

@@ -25,7 +25,7 @@ export const Quest10 = async (component: DialogueComponent) => {
   // TODO: 孤龍從右側滑入
   setDragonCG(appServ.saveData.cgName)
   setDragonCGOpticity(1);
-  Anim('dragoncg', RootAnimations.SlideInFromRight, 1000);
+  Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out');
   setDialogOpticity(1);
 
   //#region 已經打完你爸

@@ -53,11 +53,11 @@ export const Ending2 = async (component: DialogueComponent) => {
     Face('char31')
     appServ.setNotice();
     await Content('Scripts.Ending2.01')
-    await Wait(1500)
+    await Wait(1000)
 
     // 80
     setBGOpticity(1)
-    await Wait(1500)
+    await Wait(1000)
 
     // 85
     Face('char02')
@@ -69,7 +69,7 @@ export const Ending2 = async (component: DialogueComponent) => {
 
     appServ.setBGM('music22')
     setDragonCGOpticity(1)
-    Anim('dragoncg', RootAnimations.FadeIn, 500);
+    Anim('dragoncg', RootAnimations.FadeIn, 1500);
     await Wait(600)
 
     // 94
@@ -268,7 +268,7 @@ export const Ending2 = async (component: DialogueComponent) => {
 
     // 191
     await AllFadeOut()
-
+    appServ.setAmbient()
     router.navigate(['/game/ending'], { state: { ...state, ending: 'Ending2b', replaceUrl: true } });
     await appServ.Anim(RootAnimations.FadeIn);
 }

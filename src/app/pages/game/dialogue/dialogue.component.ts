@@ -149,8 +149,13 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
     this.SetContentCompleted();
     this.ClearContent();
     this.Emoji();
-    this.Anim('dragoncg', RootAnimations.FadeOut, 1500);
-    this.Anim('dragoncg2', RootAnimations.FadeOut, 1500);
+    if (this.opacity > 0) {
+      this.Anim('dragoncg', RootAnimations.FadeOut, 2000);
+    }
+
+    if (this.opacity2 > 0) {
+      this.Anim('dragoncg2', RootAnimations.FadeOut, 2000);
+    }
     await this.appServ.Wait(3000);
   }
 

@@ -1,10 +1,9 @@
 @for (item of board; track $index) {
-<div class="cell" (click)="onCellClick($index)" (keypress)="onCellClick($index)" [ngClass]="{
+<div class="cell" (pointerdown)="onCellClick($index)" (keypress)="onCellClick($index)" [ngClass]="{
     white: item === 1, 
     black: item === 2, 
     playerPut: playerPutIndex === $index,
     enemyPut: enemyPutIndex === $index}">
-
 </div>
 }
 

@@ -39,10 +39,11 @@
                 <label for="genderF">{{'Game.DragonGame.Female' | translate}}</label>
             </div>
             <hr />
+            @if ((isRegistered && newGamePlus) || !newGamePlus) {
             <button type="submit" [disabled]="registerForm.invalid">
                 {{"Register.Submit" | translate |separateText}}
             </button>
-
+            }
             <br />
             <button type="button" [disabled]="registerForm.invalid" (click)="onSubmit(true)">
                 {{"Register.RegisterToLocal" | translate |separateText}}

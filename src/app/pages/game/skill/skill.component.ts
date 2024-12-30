@@ -15,28 +15,36 @@ import * as _ from 'lodash-es';
   styleUrl: './skill.component.scss'
 })
 export class SkillComponent implements OnInit {
-  skillIds = _.range(19);
+  skillIds = _.range(18).map(i => i > 0 ? (1 << i) : 1);
   selectedSkills: Array<boolean> = [];
-  constructor(private appServ: AppService, private router: Router) {
+  constructor(private readonly appServ: AppService, private readonly router: Router) {
 
   }
 
   ngOnInit(): void {
-    this.skillIds.forEach(id => {
-      const flag = (1 << id);
-      this.selectedSkills[id] = Boolean(this.appServ.saveData.magicS & flag);
+    console.log(this.skillIds)
+    this.skillIds.forEach((id,index) => {
+
+      // 先前存檔的修正
+      if ((this.appServ.saveData.magicS & id) && !(this.appServ.saveData.magic & id)) {
+        this.appServ.saveData.magicS ^= id;
+      }
+      // 勾選
+      console.log('selected', id, Boolean(this.appServ.saveData.magicS & id))
+      this.selectedSkills[index] = Boolean(this.appServ.saveData.magicS & id);
     })
+    console.log(this.selectedSkills);
   }
   getHasSkillID(skillID: number) {
-    const flag = skillID > 0 ? (1 << skillID - 1) : 1;
-    return Boolean(this.appServ.saveData.magic & flag);
+    return Boolean(this.appServ.saveData.magic & skillID);
   }
 
   Apply() {
     let newValue = 0;
-    this.skillIds.forEach(id => {
-      if (this.selectedSkills[id]) {
-        newValue += (1 << id);
+    this.skillIds.forEach((id,index) => {
+      if (this.selectedSkills[index]) {
+        console.log('selected', id)
+        newValue |= id;
       }
     })
     this.appServ.saveData.magicS = newValue;

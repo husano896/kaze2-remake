@@ -2,7 +2,7 @@ import { HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from
 import { Injectable } from '@angular/core';
 import { Observable, finalize, tap } from 'rxjs';
 import { AppService } from '@/app/app.service';
-
+// const baseUrl = 'http://localhost:8787';
 const baseUrl = 'https://api.re-kaze2.xflydragon.cc'
 @Injectable({
   providedIn: 'root'

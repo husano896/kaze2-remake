@@ -4,6 +4,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { BattleService } from './battle/battle.service';
 import { BattleListService } from './battle-list/battle-list.service';
 
+/**
+ 
+function canDeactivate(component: any, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState: RouterStateSnapshot): MaybeAsync<GuardResult> {
+    console.log(currentRoute);
+    if (currentRoute.url.length > 1) {
+        return false;
+    }
+    return true;
+}
+ */
 const routes: Routes = [
   {
     path: '',

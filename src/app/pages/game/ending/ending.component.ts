@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { Subject, firstValueFrom } from 'rxjs';
 import { CommonModule, Location } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-ending',
@@ -27,7 +28,8 @@ export class EndingComponent implements AfterViewInit, OnDestroy {
   constructor(public readonly location: Location,
     public readonly router: Router,
     private readonly translateServ: TranslateService,
-    public readonly appServ: AppService) {
+    public readonly appServ: AppService,
+    private readonly http: HttpClient,) {
   }
 
   async ngAfterViewInit() {
@@ -93,5 +95,27 @@ export class EndingComponent implements AfterViewInit, OnDestroy {
         this.dialogComplete$.next(0)
       }
     }, 30)
+  }
+  get saveData() {
+    return this.appServ.saveData;
+  }
+
+  Save = async ()=>{
+    if (this.saveData.registered) {
+      try {
+        await firstValueFrom(
+          this.http.put('/save', {
+            saveData: this.saveData.ToOnlineSave(),
+            btlid: this.saveData.btlid,
+            guid: this.saveData.guid
+          })
+        )
+      } catch (err) {
+        this.appServ.Confirm(
+          this.appServ.t('Scripts.Confirm.Title.Warning'),
+          "將進度保存至量子網時發生問題！"
+        )
+      }
+    }
   }
 }

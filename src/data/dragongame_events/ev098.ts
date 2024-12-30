@@ -1,5 +1,6 @@
 import { DragongameComponent } from "@/app/pages/game/dragongame/dragongame.component";
 import { EventFlag } from "../EventFlag";
+import { ItemID } from "../ItemID";
 
 /** 「想いの絵」 */
 const ev098 = async (component: DragongameComponent) => {
@@ -26,7 +27,8 @@ const ev098 = async (component: DragongameComponent) => {
             {{my}}への感謝の気持ち{{go00}}{{go01}}。
             [{{varItemName[22]}} をプレゼントされた]
          */
-        Content(`Scripts.Ev098.2.Content`, { varItemName: 'Data.Item.22.Title' })
+        Content(`Scripts.Ev098.2.Content`, { varItemName: `Data.Item.${ItemID.下手な似顔絵}.Title` })
+        saveData.item[ItemID.下手な似顔絵]++;
         const result = (await Options([
             // ありがとう……。
             `Scripts.Ev098.2.1.Action`,

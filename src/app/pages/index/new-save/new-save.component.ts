@@ -107,4 +107,8 @@ export class NewSaveComponent implements AfterViewInit, OnInit {
     const state = this.location.getState() as { newGamePlus: boolean };
     return state?.newGamePlus;
   }
+
+  get isRegistered() {
+    return this.appServ.saveData.registered;
+  }
 }

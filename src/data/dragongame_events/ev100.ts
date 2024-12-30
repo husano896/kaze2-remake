@@ -1,14 +1,13 @@
 import { DragongameComponent } from "@/app/pages/game/dragongame/dragongame.component";
-import { firstValueFrom } from "rxjs";
 import { RootAnimations } from "@/app/app.service";
 
 /**「去り逝く者」*/
 const ev100 = async (component: DragongameComponent) => {
 
-    const {  appServ, Face, Content, SetContentCompleted, DisableAllActions, router } = component
+    const { appServ, Face, Content, SetContentCompleted, DisableAllActions, router } = component
     DisableAllActions(true);
     appServ.setBGM('music23')
-
+    component.skipWait = false;
     Face('char10');
     /**
 ……………。

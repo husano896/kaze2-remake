@@ -2,7 +2,7 @@ import { RootAnimations } from "@/app/app.service";
 import { EndingComponent } from "@/app/pages/game/ending/ending.component";
 import { firstValueFrom } from "rxjs";
 export async function Ending2b(component: EndingComponent) {
-    const { location, setBG, setBGOpticity, Content, Clear, setDialogOpticity, startEndRoll, router, appServ, dialogComplete$ } = component;
+    const { location, setBG, setBGOpticity, Content, Clear, setDialogOpticity, startEndRoll, Save, router, appServ, dialogComplete$ } = component;
     const { Wait } = appServ
 
     const { debugMenu } = location.getState() as { event: string, lv: string, debugMenu: boolean };
@@ -76,6 +76,7 @@ export async function Ending2b(component: EndingComponent) {
         appServ.saveData.NewGamePlus(true)
     }
     appServ.setNotice()
+    await Save()
     router.navigate(['/'], { replaceUrl: true });
     appServ.Anim(RootAnimations.FadeIn);
 }

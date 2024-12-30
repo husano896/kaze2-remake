@@ -26,8 +26,12 @@ export class AppComponent {
 
     // 路由事件訂閱
     this.subscriptions.push(router.events.subscribe(e => {
+
+      // Android 防誤觸返回？
+      history.pushState(null, '')
       if (e instanceof NavigationStart) {
         this.loading = true;
+
         if (this.theme) {
           document.body.setAttribute('theme', this.theme);
         }
@@ -92,6 +96,7 @@ export class AppComponent {
       }
     }, 1000)
     */
+
   }
 
   calculateDate() {

@@ -11,9 +11,8 @@ export const Ending1 = async (component: DialogueComponent) => {
     appServ.setBGM('music22')
     setBG('welcome')
     setDragonCG('nomal00');
-    await Anim('dragoncg', RootAnimations.FadeIn, 1000)
-
-    await Wait(3000)
+    await Anim('dragoncg', RootAnimations.FadeIn, 3000)
+    setDragonCGOpticity(1)
     setBGOpticity(1);
     await Wait(3000)
 

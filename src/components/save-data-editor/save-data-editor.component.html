@@ -136,24 +136,24 @@
             @for (magic of magics; let index = $index; track $index;) {
             @if (magic> 0) {
             <label>
-                <input type="checkbox" [ngModel]="getEventActive(magic)"
+                <input type="checkbox" [ngModel]="getMagicActive(magic)"
                     (ngModelChange)="onMagicChange(magic, $event)" />
 
-                {{('Data.Skill.' + (index-1) + '.Title') | translate}}
+                {{('Data.Skill.' + (index) + '.Title') | translate}}
             </label>
             <br />
             }
             }
         </details>
         <details>
-            <summary>持有技能(magic)</summary>
+            <summary>持有技能(magicS)</summary>
             @for (magic of magics; let index = $index; track $index;) {
             @if (magic> 0) {
             <label>
-                <input type="checkbox" [ngModel]="getEventActive(magic)"
-                    (ngModelChange)="onMagicChange(magic, $event)" />
+                <input type="checkbox" [ngModel]="getMagicActive(magic)"
+                    (ngModelChange)="onMagicSChange(magic, $event)" />
 
-                {{('Data.Skill.' + (index-1) + '.Title') | translate}}
+                {{('Data.Skill.' + (index) + '.Title') | translate}}
             </label>
             <br />
             }

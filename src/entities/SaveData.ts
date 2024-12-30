@@ -294,6 +294,7 @@ export class SaveData implements IBattleData {
         this.hp = 10;
         this.df = 1;
         this.at = 1;
+        this.speed = 1;
         this.love = 100;
         this.element1 = 50;
         this.element2 = 50;
@@ -431,8 +432,8 @@ export class SaveData implements IBattleData {
 
         if (this.element1 == 50 && this.element2 == 50) lank2 = "ノーマル";
 
-        for (let i = 1; i <= 21; i++) {
-            if (this.DragonChip2 & (1 << i)) lank2 = `Data.DragonType.${i}.Title`;
+        for (let i = 0; i <= 21; i++) {
+            if (this.DragonChip2 & (i > 0 ? (1 << i - 1) : 1)) lank2 = `Data.DragonType.${i}.Title`;
         }
         return lank2;
     }

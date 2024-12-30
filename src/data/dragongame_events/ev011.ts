@@ -1,5 +1,6 @@
 import { DragongameComponent } from "@/app/pages/game/dragongame/dragongame.component";
 import { BioFlag } from "../BioFlag";
+import { ItemID } from "../ItemID";
 
 const ev011 = async (component: DragongameComponent) => {
 
@@ -32,8 +33,8 @@ const ev011 = async (component: DragongameComponent) => {
             {{you}}にあげる{{go01}}！
             [{{varItemName[21]}} を手に入れた！！]
              */
-            saveData.item[21] += 1;
-            await Content(`Scripts.Ev011.2`, { varItemName: 'Data.Item.21.Title' })
+            saveData.item[ItemID.幻の秘石] += 1;
+            await Content(`Scripts.Ev011.2`, { varItemName: `Data.Item.${ItemID.幻の秘石}.Title` })
         }
     } else {
         // 根據發作是否已恢復，變更音樂

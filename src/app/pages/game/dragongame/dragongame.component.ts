@@ -390,7 +390,7 @@ ${this.t('Game.DragonGame.Df')}:- 1`);
 
   async Save() {
     this.appServ.loading = true;
-    // TODO: 存檔API
+    // 存檔API
     if (this.saveData.registered) {
       try {
         await firstValueFrom(

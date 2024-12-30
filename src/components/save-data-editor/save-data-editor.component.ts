@@ -18,8 +18,8 @@ export class SaveDataEditorComponent {
 
   dragonChips = _.range(22).map(i => i > 0 ? (0x1 << i - 1) : 0);
 
-  magics = _.range(20).map(i => i > 0 ? (0x1 << i) : 0);
-  constructor(private appServ: AppService, private router: Router, private route: ActivatedRoute) {
+  magics = _.range(19).map(i => i > 0 ? (0x1 << i) : 1);
+  constructor(private readonly appServ: AppService, private readonly router: Router, private readonly route: ActivatedRoute) {
 
   }
 
@@ -71,6 +71,7 @@ export class SaveDataEditorComponent {
   }
 
   onMagicChange(magic: number, checked: any) {
+    console.log(magic, checked)
     if (checked) {
       this.appServ.saveData.magic |= magic;
     } else {

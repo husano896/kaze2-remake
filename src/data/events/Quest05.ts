@@ -177,7 +177,7 @@ export const Quest05 = async (component: DialogueComponent) => {
      */
     await Content(`Scripts.Quest05.1.5`, {
       dragonTypeName:
-        appServ.t('Data.DragonType.15.Title')
+        appServ.t('Data.DragonType.9.Title')
     })
   }
   appServ.setSE('snd15')

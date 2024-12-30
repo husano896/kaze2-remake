@@ -3,7 +3,7 @@ import { EndingComponent } from "@/app/pages/game/ending/ending.component";
 import { firstValueFrom, } from "rxjs";
 
 export async function Ending1b(component: EndingComponent) {
-    const { location, setBG, setBGOpticity, Content, startEndRoll, setDialogOpticity, router, appServ, dialogComplete$ } = component;
+    const { location, setBG, setBGOpticity, Content, startEndRoll, setDialogOpticity, router, appServ, Save, dialogComplete$ } = component;
     const { Wait } = appServ
 
     const { debugMenu } = location.getState() as { event: string, lv: string, debugMenu: boolean };
@@ -24,8 +24,9 @@ export async function Ending1b(component: EndingComponent) {
         await appServ.Confirm('注意', '因為Debug, 不做二週目處理.');
     } else {
         appServ.saveData.NewGamePlus(false)
+        
     }
-
+    await Save()
     router.navigate(['/'], { replaceUrl: true });
     appServ.Anim(RootAnimations.FadeIn);
 }
