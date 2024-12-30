@@ -155,7 +155,6 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
             case 4:	// 喜ぶ
                 this.appServ.saveData.love += 5;
                 result += "↑]";
-                // if (numVisits == 40) ivent |= 32;	// 猫イベント許可
                 break;
 
             case 5:	// 驚く
@@ -206,7 +205,6 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
 
     /** 選項選擇完畢 */
     onOptionClick = (index: number, value: string) => {
-        console.log(this.dialogComplete$);
         this.optionSelect$.next({ index, value });
         this.options = null;
     }

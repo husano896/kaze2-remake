@@ -4,7 +4,6 @@ import { EventFlag } from "../EventFlag";
 
 // varBaseFaice為說完話後的頭圖
 export const Opening = async (component: DialogueComponent) => {
-    console.log(this)
     const { saveData, Back, setBG, Anim, setDragonCG, setBGOpticity, setDialogOpticity, setDragonCGOpticity, Face, Content, ClearContent, appServ } = component;
     const { toggleRay1, setNotice, Wait } = appServ
 

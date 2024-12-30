@@ -449,7 +449,6 @@ export class SaveData implements IBattleData {
         const ans2 = Math.floor((this.element2 + 5) / 10);
         const ans3 = Math.abs(5 - ans);
         const ans4 = Math.abs(5 - ans2);
-        console.log('nowLv', this.nowLv, 'ans', ans, 'ans2', ans2, 'ans3', ans3, 'ans4', ans4)
         this.PS_Set(0);
 
         if ((this.nowLv >= 10) && (ans3 > ans4) && (ans <= 4)) {
@@ -690,13 +689,13 @@ export class SaveData implements IBattleData {
         }
 
         // 育成障害であればデフォルト
-        if (this.bio & 4) {
+        if (this.bio & BioFlag.育障) {
             fil = "nomal01";
             this.PS_Set(0);
         }
 
         // 発作であれば苦しみパターン
-        if (this.bio & 128) {
+        if (this.bio & BioFlag.発作) {
             fil = "nomal00";
             this.PS_Set(0);
         }

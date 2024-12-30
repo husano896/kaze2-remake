@@ -43,15 +43,13 @@ export const Quest10a = async (component: DialogueComponent) => {
    */
   await Content(`Scripts.Quest10.1.5`)
 
-
-
   /**
     弧竜：グスッ……うぁぁ…あぁ…。
     おとうさん：……。
    */
   await Content(`Scripts.Quest10.1.6`)
 
-  await Anim('dragoncg', RootAnimations.FadeOut, 1000);
+  await Anim('dragoncg', RootAnimations.FadeOut, 1500);
   setDragonCGOpticity(0);
   setDragonCG('')
   await appServ.Wait(1500)

@@ -148,9 +148,7 @@ export class AppService {
       this.MessageSE?.stop();
       this.MessageSE = HowlAudio.SE[fileName]
     }
-    if (fileName != undefined) {
-      console.log('set', fileName, this.MessageSE)
-    }
+    
     // 設定為不存在的語音時不動作
     if (!this.MessageSE) {
       return;
@@ -229,7 +227,6 @@ export class AppService {
         this.BGM?.play();
       });
     }
-    console.log(this.BGM)
   }
 
   setSE = (se?: string | null | undefined) => {

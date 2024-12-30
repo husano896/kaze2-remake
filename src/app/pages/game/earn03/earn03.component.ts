@@ -81,17 +81,10 @@ export class Earn03Component implements AfterViewInit, OnDestroy {
       // 記錄上次方向
       lastDirection = newDirection;
       currentWhiteSpacePos = newWhiteSpacePos;
-      for (let i = 0; i < 4; i++) {
-        console.log(this.board.slice(0 + i * 4, 4 + i * 4).map(i => i === 15 ? "XX" : String(i + 1).padStart(2, '0')).join(' '))
-      }
-      console.log('==')
+
     }
-    console.log('start')
     //#endregion
 
-    // this.board = [0,1,2,3,4,5,6,7,8,9,10,11,14,13,12,15]
-
-    // [15,14,13], [13,15,14], [14,13,15]
     this.timeLeft = 120;
     this.timeInterval = setInterval(() => {
       if (this.timeLeft <= 0) {

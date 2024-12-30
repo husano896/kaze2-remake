@@ -15,7 +15,7 @@ varURL = games05a.html?Lv5
 document.write(<DIV ID = 'BG' STYLE='position:absolute;top:8px;left:0px; visibility:hidden;'>);
 document.write(<IMG width=100% src='image/bg_dragonhill.jpg' border=0></DIV>);
  */
-/** TODO: ドラゴンの丘 */
+/** ドラゴンの丘 */
 export const Quest05 = async (component: DialogueComponent) => {
   const { AllFadeOut, saveData, setDragonCG2, Emoji, setDragonCG2Opticity, Anim, ClearContent, Content, Back, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
@@ -126,8 +126,10 @@ export const Quest05 = async (component: DialogueComponent) => {
   */
   await Content(`Scripts.Quest05.Game.Win`)
   component.enableSnakeGame = false;
-  setDragonCG(saveData.cgName)
 
+  // 因初見跟二見時的站位可能不同，因此需再度設定CG
+  setDragonCG2(saveData.cgName)
+  setDragonCG('best08')
   Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out')
   await Anim('dragoncg2', RootAnimations.SlideInFromRight, 1000, 'ease-out')
   ClearContent()

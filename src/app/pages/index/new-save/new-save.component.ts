@@ -58,7 +58,11 @@ export class NewSaveComponent implements AfterViewInit, OnInit {
     newSaveData.dragonName = this.registerForm.value.dragonName as string;
 
     if (this.registerForm.value.gender === 'F') {
-      newSaveData.ivent |= EventFlag.性別;
+      if (!(newSaveData.ivent & EventFlag.性別)) {
+        newSaveData.ivent |= EventFlag.性別;
+      }
+    } else if ((newSaveData.ivent & EventFlag.性別)) {
+      newSaveData.ivent ^= EventFlag.性別;
     }
 
     try {
@@ -98,8 +102,6 @@ export class NewSaveComponent implements AfterViewInit, OnInit {
     } catch (err) {
       console.log(err);
       this.appServ.Confirm('Register', JSON.stringify(err));
-    }
-    finally {
     }
   }
 

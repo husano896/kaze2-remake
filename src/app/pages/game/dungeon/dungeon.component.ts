@@ -167,7 +167,6 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
     if (this.disableAllActions || !this.contentCompleted) {
       return;
     }
-    console.log('press')
     this.miniMapOpen = !this.miniMapOpen;
     $event.stopPropagation();
     $event.preventDefault();
@@ -206,7 +205,6 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
     this.setDialogueSE('')
 
     //#region debug用
-    console.log(this.mazeData.map(r => r.join(' ')).join('\n'));
 
     const text = {
       [DungeonMazeCode.Empty]: '⬜',
@@ -215,14 +213,12 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
       [DungeonMazeCode.Treasure]: "🟨",
       [DungeonMazeCode.E]: "⬜"
     }
-    console.log
-      (this.mazeData.map(r => r.map(c => text[c]).join(' ')).join('\n'));
+    console.log(
+      this.mazeData.map(r => r.map(c => text[c]).join(' ')).join('\n'));
     //#endregion
 
     this.skipWait = true;
     this.Content(`Scripts.Dungeon.Enter`)
-    // this.SetContentCompleted();
-
   }
 
   override ngAfterViewInit() {
@@ -385,7 +381,6 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
       }
     }
     //#endregion
-    console.log('開路完畢', mazeData)
 
     //#region 生成出口
     // 若該點非牆壁，且該點的周圍是單行道（僅有一條路通到該點），設為終點
@@ -404,7 +399,6 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
 
     //#region 生成寶箱
     cnt = 0;
-    console.log('寶箱放置開始')
 
     if (treasureCount > 0) {
       do {
@@ -425,7 +419,6 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
             (mazeData[y][x - 1] === DungeonMazeCode.Exit)) {
             continue;
           }
-          console.log('放置寶箱於', 'y', y, 'x', x)
           mazeData[y][x] = DungeonMazeCode.Treasure;
           cnt++;
 

@@ -14,7 +14,6 @@ export const Games07 = async (component: DialogueComponent) => {
     const { ivent } = appServ.saveData;
 
     appServ.setAmbient('snd18')
-    console.log(lv)
 
     //#region 若已被入侵過第二次且非戰鬥完回到這邊，進行最終決戰腳本(games08)
     if (ivent & EventFlag.ハッキング二回目 && !lv) {
