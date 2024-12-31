@@ -7,12 +7,13 @@
   background: rgba(0, 0, 0, 0.8);
 }
 
+
 div#game-board {
   width: 100%;
   height: 100%;
   aspect-ratio: 1;
   contain: content;
-
+  margin: auto;
   div.cell {
     aspect-ratio: 1;
     --var-cell-width: calc(100% / var(--var-boardWidth));
@@ -47,7 +48,12 @@ div#game-board {
     animation: 1s pointAnim linear infinite;
   }
 }
-
+@media (orientation: landscape) {
+  div#game-board {
+    width: 80%;
+    height: 100%;
+  }
+}
 div#controls {
   height: 100%;
   width: 100%;

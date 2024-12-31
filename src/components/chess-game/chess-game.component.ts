@@ -1,4 +1,5 @@
 import { AppService } from '@/app/app.service';
+import { BioFlag } from '@/data/BioFlag';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as _ from 'lodash-es';
@@ -42,7 +43,7 @@ export class ChessGameComponent {
   playerPutIndex?: number = undefined;
   enemyPutIndex?: number = undefined;
 
-  constructor(private appServ: AppService) { }
+  constructor(private readonly appServ: AppService) { }
 
   async onCellClick(index: number) {
     if (!this.gameStart) {
@@ -127,8 +128,25 @@ export class ChessGameComponent {
       move = cpuAvailableMoves[Math.floor(Math.random() * cpuAvailableMoves.length)];
       // 翻牌！
     } else {
-      // 採用利益最大化
-      move = _.maxBy(cpuAvailableMoves, m => m.results.length);
+      if (!(this.appServ.saveData.bio & BioFlag.発作) && (
+        this.appServ.saveData.food > 3000 ||
+        this.appServ.saveData.numVisits > 52 ||
+        this.appServ.saveData.newGamePlusTimes > 0
+      )) {
+        // 若可以佔四個角，優先佔
+        move = cpuAvailableMoves.find(m => {
+          return ((m.index % BOARD_SIZE === 0 || m.index % BOARD_SIZE === BOARD_SIZE - 1) &&
+            (Math.floor(m.index / BOARD_SIZE) === 0 || Math.floor(m.index / BOARD_SIZE) === BOARD_SIZE - 1))
+        })
+        if (move) {
+          console.log('四角優先算法', move)
+          // debugger;
+        }
+      }
+      // 基礎採用利益最大化
+      if (!move) {
+        move = _.maxBy(cpuAvailableMoves, m => m.results.length);
+      }
     }
     if (move) {
       this.enemyPutIndex = move.index;

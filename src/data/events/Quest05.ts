@@ -83,6 +83,7 @@ export const Quest05 = async (component: DialogueComponent) => {
   component.enableSnakeGame = true;
   component.snakeGameActive = true;
   setDragonCG('')
+  setDragonCG2('best08')
   ClearContent()
   /**
     じゃ、さっそく僕を捕まえてごらん。
@@ -128,8 +129,8 @@ export const Quest05 = async (component: DialogueComponent) => {
   component.enableSnakeGame = false;
 
   // 因初見跟二見時的站位可能不同，因此需再度設定CG
-  setDragonCG2(saveData.cgName)
-  setDragonCG('best08')
+  setDragonCG(saveData.cgName)
+  setDragonCG2('best08')
   Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out')
   await Anim('dragoncg2', RootAnimations.SlideInFromRight, 1000, 'ease-out')
   ClearContent()

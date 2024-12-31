@@ -50,25 +50,23 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
       }
     }
 
-    this.appServ.saveData.Maxhp = Math.max(1, Math.min(save.Maxhp, 9999))
+    this.appServ.saveData.Maxhp = Math.min(9999, Math.max(save.Maxhp, 10))
     this.appServ.saveData.hp = Math.max(1, Math.min(save.hp, save.Maxhp))
-    this.appServ.saveData.at = Math.max(1, Math.min(save.at, 9999))
-    this.appServ.saveData.df = Math.max(1, Math.min(save.df, 9999))
-    this.appServ.saveData.speed = Math.max(1, Math.min(save.speed, 9999))
-    this.appServ.saveData.love = Math.max(1, Math.min(save.love, 1100))
-    this.appServ.saveData.turn = Math.max(0, Math.min(save.turn, 99999))
-    this.appServ.saveData.food = Math.max(0, Math.min(save.food, 99999))
+    this.appServ.saveData.at = Math.min(9999, Math.max(save.at, 1))
+    this.appServ.saveData.df = Math.min(9999, Math.max(save.df, 1))
+    this.appServ.saveData.speed = Math.min(9999, Math.max(save.speed, 1))
+    this.appServ.saveData.love = Math.min(1100, Math.max(save.love, 0))
+    this.appServ.saveData.turn = Math.min(99999, Math.max(save.turn, 0))
+    this.appServ.saveData.food = Math.min(99999, Math.max(save.food, 0))
     this.appServ.saveData.element1 = Math.max(-9999, Math.min(save.element1, 9999))
     this.appServ.saveData.element2 = Math.max(-9999, Math.min(save.element2, 9999))
-    this.appServ.saveData.exp = Math.max(0, Math.min(save.exp, 999999))
+    this.appServ.saveData.exp = Math.min(999999, Math.max(save.exp, 0))
     //#endregion 
     this.skipWait = true;
   }
 
   override ngAfterViewInit(): void {
 
-    document.body.focus();
-    document.body.click();
     this.appServ.Anim(RootAnimations.FadeIn, 300);
     // 環境音
     this.appServ.setAmbient('snd16');

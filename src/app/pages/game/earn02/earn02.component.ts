@@ -16,7 +16,6 @@ import { TranslateModule } from '@ngx-translate/core';
 export class Earn02Component implements AfterViewInit, OnDestroy {
 
   @ViewChild(ChessGameComponent) chessGameComponent?: ChessGameComponent;
-  /** 拉霸中的隨機計時器 */
   started?: boolean;
   scorePlayer: number = 0;
   scoreEnemy: number = 0;

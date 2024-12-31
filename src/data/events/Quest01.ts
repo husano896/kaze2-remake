@@ -37,9 +37,13 @@ export const Quest01 = async (component: DialogueComponent) => {
     ClearContent();
 
     /** - 探索中 - */
-    await Content(`Scripts.Quest.Discovering`)
+    component.skipWait = true;
+    Content(`Scripts.Quest.Discovering`)
+    await appServ.Wait(1500);
+
+    component.skipWait = false;
     Anim('dragoncg', RootAnimations.SlideInFromLeft, 1000, 'ease-out')
-    setDragonCGOpticity(0)
+    setDragonCGOpticity(1)
     Emoji(5)
     /**
      *見つけたっ！　でも、どれがその草なんだろう…。

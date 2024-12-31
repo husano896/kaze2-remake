@@ -112,7 +112,7 @@ export class SnakeGameComponent {
       // 將吃到的點點納入身體<3
       this.playerBodies.push({ x: this.playerX, y: this.playerY })
       //#region 勝利判定
-      if (this.playerBodies.length >= 15) {
+      if (this.playerBodies.length >= CLEAR_TARGET) {
         this.appServ.setSE('snd15')
         clearInterval(this.GameInterval);
         this.pointX = 0;

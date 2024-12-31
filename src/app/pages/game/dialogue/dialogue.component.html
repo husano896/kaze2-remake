@@ -38,21 +38,25 @@
     @if (enableChessGame || enableSnakeGame) {
     <div
         style="position: absolute; width: 100%; height: 100%; top: 0;left: 0; z-index: 1; display: flex; align-items: center; justify-content: center; pointer-events: none;">
-        <div id="game-container" class="flex-column full-height" [ngClass]="{
-            active: !chessGameStart && chessGameActive || (!snakeGameStart && snakeGameActive) , 
-                start: chessGameStart || snakeGameStart}">
+        <!-- 劇情使用：黑白棋小遊戲 -->
 
-            <!-- 劇情使用：黑白棋小遊戲 -->
-
-            @if (enableChessGame) {
+        @if (enableChessGame) {
+        <div id="game-chess" class="game-container flex-column full-height" [ngClass]="{
+            active: !chessGameStart && chessGameActive , 
+                start: chessGameStart}">
             <app-chess-game [gameStart]="chessGameStart"></app-chess-game>
-            }
-
-            <!-- 劇情使用：貪吃蛇小遊戲-->
-            @if (enableSnakeGame) {
-            <app-snake-game [gameStart]="snakeGameStart"></app-snake-game>
-            }
         </div>
+        }
+        <!-- 劇情使用：貪吃蛇小遊戲-->
+
+        @if (enableSnakeGame) {
+        <div id="game-snake" class="game-container flex-column full-height" [ngClass]="{
+            active: !snakeGameStart && snakeGameActive , 
+                start: snakeGameStart}">
+            <app-snake-game [gameStart]="snakeGameStart"></app-snake-game>
+
+        </div>
+        }
     </div>
     }
     <!-- 臉 -->

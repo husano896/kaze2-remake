@@ -4,7 +4,7 @@ import { DragonChipFlag } from "../DragonChipFlag";
 
 /** ドラゴンの古代遺跡 */
 export const Quest03 = async (component: DialogueComponent) => {
-  const { SetContentCompleted, setDragonCG2, setDragonCG2Opticity, ClearContent, Content, Anim, Back, Emoji, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
+  const { SetContentCompleted, ClearContent, Content, Anim, Back, Emoji, setDialogOpticity, appServ, router, setBG, setDragonCG, setBGOpticity, setDragonCGOpticity } = component;
 
   setBG('iseki')
   setBGOpticity(1);

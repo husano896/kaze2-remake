@@ -28,8 +28,7 @@ export const Games02 = async (component: DialogueComponent) => {
   ClearContent()
   // TODO: 孤龍從右側滑入
   setDragonCGOpticity(1);
-  await appServ.Wait(1500)
-  Anim('dragoncg', RootAnimations.SlideInFromRight, 500, 'ease-out');
+  await Anim('dragoncg', RootAnimations.SlideInFromRight, 1000, 'ease-out');
   /**
     孤竜：でも…
    */

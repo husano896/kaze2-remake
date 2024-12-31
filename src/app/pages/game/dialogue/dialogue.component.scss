@@ -83,7 +83,7 @@ a#skip.disabled {
 
 }
 
-div#game-container {
+div.game-container {
     opacity: 0;
     transition: 0.5s ease-out;
 
@@ -94,24 +94,25 @@ div#game-container {
 
 @media (orientation: landscape) {
 
-    div#game-container {
+    div.game-container#game-chess {
         height: auto;
-        width: 75%;
+        width: 100%;
+        max-height: 100%;
     }
 }
 
 @media (orientation: portrait) {
 
-    div#game-container {
+    div.game-container {
         height: 100%;
         width: 100%;
     }
 }
-div#game-container.active {
+div.game-container.active {
     opacity: 0.2;
 }
 
-div#game-container.start {
+div.game-container.start {
     opacity: 1;
     pointer-events: all;
 

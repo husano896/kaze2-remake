@@ -394,7 +394,7 @@ export class MapComponent implements AfterViewInit {
   }
   /** 是否可點選 忌まわしき地 */
   get game07ON() {
-    return this.appServ.saveData.item[ItemID.忌地への道標] || this.appServ.debug;
+    return this.appServ.saveData.item[ItemID.忌地への道標];
   }
 
   get locations() {
