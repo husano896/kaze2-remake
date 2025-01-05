@@ -8,201 +8,6 @@ import * as _ from "lodash-es";
 
 const ITEM_SIZE = 35;
 
-const DragonTypes = [
-    {
-
-    },
-    {
-        "name": "バルバチェイン",
-        "hp": 0,
-        "at": 0,
-        "df": 100,
-        "speed": 0,
-        "element1": 0,
-        "element2": 0
-    },
-    {
-        "name": "ヴァンパネラ",
-        "hp": 30,
-        "at": 15,
-        "df": 15,
-        "speed": 15,
-        "element1": 0,
-        "element2": 0
-    },
-    {
-        "name": "マンドレイク",
-        "hp": 10,
-        "at": 30,
-        "df": 0,
-        "speed": 0,
-        "element1": 0,
-        "element2": 0
-    },
-    {
-        "name": "DragonHeadBuck",
-        "hp": 10,
-        "at": 0,
-        "df": 30,
-        "speed": 0,
-        "element1": 0,
-        "element2": 0
-    },
-    {
-        "name": "管狐",
-        "hp": 100,
-        "at": 0,
-        "df": 0,
-        "speed": 0,
-        "element1": 0,
-        "element2": 0
-    },
-    {
-        "name": "パイロヒドラ",
-        "hp": 50,
-        "at": 50,
-        "df": 50,
-        "speed": 50,
-        "element1": 100,
-        "element2": 0
-    },
-    {
-        "name": "トピリア",
-        "hp": 20,
-        "at": 10,
-        "df": 10,
-        "speed": 10,
-        "element1": 0,
-        "element2": 0
-    },
-    {
-        "name": "ジン",
-        "hp": 50,
-        "at": 0,
-        "df": 0,
-        "speed": 0,
-        "element1": 0,
-        "element2": 0
-    },
-    {
-        "name": "ママルバーン",
-        "hp": 10,
-        "at": 0,
-        "df": 0,
-        "speed": 30,
-        "element1": 0,
-        "element2": 0
-    },
-    {
-        "name": "ボルガノドン",
-        "hp": 50,
-        "at": 50,
-        "df": 50,
-        "speed": 50,
-        "element1": -100,
-        "element2": 0
-    },
-    {
-        "name": "ヘイズロック",
-        "hp": 50,
-        "at": 50,
-        "df": 50,
-        "speed": 50,
-        "element1": 0,
-        "element2": 100
-    },
-    {
-        "name": "ケツァルコアトル",
-        "hp": 200,
-        "at": 60,
-        "df": 60,
-        "speed": 60,
-        "element1": 0,
-        "element2": 0
-    },
-    {
-        "name": "ゾンドドレイク",
-        "hp": 20,
-        "at": 30,
-        "df": 2,
-        "speed": 2,
-        "element1": 0,
-        "element2": 0
-    },
-    {
-        "name": "バジリコック",
-        "hp": 0,
-        "at": 100,
-        "df": 0,
-        "speed": 0,
-        "element1": 0,
-        "element2": 0
-    },
-    {
-        "name": "ショコラフッフール",
-        "hp": 5,
-        "at": 5,
-        "df": 5,
-        "speed": 5,
-        "element1": 0,
-        "element2": 0
-    },
-    {
-        "name": "ギガウインド",
-        "hp": 50,
-        "at": 50,
-        "df": 50,
-        "speed": 50,
-        "element1": 0,
-        "element2": -100
-    },
-    {
-        "name": "フィオレッティ",
-        "hp": 100,
-        "at": 0,
-        "df": 20,
-        "speed": 0,
-        "element1": 0,
-        "element2": 0
-    },
-    {
-        "name": "ラジェスト",
-        "hp": 100,
-        "at": 80,
-        "df": 80,
-        "speed": 80,
-        "element1": 0,
-        "element2": 0
-    },
-    {
-        "name": "幼竜",
-        "hp": 5,
-        "at": 0,
-        "df": 0,
-        "speed": 0,
-        "element1": 0,
-        "element2": 0
-    },
-    {
-        "name": "児竜",
-        "hp": 10,
-        "at": 3,
-        "df": 2,
-        "speed": 3,
-        "element1": 0,
-        "element2": 0
-    },
-    {
-        "name": "べトリブニス",
-        "hp": 200,
-        "at": 150,
-        "df": 150,
-        "speed": 150,
-        "element1": 0,
-        "element2": 0
-    }
-]
-
 const Drgon_my = new Array(
     "あたち",
     "アタシ",
@@ -368,7 +173,7 @@ export class SaveData implements IBattleData {
         return new SaveData();
     }
     get bioText(): string[] {
-        var ans: string[] = [];
+        let ans: string[] = [];
         if (this.hp < (this.Maxhp / 8)) {
             ans = [`Data.Bio.Tired`];
         }
@@ -393,7 +198,7 @@ export class SaveData implements IBattleData {
     }
 
     get elementText() {
-        var lank2 = '';
+        let lank2 = '';
         if (this.element1 < 50) lank2 = "L1炎竜";
         if (this.element1 > 50) lank2 = "L1水竜";
         if (this.element2 < 50) lank2 = "L1風竜";

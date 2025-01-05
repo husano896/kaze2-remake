@@ -37,8 +37,8 @@ export class AppComponent {
 
       if (e instanceof NavigationEnd || e instanceof NavigationCancel || e instanceof NavigationError) {
         console.log('Navigate ended', e);
-      // Android 防誤觸返回？（加了之後會變成按一次原地，第二次才會關閉）
-      // Note: 想在返回後直接再加一個state變成無限防止Back，似乎瀏覽器會防止這件事
+        // Android 防誤觸返回？（加了之後會變成按一次原地，第二次才會關閉）
+        // Note: 想在返回後直接再加一個state變成無限防止Back，似乎瀏覽器會防止這件事
         history.pushState(history.state, '')
         this.loading = false;
 
@@ -87,6 +87,9 @@ export class AppComponent {
     this.translateServ.onTranslationChange.subscribe((event) => {
       localStorage.setItem(LocalStorageKey.language, event.lang);
     })
+
+    // 修正部分裝置點兩下會放大的問題
+    document.body.addEventListener('dblclick', (ev) => ev.preventDefault())
     // 設定完後儲存到LocalStorage供下次進入網站使用
     // Anti debugger
     /*

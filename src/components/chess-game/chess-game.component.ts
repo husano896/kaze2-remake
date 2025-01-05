@@ -58,13 +58,13 @@ export class ChessGameComponent {
     }
 
     if (this.board[index] !== CellType.None) {
-      this.Message('該位置已下過不能再下。');
+      this.Message(this.appServ.t('Game.Earn02.AlreadyPut'));
       return;
     }
 
     const results = this.GetPutResult(ChessGameComponent.PlayerCellType, index);
     if (!results.length) {
-      this.Message('該位置無法放置');
+      this.Message(this.appServ.t('Game.Earn02.CantPut'));
       return;
     }
     this.playerPutIndex = index;
@@ -129,8 +129,7 @@ export class ChessGameComponent {
       // 翻牌！
     } else {
       if (!(this.appServ.saveData.bio & BioFlag.発作) && (
-        this.appServ.saveData.food > 3000 ||
-        this.appServ.saveData.numVisits > 52 ||
+        this.appServ.saveData.food > 5000 ||
         this.appServ.saveData.newGamePlusTimes > 0
       )) {
         // 若可以佔四個角，優先佔

@@ -2,8 +2,7 @@ import { AppService } from '@/app/app.service';
 import { BioFlag } from '@/data/BioFlag';
 import { EventFlag } from '@/data/EventFlag';
 import { DragonGameEvents } from '@/data/dragongame_events';
-import { SaveData } from '@/entities/SaveData';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -13,13 +12,12 @@ import { Router, RouterModule } from '@angular/router';
   templateUrl: './begin.component.html',
   styleUrl: './begin.component.scss'
 })
-export class BeginComponent implements OnInit, AfterViewInit {
-  constructor(private appServ: AppService, private router: Router,) {
+export class BeginComponent implements OnInit {
+  constructor(private readonly appServ: AppService, private readonly router: Router,) {
 
   }
-  ngOnInit(): void {
-  }
-  async ngAfterViewInit() {
+
+  async ngOnInit() {
 
     // 若有前次已登入標記，重設
     if (this.appServ.saveData.ivent & EventFlag.遊戲登入) {
@@ -110,9 +108,8 @@ export class BeginComponent implements OnInit, AfterViewInit {
       'Scripts.Notice.SystemUpdate.13'
     );
     await this.appServ.Wait(1500);
-    document.body.focus();
-    document.body.click();
-    this.router.navigate(['/game/dragongame'], { replaceUrl: true, })
+
+    this.router.navigate(['/game/dragongame'], { replaceUrl: true, state: { fromBegin: true } })
     this.appServ.setNotice();
 
   }

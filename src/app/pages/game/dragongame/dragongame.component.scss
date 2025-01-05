@@ -64,6 +64,7 @@ div#Ray4 {
     bottom: 0;
     right: 0;
     opacity: 1;
+    z-index: 2;
 }
 
 div#Ray8 {
@@ -128,7 +129,7 @@ span#continue-icon {
 
 table[aria-describedby="status-parameters"] td:nth-child(2) {
     text-align: end;
-    min-width: 60px;
+    padding-left: 2vw;
 }
 
 img[alt="dragon-cg"] {
@@ -140,6 +141,10 @@ img[alt="dragon-cg"] {
     bottom: 0;
 }
 
+img[alt="char-header"] {
+    object-fit: scale-down;
+    width: 100%;
+}
 @media screen and (max-width:480px) {
 
     img[alt="dragon-cg"] {

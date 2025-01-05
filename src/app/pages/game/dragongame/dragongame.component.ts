@@ -6,7 +6,7 @@ import { ItemID } from '@/data/ItemID';
 import { DragonGameEvents } from '@/data/dragongame_events';
 import { DialogueSystem } from '@/entities/DialogueSystem';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -31,7 +31,8 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
   public hacked?: boolean;
   constructor(injector: Injector,
     public router: Router,
-    public http: HttpClient,) {
+    public http: HttpClient,
+  ) {
     super(injector);
   }
   ngOnInit(): void {
@@ -71,8 +72,9 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
     // 環境音
     this.appServ.setAmbient('snd16');
 
-    if (this.appServ.waitTimeMinutes >= 60 && this.saveData.ivent & EventFlag.回答事件) {
-      // TODO: 避免直接60分鐘未存檔
+    const isFromBegin = (this.location.getState() as { fromBegin: boolean })?.fromBegin;
+    if (this.appServ.waitTimeMinutes >= 60 && (!isFromBegin || this.saveData.ivent & EventFlag.回答事件)) {
+      // 避免直接60分鐘未存檔
       this.appServ.setLastLogin();
     }
 
@@ -183,10 +185,6 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
     }
     if (this.saveData.bio & BioFlag.破傷) {
       this.appServ.Confirm(this.appServ.t('Scripts.Confirm.Title.Caution'), this.appServ.t('Scripts.Confirm.Action.Battle.Bio2'))
-      return;
-    }
-    if (this.saveData.turn <= 0) {
-      this.appServ.Confirm(this.t('Scripts.Confirm.Title.Caution'), this.t('Scripts.Confirm.Action.NoTurn'));
       return;
     }
     this.openDialog = 'battle'
