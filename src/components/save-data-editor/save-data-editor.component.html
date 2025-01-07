@@ -146,11 +146,11 @@
             }
         </details>
         <details>
-            <summary>持有技能(magicS)</summary>
+            <summary>裝備技能(magicS)</summary>
             @for (magic of magics; let index = $index; track $index;) {
             @if (magic> 0) {
             <label>
-                <input type="checkbox" [ngModel]="getMagicActive(magic)"
+                <input type="checkbox" [ngModel]="getMagicSActive(magic)"
                     (ngModelChange)="onMagicSChange(magic, $event)" />
 
                 {{('Data.Skill.' + (index) + '.Title') | translate}}

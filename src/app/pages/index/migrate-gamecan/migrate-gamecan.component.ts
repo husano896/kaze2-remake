@@ -94,7 +94,6 @@ export class MigrateGamecanComponent implements OnDestroy {
         await this.appServ.Confirm('Game Canから 登 録 完 了', 'IDをメモしたら進んで下さい')
       }
       this.appServ.saveData = this.newSaveData;
-      this.appServ.saveData.Save();
       // 二週目處理
       if ((this.newSaveData.ivent & EventFlag.周目通關) && this.newSaveData.numVisits === -1) {
         this.appServ.saveData.numVisits = 1;
@@ -103,6 +102,7 @@ export class MigrateGamecanComponent implements OnDestroy {
       } else {
         this.router.navigate(['/game'], { replaceUrl: true })
       }
+      this.appServ.saveData.Save();
     }
     catch (err) {
       console.log(err);
