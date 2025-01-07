@@ -88,7 +88,7 @@ export const Games08a = async (component: DialogueComponent) => {
   await Content(`Scripts.Games08.2.12`)
 
   appServ.setRadialEffect('#000000', true, 500)
-  appServ.setSE('snd04')
+  appServ.setSE('snd01')
   Face('char41')
   /** チィッ！ */
   await Content(`Scripts.Games08.2.13`)

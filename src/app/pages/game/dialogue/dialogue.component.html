@@ -26,9 +26,8 @@
                     style="position: absolute; right:15%; top: 15%;" />
                 }
             </div>
-
-
         </div>
+        <!-- 臉 -->
         <div id="Ray2">
             <img alt="face" [src]="faceSrc || ''" />
         </div>
@@ -39,27 +38,22 @@
     <div
         style="position: absolute; width: 100%; height: 100%; top: 0;left: 0; z-index: 1; display: flex; align-items: center; justify-content: center; pointer-events: none;">
         <!-- 劇情使用：黑白棋小遊戲 -->
-
         @if (enableChessGame) {
         <div id="game-chess" class="game-container flex-column full-height" [ngClass]="{
-            active: !chessGameStart && chessGameActive , 
-                start: chessGameStart}">
+            active: !chessGameStart && chessGameActive ,start: chessGameStart}">
             <app-chess-game [gameStart]="chessGameStart"></app-chess-game>
         </div>
         }
         <!-- 劇情使用：貪吃蛇小遊戲-->
-
         @if (enableSnakeGame) {
         <div id="game-snake" class="game-container flex-column full-height" [ngClass]="{
-            active: !snakeGameStart && snakeGameActive , 
-                start: snakeGameStart}">
+            active: !snakeGameStart && snakeGameActive ,start: snakeGameStart}">
             <app-snake-game [gameStart]="snakeGameStart"></app-snake-game>
 
         </div>
         }
     </div>
     }
-    <!-- 臉 -->
     <!-- 對話框 -->
     <div class="flex-column full-width padding-large"
         style="height: 100%; contain: content; overflow: auto;padding-bottom: 16px;">

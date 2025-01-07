@@ -1,0 +1,115 @@
+<div class="container flex-column" style="align-items: center;">
+  <img alt="index_top" src="/assets/imgs/index/index_top.gif" />
+
+  <br />
+  <b class="lage-font" style="color: #ffaa88">
+    「ゲームの缶詰」から続きます
+  </b>
+  <br>
+  @if (newSaveData) {
+
+  <small>
+    この「ゲームの缶詰」の情報を確認しさい。
+  </small>
+  <br />
+
+  <table class="boxed-content full-width">
+    <tr>
+      <td>{{'Register.Yourname' | translate}}</td>
+      <td>{{newSaveData.yourName}}</td>
+    </tr>
+    <tr>
+      <td>{{'Game.DragonGame.DragonName' | translate}}</td>
+      <td>{{newSaveData.dragonName}}</td>
+    </tr>
+    <tr>
+      <td>{{'Game.DragonGame.Progress' | translate}}</td>
+      <td>{{newSaveData.numVisits > 0 ? newSaveData.numVisits : 0}} / 100 @if(newSaveData.newGamePlusTimes > 0) {
+        <span>
+          [二週目以上]
+        </span>
+        }
+      </td>
+    </tr>
+    <tr>
+      <td>Last login</td>
+      <td>{{toDate(newSaveData.lastLogin)}} </td>
+    </tr>
+    <tr>
+      <td>{{'Game.DragonGame.At' | translate}}</td>
+      <td>{{newSaveData.at}}</td>
+    </tr>
+    <tr>
+      <td>{{'Game.DragonGame.Df' | translate}}</td>
+      <td>{{newSaveData.df}}</td>
+    </tr>
+    <tr>
+      <td>{{'Game.DragonGame.Spd' | translate}}</td>
+      <td>{{newSaveData.speed}}</td>
+    </tr>
+    <tr>
+      <td>{{'Game.DragonGame.Exp' | translate}}</td>
+      <td>{{newSaveData.exp}}</td>
+    </tr>
+    <tr>
+      <td>{{'Money' | translate}}</td>
+      <td>{{newSaveData.food}} {{'Noun.ShellMoney' | translate}}</td>
+    </tr>
+  </table>
+  <br />
+  <span>
+    新しいバージョンで使用するID / パスワードを入力してください。
+  </span>
+  <br />
+  <form [formGroup]="migrateForm" class="boxed-content flex-column gap padding-large"
+    style="width: 100%; max-width: 360px;" (ngSubmit)="Migrate()">
+
+
+    <label for="id">{{"Login.ID" | translate | separateText}}</label>
+    <input id="id" autocomplete="username" name='id' formControlName="id" maxlength='20' required>
+
+    <label for="password">{{"Login.Password" | translate | separateText}}</label>
+    <input type='password' autocomplete="current-password" id="password" name='password' formControlName='password'
+      maxlength='8' required>
+
+
+    <a (click)="sameIDPW()">同じID / パスワードを使います</a>
+    <hr />
+
+    <button type="submit" [disabled]="migrateForm.invalid" (click)="Migrate()">
+      このデータから続きます
+    </button>
+    <br />
+    <button type="button" (click)="Migrate(true)">
+      {{"Register.RegisterToLocal" | translate |separateText}}
+    </button>
+
+    <br>
+  </form>
+  }
+  @else {
+  <small>
+    ここで「ゲームの缶詰」の情報を入力下さい。
+  </small>
+  <br />
+  <form [formGroup]="loginForm" class="boxed-content flex-column gap padding-large"
+    style="width: 100%; max-width: 360px;" (ngSubmit)="Login()">
+
+    <label for="id">{{"Login.ID" | translate | separateText}}</label>
+    <input id="id" autocomplete="username" name='id' formControlName="id" maxlength='20' required>
+
+    <label for="password">{{"Login.Password" | translate | separateText}}</label>
+    <input type='password' autocomplete="current-password" id="password" name='password' formControlName='password'
+      maxlength='8' required>
+    <hr />
+    <button type="submit" [disabled]="loginForm.invalid">
+      {{"Login.LoginAction" | translate | separateText}}
+    </button>
+
+    <br>
+  </form>
+  }
+  <br />
+  <a routerLink=".." replaceUrl="true">{{"Actions.PrevPage" | translate | separateText}}</a>
+  <br />
+</div>

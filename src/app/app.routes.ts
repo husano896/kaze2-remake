@@ -27,6 +27,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/index/new-save/new-save.component').then(m => m.NewSaveComponent)
     },
     {
+        path: 'migrate_gamecan',
+        loadComponent: () => import('./pages/index/migrate-gamecan/migrate-gamecan.component').then(m => m.MigrateGamecanComponent)
+    },
+    {
         path: 'welcome',
         loadComponent: () => import('./pages/index/welcome/welcome.component').then(m => m.WelcomeComponent)
     },

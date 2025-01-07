@@ -99,7 +99,7 @@ export const LoveChk = async (component: DialogueComponent) => {
       Face('char08a');
     }
     setNotice()
-    router.navigate(['/game/dragongame'], { replaceUrl: true })
+    router.navigate(['/game/dragongame'], { replaceUrl: true, state: { fromBegin: true } })
     return;
   }
 

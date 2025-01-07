@@ -16,17 +16,17 @@ import { firstValueFrom } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent implements OnInit {
-  constructor(private appServ: AppService, private router: Router, private http: HttpClient) {
-
+export class LoginComponent {
+  constructor(
+    private readonly appServ: AppService,
+     private readonly router: Router, 
+     private readonly http: HttpClient) {
   }
   loginForm = new FormGroup({
     id: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   })
-  ngOnInit() {
-    console.log(this.loginForm);
-  }
+
   async Login() {
     try {
       const resp = (await firstValueFrom(this.http.post('/login', {

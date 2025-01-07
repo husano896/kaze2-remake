@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Injector, OnDestroy, ViewChild } from '@angular/core';
 import { Events } from '@/data/events';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, EventType, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DialogueSystem } from '@/entities/DialogueSystem';
 import { debounceTime, Subscription } from 'rxjs';
 import { SaveData } from '@/entities/SaveData';
@@ -21,7 +21,6 @@ import { RootAnimations } from '@/app/app.service';
 export class DialogueComponent extends DialogueSystem implements AfterViewInit, OnDestroy {
   @ViewChild('bg') bg!: ElementRef<HTMLDivElement>;
   @ViewChild(ChessGameComponent) chessGameComponent?: ChessGameComponent;
-
   @ViewChild(SnakeGameComponent) snackGameComponent?: SnakeGameComponent;
 
   //#region 龍1
@@ -120,13 +119,13 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
   }
 
   setDragonCG = (cg: string) => {
-    // this.dragoncg.nativeElement.src = `/assets/imgs/dragon/${cg}.gif`
     this.dragonCg = cg;
   }
 
   setDragonCG2 = (cg: string) => {
     this.dragonCg2 = cg;
   }
+
   setBGOpticity = (v: number) => {
     this.bg.nativeElement.style.backgroundColor = `rgba(0,0,0,${1.0 - v})`;
   }
@@ -142,6 +141,7 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
     this.dialog.nativeElement.style.opacity = String(v);
   }
 
+  /** 全部物件淡出 */
   AllFadeOut = async () => {
     this.setDialogOpticity(0);
     this.setDragonCGOpticity(0);
@@ -161,6 +161,7 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
     await this.appServ.Wait(3000);
   }
 
+  /** 返回龍窩，若從Debug選單回來則回到Debug選單並還原存檔 */
   Back = async () => {
     const { debugMenu } = this.location.getState() as { event: string, lv: string, debugMenu: boolean };
     if (debugMenu) {

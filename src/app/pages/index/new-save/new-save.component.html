@@ -45,7 +45,9 @@
             </button>
             }
             <br />
-            <button type="button" [disabled]="registerForm.invalid" (click)="onSubmit(true)">
+            <button type="button"
+                [disabled]="registerForm.controls.dragonName.invalid || registerForm.controls.yourName.invalid || registerForm.controls.gender.invalid"
+                (click)="onSubmit(true)">
                 {{"Register.RegisterToLocal" | translate |separateText}}
             </button>
         </form>

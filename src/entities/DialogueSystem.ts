@@ -1,9 +1,10 @@
 import { AppService, RootAnimations } from "@/app/app.service";
 import { Location } from '@angular/common';
-import { ViewChild, ElementRef, Directive, AfterViewInit, OnDestroy, OnInit, Injector, ChangeDetectorRef } from "@angular/core";
+import { ViewChild, ElementRef, Directive, AfterViewInit, OnDestroy, Injector, ChangeDetectorRef } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { Subject, firstValueFrom } from "rxjs";
 import * as _ from 'lodash-es';
+
 @Directive()
 export class DialogueSystem implements OnDestroy, AfterViewInit {
 
@@ -14,7 +15,7 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
     public dialogComplete$: Subject<any> = new Subject<any>();
 
     /** 對話結束聆聽事件 */
-    private optionSelect$: Subject<{ index: number, value: string }> = new Subject<{ index: number, value: string }>()
+    private readonly optionSelect$: Subject<{ index: number, value: string }> = new Subject<{ index: number, value: string }>()
 
     /** 已加入佇列，待顯示到畫面上的文字 */
     public pendingTexts: string[] = [];
@@ -32,6 +33,7 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
     public options: Array<string> | null | undefined = new Array();
 
     public faceSrc: string = '';
+
     /** 表情, 為1~6 */
     public emoji: number = 0;
 
@@ -41,8 +43,7 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
     /** 文本輸入字Interval */
     private textInterval?: any;
 
-    public customSound?: string;
-
+    /** 是否換行時跳過按鍵等待 */
     public skipWait?: boolean;
 
     /** 指向時的提示文字 */
@@ -74,6 +75,7 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
         console.log('message')
         this.appServ.setMessageSE(false, fileName)
     }
+
     //#region 對話系統
     SetDialogueInterval(interval: number = 100) {
         if (this.textInterval) {
@@ -101,15 +103,11 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
                 }
             } else {
                 this.appServ.setMessageSE();
-                // if (!this.skipWait) {
                 this.dialogComplete$.next(0);
                 if (!this.contentCompleted) {
                     this.SetContentCompleted();
                 }
-                // }
             }
-
-
         }, interval);
     }
 
@@ -129,7 +127,7 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
 
     /** 角色表情 */
     Emoji = (e?: number) => {
-        this.emoji = e || 0;
+        this.emoji = e ?? 0;
     };
 
     /** 設定心情與友好度 */
@@ -172,7 +170,6 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
             return;
         }
         this.emoji = emojiId;
-        // outputLAYER('Ray6', "<IMG src='image/mark_" + ref[varAns] + ".gif'>");
 
     }
     /** 清除文字 */
@@ -231,7 +228,7 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
 
     /** 是否等待下一句對話 */
     isWaiting() {
-        return this.pendingTexts.length === 0 || this.pendingTexts[0] === '\n';
+        return this.pendingTexts.length === 0 || this.pendingTexts[0] === '\n' || this.pendingTexts[0] === '\r' || this.pendingTexts[0] === '\r\n';
     }
 
     /** 是否對話已完成 */
@@ -271,7 +268,6 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
     get talkingParam() {
         return this.appServ.saveData.talkingParam;
     }
-
     //#endregion
 
 }

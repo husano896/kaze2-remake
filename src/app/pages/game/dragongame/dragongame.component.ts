@@ -108,6 +108,7 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
       this.appServ.Confirm('', varSysMsg)
     }
     this.appServ.setLastLogin();
+    this.appServ.saveData.Save();
     super.ngAfterViewInit();
     this.changeDetectionRef.detectChanges();
 
