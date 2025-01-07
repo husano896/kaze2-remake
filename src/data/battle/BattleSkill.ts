@@ -42,7 +42,7 @@ function PS_Attack(attacker: SaveData, victim: SaveData, victimAction: number, a
   if (varI < 1) varI = 1;
   const varAns = Math.max(1, Math.round((varI + Math.random() * varLv) * 0.6 + Math.random() * 5));
 
-  const pat = varATPat[Math.round(Math.random() * 5)]
+  const pat = varATPat[Math.floor(Math.random() * varATPat.length)]
   if ((victimAction == 4) && (Math.random() * 10 > 5)) {
     // varMsgColor[0] = L_MColor;
     // varMsgColor[1] = L_MColor;
@@ -246,7 +246,7 @@ function PS_Masic18(attacker: SaveData, victim: SaveData, victimAction: number, 
       snd = ('snd01'); // PS_Shock2();
     }
 
-    return { messages, snd, params: {buffName: 'Data.Skill.4'} }
+    return { messages, snd, params: {buffName: 'Data.Skill.4.Title'} }
   }
 
   // varMsgColor[0] = L_MColor;
