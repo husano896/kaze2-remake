@@ -15,7 +15,7 @@ import * as _ from 'lodash-es';
   styleUrl: './skill.component.scss'
 })
 export class SkillComponent implements OnInit {
-  skillIds = _.range(18).map(i => i > 0 ? (1 << i) : 1);
+  skillIds = _.range(19).map(i => i > 0 ? (1 << i) : 1);
   selectedSkills: Array<boolean> = [];
   constructor(private readonly appServ: AppService, private readonly router: Router) {
 
