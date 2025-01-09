@@ -225,20 +225,20 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
     }
 
     // 期間限定イベント
-    if (!(this.saveData.ivent & 2048)) {
+    if (!(this.saveData.ivent & EventFlag.期間限定)) {
       if ((date == "1224") || (date == "1225")) {
         // 聖誕快樂
         varSysMsg.push(this.t('Scripts.Confirm.MerryChirstmas',
           { ...this.saveData.talkingParam, varItemName: this.t('Data.Item.18.Title') }));
         this.saveData.item[ItemID.生ケーキ] += 1;
-        this.saveData.ivent = (this.saveData.ivent | EventFlag.期間限定);
+        this.saveData.ivent |= EventFlag.期間限定;
       }
 
       if ((date == "11") || (date == "0101")) {
         // 新年快樂
         varSysMsg.push(this.t('Scripts.Confirm.HappyNewYear'));
         this.saveData.food += 80;
-        this.saveData.ivent = (this.saveData.ivent | EventFlag.期間限定);
+        this.saveData.ivent |= EventFlag.期間限定;
       }
     }
     return varSysMsg.join('\r\n');

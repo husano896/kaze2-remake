@@ -378,7 +378,7 @@ export class InventoryComponent {
       }
 
       if ((this.saveData.overLv > this.saveData.numVisits)
-        && (varMaxHpFlg || varDfFlg || varAtFlg || varSpeedFlg) && !(this.saveData.ivent & EventFlag.周目通關)) {	// 2週目は問題なし
+        && (varMaxHpFlg || varDfFlg || varAtFlg || varSpeedFlg) && !this.saveData.newGamePlusTimes) {	// 2週目は問題なし
         // ＞孤竜は満腹で、アイテムの効果が出なかった。
         varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Food.NoEffect'));
       } else {

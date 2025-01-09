@@ -664,7 +664,7 @@ export class SaveData implements IBattleData {
             return { title: ('Scripts.Confirm.Title.Caution'), content: ('Scripts.Confirm.Action.NoTurn') }
 
         }
-        if ((this.overLv > this.numVisits) && !(this.ivent & EventFlag.周目通關)) { // 2週目の時は問題なし
+        if ((this.overLv > this.numVisits) && !this.newGamePlusTimes) { // 2週目の時は問題なし
             return { title: ('Scripts.Confirm.Title.Warning'), content: ('Scripts.Confirm.Action.Food.OverLv') }
 
         }

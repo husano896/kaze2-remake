@@ -44,7 +44,7 @@ const ev040 = async (component: DragongameComponent) => {
                 break;
             case 2:
                 // 開啟貓分支
-                saveData.ivent = EventFlag.貓事件;
+                saveData.ivent |= EventFlag.貓事件;
                 // [高興] + 表情 
                 EmojiAndAdjustLove(14)
                 // 大丈夫{{go00}}{{go01}}。 ちゃんと世話できる{{go01}}。
@@ -53,7 +53,7 @@ const ev040 = async (component: DragongameComponent) => {
                 break;
             case 3:
                 // 開啟貓分支
-                saveData.ivent = EventFlag.貓事件;
+                saveData.ivent |= EventFlag.貓事件;
                 // [高興] + 表情 
                 EmojiAndAdjustLove(4)
                 // ありがとう！  {{my}}、ちゃんと世話する{{go01}}♪
