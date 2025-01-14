@@ -19,7 +19,7 @@
             [ngStyle]="{'--var-damage-percent' : damageToEnemy / enemyData.Maxhp}" />
         @if (damageToEnemy) {
         <div class="damage-text" [ngStyle]="{color: damageToEnemy >= 0 ? '#D50000' : '#66FF6A' }">
-            <span style="margin: auto; font-size: min(15vw, 15vh);">{{abs(damageToEnemy || 999)}}</span>
+            <span style="margin: auto; font-size: min(20vw, 15vh);">{{abs(damageToEnemy || 999)}}</span>
         </div>
         }
     </div>
@@ -111,15 +111,23 @@
             [ngClass]="{waiting: !(content.length || pendingTexts.length || playerAction || battleResult || actionQueue.length > 0)}">
             <div class="flex-column full-width full-height">
                 <button [ngClass]="{selected: playerAction === 1}" (click)="onActionClick(1);"
-                    [disabled]="playerAction || playerLastAction === 1">通 常 攻 撃</button>
+                    [disabled]="playerAction || playerLastAction === 1">
+                    {{'Game.Battle.Action.Attack' | translate}}
+                </button>
                 <button [ngClass]="{selected: playerAction === 3}" (click)="onActionClick(3)"
-                    [disabled]="playerAction || playerLastAction === 3">特殊攻撃反射</button>
+                    [disabled]="playerAction || playerLastAction === 3">
+                    {{'Game.Battle.Action.CounterSpecial' | translate}}
+                </button>
             </div>
             <div class="flex-column full-width full-height">
                 <button [ngClass]="{selected: playerAction === 2}" (click)="onActionClick(2)"
-                    [disabled]="playerAction || playerLastAction === 2">特 殊 攻 撃</button>
+                    [disabled]="playerAction || playerLastAction === 2">
+                    {{'Game.Battle.Action.Special' | translate}}
+                </button>
                 <button [ngClass]="{selected: playerAction === 4}" (click)="onActionClick(4)"
-                    [disabled]="playerAction || playerLastAction === 4">攻 撃 回 避</button>
+                    [disabled]="playerAction || playerLastAction === 4">
+                    {{'Game.Battle.Action.Dodge' | translate}}
+                </button>
             </div>
         </div>
         <div class="flex-row" style="justify-content: space-between;">
@@ -130,12 +138,13 @@
         @if (battleResult|| playerAction || content.length > 0 || pendingTexts.length >0) {
         <div class="flex-row full-width padding-large"
             style="position: absolute; height: 100%; margin: auto; pointer-events: none; opacity: 0.25; top: 0; width: calc(99%);justify-content: center;">
-            <img class="full-height" [src]="'/assets/imgs/dragon/' + playerData.cgName + '.gif'" alt="player-dragoncg" />
+            <img class="full-height" [src]="'/assets/imgs/dragon/' + playerData.cgName + '.gif'"
+                alt="player-dragoncg" />
         </div>
         }
         @if (damageToPlayer) {
         <div class="damage-text" [ngStyle]="{color: damageToPlayer > 0 ? '#D50000' : '#66FF6A' }">
-            <span style="margin: auto; font-size: min(20vw, 20vh);">{{abs(damageToPlayer)}}</span>
+            <span style="margin: auto; font-size: min(16vw, 12vh);">{{abs(damageToPlayer)}}</span>
         </div>
         }
     </div>

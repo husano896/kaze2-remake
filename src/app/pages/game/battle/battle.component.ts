@@ -1,6 +1,6 @@
 import { DialogueSystem } from '@/entities/DialogueSystem';
-import { CommonModule, Location } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, Injector, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { IBattleRouteState, IBattleServiceResolveData } from './battle.service';
@@ -10,6 +10,7 @@ import { ItemID } from '@/data/ItemID';
 import { BioFlag } from '@/data/BioFlag';
 import { BattleSkillResult, BattleSkills } from '@/data/battle';
 import { RootAnimations } from '@/app/app.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 const actionTimeMaxPerRound = 4;		// 連続攻撃回数最大上限
 
@@ -25,7 +26,7 @@ enum BattleAction {
 @Component({
   selector: 'app-battle',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './battle.component.html',
   styleUrl: './battle.component.scss'
 })
@@ -82,6 +83,7 @@ export class BattleComponent extends DialogueSystem implements AfterViewInit, On
     href: string, state: any,
   }
   onLose?: { href: string, state: any }
+
   constructor(injector: Injector,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute) {
@@ -119,15 +121,20 @@ export class BattleComponent extends DialogueSystem implements AfterViewInit, On
     const location = this.location.getState() as IBattleRouteState;
     this.onWin = location.onWin;
     this.onLose = location.onLose
+
+    // 戰鬥中不使用通信機音效
     this.setDialogueSE('');
+
     // 戰鬥訊息固定速度
     this.SetDialogueInterval(20);
+    
     // 開場的戰鬥訊息, 本地與里親對戰時的ID不同
     this.Content(this.battleID.startsWith('-') ?
       this.appServ.t('Game.Battle.StartMessage.1', { dragonName: this.enemyData.dragonName }) :
       this.appServ.t('Game.Battle.StartMessage.2', { yourName: this.enemyData.yourName, dragonName: this.enemyData.dragonName })
     );
     await this.appServ.Wait(2000);
+
     this.SetContentCompleted();
     this.ClearContent()
 
@@ -146,6 +153,7 @@ export class BattleComponent extends DialogueSystem implements AfterViewInit, On
     if (this.skipWait) {
       return;
     }
+
     // 阻擋多次選擇動作
     if (this.playerAction || this.enemyAction || this.actionQueue.length > 0) {
       return;
@@ -163,8 +171,8 @@ export class BattleComponent extends DialogueSystem implements AfterViewInit, On
     } while (this.enemyAction == this.enemyLastAction)
     this.enemyLastAction = this.enemyAction;
 
-    this.Content('己方:' + this.appServ.t(actionString[this.playerAction]))
-    this.Content('相手:' + this.appServ.t(actionString[this.enemyAction]))
+    this.Content(this.translateServ.instant('Game.Battle.Player') + ':' + this.appServ.t(actionString[this.playerAction]))
+    this.Content(this.translateServ.instant('Game.Battle.Opponent') + ':' + this.appServ.t(actionString[this.enemyAction]))
     await this.appServ.Wait(300);
 
     // 速度計算修正
@@ -353,8 +361,7 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
       this.startPlayerData.Maxhp += varWinUp;
       await this.Content(this.appServ.t('Game.Battle.WinBuff', { dragonName: this.playerData.dragonName, winUp: varWinUp }));
     }
-    await this.Content(`
-`);
+    await this.Content(``);
 
     this.appServ.setBGM()
     this.appServ.setSE()
@@ -410,19 +417,20 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
     } else {
       this.appServ.setBGM('music09')
     }
-
     const params = {
       dragonName: this.playerData.dragonName,
       yourName: this.playerData.yourName,
       sum: String(sum)
     }
+
+    //#region 戰敗時低機率出現恐怖症
     if (Math.round(Math.random() * 10) == 1) {
       await this.Content(`Game.Battle.LoseMessage.1`, params)
       this.startPlayerData.bio |= BioFlag.恐怖;
     } else {
       await this.Content(`Game.Battle.LoseMessage.2`, params)
     }
-
+    //#endregion
     await this.Content(`
 `);
     this.appServ.setBGM()
@@ -555,6 +563,10 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
   }
   /** 對話系統的覆蓋, 點擊對話框之後才會繼續戰鬥回合 */
   override async FastForward() {
+    // 修正提早按對話框導致戰鬥直接開始的問題
+    if (!this.enterAnim) {
+      return;
+    }
     super.FastForward();
     // 目前對話執行完後才執行下次的攻擊指令處理
     if (!this.IsContentComplete()) {

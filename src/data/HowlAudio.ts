@@ -76,15 +76,16 @@ export const HowlAudio: {
     snd02: new Howl({ src: [SEBase + 'snd02.wav'] }),
 
     /* 環境音：サラ平原 */
-    snd03: new Howl({ src: [SEBase + 'snd03.wav'] }),
+    snd03: new Howl({ src: [SEBase + 'snd03.mp3'] }),
     snd04: new Howl({ src: [SEBase + 'snd04.wav'] }),
 
     /* 入侵者音效！*/
     snd05: new Howl({ src: [SEBase + 'snd05.wav'] }),
     snd06: new Howl({ src: [SEBase + 'snd06.mp3'] }),
     snd07: new Howl({ src: [SEBase + 'snd07.wav'] }),
+
     /** 回復音效 */
-    snd08: new Howl({ src: [SEBase + 'snd08.wav'] }),
+    snd08: new Howl({ src: [SEBase + 'snd08.mp3'] }),
 
     /** 寶箱開啟音效 */
     snd09: new Howl({ src: [SEBase + 'snd09.wav'] }),
@@ -98,7 +99,6 @@ export const HowlAudio: {
     /** 通信機錯誤音效 */
     snd12: new Howl({ src: [SEBase + 'snd12.wav'] }),
 
-
     /** 拉霸音效 */
     snd13: new Howl({ src: [SEBase + 'snd13.wav'] }),
 
@@ -106,23 +106,23 @@ export const HowlAudio: {
     snd14: new Howl({ src: [SEBase + 'snd14.wav'] }),
 
     /** 成功 / 解鎖 音效 */
-    snd15: new Howl({ src: [SEBase + 'snd15.wav'] }),
+    snd15: new Howl({ src: [SEBase + 'snd15.mp3'] }),
 
     /** 環境音：海浪聲（預設） */
     snd16: new Howl({ src: [SEBase + 'snd16New.mp3'] }),
 
     /** 環境音：森林（トピリアの森） */
-    snd17: new Howl({ src: [SEBase + 'snd17.wav'] }),
+    snd17: new Howl({ src: [SEBase + 'snd17.mp3'] }),
 
     /** 環境音：風聲（神獸廟） */
-    snd18: new Howl({ src: [SEBase + 'snd18.wav'] }),
+    snd18: new Howl({ src: [SEBase + 'snd18.mp3'] }),
 
     /** 環境音：實驗室 */
-    snd19: new Howl({ src: [SEBase + 'snd19.wav'] }),
+    snd19: new Howl({ src: [SEBase + 'snd19.mp3'] }),
     // 地震
-    snd20: new Howl({ src: [SEBase + 'snd20.wav'] }),
+    snd20: new Howl({ src: [SEBase + 'snd20.mp3'] }),
     // 殺掉
-    snd21: new Howl({ src: [SEBase + 'snd21.wav'] }),
+    snd21: new Howl({ src: [SEBase + 'snd21.mp3'] }),
 
     /** 新Re加入：戰鬥護盾Buff */
     sndCounter: new Howl({ src: [SEBase + 'sndCounter.mp3'] })

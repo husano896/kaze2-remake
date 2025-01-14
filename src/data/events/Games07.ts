@@ -474,107 +474,6 @@ export const Games07 = async (component: DialogueComponent) => {
         //#endregion
     }
 
-    if (appServ.saveData.item[ItemID.ニステアの滴] && !(ivent & EventFlag.ニステアイベント終了)) {
-        //#region 持有ニステアの滴但還沒鑑定過 (PS_OP_Ivent2)
-        Face('char07')
-        /** どうもっす。今日持ってきたアイテムの中に、あるっすかね？ */
-        await Content(`Scripts.Games07.Event2.01`)
-
-        Face('char31')
-        /** ……ああ、これだよ。キミが持っている、これが材料の一つだ。 */
-        await Content(`Scripts.Games07.Event2.02`)
-
-        Face('char01')
-        /** それって…「ニステアの滴」じゃないっすか！？ */
-        await Content(`Scripts.Games07.Event2.03`)
-
-        Face('char31')
-        /**
-            ニステアは悪魔の樹ほどではないが、膨大な量の情報体を収めることができる、
-            高性能の情報集積回路に転用可能なものなのだよ。
-         */
-        await Content(`Scripts.Games07.Event2.04`)
-
-        Face('char02')
-        /** うう～……よくわからないっす。そもそも竜死病って、何なんっすか？ */
-        await Content(`Scripts.Games07.Event2.05`)
-
-        Face('char31')
-        /**
-            簡単に言えば、孤竜と里親を結ぶのに用いるインターフェイスユニットを
-            考えてもらえばいい。君たちの見ている孤竜は、いわば「モニター」にあたる。
-            だが、その本体はべつにある。つまりハニカムホログラフィックスメモリー、
-            いわゆる記憶装置だ。それにあたるものが『悪魔の樹』なのだよ。
-         */
-        await Content(`Scripts.Games07.Event2.06`)
-
-        Face('char02')
-        /** でも……竜たちには触れらるし、ご飯も食べるんっすよ？ */
-        await Content(`Scripts.Games07.Event2.07`)
-
-        Face('char31')
-        /** 
-            それについては、難しい概念なので説明はしにくいが……
-            とにかく悪魔の樹は、高度な情報集積回路であるのと同時に、
-            竜たちの存在を維持する、第二の脳、第二の心臓ともいえるものなのだよ。
-         */
-        await Content(`Scripts.Games07.Event2.08`)
-
-        Face('char02')
-        /** ……竜死病は、その悪魔の樹の異常が原因なんっすか！？ */
-        await Content(`Scripts.Games07.Event2.09`)
-
-        Face('char31')
-        /** 
-            そうだよ。
-            プログラムのバグか、もしくは竜たちの数が増えすぎたための処理オーバーなのか…
-            理由は知るよしもないがね。
-         */
-        await Content(`Scripts.Games07.Event2.10`)
-
-        Face('char07')
-        /** それなら、悪魔の樹を治すとかすればいいんじゃないっすか？ */
-        await Content(`Scripts.Games07.Event2.11`)
-
-        Face('char30')
-        /** 全てを知る者……、彼らはそれを拒んだよ。 */
-        await Content(`Scripts.Games07.Event2.12`)
-
-        Face('char07')
-        /** どうして……そいつらは、何もしないんっすか！？ */
-        await Content(`Scripts.Games07.Event2.13`)
-
-        Face('char30')
-        /** 事実を隠しておきたい……世界の平穏のために、だそうだ。 */
-        await Content(`Scripts.Games07.Event2.14`)
-
-        Face('char01')
-        /** でも、それだけが理由じゃ、ないんっすよね？ */
-        await Content(`Scripts.Games07.Event2.15`)
-
-        Face('char30')
-        /** おそらくはね……。 */
-        await Content(`Scripts.Games07.Event2.16`)
-
-        Face('char31')
-        /**
-            さあ、長話をしてしまった。いったん戻りなさい。
-            彼らは君たちがここに滞在しすぎることを嫌い、恐れているのだから。
-         */
-        await Content(`Scripts.Games07.Event2.17`)
-
-        Face('char01')
-        /** 恐れて……いる？ */
-        await Content(`Scripts.Games07.Event2.18`)
-
-        await AllFadeOut();
-        await appServ.Wait(1500);
-        appServ.saveData.ivent |= EventFlag.ニステアイベント終了;
-        Back();
-
-        return
-        //#endregion
-    }
 
     if (appServ.saveData.item[ItemID.水晶ランタン] && !(ivent & EventFlag.水晶ランタンイベント終了)) {
         //#region 持有水晶ランタン但還沒鑑定過 (PS_OP_Ivent1)
@@ -789,6 +688,109 @@ export const Games07 = async (component: DialogueComponent) => {
         //#endregion 
     }
 
+    if (appServ.saveData.item[ItemID.ニステアの滴] && !(ivent & EventFlag.ニステアイベント終了)) {
+        //#region 持有ニステアの滴但還沒鑑定過 (PS_OP_Ivent2)
+        Face('char07')
+        /** どうもっす。今日持ってきたアイテムの中に、あるっすかね？ */
+        await Content(`Scripts.Games07.Event2.01`)
+
+        Face('char31')
+        /** ……ああ、これだよ。キミが持っている、これが材料の一つだ。 */
+        await Content(`Scripts.Games07.Event2.02`)
+
+        Face('char01')
+        /** それって…「ニステアの滴」じゃないっすか！？ */
+        await Content(`Scripts.Games07.Event2.03`)
+
+        Face('char31')
+        /**
+            ニステアは悪魔の樹ほどではないが、膨大な量の情報体を収めることができる、
+            高性能の情報集積回路に転用可能なものなのだよ。
+         */
+        await Content(`Scripts.Games07.Event2.04`)
+
+        Face('char02')
+        /** うう～……よくわからないっす。そもそも竜死病って、何なんっすか？ */
+        await Content(`Scripts.Games07.Event2.05`)
+
+        Face('char31')
+        /**
+            簡単に言えば、孤竜と里親を結ぶのに用いるインターフェイスユニットを
+            考えてもらえばいい。君たちの見ている孤竜は、いわば「モニター」にあたる。
+            だが、その本体はべつにある。つまりハニカムホログラフィックスメモリー、
+            いわゆる記憶装置だ。それにあたるものが『悪魔の樹』なのだよ。
+         */
+        await Content(`Scripts.Games07.Event2.06`)
+
+        Face('char02')
+        /** でも……竜たちには触れらるし、ご飯も食べるんっすよ？ */
+        await Content(`Scripts.Games07.Event2.07`)
+
+        Face('char31')
+        /** 
+            それについては、難しい概念なので説明はしにくいが……
+            とにかく悪魔の樹は、高度な情報集積回路であるのと同時に、
+            竜たちの存在を維持する、第二の脳、第二の心臓ともいえるものなのだよ。
+         */
+        await Content(`Scripts.Games07.Event2.08`)
+
+        Face('char02')
+        /** ……竜死病は、その悪魔の樹の異常が原因なんっすか！？ */
+        await Content(`Scripts.Games07.Event2.09`)
+
+        Face('char31')
+        /** 
+            そうだよ。
+            プログラムのバグか、もしくは竜たちの数が増えすぎたための処理オーバーなのか…
+            理由は知るよしもないがね。
+         */
+        await Content(`Scripts.Games07.Event2.10`)
+
+        Face('char07')
+        /** それなら、悪魔の樹を治すとかすればいいんじゃないっすか？ */
+        await Content(`Scripts.Games07.Event2.11`)
+
+        Face('char30')
+        /** 全てを知る者……、彼らはそれを拒んだよ。 */
+        await Content(`Scripts.Games07.Event2.12`)
+
+        Face('char07')
+        /** どうして……そいつらは、何もしないんっすか！？ */
+        await Content(`Scripts.Games07.Event2.13`)
+
+        Face('char30')
+        /** 事実を隠しておきたい……世界の平穏のために、だそうだ。 */
+        await Content(`Scripts.Games07.Event2.14`)
+
+        Face('char01')
+        /** でも、それだけが理由じゃ、ないんっすよね？ */
+        await Content(`Scripts.Games07.Event2.15`)
+
+        Face('char30')
+        /** おそらくはね……。 */
+        await Content(`Scripts.Games07.Event2.16`)
+
+        Face('char31')
+        /**
+            さあ、長話をしてしまった。いったん戻りなさい。
+            彼らは君たちがここに滞在しすぎることを嫌い、恐れているのだから。
+         */
+        await Content(`Scripts.Games07.Event2.17`)
+
+        Face('char01')
+        /** 恐れて……いる？ */
+        await Content(`Scripts.Games07.Event2.18`)
+
+        await AllFadeOut();
+        await appServ.Wait(1500);
+        appServ.saveData.ivent |= EventFlag.ニステアイベント終了;
+        Back();
+
+        return
+        //#endregion
+    }
+
+    
     if (!appServ.saveData.item[ItemID.水晶ランタン] && !(ivent & EventFlag.ニステアイベント終了)) {
         //#region ランタンのヒント　メッセージ表示ルーチン PS_OP_Help2
 

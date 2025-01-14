@@ -11,7 +11,9 @@ interface IBattleData {
   at: number;
   df: number;
   speed: number;
+  /** 炎 < [50] < 水 */
   element1: number;
+  /** 風 < [50] < 地 */
   element2: number;
   magic?: any;
   magicS: any;

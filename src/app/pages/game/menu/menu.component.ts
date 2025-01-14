@@ -34,6 +34,15 @@ export class MenuComponent implements AfterViewInit {
     this.appServ.toggleAudio();
   }
 
+  unLink()  {
+    if (!window.confirm('是否解除存檔中的帳號連結記錄？')) {
+      return;
+    }
+
+    this.appServ.saveData.btlid = '';
+    this.appServ.saveData.guid = '';
+  }
+
   get isAudioON(): boolean {
     return this.appServ.AudioON;
   }

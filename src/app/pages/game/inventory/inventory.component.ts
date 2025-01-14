@@ -362,10 +362,11 @@ export class InventoryComponent {
           varBuffs.push(this.appServ.t('Game.Inventory.ItemEffect.Bio.32'));
         }
         if (varBioFlg & 262144) {
-          if (this.saveData.bio & 128) {
-            this.saveData.bio = 128;
+          if (this.saveData.bio & BioFlag.発作) {
+            this.saveData.bio = BioFlag.発作;
           }
           else {
+            // 嘿對，睡著的龍也會被叫醒 天哪
             this.saveData.bio = 0;
           }
           // ＞全てのステータスが浄化された！
@@ -471,6 +472,13 @@ export class InventoryComponent {
       await this.appServ.Confirm(this.appServ.t('Game.Inventory.ItemUsed', {
         dragonName: this.saveData.dragonName
       }), varBuffs.join('\r\n'))
+
+      // 道具數量的檢查
+      this.appServ.saveData.item.forEach((v, index) => {
+        if (v < 0) {
+          this.appServ.saveData.item[index] = 0;
+        }
+      })
       this.disabled = false;
     }
 

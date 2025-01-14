@@ -7,7 +7,7 @@
 
             <button id="Start" routerLink="/game/battle" [state]="{battle: selectedBattleID}" [replaceUrl]="true"
                 [disabled]="!selectedBattleID">
-                {{"戦いを始める" | translate | separateText}}</button>
+                {{"Game.Battle.Start" | translate | separateText}}</button>
         </div>
         <span class="large-font">{{leagueName}}</span>
         <br />
@@ -18,8 +18,11 @@
             <span>{{p.yourName}}</span>
             &nbsp;
             <span>竜: {{p.dragonName}}</span>
+            <br />
             &nbsp;
             <span>戦闘力: {{p.battlePower}}</span>
+            &nbsp;
+            <span>属性: {{getBattleDataElementText(p)}}</span>
         </label>
         <br />
         }

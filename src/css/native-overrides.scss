@@ -6,6 +6,7 @@ body {
     font-family: "Shippori Mincho", serif;
 }
 
+/** 避免特定位置往下拉時會把整個PWA往下拉的問題 */ 
 body,
 * {
     overscroll-behavior: contain;
@@ -15,6 +16,7 @@ html {
     overscroll-behavior: none;
 }
 
+/** 禁止選取 */ 
 * {
     -webkit-touch-callout: none;
     -webkit-user-select: none;

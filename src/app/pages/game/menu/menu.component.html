@@ -26,6 +26,12 @@
                 </a>
             </li>
             }
+            @else if (debug) {
+                <li><a (click)="unLink()">
+                    解除存檔與帳號的連結 (本地化)
+                </a>
+            </li>
+            }
             <!--ゲ ー ム を 終 わ る-->
             <li><a routerLink="/" replaceUrl="true">
                     {{"Game.Menu.Leave" | translate | separateText}}

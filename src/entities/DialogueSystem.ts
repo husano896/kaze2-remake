@@ -184,11 +184,13 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
 
     /** 文章 */
     Content = (c: string, exParam?: { [param: string]: string }) => {
-        const r = this.translateServ.instant(c, {
-            ...this.appServ.saveData.talkingParam,
-            ...(exParam ? _.mapValues(exParam, (translateKey: string) => (translateKey ? this.appServ.t(translateKey) : '')) : {})
-        })
-        this.pendingTexts.push(...r);
+        if (c) {
+            const r = this.translateServ.instant(c, {
+                ...this.appServ.saveData.talkingParam,
+                ...(exParam ? _.mapValues(exParam, (translateKey: string) => (translateKey ? this.appServ.t(translateKey) : '')) : {})
+            })
+            this.pendingTexts.push(...r);
+        }
         this.pendingTexts.push('\r\n');
         this.contentCompleted = false;
         return firstValueFrom(this.dialogComplete$);

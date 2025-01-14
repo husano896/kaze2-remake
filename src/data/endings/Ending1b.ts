@@ -4,14 +4,13 @@ import { firstValueFrom, } from "rxjs";
 
 export async function Ending1b(component: EndingComponent) {
     const { location, setBG, setBGOpticity, Content, startEndRoll, setDialogOpticity, router, appServ, Save, dialogComplete$ } = component;
-    const { Wait } = appServ
 
     const { debugMenu } = location.getState() as { event: string, lv: string, debugMenu: boolean };
 
     setBG('badend');
     Content(`Scripts.Ending1.4`)
     await firstValueFrom(dialogComplete$);
-    await Wait(3000);
+    await appServ.Anim(RootAnimations.FadeOut);
     setDialogOpticity(0);
     await appServ.Anim(RootAnimations.FadeIn);
     setBGOpticity(1);

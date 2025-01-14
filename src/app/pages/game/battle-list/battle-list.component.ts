@@ -1,10 +1,7 @@
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { firstValueFrom } from 'rxjs';
-import { IBattleServiceResolveData } from '../battle/battle.service';
-import { SaveData } from '@/entities/SaveData';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { AppService } from '@/app/app.service';
 import { IBattleData } from '@/data/battle';
@@ -21,22 +18,12 @@ export class BattleListComponent implements OnInit {
   list?: IBattleData[] = [];
 
   selectedBattleID?: string;
-  leagueNames: string[] = [
-    "ビ ギ ナ ー ズ カ ッ プ",
-    "キ ッ ズ ド ラ ゴ ン カ ッ プ",
-    "ポ イ ル ト ッ プ カ ッ プ",
-    "ノ ー マ ル カ ッ プ",
-    "ハ ー ド カ ッ プ",
-    "エ キ ス パ ー ト カ ッ プ",
-    "プ ロ フ ェ ッ シ ョ  ナ ル カ ッ プ",
-    "マ ス タ ー ド ラ ゴ ン カ ッ プ",
-    "レ ジ ェ ン ド ド ラ ゴ ン カ ッ プ",
-    "フ ァ イ ナ ル カ ッ プ"
-  ]
+
   constructor(
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly appServ: AppService) {
+    private readonly appServ: AppService,
+    private readonly translateServ: TranslateService) {
   }
 
   async ngOnInit() {
@@ -51,7 +38,26 @@ export class BattleListComponent implements OnInit {
     this.router.navigate(['.'], { relativeTo: this.activatedRoute, onSameUrlNavigation: 'reload' })
   }
 
+  getBattleDataElementText(d: IBattleData) {
+    const elements = [];
+    if (d.element1 > 50) {
+      elements.push(this.translateServ.instant('Data.Element.Fire'))
+    }
+    if (d.element1 < 50) {
+      elements.push(this.translateServ.instant('Data.Element.Water'))
+    }
+    if (d.element2 > 50) {
+      elements.push(this.translateServ.instant('Data.Element.Earth'))
+    }
+    if (d.element2 < 50) {
+      elements.push(this.translateServ.instant('Data.Element.Wind'))
+    }
+    if (!elements.length) {
+      elements.push(this.translateServ.instant('Data.Element.None'))
+    }
+    return elements.join('/')
+  }
   get leagueName() {
-    return this.leagueNames[Math.floor(this.appServ.saveData.numVisits / 10)];
+    return this.translateServ.instant(`Game.Battle.Cup.${Math.floor(this.appServ.saveData.numVisits / 10)}`);
   }
 }
