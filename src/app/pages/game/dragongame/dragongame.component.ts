@@ -12,6 +12,7 @@ import { AfterViewInit, Component, Injector, OnDestroy, OnInit } from '@angular/
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
+import Encoding from 'encoding-japanese';
 
 @Component({
   selector: 'app-dragongame',
@@ -210,6 +211,24 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
     }
 
     this.router.navigate(['/game/map'], { replaceUrl: true });
+  }
+
+  GoToChat() {
+
+    if (!this.isAbleToLeave) {
+      return;
+    }
+    // 目前搞不定編碼問題...
+    //window.location.href = `http://kaze2.game-can.com/Game2/Chat/chat.cgi?mode=regist&name=${this.saveData.yourName}&color=#0000ff&email=`;
+    // return;
+    // console.log(`http://kaze2.game-can.com/Game2/Chat/chat.cgi?mode=regist&name=${Encoding.urlEncode(this.saveData.yourName)}&color=#0000ff&email=`)
+    const encodedName: string = Encoding.urlEncode(Encoding.convert(Encoding.stringToCode(this.saveData.yourName), {
+      to: 'SJIS',
+      from: 'UNICODE'
+    }));
+    window.open(
+      `http://kaze2.game-can.com/Game2/Chat/chat.cgi?mode=regist&name=${encodedName}`
+      , '_blank')
   }
   //#endregion
 
@@ -526,6 +545,18 @@ ${this.t('Game.DragonGame.Df')}:- 1`);
 
   get debug() {
     return this.appServ.debug;
+  }
+
+  get newGamePlusTimes() {
+    return this.appServ.saveData?.newGamePlusTimes;
+  }
+
+  get lang() {
+    return this.translateServ.currentLang;
+  }
+
+  get isJapaneseLang() {
+    return this.lang.includes('ja');
   }
   //#endregion
 }

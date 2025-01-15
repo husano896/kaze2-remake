@@ -368,7 +368,7 @@ export class MapComponent implements AfterViewInit {
           case 'lv5':
             // 廃 坑
             if (!((this.appServ.saveData.numVisits >= 41) && (this.appServ.saveData.numVisits <= 44))) {
-              this.appServ.Confirm(this.appServ.t(title),  this.appServ.t('Game.Map.Dungeon.5.Requirement'))
+              this.appServ.Confirm(this.appServ.t(title),  this.appServ.t('Game.Map.Dungeon.5.Blocked'))
               return;
             }
             break;

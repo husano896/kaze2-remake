@@ -1,14 +1,16 @@
-<div class="container flex-column full-height padding-large">
-    <br />
-    <div class="dark-bg boxed-content padding-large flex-column gap">
-        <div class="flex-row" style="justify-content: space-between;">
-            <button id="Back" routerLink="../dragongame" [replaceUrl]="true">
-                {{"Actions.Back" | translate | separateText}}</button>
+<div class="container flex-column full-height padding-large gap">
 
-            <button id="Start" routerLink="/game/battle" [state]="{battle: selectedBattleID}" [replaceUrl]="true"
-                [disabled]="!selectedBattleID">
-                {{"Game.Battle.Start" | translate | separateText}}</button>
-        </div>
+    <br />
+    <div class="flex-row" style="justify-content: space-between;">
+        <button id="Back" routerLink="../dragongame" [replaceUrl]="true">
+            {{"Actions.Back" | translate | separateText}}</button>
+
+        <button id="Start" routerLink="/game/battle" [state]="{battle: selectedBattleID}" [replaceUrl]="true"
+            [disabled]="!selectedBattleID">
+            {{"Game.Battle.Start" | translate | separateText}}</button>
+    </div>
+    <div class="dark-bg boxed-content padding-large flex-column gap full-height" style="overflow:auto">
+
         <span class="large-font">{{leagueName}}</span>
         <br />
         <!-- 玩家列表-->

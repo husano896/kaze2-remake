@@ -1,14 +1,16 @@
-import { AppService, RootAnimations } from '@/app/app.service';
+import { RootAnimations } from '@/app/app.service';
 import { ItemID } from '@/data/ItemID';
 import { DialogueSystem } from '@/entities/DialogueSystem';
 import { AfterViewInit, Component, HostListener, Injector, OnDestroy, OnInit, } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { SaveData } from '@/entities/SaveData';
 import * as _ from 'lodash-es';
 import { BioFlag } from '@/data/BioFlag';
 import { firstValueFrom } from 'rxjs';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SaveDataEditorComponent } from '@/components/save-data-editor/save-data-editor.component';
 
 /** 其他龍的名字 */
 const DrNam = ["かげまる", "ヒミコ", "タカマガハラ", "カントク", "ミッチャン", "サンペイ", "神威", "狸饂飩", "土竜餅", "影虎", "きよひめ", "おしず", "まさむね", "ごえもん", "りゅういち", "しんげん", "タマ", "ミケ", "ポチ", "アルギズ", "イェーラ", "ハガル", "ケーナズ", "ウル", "フェオ", "テティス", "サテラ", "リベウス", "ジーク", "プラウン", "ライデン", "スルムル", "ダンテ", "ユット", "カイル", "アーティ", "ファウス", "ラムダ", "サヌータ", "ヴィンス"];
@@ -109,7 +111,7 @@ const dungeonData: { [id: string]: IDungeonData } = {
 @Component({
   selector: 'app-dungeon',
   standalone: true,
-  imports: [TranslateModule, RouterModule, CommonModule],
+  imports: [TranslateModule, RouterModule, CommonModule, FormsModule, ReactiveFormsModule, SaveDataEditorComponent],
   templateUrl: './dungeon.component.html',
   styleUrl: './dungeon.component.scss'
 })
@@ -131,6 +133,8 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
   //#endregion
 
   disableAllActions?: boolean;
+
+  autoCheck?: any;
 
   //#region 目前玩家狀態
 
@@ -231,6 +235,7 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
     super.ngOnDestroy();
     this.appServ.setRadialEffect()
   }
+
   CreateMaze(mazeW: number, mazeH: number, level: number, treasureCount: number) {
     /** 檢查通過變數 */
     let cnt: number = 0;
@@ -548,7 +553,7 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
       }
       // 自目前地下城資料讀取可取得物品選項
       else {
-        const itemID: ItemID = this.dungeon.varGetItem[Math.floor((this.dungeon.varGetItem.length - 1) * Math.random() + 1)];
+        const itemID: ItemID = this.dungeon.varGetItem[Math.floor((this.dungeon.varGetItem.length) * Math.random())];
         this.getItems.push(itemID);
         this.getItemsLog.push(itemID);
         await this.Content('Scripts.Dungeon.Check.2.1', {
@@ -634,7 +639,6 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
 
     this.playerDirection = (this.playerDirection + 4) % 4;
     this.updateMapImage();
-    console.log('newX', this.playerX, 'newY', this.playerY, 'direction', this.playerDirection)
     this.varShellGet = false;
     this.varDragonCnt++;		// 竜一定期間出会わないカウンタ加算
     this.appServ.setSE('snd11')
@@ -657,18 +661,24 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
       return;
     }
 
-    // 有寶箱時不做相遇龍處理
-    if (this.currentMazeCode === DungeonMazeCode.Treasure) {
-      return;
-    }
-    // 發作及Lv4地城不做相遇龍處理
-    if (this.dungeon.varMapLv === 4 || this.appServ.saveData.bio & BioFlag.発作) {
+    this.skipWait = this.autoCheck;
+    if (
+      // 有寶箱時不做相遇龍處理
+      this.currentMazeCode === DungeonMazeCode.Treasure ||
+      //  發作及Lv4地城不做相遇龍處理
+      this.dungeon.varMapLv === 4 || this.appServ.saveData.bio & BioFlag.発作
+    ) {
+      if (this.autoCheck) {
+        this.Check();
+      }
       return;
     }
     if (this.varDragonCnt >= 5 && Math.round(Math.random() * 25) == 1) {
       // 相遇龍處理
       this.DragonCome();
       this.varDragonCnt = 0;
+    } else if (this.autoCheck) {
+      this.Check();
     }
   }
 
@@ -926,7 +936,7 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
             }
             break;
 
-          case 2:
+          case 2: {
             const damage = Math.round((guestDragon.at / 4) + Math.random() * 25) + 4;
             this.appServ.setSE('snd01')
             this.appServ.setRadialEffect('#E03434', false, 1000);
@@ -944,9 +954,10 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
               damage: String(damage)
             });
             break;
+          }
           case 11: {
             // 已經被贈送過太多次道具了
-            const itemID: ItemID = this.dungeon.varGetItem[Math.floor(Math.random() * this.dungeon.varGetItem.length - 1 + 1)]
+            const itemID: ItemID = this.dungeon.varGetItem[Math.floor(Math.random() * this.dungeon.varGetItem.length)]
             if (this.varPresentItem >= 3) {
               /**
                *{{varDragonNm}}：さっき、{{varItemName}}を手に入れたんだ。
@@ -1122,15 +1133,14 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
         }
         else {
           let itemID: ItemID | null = null;
-
           if (Math.round(Math.random() * (21 - donateAmount)) <= 4) {
             // 自當前地下城取得道具
-            itemID = this.dungeon.varGetItem[Math.floor(Math.random() * (this.dungeon.varGetItem.length - 1) + 1)];
+            itemID = this.dungeon.varGetItem[Math.floor(Math.random() * (this.dungeon.varGetItem.length))];
           } else if (Math.round(Math.random() * (21 - donateAmount)) <= 10) {
             // 自低一等級的地下城取得道具
             const dungeon = Object.values(dungeonData).find(d => d.varMapLv === this.dungeon.varMapLv - 1);
             if (dungeon) {
-              itemID = dungeon.varGetItem[Math.floor(Math.random() * (dungeon.varGetItem.length - 1) + 1)];
+              itemID = dungeon.varGetItem[Math.floor(Math.random() * (dungeon.varGetItem.length))];
             }
           }
           if (itemID) {
@@ -1171,6 +1181,7 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
     this.disableAllActions = false;
   }
 
+
   get guestDragonTalkingParam() {
     if (!this.guestDragon) {
       return {
@@ -1189,8 +1200,12 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
       varDragonNm: this.guestDragon.dragonName
     }
   }
-  @HostListener('document:keypress', ['$event'])
-  onKeyPress($event: KeyboardEvent) {
+  @HostListener('document:keydown', ['$event'])
+  onKeyDown($event: KeyboardEvent) {
+    if (this.disableAllActions || !this.contentCompleted) {
+      this.FastForward();
+      return;
+    }
     switch ($event.key.toLowerCase()) {
       case 'arrowup':
       case 'w':
@@ -1212,8 +1227,8 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
         this.Next(DungeonDirection.Left);
         $event.preventDefault();
         break;
-      case 'space':
-      case 'return':
+      case ' ':
+      case 'enter':
         this.Check()
         $event.preventDefault();
         break;
@@ -1252,32 +1267,12 @@ export class DungeonComponent extends DialogueSystem implements OnInit, OnDestro
     return this.playerY;
   }
 
-  @HostListener('document:keydown', ['$event'])
-  onKeyDown($event: KeyboardEvent) {
-    if (!this.disableAllActions) {
-      return;
-    }
-    switch ($event.key?.toLowerCase()) {
-      case 'arrowup':
-      case 'w':
-        $event.preventDefault();
-        this.Next(DungeonDirection.Up);
-        break;
-      case 'arrowright':
-      case 'd':
-        $event.preventDefault();
-        this.Next(DungeonDirection.Right);
-        break;
-      case 'arrowleft':
-      case 'a':
-        $event.preventDefault();
-        this.Next(DungeonDirection.Left);
-        break;
-      case 'arrowdown':
-      case 's':
-        $event.preventDefault();
-        this.Next(DungeonDirection.Down);
-        break;
-    }
+  get newGamePlus() {
+    return this.saveDataWhenEnter?.newGamePlusTimes || 0;
   }
+
+  get debug() {
+    return this.appServ.debug;
+  }
+
 }

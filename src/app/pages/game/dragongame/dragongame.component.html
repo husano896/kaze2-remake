@@ -17,6 +17,13 @@
                 <!-- 設定-->
                 <button (click)="settingsOn = !settingsOn" [disabled]="!isAbleToLeave"><i
                         class="fa-solid fa-gears"></i></button>
+                <!-- 里親通信於二週目以上開啟 -->
+                @if (isJapaneseLang && newGamePlusTimes) {
+                <button type="button" [disabled]="!isAbleToLeave" (click)="GoToChat()"
+                    (pointerenter)="doc='Game.DragonGame.HoverDoc30'" (pointerleave)="doc=''">
+                    <i class="fa-solid fa-comments"></i>
+                </button>
+                }
                 <!-- 圖書館-->
                 <button routerLink="/game/library" [replaceUrl]="true" [disabled]="!isAbleToLeave"
                     (pointerenter)="doc='Game.DragonGame.HoverDoc13'" (pointerleave)="doc=''">
@@ -131,7 +138,7 @@
 
         <div class="flex-row column-480 full-width full-height gap">
             <!-- 頭像-->
-            <div class="flex-column" style="width: min(20vw, 20vh);justify-content: center;">
+            <div class="flex-column" style="width: min(25vw, 15vh);justify-content: center;">
                 <img class="full-width boxed-content transparant-dark-bg" alt="char-header"
                     [src]="faceSrc || '/assets/imgs/char00.gif'" />
             </div>

@@ -119,8 +119,10 @@ export const HowlAudio: {
 
     /** 環境音：實驗室 */
     snd19: new Howl({ src: [SEBase + 'snd19.mp3'] }),
+    
     // 地震
     snd20: new Howl({ src: [SEBase + 'snd20.mp3'] }),
+
     // 殺掉
     snd21: new Howl({ src: [SEBase + 'snd21.mp3'] }),
 

@@ -43,7 +43,6 @@ export class ShopComponent implements OnInit, AfterContentChecked {
     this.moneyWhenEntered = this.appServ.saveData.food;
   }
   ngAfterContentChecked(): void {
-    console.log(this.selectedItems)
   }
   async onSubmit() {
     if (this.totalCost <= 0) {
