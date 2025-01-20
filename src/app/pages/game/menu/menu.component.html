@@ -26,7 +26,7 @@
                 </a>
             </li>
             }
-            @else if (debug) {
+            @else if (debug || saveFailed) {
                 <li><a (click)="unLink()">
                     解除存檔與帳號的連結 (本地化)
                 </a>

@@ -6,7 +6,7 @@ import { ItemID } from '@/data/ItemID';
 import { DragonGameEvents } from '@/data/dragongame_events';
 import { DialogueSystem } from '@/entities/DialogueSystem';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -226,9 +226,15 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
       to: 'SJIS',
       from: 'UNICODE'
     }));
-    window.open(
+    const win = window.open(
       `http://kaze2.game-can.com/Game2/Chat/chat.cgi?mode=regist&name=${encodedName}`
       , '_blank')
+    if (!win) {
+      return;
+    }
+    win.addEventListener('onload', () => {
+      console.log(this)
+    })
   }
   //#endregion
 
@@ -421,6 +427,7 @@ ${this.t('Game.DragonGame.Df')}:- 1`);
           this.appServ.t('Scripts.Confirm.Title.Warning'),
           "將進度保存至量子網時發生問題！"
         )
+        this.appServ.saveFailed = true;
       }
     }
     this.router.navigate(['/game'], { replaceUrl: true });

@@ -184,6 +184,10 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
 
     /** 文章 */
     Content = (c: string, exParam?: { [param: string]: string }) => {
+        // 若字串長度過長，先清空
+        if (this.content.length > 10000) {
+            this.content = '';
+        }
         if (c) {
             const r = this.translateServ.instant(c, {
                 ...this.appServ.saveData.talkingParam,

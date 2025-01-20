@@ -18,6 +18,7 @@ export class DebugAudioComponent implements OnDestroy {
     this.appServ.setBGM(bgm)
   }
   playSE(se?: string) {
+    
     this.appServ.setSE(se);
   }
 

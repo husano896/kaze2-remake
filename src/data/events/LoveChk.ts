@@ -47,7 +47,7 @@ export const LoveChk = async (component: DialogueComponent) => {
   …………………
    */
   await Content('Scripts.LoveChk.2');
-  await appServ.Wait(1500)
+  await appServ.Wait(2000)
 
   Face('char01');
 
@@ -61,13 +61,14 @@ export const LoveChk = async (component: DialogueComponent) => {
 
   setDragonCGOpticity(1)
   Anim('dragoncg', RootAnimations.FadeIn, 1000);
-  /// #region 命運的判斷
-  // Ray07 友好度視窗
+
+  //#region 友好度視窗
   Face('');
   const reqLevel = Math.floor(saveData.numVisits / 10) + 1;
   const reqStars = _.range(reqLevel).map(() => '★').join('');
   const reqName = appServ.t(`Data.Love.${reqLevel}`);
 
+  
   appServ.setNotice(
     'Scripts.LoveChk.Ray.LoveNow',
     appServ.t("Scripts.LoveChk.Ray.LoveRankingAndName", {
@@ -78,7 +79,8 @@ export const LoveChk = async (component: DialogueComponent) => {
       stars: reqStars, loveName: reqName
     })
   )
-
+  //#endregion
+  
   if (nowLevel >= reqLevel) {
 
     const nextLevel = Math.floor(saveData.numVisits / 10) + 2;

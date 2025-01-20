@@ -62,4 +62,8 @@ export class MenuComponent implements AfterViewInit {
   get registered() {
     return this.appServ.saveData.registered;
   }
+
+  get saveFailed() {
+    return this.appServ.saveFailed;
+  }
 }

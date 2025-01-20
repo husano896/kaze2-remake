@@ -1,5 +1,5 @@
 import { EventFlag } from '@/data/EventFlag';
-import { HowlAudio } from '@/data/HowlAudio';
+import { HowlAudio, SESprite } from '@/data/HowlAudio';
 import { LocalStorageKey } from '@/entities/LocalStorageKey';
 import { SaveData } from '@/entities/SaveData';
 import { Injectable } from '@angular/core';
@@ -15,11 +15,11 @@ export enum RootAnimations {
   Blinking = 'blinking',
   Shock = 'shock',
   SlideInFromLeft = 'slideInFromLeft',
-  SlideInFromRight = 'slideInFromRight' ,
+  SlideInFromRight = 'slideInFromRight',
   SlideOutToLeft = 'slideOutToLeft',
   SlideOutToRight = 'slideOutToRight',
   // Quest09使用：被嚇跑後又從左邊偷看
-  SlideOutToLeftPeek = 'slideOutToLeftPeek', 
+  SlideOutToLeftPeek = 'slideOutToLeftPeek',
 }
 
 @Injectable({
@@ -39,9 +39,9 @@ export class AppService {
   public BGMString?: string | null;
 
   public SE?: Howl;
-  public Ambient?: Howl;
-  public MessageSE?: Howl = HowlAudio.SE['snd04'];
-
+  public Ambient?: number; // Howl;
+  public MessageSE?: Howl = HowlAudio.SE['snd04']; // number; // string = 'snd04'; //
+  public MessageSEFileName: string = 'snd04'
   /** 讀取旗標 */
   public loading: boolean = true;
 
@@ -79,6 +79,7 @@ export class AppService {
   public RadialRepeat?: boolean;
   public RadialInterval: string = '3s';
 
+  public saveFailed?: boolean
   /**  */
   constructor(
     private readonly translateServ: TranslateService,
@@ -144,11 +145,31 @@ export class AppService {
 
   setMessageSE(v?: boolean, fileName?: string) {
 
+    /*
+    if (fileName !== undefined) {
+      if (this.MessageSE)
+        SESprite.stop(this.MessageSE);
+      this.MessageSE = SESprite.play(fileName || 'empty')
+      this.MessageSEFileName = filename
+    }
+    if (v) {
+      if (this.MessageSE) {
+        this.MessageSE = SESprite.play(this.MessageSE)
+      }
+      else {
+        console.log(fileName)
+        this.MessageSE = SESprite.play(fileName !== undefined ? fileName : 'snd04')
+      }
+    } else if (this.MessageSE) {
+      SESprite.pause(this.MessageSE)
+    }
+*/
+
     if (fileName !== undefined) {
       this.MessageSE?.stop();
       this.MessageSE = HowlAudio.SE[fileName]
     }
-    
+
     // 設定為不存在的語音時不動作
     if (!this.MessageSE) {
       return;
@@ -194,7 +215,7 @@ export class AppService {
   }
 
   getBGM() {
-    return this.BGMString || '';
+    return this.BGMString ?? '';
   }
 
   setBGM = (bgm?: string | null | undefined) => {
@@ -231,21 +252,31 @@ export class AppService {
 
   setSE = (se?: string | null | undefined) => {
     if (!se) {
+      SESprite.stop();
       return;
     }
+    /*
     this.SE = HowlAudio.SE[se];
     this.SE?.play();
+    */
+    SESprite.play(se);
+
   }
 
   setAmbient = (am?: string | null | undefined) => {
-
-    this.Ambient?.pause();
+    if (this.Ambient) {
+      SESprite.stop(this.Ambient);
+    }
+    // this.Ambient?.pause();
     if (!am) {
       return;
     }
+    this.Ambient = SESprite.play('am')
+    /*
     this.Ambient = HowlAudio.SE[am];
     this.Ambient?.loop(true);
     this.Ambient.play();
+    */
   }
 
   Anim = async (animName: string, length = 3000) => {

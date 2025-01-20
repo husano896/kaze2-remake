@@ -7,7 +7,6 @@ import { AppService } from '@/app/app.service';
 import { FormsModule } from '@angular/forms';
 import { BioFlag } from '@/data/BioFlag';
 import { DragonChipFlag } from '@/data/DragonChipFlag';
-import { EventFlag } from '@/data/EventFlag';
 import { ItemID } from '@/data/ItemID';
 
 
