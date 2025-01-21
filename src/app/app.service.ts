@@ -260,7 +260,6 @@ export class AppService {
     this.SE?.play();
     */
     SESprite.play(se);
-
   }
 
   setAmbient = (am?: string | null | undefined) => {
@@ -271,7 +270,7 @@ export class AppService {
     if (!am) {
       return;
     }
-    this.Ambient = SESprite.play('am')
+    this.Ambient = SESprite.play(am)
     /*
     this.Ambient = HowlAudio.SE[am];
     this.Ambient?.loop(true);
