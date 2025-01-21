@@ -128,7 +128,7 @@ export const PostEventAfterDragonGameEvent = async (component: DragongameCompone
 		setDialogueSE('snd05')
 		await Content('Scripts.Hacked2nd.1')
 
-		component.hacked = false;
+		// component.hacked = false;
 		appServ.setNotice2()
 		appServ.setNotice('SYSTEM CALL', 'Scripts.Notice.Hacked.Restore.Content')
 

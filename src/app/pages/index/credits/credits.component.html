@@ -209,16 +209,492 @@
         <br>
         <span>{{'Remaster' | translate}}</span>
         <hr />
-        <small>アイ．フライ</small>
+        <table>
+            <thead>
+                <th></th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="https://x.com/xFly_Dragon"> アイ．フライ</a></td>
+                    <td><small>プログラム/ＤＢ</small></td>
+                </tr>
+            </tbody>
+        </table>
+        <small></small>
         <br />
-        <span>{{'Chinese Translation' | translate}}</span>
+        <span>{{'Translation' | translate}}</span>
         <hr />
-        <small>アイ．フライ<br /></small>
-        <small>特林 Tokurinn<br /></small>
-        <small>多多 Dodo<br /></small>
-
+        <table>
+            <thead>
+                <th></th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="https://x.com/xFly_Dragon"> アイ．フライ</a></td>
+                    <td><small>Chinese Tranlation</small></td>
+                </tr>
+                <tr>
+                    <td><a href="https://x.com/Tokurinn_TW"> 特林 Tokurinn</a></td>
+                    <td><small>Chinese / English Tranlation</small></td>
+                </tr>
+                <tr>
+                    <td><a href="https://x.com/xFly_Dragon"> 多多 Dodo</a></td>
+                    <td><small>Chinese Tranlation</small></td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <span>ＢＧＭ &nbsp;
+            <button (click)="playBGM()">
+                <i class="fa-solid fa-stop"></i>
+            </button>
+        </span>
         <hr>
-
+        <table>
+            <thead>
+                <th></th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music01')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a href="https://www.tam-music.com/m000_category/spring" target="_blank">
+                            <button type="button">
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        春の息吹 - TAM Music Factory
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music02')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a href="https://www.tam-music.com/m000_category/simple" target="_blank">
+                            <button type="button">
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        街燈 - TAM Music Factory
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music04')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        jazz (資金調度)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music05')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a href="https://youtu.be/5dLY_3Gc0KY" target="_blank">
+                            <button type="button">
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        粉雪 - リク&#64;MUSIC CUBE
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music07')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        music07 (進行度51/95/96)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music08')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        music08 (vs プレイヤー)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music09')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        music09 (バトル失敗)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music11')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a href="https://www.tam-music.com/m000_category/etc" target="_blank">
+                            <button type="button">
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        異国の旅路 - TAM Music Factory
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music12')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        music12 (竜死病發現/檢診失敗)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music13')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        命ゆくもの、星にくるもの - かいらる
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music15')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        music15 (cave00)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music16')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a href="https://youtu.be/3E6xd5Tnd6U" target="_blank">
+                            <button type="button">
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        迷いの森 - リク&#64;MUSIC CUBE
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music17')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button">
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        プレリュード - リク&#64;MUSIC CUBE
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music18')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a href="https://www.tam-music.com/m000_category/etc" target="_blank">
+                            <button type="button">
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        アツィルトの森 - TAM Music Factory
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music19')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        music19 (発作、ハッキング)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music20')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a href="https://youtu.be/Y8GCtYe1bfo" target="_blank">
+                            <button type="button">
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        蒼い夜半 - リク&#64;MUSIC CUBE
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music21')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a href="https://www.tam-music.com/m000_category/spring" target="_blank">
+                            <button type="button">
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        春の向日葵 - TAM Music Factory
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music22')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        music22 (victim)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music23')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        music23 (最期)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music24')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        music24 (研究者の小屋ミニゲーム)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music25')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        music25 (death3)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music26')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        music26 (battle02)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music27')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        music27 (vs ケツァルコアトル)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music28')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        music28 (滅びの都ヒディール)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music29')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a href="https://www.tam-music.com/m000_category/spring" target="_blank">
+                            <button type="button">
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        桜舞風 - TAM Music Factory
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music30')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        Enemy-Zero (vs 神獣)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music31')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        music31 (battle list)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music32')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        music32 (vsレギオン 前)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music33')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        踊れ我が手で - ENDENSEER PROJECT
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music34')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a href="https://youtu.be/Ot5utJOela4" target="_blank">
+                            <button type="button">
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        いつの日かめぐり逢う夢 - リク&#64;MUSIC CUBE
+                    </td>
+                    <td><small></small></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button (click)="playBGM('music35')">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        &nbsp; <a target="_blank">
+                            <button type="button" disabled>
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                        </a>
+                        music35 (ウリア大砂漠地帯)
+                    </td>
+                    <td><small></small></td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
         <br />
         <br />
         <a routerLink="/" replaceUrl="true" style="text-align: center;">{{'Actions.PrevPage' | translate}}</a>

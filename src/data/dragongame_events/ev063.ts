@@ -45,7 +45,7 @@ const ev063 = async (component: DragongameComponent) => {
 		 */
 		await Content('Scripts.Ev063.2')
 
-		component.hacked = false;
+		// component.hacked = false;
 		appServ.setNotice2()
 		appServ.setNotice('SYSTEM CALL', 'Scripts.Notice.Hacked.Restore.Content')
 

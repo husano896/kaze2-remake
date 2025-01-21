@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
+import { AppService } from '@/app/app.service';
 
 @Component({
   selector: 'app-credits',
@@ -10,6 +11,16 @@ import { RouterModule } from '@angular/router';
   templateUrl: './credits.component.html',
   styleUrl: './credits.component.scss'
 })
-export class CreditsComponent {
+export class CreditsComponent implements OnDestroy {
+  constructor(private readonly appServ: AppService) {
 
+  }
+
+  ngOnDestroy(): void {
+    this.appServ.setBGM();
+  }
+
+  playBGM(m?: string) {
+    this.appServ.setBGM(m)
+  }
 }
