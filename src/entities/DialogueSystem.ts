@@ -72,7 +72,6 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
     }
 
     setDialogueSE = (fileName = 'snd04') => {
-        console.log('message')
         this.appServ.setMessageSE(false, fileName)
     }
 
@@ -254,7 +253,6 @@ export class DialogueSystem implements OnDestroy, AfterViewInit {
 
     Anim = async (layer: string, animName: RootAnimations, duration: number, func: string = 'linear') => {
         const el = document.querySelector(`#${layer}`) as HTMLElement
-        console.log(el)
         if (el) {
             el.classList.add(`anim-${animName}`)
             el.style.animationTimingFunction = func;

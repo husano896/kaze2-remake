@@ -29,6 +29,10 @@ export async function Ending2b(component: EndingComponent) {
     setBGOpticity(0);
     setDialogOpticity(0);
     await Wait(3000);
+
+    // 播放告警音
+    appServ.setSE('snd12');
+
     // 1
     appServ.setNotice('Scripts.Notice.SystemDown.Title', 'Scripts.Notice.SystemDown.01')
     await Wait(1800);

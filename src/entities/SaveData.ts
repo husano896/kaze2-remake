@@ -111,7 +111,7 @@ export class SaveData implements IBattleData {
 
     public Save() {
         localStorage.setItem(LocalStorageKey.save, JSON.stringify(this));
-        console.log('[SaveData]存檔：', this);
+        // console.log('[SaveData]存檔：', this);
     }
 
     public ToOnlineSave() {

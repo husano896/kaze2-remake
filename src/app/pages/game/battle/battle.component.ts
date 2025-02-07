@@ -127,7 +127,7 @@ export class BattleComponent extends DialogueSystem implements AfterViewInit, On
 
     // 戰鬥訊息固定速度
     this.SetDialogueInterval(20);
-    
+
     // 開場的戰鬥訊息, 本地與里親對戰時的ID不同
     this.Content(this.battleID.startsWith('-') ?
       this.appServ.t('Game.Battle.StartMessage.1', { dragonName: this.enemyData.dragonName }) :
@@ -456,6 +456,7 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
     }
 
     this.battleResult = 'giveup'
+    this.enterAnim = true;
     const sum = 2 + Math.round(Math.random() * 3);	// 負けた時の代償
     await this.Content(`Game.Battle.GiveupMessage.1`, {
       dragonName: this.playerData.dragonName,
@@ -467,6 +468,7 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
 `);
     this.appServ.setBGM()
     this.appServ.setSE()
+    
     // Debug目錄來的
     if (this.isFromDebugMenu) {
       this.router.navigate(['/game/debug_battle'], { replaceUrl: true })
@@ -564,7 +566,7 @@ ${this.appServ.t('Game.Battle.WinMessage.3', { itemName: this.appServ.t('Data.It
   /** 對話系統的覆蓋, 點擊對話框之後才會繼續戰鬥回合 */
   override async FastForward() {
     // 修正提早按對話框導致戰鬥直接開始的問題
-    if (!this.enterAnim) {
+    if (!this.enterAnim && !this.battleResult) {
       return;
     }
     super.FastForward();

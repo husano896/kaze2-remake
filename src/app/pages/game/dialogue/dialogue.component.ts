@@ -63,10 +63,8 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
   }
 
   override async ngAfterViewInit() {
-
     super.ngAfterViewInit();
     this.routerSubscription = this.router.events.pipe(debounceTime(100)).subscribe(async (ev) => {
-      console.log('ev')
       const state = this.location.getState() as { event: string };
       if (state?.event) {
         await this.appServ.Wait(100)
