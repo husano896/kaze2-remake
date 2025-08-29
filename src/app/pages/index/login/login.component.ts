@@ -19,8 +19,8 @@ import { firstValueFrom } from 'rxjs';
 export class LoginComponent {
   constructor(
     private readonly appServ: AppService,
-     private readonly router: Router, 
-     private readonly http: HttpClient) {
+    private readonly router: Router,
+    private readonly http: HttpClient) {
   }
   loginForm = new FormGroup({
     id: new FormControl('', [Validators.required]),
@@ -29,10 +29,10 @@ export class LoginComponent {
 
   async Login() {
     try {
-      const resp = (await firstValueFrom(this.http.post('/login', {
+      const resp = (await firstValueFrom(this.http.post<{ saveData: any }>('/login', {
         email: this.loginForm.value.id,
         password: this.loginForm.value.password
-      }))) as { saveData: any }
+      })))
 
       const newSaveData = SaveData.Load(resp.saveData);
       //#region 若跟本地存檔不同人的判定

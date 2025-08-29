@@ -18,7 +18,7 @@
                 <button (click)="settingsOn = !settingsOn" [disabled]="!isAbleToLeave"><i
                         class="fa-solid fa-gears"></i></button>
                 <!-- 里親通信於二週目以上開啟 -->
-                @if (isJapaneseLang && newGamePlusTimes) {
+                @if (newGamePlusTimes) {
                 <button type="button" [disabled]="!isAbleToLeave" (click)="GoToChat()"
                     (pointerenter)="doc='Game.DragonGame.HoverDoc30'" (pointerleave)="doc=''">
                     <i class="fa-solid fa-comments"></i>

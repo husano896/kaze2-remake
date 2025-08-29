@@ -49,6 +49,10 @@ export const routes: Routes = [
     {
         path: 'game',
         loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule),
+    },
+    {
+        path: 'chat',
+        loadComponent: () => import('./pages/chat/chat.component').then(m => m.ChatComponent),
 
     },
     /** Google OAuth 要求 */

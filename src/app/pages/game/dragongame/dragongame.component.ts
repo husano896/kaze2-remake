@@ -218,7 +218,9 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
     if (!this.isAbleToLeave) {
       return;
     }
-    // 目前搞不定編碼問題...
+    this.router.navigate(['/chat'], { replaceUrl: true });
+    /*
+    Game-Can暫時掛了
     //window.location.href = `http://kaze2.game-can.com/Game2/Chat/chat.cgi?mode=regist&name=${this.saveData.yourName}&color=#0000ff&email=`;
     // return;
     // console.log(`http://kaze2.game-can.com/Game2/Chat/chat.cgi?mode=regist&name=${Encoding.urlEncode(this.saveData.yourName)}&color=#0000ff&email=`)
@@ -234,7 +236,7 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
     }
     win.addEventListener('onload', () => {
       console.log(this)
-    })
+    })*/
   }
   //#endregion
 

@@ -1,0 +1,54 @@
+<div class="flex-row" style="position: absolute; left: 8px; top: 8px;">
+  <button (click)="Back()">
+    <i class="fa-solid fa-arrow-left"></i>
+  </button>
+</div>
+
+<h2 style="text-align: center;">竜の風詩2 BBS</h2>
+<div class="boxed-content game-bg padding-large"
+  style="color: white; width: fit-content; font-size: small;white-space: break-spaces;">
+  {{'Chat.Notice.20250829' | translate}}
+</div>
+
+<br />
+
+<details>
+  <summary>
+    {{'Chat.Rule.Title' | translate}}
+  </summary>
+  <blockquote style="white-space: break-spaces;">
+    {{'Chat.Rule.Content' | translate}}
+  </blockquote>
+</details>
+
+<hr />
+
+@if (ableToChat) {
+<div class="flex-row gap" style="align-items: center;">
+  <span>{{playerName || '里親'}}</span>
+  <span></span>
+  <span>Color</span>
+  <select [ngStyle]="{color: selectedColor , background: 'white'}" [(ngModel)]="selectedColor">
+    <option *ngFor="let color of colors" [ngStyle]="{color: color.color}" [value]="color.color">{{color.name}}</option>
+  </select>
+</div>
+
+
+<div class="flex-row full-width gap-large" style="align-items: center;">
+  <input [placeholder]="'Chat.Input.PlaceHolder' | translate" [(ngModel)]="chatText" class="full-width"
+    style="max-width: 600px;" />
+  <button (click)="Submit()" [disabled]="!chatText" style="word-break: keep-all;">{{'Chat.Input.Submit' | translate}}</button>
+</div>
+}
+
+<hr />
+
+<span *ngFor="let c of chatData" [ngStyle]="{color: c.color}">
+  {{c.name}}: {{c.text}} - [{{c.time | date:'yyyy/MM/dd HH:mm'}}]
+</span>
+
+@if (error) {
+<span style="color: red">
+  ERROR: {{error | json}}
+</span>
+}
