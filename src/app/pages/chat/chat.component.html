@@ -7,7 +7,7 @@
 <h2 style="text-align: center;">竜の風詩2 BBS</h2>
 <div class="boxed-content game-bg padding-large"
   style="color: white; width: fit-content; font-size: small;white-space: break-spaces;">
-  {{'Chat.Notice.20250829' | translate}}
+  {{'Chat.Notice.20250908' | translate}}
 </div>
 
 <br />
@@ -39,13 +39,17 @@
     style="max-width: 600px;" />
   <button (click)="Submit()" [disabled]="!chatText" style="word-break: keep-all;">{{'Chat.Input.Submit' | translate}}</button>
 </div>
-}
 
 <hr />
+}
 
 <span *ngFor="let c of chatData" [ngStyle]="{color: c.color}">
   {{c.name}}: {{c.text}} - [{{c.time | date:'yyyy/MM/dd HH:mm'}}]
 </span>
+
+<hr/>
+
+<br/>
 
 @if (error) {
 <span style="color: red">

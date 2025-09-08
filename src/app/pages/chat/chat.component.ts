@@ -29,7 +29,10 @@ export class ChatComponent implements OnInit {
     { name: 'Red', color: '#B71C1C' },
     { name: 'Green', color: '#1B5E20' },
     { name: 'Brown', color: '#3E2723' },
-    { name: 'Black', color: '#000000' },
+    { name: 'Purple', color: '#6A1B9A' },
+    { name: 'Pink', color: '#F06292' },
+    { name: 'Orange', color: '#EF6C00' },
+    { name: 'Dark Blue', color: '#000080' },
   ]
 
   selectedColor: string = this.colors[0].color;

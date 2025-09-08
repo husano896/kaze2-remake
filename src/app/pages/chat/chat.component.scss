@@ -1,5 +1,6 @@
 :host {
-  background: linear-gradient(45deg, #E1F5FE, #81D4FA);
+  background: url(/assets/imgs/bg_chat.jpg) rgba(255,255,255,0.5);
+  background-blend-mode: color;
   display: flex;
   flex-direction: column;
   width: 100%;
