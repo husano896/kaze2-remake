@@ -87,6 +87,7 @@ export class ChatComponent implements OnInit {
       )
       await this.Refresh();
       this.error = null;
+      this.chatText = '';
     } catch (err) {
       console.warn(err)
       this.error = err;
