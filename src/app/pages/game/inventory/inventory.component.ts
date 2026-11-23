@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
@@ -21,6 +21,7 @@ const varInc_element2 = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0,
     selector: 'app-inventory',
     imports: [CommonModule, RouterModule, TranslateModule, SeparateTextPipe, FormsModule],
     templateUrl: './inventory.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './inventory.component.scss'
 })
 

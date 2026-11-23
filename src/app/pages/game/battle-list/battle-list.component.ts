@@ -1,5 +1,5 @@
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
     selector: 'app-battle-list',
     imports: [TranslateModule, RouterModule, SeparateTextPipe, FormsModule],
     templateUrl: './battle-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './battle-list.component.scss'
 })
 export class BattleListComponent implements OnInit {

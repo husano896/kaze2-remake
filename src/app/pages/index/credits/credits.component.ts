@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
@@ -8,6 +8,7 @@ import { AppService } from '@/app/app.service';
     selector: 'app-credits',
     imports: [SeparateTextPipe, TranslateModule, RouterModule],
     templateUrl: './credits.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './credits.component.scss'
 })
 export class CreditsComponent implements OnDestroy {

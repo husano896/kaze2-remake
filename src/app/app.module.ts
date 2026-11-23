@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { LoadingComponent } from '../components/loading/loading.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ApiService } from '@/api';
@@ -48,7 +48,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   providers: [
     AppService,
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withXhr(), withInterceptorsFromDi()),
     { provide: ErrorHandler, useClass: AppErrorHandler },
     {
       provide: HTTP_INTERCEPTORS,

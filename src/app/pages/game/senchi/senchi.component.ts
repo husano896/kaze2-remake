@@ -2,7 +2,7 @@ import { AppService } from '@/app/app.service';
 import { DragonChipFlag } from '@/data/DragonChipFlag';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import * as _ from 'lodash-es';
@@ -10,6 +10,7 @@ import * as _ from 'lodash-es';
     selector: 'app-senchi',
     imports: [TranslateModule, CommonModule, SeparateTextPipe, RouterModule],
     templateUrl: './senchi.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './senchi.component.scss'
 })
 export class SenchiComponent implements OnInit {

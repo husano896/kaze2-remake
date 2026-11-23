@@ -1,7 +1,7 @@
 import { AppService } from '@/app/app.service';
 import { BioFlag } from '@/data/BioFlag';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import * as _ from 'lodash-es';
 
 const BOARD_SIZE = 8;
@@ -15,6 +15,7 @@ enum CellType {
     selector: 'app-chess-game',
     imports: [CommonModule],
     templateUrl: './chess-game.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './chess-game.component.scss'
 })
 export class ChessGameComponent {

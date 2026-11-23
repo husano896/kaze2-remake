@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { AppService } from '@/app/app.service';
@@ -10,6 +10,7 @@ import { Howler } from 'howler';
     selector: 'app-menu',
     imports: [RouterModule, TranslateModule, SeparateTextPipe],
     templateUrl: './menu.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './menu.component.scss'
 })
 export class MenuComponent implements AfterViewInit {

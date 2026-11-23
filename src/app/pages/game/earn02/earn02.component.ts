@@ -2,7 +2,7 @@ import { AppService } from '@/app/app.service';
 import { ChessGameComponent } from '@/components/chess-game/chess-game.component';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -10,6 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
     selector: 'app-earn02',
     imports: [TranslateModule, RouterModule, SeparateTextPipe, ChessGameComponent],
     templateUrl: './earn02.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './earn02.component.scss'
 })
 export class Earn02Component implements AfterViewInit, OnDestroy {

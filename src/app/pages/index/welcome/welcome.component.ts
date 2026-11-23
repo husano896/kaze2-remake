@@ -1,5 +1,5 @@
 import { AppService } from '@/app/app.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Location } from '@angular/common';
@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
     selector: 'app-welcome',
     imports: [TranslateModule],
     templateUrl: './welcome.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './welcome.component.scss'
 })
 export class WelcomeComponent implements OnInit, OnDestroy {

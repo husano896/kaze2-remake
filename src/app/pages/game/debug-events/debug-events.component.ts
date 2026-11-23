@@ -1,7 +1,7 @@
 import { AppService } from '@/app/app.service';
 import { SaveDataEditorComponent } from '@/components/save-data-editor/save-data-editor.component';
 
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
     selector: 'app-debug-events',
     imports: [RouterModule, TranslateModule, SaveDataEditorComponent],
     templateUrl: './debug-events.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './debug-events.component.scss'
 })
 export class DebugEventsComponent implements AfterViewInit, OnDestroy {

@@ -1,6 +1,6 @@
 import { AppService } from '@/app/app.service';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
     selector: 'app-developer-story',
     imports: [TranslateModule, RouterModule],
     templateUrl: './developer-story.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './developer-story.component.scss'
 })
 export class DeveloperStoryComponent implements OnInit, OnDestroy {

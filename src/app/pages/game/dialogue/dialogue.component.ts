@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Injector, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Injector, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Events } from '@/data/events';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -14,6 +14,7 @@ import { RootAnimations } from '@/app/app.service';
     selector: 'app-dialogue',
     imports: [CommonModule, RouterModule, ChessGameComponent, SnakeGameComponent],
     templateUrl: './dialogue.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './dialogue.component.scss'
 })
 

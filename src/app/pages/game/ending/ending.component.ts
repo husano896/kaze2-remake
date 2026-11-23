@@ -1,6 +1,6 @@
 import { AppService } from '@/app/app.service';
 import { Endings } from '@/data/endings';
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Subject, firstValueFrom } from 'rxjs';
 import { Location } from '@angular/common';
@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
     selector: 'app-ending',
     imports: [RouterModule, TranslateModule],
     templateUrl: './ending.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './ending.component.scss'
 })
 export class EndingComponent implements AfterViewInit, OnDestroy {

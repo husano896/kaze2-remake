@@ -1,7 +1,7 @@
 import { AppService } from '@/app/app.service';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,6 +11,7 @@ import * as _ from 'lodash-es';
     selector: 'app-skill',
     imports: [TranslateModule, CommonModule, SeparateTextPipe, RouterModule, FormsModule],
     templateUrl: './skill.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './skill.component.scss'
 })
 export class SkillComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
     selector: 'app-debug-battle',
     imports: [RouterModule, TranslateModule],
     templateUrl: './debug-battle.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './debug-battle.component.scss'
 })
 export class DebugBattleComponent {

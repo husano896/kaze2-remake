@@ -1,6 +1,6 @@
 import { AppService } from '@/app/app.service';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 
 /** 版面大小 */
 const BOARD_WIDTH = 20
@@ -21,6 +21,7 @@ enum SnakeDirection {
     selector: 'app-snake-game',
     imports: [CommonModule],
     templateUrl: './snake-game.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './snake-game.component.scss'
 })
 

@@ -1,5 +1,5 @@
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
     selector: 'app-faq',
     imports: [RouterModule, TranslateModule, SeparateTextPipe],
     templateUrl: './faq.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './faq.component.scss'
 })
 export class FaqComponent {

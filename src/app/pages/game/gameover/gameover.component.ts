@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { LocalStorageKey } from '@/entities/LocalStorageKey';
@@ -9,6 +9,7 @@ import { firstValueFrom } from 'rxjs';
     selector: 'app-gameover',
     imports: [SeparateTextPipe],
     templateUrl: './gameover.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './gameover.component.scss'
 })
 export class GameoverComponent implements AfterViewInit {

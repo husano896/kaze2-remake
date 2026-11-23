@@ -2,7 +2,7 @@ import { AppService } from '@/app/app.service';
 import { BioFlag } from '@/data/BioFlag';
 import { ItemID } from '@/data/ItemID';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -26,6 +26,7 @@ interface IMapLocation {
     selector: 'app-map',
     imports: [RouterModule, TranslateModule, SeparateTextPipe],
     templateUrl: './map.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './map.component.scss'
 })
 export class MapComponent implements AfterViewInit {

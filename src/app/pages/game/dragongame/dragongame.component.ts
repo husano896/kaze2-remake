@@ -8,7 +8,7 @@ import { DialogueSystem } from '@/entities/DialogueSystem';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
@@ -18,6 +18,7 @@ import Encoding from 'encoding-japanese';
     selector: 'app-dragongame',
     imports: [RouterModule, TranslateModule, CommonModule, SaveDataEditorComponent, SeparateTextPipe],
     templateUrl: './dragongame.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './dragongame.component.scss'
 })
 

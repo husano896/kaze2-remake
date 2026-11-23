@@ -1,5 +1,5 @@
 import { AppService } from '@/app/app.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
@@ -18,6 +18,7 @@ interface IChatData {
     selector: 'app-chat',
     imports: [CommonModule, TranslateModule, RouterModule, FormsModule],
     templateUrl: './chat.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './chat.component.scss'
 })
 

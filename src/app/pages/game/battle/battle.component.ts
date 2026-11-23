@@ -1,6 +1,6 @@
 import { DialogueSystem } from '@/entities/DialogueSystem';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, Injector, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { IBattleRouteState, IBattleServiceResolveData } from './battle.service';
@@ -27,6 +27,7 @@ enum BattleAction {
     selector: 'app-battle',
     imports: [CommonModule, TranslateModule],
     templateUrl: './battle.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './battle.component.scss'
 })
 export class BattleComponent extends DialogueSystem implements AfterViewInit, OnDestroy {

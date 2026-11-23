@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { TranslateModule } from '@ngx-translate/core';
@@ -8,6 +8,7 @@ import { AppService } from '@/app/app.service';
     selector: 'app-index',
     imports: [RouterModule, SeparateTextPipe, TranslateModule],
     templateUrl: './index.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './index.component.scss'
 })
 export class IndexComponent {

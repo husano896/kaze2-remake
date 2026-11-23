@@ -2,7 +2,7 @@ import { AppService } from '@/app/app.service';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,6 +12,7 @@ import { firstValueFrom } from 'rxjs';
     selector: 'app-re-register',
     imports: [RouterModule, SeparateTextPipe, TranslateModule, FormsModule, ReactiveFormsModule],
     templateUrl: './re-register.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './re-register.component.scss'
 })
 export class ReRegisterComponent implements OnInit {

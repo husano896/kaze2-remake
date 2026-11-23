@@ -1,7 +1,7 @@
 import { RootAnimations } from '@/app/app.service';
 import { ItemID } from '@/data/ItemID';
 import { DialogueSystem } from '@/entities/DialogueSystem';
-import { AfterViewInit, Component, HostListener, Injector, OnDestroy, OnInit, } from '@angular/core';
+import { AfterViewInit, Component, HostListener, Injector, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
@@ -112,6 +112,7 @@ const dungeonData: { [id: string]: IDungeonData } = {
     selector: 'app-dungeon',
     imports: [TranslateModule, RouterModule, CommonModule, FormsModule, ReactiveFormsModule, SaveDataEditorComponent],
     templateUrl: './dungeon.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './dungeon.component.scss'
 })
 export class DungeonComponent extends DialogueSystem implements OnInit, OnDestroy, AfterViewInit {
