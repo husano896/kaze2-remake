@@ -9,11 +9,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-re-register',
-  standalone: true,
-  imports: [RouterModule, SeparateTextPipe, CommonModule, TranslateModule, FormsModule, ReactiveFormsModule,],
-  templateUrl: './re-register.component.html',
-  styleUrl: './re-register.component.scss'
+    selector: 'app-re-register',
+    imports: [RouterModule, SeparateTextPipe, CommonModule, TranslateModule, FormsModule, ReactiveFormsModule,],
+    templateUrl: './re-register.component.html',
+    styleUrl: './re-register.component.scss'
 })
 export class ReRegisterComponent implements OnInit {
 

@@ -6,11 +6,10 @@ import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-debug-dungeon',
-  standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule, SaveDataEditorComponent],
-  templateUrl: './debug-dungeon.component.html',
-  styleUrl: './debug-dungeon.component.scss'
+    selector: 'app-debug-dungeon',
+    imports: [CommonModule, RouterModule, TranslateModule, SaveDataEditorComponent],
+    templateUrl: './debug-dungeon.component.html',
+    styleUrl: './debug-dungeon.component.scss'
 })
 export class DebugDungeonComponent implements AfterViewInit, OnDestroy {
   waiting?: boolean;

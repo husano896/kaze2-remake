@@ -15,11 +15,10 @@ interface IChatData {
 }
 
 @Component({
-  selector: 'app-chat',
-  standalone: true,
-  imports: [CommonModule, TranslateModule, RouterModule, FormsModule],
-  templateUrl: './chat.component.html',
-  styleUrl: './chat.component.scss'
+    selector: 'app-chat',
+    imports: [CommonModule, TranslateModule, RouterModule, FormsModule],
+    templateUrl: './chat.component.html',
+    styleUrl: './chat.component.scss'
 })
 
 export class ChatComponent implements OnInit {

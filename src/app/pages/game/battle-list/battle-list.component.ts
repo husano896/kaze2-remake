@@ -8,11 +8,10 @@ import { IBattleData } from '@/data/battle';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-battle-list',
-  standalone: true,
-  imports: [TranslateModule, RouterModule, SeparateTextPipe, CommonModule, FormsModule],
-  templateUrl: './battle-list.component.html',
-  styleUrl: './battle-list.component.scss'
+    selector: 'app-battle-list',
+    imports: [TranslateModule, RouterModule, SeparateTextPipe, CommonModule, FormsModule],
+    templateUrl: './battle-list.component.html',
+    styleUrl: './battle-list.component.scss'
 })
 export class BattleListComponent implements OnInit {
   list?: IBattleData[] = [];

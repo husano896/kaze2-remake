@@ -5,11 +5,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AppService } from '@/app/app.service';
 
 @Component({
-  selector: 'app-index',
-  standalone: true,
-  imports: [RouterModule, SeparateTextPipe, TranslateModule],
-  templateUrl: './index.component.html',
-  styleUrl: './index.component.scss'
+    selector: 'app-index',
+    imports: [RouterModule, SeparateTextPipe, TranslateModule],
+    templateUrl: './index.component.html',
+    styleUrl: './index.component.scss'
 })
 export class IndexComponent {
   constructor(private appServ: AppService) {

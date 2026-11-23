@@ -4,11 +4,10 @@ import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Location } from '@angular/common';
 @Component({
-  selector: 'app-welcome',
-  standalone: true,
-  imports: [TranslateModule],
-  templateUrl: './welcome.component.html',
-  styleUrl: './welcome.component.scss'
+    selector: 'app-welcome',
+    imports: [TranslateModule],
+    templateUrl: './welcome.component.html',
+    styleUrl: './welcome.component.scss'
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
   tick: number = 0;

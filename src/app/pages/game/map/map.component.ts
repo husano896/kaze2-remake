@@ -23,11 +23,10 @@ interface IMapLocation {
   }
 }
 @Component({
-  selector: 'app-map',
-  standalone: true,
-  imports: [RouterModule, TranslateModule, SeparateTextPipe],
-  templateUrl: './map.component.html',
-  styleUrl: './map.component.scss'
+    selector: 'app-map',
+    imports: [RouterModule, TranslateModule, SeparateTextPipe],
+    templateUrl: './map.component.html',
+    styleUrl: './map.component.scss'
 })
 export class MapComponent implements AfterViewInit {
 

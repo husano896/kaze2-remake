@@ -24,11 +24,10 @@ enum BattleAction {
 }
 
 @Component({
-  selector: 'app-battle',
-  standalone: true,
-  imports: [CommonModule, TranslateModule],
-  templateUrl: './battle.component.html',
-  styleUrl: './battle.component.scss'
+    selector: 'app-battle',
+    imports: [CommonModule, TranslateModule],
+    templateUrl: './battle.component.html',
+    styleUrl: './battle.component.scss'
 })
 export class BattleComponent extends DialogueSystem implements AfterViewInit, OnDestroy {
 

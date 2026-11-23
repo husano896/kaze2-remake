@@ -15,11 +15,10 @@ import { firstValueFrom } from 'rxjs';
 import Encoding from 'encoding-japanese';
 
 @Component({
-  selector: 'app-dragongame',
-  standalone: true,
-  imports: [RouterModule, TranslateModule, CommonModule, SaveDataEditorComponent, SeparateTextPipe],
-  templateUrl: './dragongame.component.html',
-  styleUrl: './dragongame.component.scss'
+    selector: 'app-dragongame',
+    imports: [RouterModule, TranslateModule, CommonModule, SaveDataEditorComponent, SeparateTextPipe],
+    templateUrl: './dragongame.component.html',
+    styleUrl: './dragongame.component.scss'
 })
 
 export class DragongameComponent extends DialogueSystem implements OnDestroy, OnInit, AfterViewInit {

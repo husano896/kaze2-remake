@@ -5,11 +5,10 @@ import { RouterModule } from '@angular/router';
 import { AppService } from '@/app/app.service';
 
 @Component({
-  selector: 'app-credits',
-  standalone: true,
-  imports: [SeparateTextPipe, TranslateModule, RouterModule],
-  templateUrl: './credits.component.html',
-  styleUrl: './credits.component.scss'
+    selector: 'app-credits',
+    imports: [SeparateTextPipe, TranslateModule, RouterModule],
+    templateUrl: './credits.component.html',
+    styleUrl: './credits.component.scss'
 })
 export class CreditsComponent implements OnDestroy {
   constructor(private readonly appServ: AppService) {

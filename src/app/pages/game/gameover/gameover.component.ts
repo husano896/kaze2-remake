@@ -6,11 +6,10 @@ import { AppService } from '@/app/app.service';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 @Component({
-  selector: 'app-gameover',
-  standalone: true,
-  imports: [SeparateTextPipe, CommonModule],
-  templateUrl: './gameover.component.html',
-  styleUrl: './gameover.component.scss'
+    selector: 'app-gameover',
+    imports: [SeparateTextPipe, CommonModule],
+    templateUrl: './gameover.component.html',
+    styleUrl: './gameover.component.scss'
 })
 export class GameoverComponent implements AfterViewInit {
   constructor(private readonly location: Location, private appServ: AppService, private http: HttpClient) {

@@ -9,11 +9,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-delete',
-  standalone: true,
-  imports: [RouterModule, SeparateTextPipe, CommonModule, TranslateModule],
-  templateUrl: './delete.component.html',
-  styleUrl: './delete.component.scss'
+    selector: 'app-delete',
+    imports: [RouterModule, SeparateTextPipe, CommonModule, TranslateModule],
+    templateUrl: './delete.component.html',
+    styleUrl: './delete.component.scss'
 })
 export class DeleteComponent implements OnInit, OnDestroy {
   countDown: number = 20;

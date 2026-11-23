@@ -11,11 +11,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-migrate-gamecan',
-  standalone: true,
-  imports: [TranslateModule, RouterModule, FormsModule, ReactiveFormsModule, SeparateTextPipe, DatePipe],
-  templateUrl: './migrate-gamecan.component.html',
-  styleUrl: './migrate-gamecan.component.scss'
+    selector: 'app-migrate-gamecan',
+    imports: [TranslateModule, RouterModule, FormsModule, ReactiveFormsModule, SeparateTextPipe, DatePipe],
+    templateUrl: './migrate-gamecan.component.html',
+    styleUrl: './migrate-gamecan.component.scss'
 })
 export class MigrateGamecanComponent implements OnDestroy {
   newSaveData?: SaveData;

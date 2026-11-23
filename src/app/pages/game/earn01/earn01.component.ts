@@ -6,11 +6,10 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-earn01',
-  standalone: true,
-  imports: [CommonModule, TranslateModule, RouterModule, SeparateTextPipe],
-  templateUrl: './earn01.component.html',
-  styleUrl: './earn01.component.scss'
+    selector: 'app-earn01',
+    imports: [CommonModule, TranslateModule, RouterModule, SeparateTextPipe],
+    templateUrl: './earn01.component.html',
+    styleUrl: './earn01.component.scss'
 })
 export class Earn01Component implements AfterViewInit, OnDestroy {
   moji: Array<string> = [

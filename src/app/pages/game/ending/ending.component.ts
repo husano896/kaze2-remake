@@ -8,11 +8,10 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-ending',
-  standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule],
-  templateUrl: './ending.component.html',
-  styleUrl: './ending.component.scss'
+    selector: 'app-ending',
+    imports: [CommonModule, RouterModule, TranslateModule],
+    templateUrl: './ending.component.html',
+    styleUrl: './ending.component.scss'
 })
 export class EndingComponent implements AfterViewInit, OnDestroy {
   @ViewChild('bg') bg!: ElementRef<HTMLDivElement>;

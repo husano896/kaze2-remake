@@ -7,11 +7,10 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-earn02',
-  standalone: true,
-  imports: [CommonModule, TranslateModule, RouterModule, SeparateTextPipe, ChessGameComponent],
-  templateUrl: './earn02.component.html',
-  styleUrl: './earn02.component.scss'
+    selector: 'app-earn02',
+    imports: [CommonModule, TranslateModule, RouterModule, SeparateTextPipe, ChessGameComponent],
+    templateUrl: './earn02.component.html',
+    styleUrl: './earn02.component.scss'
 })
 export class Earn02Component implements AfterViewInit, OnDestroy {
 

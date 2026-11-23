@@ -6,11 +6,10 @@ import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-debug-events',
-  standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule, SaveDataEditorComponent],
-  templateUrl: './debug-events.component.html',
-  styleUrl: './debug-events.component.scss'
+    selector: 'app-debug-events',
+    imports: [CommonModule, RouterModule, TranslateModule, SaveDataEditorComponent],
+    templateUrl: './debug-events.component.html',
+    styleUrl: './debug-events.component.scss'
 })
 export class DebugEventsComponent implements AfterViewInit, OnDestroy {
   waiting?: boolean;

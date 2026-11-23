@@ -109,11 +109,10 @@ const dungeonData: { [id: string]: IDungeonData } = {
   }
 }
 @Component({
-  selector: 'app-dungeon',
-  standalone: true,
-  imports: [TranslateModule, RouterModule, CommonModule, FormsModule, ReactiveFormsModule, SaveDataEditorComponent],
-  templateUrl: './dungeon.component.html',
-  styleUrl: './dungeon.component.scss'
+    selector: 'app-dungeon',
+    imports: [TranslateModule, RouterModule, CommonModule, FormsModule, ReactiveFormsModule, SaveDataEditorComponent],
+    templateUrl: './dungeon.component.html',
+    styleUrl: './dungeon.component.scss'
 })
 export class DungeonComponent extends DialogueSystem implements OnInit, OnDestroy, AfterViewInit {
   /** 地下城中取得的道具,可被用掉 */

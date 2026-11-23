@@ -18,11 +18,10 @@ const varInc_element1 = new Array(0, 0, 0, 0, 0, 100, 0, 0, 0, -100, 0, 0, 0, 0,
 const varInc_element2 = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, -100, 0, 0, 0, 0, 0);
 
 @Component({
-  selector: 'app-inventory',
-  standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule, SeparateTextPipe, FormsModule],
-  templateUrl: './inventory.component.html',
-  styleUrl: './inventory.component.scss'
+    selector: 'app-inventory',
+    imports: [CommonModule, RouterModule, TranslateModule, SeparateTextPipe, FormsModule],
+    templateUrl: './inventory.component.html',
+    styleUrl: './inventory.component.scss'
 })
 
 export class InventoryComponent {

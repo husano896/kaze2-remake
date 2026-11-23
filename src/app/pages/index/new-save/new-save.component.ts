@@ -11,11 +11,10 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-new-save',
-  standalone: true,
-  imports: [RouterModule, TranslateModule, FormsModule, ReactiveFormsModule, SeparateTextPipe],
-  templateUrl: './new-save.component.html',
-  styleUrl: './new-save.component.scss'
+    selector: 'app-new-save',
+    imports: [RouterModule, TranslateModule, FormsModule, ReactiveFormsModule, SeparateTextPipe],
+    templateUrl: './new-save.component.html',
+    styleUrl: './new-save.component.scss'
 })
 export class NewSaveComponent implements AfterViewInit, OnInit {
   registerForm = new FormGroup({

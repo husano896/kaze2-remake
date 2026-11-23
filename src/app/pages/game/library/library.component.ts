@@ -4,11 +4,10 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-library',
-  standalone: true,
-  imports: [RouterModule, TranslateModule, SeparateTextPipe],
-  templateUrl: './library.component.html',
-  styleUrl: './library.component.scss'
+    selector: 'app-library',
+    imports: [RouterModule, TranslateModule, SeparateTextPipe],
+    templateUrl: './library.component.html',
+    styleUrl: './library.component.scss'
 })
 export class LibraryComponent implements AfterViewChecked {
 

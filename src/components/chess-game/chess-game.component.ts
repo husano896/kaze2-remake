@@ -12,11 +12,10 @@ enum CellType {
 }
 
 @Component({
-  selector: 'app-chess-game',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './chess-game.component.html',
-  styleUrl: './chess-game.component.scss'
+    selector: 'app-chess-game',
+    imports: [CommonModule],
+    templateUrl: './chess-game.component.html',
+    styleUrl: './chess-game.component.scss'
 })
 export class ChessGameComponent {
   static EnemyCellType = CellType.White;

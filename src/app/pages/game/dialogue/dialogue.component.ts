@@ -11,11 +11,10 @@ import { SnakeGameComponent } from '@/components/snake-game/snake-game.component
 import { RootAnimations } from '@/app/app.service';
 
 @Component({
-  selector: 'app-dialogue',
-  standalone: true,
-  imports: [CommonModule, RouterModule, ChessGameComponent, SnakeGameComponent],
-  templateUrl: './dialogue.component.html',
-  styleUrl: './dialogue.component.scss'
+    selector: 'app-dialogue',
+    imports: [CommonModule, RouterModule, ChessGameComponent, SnakeGameComponent],
+    templateUrl: './dialogue.component.html',
+    styleUrl: './dialogue.component.scss'
 })
 
 export class DialogueComponent extends DialogueSystem implements AfterViewInit, OnDestroy {

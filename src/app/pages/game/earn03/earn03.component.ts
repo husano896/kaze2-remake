@@ -8,11 +8,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import * as _ from 'lodash-es';
 
 @Component({
-  selector: 'app-earn03',
-  standalone: true,
-  imports: [CommonModule, TranslateModule, RouterModule, SeparateTextPipe],
-  templateUrl: './earn03.component.html',
-  styleUrl: './earn03.component.scss'
+    selector: 'app-earn03',
+    imports: [CommonModule, TranslateModule, RouterModule, SeparateTextPipe],
+    templateUrl: './earn03.component.html',
+    styleUrl: './earn03.component.scss'
 })
 export class Earn03Component implements AfterViewInit, OnDestroy {
 

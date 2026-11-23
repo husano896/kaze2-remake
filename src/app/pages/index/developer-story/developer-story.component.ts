@@ -5,11 +5,10 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-developer-story',
-  standalone: true,
-  imports: [TranslateModule, RouterModule],
-  templateUrl: './developer-story.component.html',
-  styleUrl: './developer-story.component.scss'
+    selector: 'app-developer-story',
+    imports: [TranslateModule, RouterModule],
+    templateUrl: './developer-story.component.html',
+    styleUrl: './developer-story.component.scss'
 })
 export class DeveloperStoryComponent implements OnInit, OnDestroy {
 

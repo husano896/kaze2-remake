@@ -8,11 +8,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import * as _ from 'lodash-es';
 
 @Component({
-  selector: 'app-shop',
-  standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule, SeparateTextPipe, FormsModule],
-  templateUrl: './shop.component.html',
-  styleUrl: './shop.component.scss'
+    selector: 'app-shop',
+    imports: [CommonModule, RouterModule, TranslateModule, SeparateTextPipe, FormsModule],
+    templateUrl: './shop.component.html',
+    styleUrl: './shop.component.scss'
 })
 export class ShopComponent implements OnInit, AfterContentChecked {
 

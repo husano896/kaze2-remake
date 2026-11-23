@@ -7,11 +7,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Howler } from 'howler';
 
 @Component({
-  selector: 'app-menu',
-  standalone: true,
-  imports: [RouterModule, CommonModule, TranslateModule, SeparateTextPipe],
-  templateUrl: './menu.component.html',
-  styleUrl: './menu.component.scss'
+    selector: 'app-menu',
+    imports: [RouterModule, CommonModule, TranslateModule, SeparateTextPipe],
+    templateUrl: './menu.component.html',
+    styleUrl: './menu.component.scss'
 })
 export class MenuComponent implements AfterViewInit {
   constructor(private readonly appServ: AppService, private router: Router) {

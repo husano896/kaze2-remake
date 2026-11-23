@@ -8,11 +8,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import * as _ from 'lodash-es';
 
 @Component({
-  selector: 'app-skill',
-  standalone: true,
-  imports: [TranslateModule, CommonModule, SeparateTextPipe, RouterModule, FormsModule],
-  templateUrl: './skill.component.html',
-  styleUrl: './skill.component.scss'
+    selector: 'app-skill',
+    imports: [TranslateModule, CommonModule, SeparateTextPipe, RouterModule, FormsModule],
+    templateUrl: './skill.component.html',
+    styleUrl: './skill.component.scss'
 })
 export class SkillComponent implements OnInit {
   skillIds = _.range(19).map(i => i > 0 ? (1 << i) : 1);

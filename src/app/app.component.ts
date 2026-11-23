@@ -6,9 +6,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageKey } from '@/entities/LocalStorageKey';
 import { Howler } from 'howler';
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss',
+    standalone: false
 })
 export class AppComponent {
   //#region 創龍曆

@@ -18,11 +18,10 @@ enum SnakeDirection {
 }
 
 @Component({
-  selector: 'app-snake-game',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './snake-game.component.html',
-  styleUrl: './snake-game.component.scss'
+    selector: 'app-snake-game',
+    imports: [CommonModule],
+    templateUrl: './snake-game.component.html',
+    styleUrl: './snake-game.component.scss'
 })
 
 /** 對應ドラゴンの丘的貪吃蛇小遊戲, 你這頑皮龍~ */

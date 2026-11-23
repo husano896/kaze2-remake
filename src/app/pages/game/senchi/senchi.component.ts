@@ -7,11 +7,10 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import * as _ from 'lodash-es';
 @Component({
-  selector: 'app-senchi',
-  standalone: true,
-  imports: [TranslateModule, CommonModule, SeparateTextPipe, RouterModule],
-  templateUrl: './senchi.component.html',
-  styleUrl: './senchi.component.scss'
+    selector: 'app-senchi',
+    imports: [TranslateModule, CommonModule, SeparateTextPipe, RouterModule],
+    templateUrl: './senchi.component.html',
+    styleUrl: './senchi.component.scss'
 })
 export class SenchiComponent implements OnInit {
 
