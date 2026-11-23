@@ -1,18 +1,18 @@
 import { AppService } from '@/app/app.service';
 import { Endings } from '@/data/endings';
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Subject, firstValueFrom } from 'rxjs';
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-ending',
-  standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule],
-  templateUrl: './ending.component.html',
-  styleUrl: './ending.component.scss'
+    selector: 'app-ending',
+    imports: [RouterModule, TranslateModule],
+    templateUrl: './ending.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './ending.component.scss'
 })
 export class EndingComponent implements AfterViewInit, OnDestroy {
   @ViewChild('bg') bg!: ElementRef<HTMLDivElement>;

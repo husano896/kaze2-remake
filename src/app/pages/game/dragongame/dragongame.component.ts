@@ -8,18 +8,18 @@ import { DialogueSystem } from '@/entities/DialogueSystem';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 import Encoding from 'encoding-japanese';
 
 @Component({
-  selector: 'app-dragongame',
-  standalone: true,
-  imports: [RouterModule, TranslateModule, CommonModule, SaveDataEditorComponent, SeparateTextPipe],
-  templateUrl: './dragongame.component.html',
-  styleUrl: './dragongame.component.scss'
+    selector: 'app-dragongame',
+    imports: [RouterModule, TranslateModule, CommonModule, SaveDataEditorComponent, SeparateTextPipe],
+    templateUrl: './dragongame.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './dragongame.component.scss'
 })
 
 export class DragongameComponent extends DialogueSystem implements OnDestroy, OnInit, AfterViewInit {
@@ -218,7 +218,9 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
     if (!this.isAbleToLeave) {
       return;
     }
-    // 目前搞不定編碼問題...
+    this.router.navigate(['/chat'], { replaceUrl: true });
+    /*
+    Game-Can暫時掛了
     //window.location.href = `http://kaze2.game-can.com/Game2/Chat/chat.cgi?mode=regist&name=${this.saveData.yourName}&color=#0000ff&email=`;
     // return;
     // console.log(`http://kaze2.game-can.com/Game2/Chat/chat.cgi?mode=regist&name=${Encoding.urlEncode(this.saveData.yourName)}&color=#0000ff&email=`)
@@ -234,7 +236,7 @@ export class DragongameComponent extends DialogueSystem implements OnDestroy, On
     }
     win.addEventListener('onload', () => {
       console.log(this)
-    })
+    })*/
   }
   //#endregion
 

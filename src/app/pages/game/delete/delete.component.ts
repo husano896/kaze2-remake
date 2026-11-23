@@ -3,17 +3,17 @@ import { LocalStorageKey } from '@/entities/LocalStorageKey';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-delete',
-  standalone: true,
-  imports: [RouterModule, SeparateTextPipe, CommonModule, TranslateModule],
-  templateUrl: './delete.component.html',
-  styleUrl: './delete.component.scss'
+    selector: 'app-delete',
+    imports: [RouterModule, SeparateTextPipe, CommonModule, TranslateModule],
+    templateUrl: './delete.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './delete.component.scss'
 })
 export class DeleteComponent implements OnInit, OnDestroy {
   countDown: number = 20;

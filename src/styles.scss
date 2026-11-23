@@ -1,7 +1,7 @@
-@import './css/variables.scss';
-@import './css/animations.scss';
-@import './css/native-overrides.scss';
-@import './css/dragon-type-object-fit.scss';
+@use 'css/variables.scss';
+@use 'css/animations.scss';
+@use 'css/native-overrides.scss';
+@use 'css/dragon-type-object-fit.scss';
 @import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 @import '@fortawesome/fontawesome-free/css/solid.min.css';
 

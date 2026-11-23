@@ -1,16 +1,16 @@
 import { AppService } from '@/app/app.service';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-earn01',
-  standalone: true,
-  imports: [CommonModule, TranslateModule, RouterModule, SeparateTextPipe],
-  templateUrl: './earn01.component.html',
-  styleUrl: './earn01.component.scss'
+    selector: 'app-earn01',
+    imports: [CommonModule, TranslateModule, RouterModule, SeparateTextPipe],
+    templateUrl: './earn01.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './earn01.component.scss'
 })
 export class Earn01Component implements AfterViewInit, OnDestroy {
   moji: Array<string> = [

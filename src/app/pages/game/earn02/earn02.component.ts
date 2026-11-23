@@ -1,17 +1,17 @@
 import { AppService } from '@/app/app.service';
 import { ChessGameComponent } from '@/components/chess-game/chess-game.component';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
-import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+
+import { AfterViewInit, Component, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-earn02',
-  standalone: true,
-  imports: [CommonModule, TranslateModule, RouterModule, SeparateTextPipe, ChessGameComponent],
-  templateUrl: './earn02.component.html',
-  styleUrl: './earn02.component.scss'
+    selector: 'app-earn02',
+    imports: [TranslateModule, RouterModule, SeparateTextPipe, ChessGameComponent],
+    templateUrl: './earn02.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './earn02.component.scss'
 })
 export class Earn02Component implements AfterViewInit, OnDestroy {
 

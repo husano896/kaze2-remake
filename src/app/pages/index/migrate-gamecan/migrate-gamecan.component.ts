@@ -2,20 +2,19 @@ import { AppService } from '@/app/app.service';
 import { EventFlag } from '@/data/EventFlag';
 import { SaveData } from '@/entities/SaveData';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
-import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-migrate-gamecan',
-  standalone: true,
-  imports: [TranslateModule, RouterModule, FormsModule, ReactiveFormsModule, SeparateTextPipe, DatePipe],
-  templateUrl: './migrate-gamecan.component.html',
-  styleUrl: './migrate-gamecan.component.scss'
+    selector: 'app-migrate-gamecan',
+    imports: [TranslateModule, RouterModule, FormsModule, ReactiveFormsModule, SeparateTextPipe],
+    templateUrl: './migrate-gamecan.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './migrate-gamecan.component.scss'
 })
 export class MigrateGamecanComponent implements OnDestroy {
   newSaveData?: SaveData;
@@ -91,7 +90,7 @@ export class MigrateGamecanComponent implements OnDestroy {
 
         this.newSaveData.btlid = resp.btlid;
         this.newSaveData.guid = resp.guid;
-        await this.appServ.Confirm('Game Canから 登 録 完 了', 'IDをメモしたら進んで下さい')
+        await this.appServ.Confirm('Game Canから登録完了', 'IDをメモしたら進んで下さい')
       }
       this.appServ.saveData = this.newSaveData;
       // 二週目處理

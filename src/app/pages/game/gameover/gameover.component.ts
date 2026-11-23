@@ -1,16 +1,16 @@
-import { AfterViewInit, Component } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
+import { AfterViewInit, Component, ChangeDetectionStrategy } from '@angular/core';
+import { Location } from '@angular/common';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { LocalStorageKey } from '@/entities/LocalStorageKey';
 import { AppService } from '@/app/app.service';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 @Component({
-  selector: 'app-gameover',
-  standalone: true,
-  imports: [SeparateTextPipe, CommonModule],
-  templateUrl: './gameover.component.html',
-  styleUrl: './gameover.component.scss'
+    selector: 'app-gameover',
+    imports: [SeparateTextPipe],
+    templateUrl: './gameover.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './gameover.component.scss'
 })
 export class GameoverComponent implements AfterViewInit {
   constructor(private readonly location: Location, private appServ: AppService, private http: HttpClient) {

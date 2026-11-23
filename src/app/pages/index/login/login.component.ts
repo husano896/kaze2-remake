@@ -3,24 +3,24 @@ import { EventFlag } from '@/data/EventFlag';
 import { SaveData } from '@/entities/SaveData';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [TranslateModule, RouterModule, FormsModule, ReactiveFormsModule, SeparateTextPipe],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+    selector: 'app-login',
+    imports: [TranslateModule, RouterModule, FormsModule, ReactiveFormsModule, SeparateTextPipe],
+    templateUrl: './login.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   constructor(
     private readonly appServ: AppService,
-     private readonly router: Router, 
-     private readonly http: HttpClient) {
+    private readonly router: Router,
+    private readonly http: HttpClient) {
   }
   loginForm = new FormGroup({
     id: new FormControl('', [Validators.required]),
@@ -29,10 +29,10 @@ export class LoginComponent {
 
   async Login() {
     try {
-      const resp = (await firstValueFrom(this.http.post('/login', {
+      const resp = (await firstValueFrom(this.http.post<{ saveData: any }>('/login', {
         email: this.loginForm.value.id,
         password: this.loginForm.value.password
-      }))) as { saveData: any }
+      })))
 
       const newSaveData = SaveData.Load(resp.saveData);
       //#region 若跟本地存檔不同人的判定

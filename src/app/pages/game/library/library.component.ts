@@ -1,14 +1,14 @@
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
-import { AfterContentChecked, AfterViewChecked, Component, ElementRef } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, Component, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-library',
-  standalone: true,
-  imports: [RouterModule, TranslateModule, SeparateTextPipe],
-  templateUrl: './library.component.html',
-  styleUrl: './library.component.scss'
+    selector: 'app-library',
+    imports: [RouterModule, TranslateModule, SeparateTextPipe],
+    templateUrl: './library.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './library.component.scss'
 })
 export class LibraryComponent implements AfterViewChecked {
 

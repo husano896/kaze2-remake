@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Injector, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Injector, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Events } from '@/data/events';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -11,11 +11,11 @@ import { SnakeGameComponent } from '@/components/snake-game/snake-game.component
 import { RootAnimations } from '@/app/app.service';
 
 @Component({
-  selector: 'app-dialogue',
-  standalone: true,
-  imports: [CommonModule, RouterModule, ChessGameComponent, SnakeGameComponent],
-  templateUrl: './dialogue.component.html',
-  styleUrl: './dialogue.component.scss'
+    selector: 'app-dialogue',
+    imports: [CommonModule, RouterModule, ChessGameComponent, SnakeGameComponent],
+    templateUrl: './dialogue.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './dialogue.component.scss'
 })
 
 export class DialogueComponent extends DialogueSystem implements AfterViewInit, OnDestroy {
@@ -63,10 +63,8 @@ export class DialogueComponent extends DialogueSystem implements AfterViewInit, 
   }
 
   override async ngAfterViewInit() {
-
     super.ngAfterViewInit();
     this.routerSubscription = this.router.events.pipe(debounceTime(100)).subscribe(async (ev) => {
-      console.log('ev')
       const state = this.location.getState() as { event: string };
       if (state?.event) {
         await this.appServ.Wait(100)

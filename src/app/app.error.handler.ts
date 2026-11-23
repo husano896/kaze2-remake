@@ -22,8 +22,7 @@ export class AppErrorHandler implements ErrorHandler {
         this.appService.setAmbient()
         this.appService.setMessageSE()
 
-        // 播放告警音
-        this.appService.setSE('snd12');
+
 
         console.error(error);
         this.appService.error.push(error);

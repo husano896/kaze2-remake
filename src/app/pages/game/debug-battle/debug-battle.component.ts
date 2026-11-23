@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-debug-battle',
-  standalone: true,
-  imports: [RouterModule, TranslateModule],
-  templateUrl: './debug-battle.component.html',
-  styleUrl: './debug-battle.component.scss'
+    selector: 'app-debug-battle',
+    imports: [RouterModule, TranslateModule],
+    templateUrl: './debug-battle.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './debug-battle.component.scss'
 })
 export class DebugBattleComponent {
   constructor(private readonly router: Router) { }

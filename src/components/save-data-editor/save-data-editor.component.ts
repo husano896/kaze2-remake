@@ -1,17 +1,17 @@
 import { AppService } from '@/app/app.service';
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import * as _ from 'lodash-es';
 
 @Component({
-  selector: 'app-save-data-editor',
-  standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule],
-  templateUrl: './save-data-editor.component.html',
-  styleUrl: './save-data-editor.component.scss'
+    selector: 'app-save-data-editor',
+    imports: [FormsModule, TranslateModule],
+    templateUrl: './save-data-editor.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './save-data-editor.component.scss'
 })
 export class SaveDataEditorComponent {
   opened?: boolean;

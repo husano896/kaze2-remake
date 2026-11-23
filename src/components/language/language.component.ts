@@ -1,15 +1,15 @@
 import { LocalStorageKey } from '@/entities/LocalStorageKey';
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-language',
-  standalone: true,
-  imports: [FormsModule, TranslateModule],
-  templateUrl: './language.component.html',
-  styleUrl: './language.component.scss'
+    selector: 'app-language',
+    imports: [FormsModule, TranslateModule],
+    templateUrl: './language.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './language.component.scss'
 })
 export class LanguageComponent {
   constructor(private translateServ: TranslateService) {

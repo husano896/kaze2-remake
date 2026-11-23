@@ -1,18 +1,18 @@
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CommonModule } from '@angular/common';
+
 import { AppService } from '@/app/app.service';
 import { IBattleData } from '@/data/battle';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-battle-list',
-  standalone: true,
-  imports: [TranslateModule, RouterModule, SeparateTextPipe, CommonModule, FormsModule],
-  templateUrl: './battle-list.component.html',
-  styleUrl: './battle-list.component.scss'
+    selector: 'app-battle-list',
+    imports: [TranslateModule, RouterModule, SeparateTextPipe, FormsModule],
+    templateUrl: './battle-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './battle-list.component.scss'
 })
 export class BattleListComponent implements OnInit {
   list?: IBattleData[] = [];

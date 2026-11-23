@@ -1,14 +1,14 @@
 import { AppService } from '@/app/app.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Location } from '@angular/common';
 @Component({
-  selector: 'app-welcome',
-  standalone: true,
-  imports: [TranslateModule],
-  templateUrl: './welcome.component.html',
-  styleUrl: './welcome.component.scss'
+    selector: 'app-welcome',
+    imports: [TranslateModule],
+    templateUrl: './welcome.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './welcome.component.scss'
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
   tick: number = 0;

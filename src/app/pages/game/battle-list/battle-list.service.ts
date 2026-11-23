@@ -17,8 +17,7 @@ export class BattleListService implements Resolve<Array<IBattleData>> {
   }
 
   GetBattleList() {
-    // 若不足人數的部分，以假資料補齊
-    return this.http.get(`https://api.re-kaze2.xflydragon.cc/battle?battlePower=${this.currentPlayerBattlePower}`)
+    return this.http.get(`/battle?battlePower=${this.currentPlayerBattlePower}`)
       .pipe(
         map((res) => {
           return res as IBattleData[];
@@ -31,6 +30,7 @@ export class BattleListService implements Resolve<Array<IBattleData>> {
       )
   }
 
+  /*
   CreateFakePlayer(): IBattleData {
     const p = new SaveData()
 
@@ -69,7 +69,7 @@ export class BattleListService implements Resolve<Array<IBattleData>> {
     // #endregion
     return p;
   }
-
+  */
   /** 取得目前存檔的戰力 */
   get currentPlayerBattlePower() {
     const s = this.appServ.saveData;

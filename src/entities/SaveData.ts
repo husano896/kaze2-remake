@@ -111,7 +111,7 @@ export class SaveData implements IBattleData {
 
     public Save() {
         localStorage.setItem(LocalStorageKey.save, JSON.stringify(this));
-        console.log('[SaveData]存檔：', this);
+        // console.log('[SaveData]存檔：', this);
     }
 
     public ToOnlineSave() {
@@ -255,6 +255,24 @@ export class SaveData implements IBattleData {
         const ans3 = Math.abs(5 - ans);
         const ans4 = Math.abs(5 - ans2);
         this.PS_Set(0);
+
+        // レベル１階層のドラゴングラフィック！！
+        if (this.nowLv < 3) {
+            fil = "nomal01";
+            this.PS_Set(0);
+        }
+        if (this.nowLv >= 3) {
+            fil = "nomal02";
+            this.PS_Set(0);
+        }
+        if (this.nowLv >= 6) {
+            fil = "nomal03";
+            this.PS_Set(3);
+        }
+        if (this.nowLv >= 8) {
+            fil = "nomal04";
+            this.PS_Set(4);
+        }
 
         if ((this.nowLv >= 10) && (ans3 > ans4) && (ans <= 4)) {
             fil = "fir01";

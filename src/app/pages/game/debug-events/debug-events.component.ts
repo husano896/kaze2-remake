@@ -1,16 +1,16 @@
 import { AppService } from '@/app/app.service';
 import { SaveDataEditorComponent } from '@/components/save-data-editor/save-data-editor.component';
-import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+
+import { AfterViewInit, Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-debug-events',
-  standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule, SaveDataEditorComponent],
-  templateUrl: './debug-events.component.html',
-  styleUrl: './debug-events.component.scss'
+    selector: 'app-debug-events',
+    imports: [RouterModule, TranslateModule, SaveDataEditorComponent],
+    templateUrl: './debug-events.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './debug-events.component.scss'
 })
 export class DebugEventsComponent implements AfterViewInit, OnDestroy {
   waiting?: boolean;

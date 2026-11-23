@@ -2,7 +2,7 @@ import { AppService } from '@/app/app.service';
 import { EventFlag } from '@/data/EventFlag';
 import { SaveData } from '@/entities/SaveData';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -11,11 +11,11 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-new-save',
-  standalone: true,
-  imports: [RouterModule, TranslateModule, FormsModule, ReactiveFormsModule, SeparateTextPipe],
-  templateUrl: './new-save.component.html',
-  styleUrl: './new-save.component.scss'
+    selector: 'app-new-save',
+    imports: [RouterModule, TranslateModule, FormsModule, ReactiveFormsModule, SeparateTextPipe],
+    templateUrl: './new-save.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './new-save.component.scss'
 })
 export class NewSaveComponent implements AfterViewInit, OnInit {
   registerForm = new FormGroup({

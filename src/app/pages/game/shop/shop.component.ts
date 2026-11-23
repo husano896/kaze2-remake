@@ -1,18 +1,18 @@
 import { AppService } from '@/app/app.service';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { CommonModule } from '@angular/common';
-import { AfterContentChecked, Component, OnInit } from '@angular/core';
+import { AfterContentChecked, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import * as _ from 'lodash-es';
 
 @Component({
-  selector: 'app-shop',
-  standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule, SeparateTextPipe, FormsModule],
-  templateUrl: './shop.component.html',
-  styleUrl: './shop.component.scss'
+    selector: 'app-shop',
+    imports: [CommonModule, RouterModule, TranslateModule, SeparateTextPipe, FormsModule],
+    templateUrl: './shop.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './shop.component.scss'
 })
 export class ShopComponent implements OnInit, AfterContentChecked {
 

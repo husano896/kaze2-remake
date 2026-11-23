@@ -2,15 +2,15 @@ import { AppService } from '@/app/app.service';
 import { BioFlag } from '@/data/BioFlag';
 import { EventFlag } from '@/data/EventFlag';
 import { DragonGameEvents } from '@/data/dragongame_events';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-begin',
-  standalone: true,
-  imports: [RouterModule],
-  templateUrl: './begin.component.html',
-  styleUrl: './begin.component.scss'
+    selector: 'app-begin',
+    imports: [RouterModule],
+    templateUrl: './begin.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './begin.component.scss'
 })
 export class BeginComponent implements OnInit {
   constructor(private readonly appServ: AppService, private readonly router: Router,) {
