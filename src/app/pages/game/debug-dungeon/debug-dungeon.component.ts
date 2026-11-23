@@ -1,13 +1,13 @@
 import { AppService } from '@/app/app.service';
 import { SaveDataEditorComponent } from '@/components/save-data-editor/save-data-editor.component';
-import { CommonModule } from '@angular/common';
+
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-debug-dungeon',
-    imports: [CommonModule, RouterModule, TranslateModule, SaveDataEditorComponent],
+    imports: [RouterModule, TranslateModule, SaveDataEditorComponent],
     templateUrl: './debug-dungeon.component.html',
     styleUrl: './debug-dungeon.component.scss'
 })

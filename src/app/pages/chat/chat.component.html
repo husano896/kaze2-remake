@@ -24,35 +24,39 @@
 <hr />
 
 @if (ableToChat) {
-<div class="flex-row gap" style="align-items: center;">
-  <span>{{playerName || '里親'}}</span>
-  <span></span>
-  <span>Color</span>
-  <select [ngStyle]="{color: selectedColor , background: 'white'}" [(ngModel)]="selectedColor">
-    <option *ngFor="let color of colors" [ngStyle]="{color: color.color}" [value]="color.color">{{color.name}}</option>
-  </select>
-</div>
+  <div class="flex-row gap" style="align-items: center;">
+    <span>{{playerName || '里親'}}</span>
+    <span></span>
+    <span>Color</span>
+    <select [ngStyle]="{color: selectedColor , background: 'white'}" [(ngModel)]="selectedColor">
+      @for (color of colors; track color) {
+        <option [ngStyle]="{color: color.color}" [value]="color.color">{{color.name}}</option>
+      }
+    </select>
+  </div>
 
 
-<div class="flex-row full-width gap-large" style="align-items: center;">
-  <input [placeholder]="'Chat.Input.PlaceHolder' | translate" [(ngModel)]="chatText" class="full-width"
-    style="max-width: 600px;" />
-  <button (click)="Submit()" [disabled]="!chatText" style="word-break: keep-all;">{{'Chat.Input.Submit' | translate}}</button>
-</div>
+  <div class="flex-row full-width gap-large" style="align-items: center;">
+    <input [placeholder]="'Chat.Input.PlaceHolder' | translate" [(ngModel)]="chatText" class="full-width"
+      style="max-width: 600px;" />
+    <button (click)="Submit()" [disabled]="!chatText" style="word-break: keep-all;">{{'Chat.Input.Submit' | translate}}</button>
+  </div>
 
-<hr />
+  <hr />
 }
 
-<span *ngFor="let c of chatData" [ngStyle]="{color: c.color}">
-  {{c.name}}: {{c.text}} - [{{c.time | date:'yyyy/MM/dd HH:mm'}}]
-</span>
+@for (c of chatData; track c) {
+  <span [ngStyle]="{color: c.color}">
+    {{c.name}}: {{c.text}} - [{{c.time | date:'yyyy/MM/dd HH:mm'}}]
+  </span>
+}
 
 <hr/>
 
 <br/>
 
 @if (error) {
-<span style="color: red">
-  ERROR: {{error | json}}
-</span>
+  <span style="color: red">
+    ERROR: {{error | json}}
+  </span>
 }

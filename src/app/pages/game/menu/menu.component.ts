@@ -2,13 +2,13 @@ import { AfterViewInit, Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { AppService } from '@/app/app.service';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { Howler } from 'howler';
 
 @Component({
     selector: 'app-menu',
-    imports: [RouterModule, CommonModule, TranslateModule, SeparateTextPipe],
+    imports: [RouterModule, TranslateModule, SeparateTextPipe],
     templateUrl: './menu.component.html',
     styleUrl: './menu.component.scss'
 })

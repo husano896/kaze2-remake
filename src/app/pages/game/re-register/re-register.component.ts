@@ -1,6 +1,6 @@
 import { AppService } from '@/app/app.service';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
-import { CommonModule } from '@angular/common';
+
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -10,7 +10,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Component({
     selector: 'app-re-register',
-    imports: [RouterModule, SeparateTextPipe, CommonModule, TranslateModule, FormsModule, ReactiveFormsModule,],
+    imports: [RouterModule, SeparateTextPipe, TranslateModule, FormsModule, ReactiveFormsModule],
     templateUrl: './re-register.component.html',
     styleUrl: './re-register.component.scss'
 })

@@ -3,13 +3,13 @@ import { Endings } from '@/data/endings';
 import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Subject, firstValueFrom } from 'rxjs';
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-ending',
-    imports: [CommonModule, RouterModule, TranslateModule],
+    imports: [RouterModule, TranslateModule],
     templateUrl: './ending.component.html',
     styleUrl: './ending.component.scss'
 })

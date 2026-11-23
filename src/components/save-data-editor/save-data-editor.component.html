@@ -1,194 +1,180 @@
-<div *ngIf="opened" class="boxed-content flex-column padding gap game-bg full-height"
+@if (opened) {
+  <div class="boxed-content flex-column padding gap game-bg full-height"
     style="text-align: center; overflow: auto;">
     <span>Save Data Editor</span>
     <hr class="full-width" />
     <div class="flex-column gap" style="overflow: auto; height: 100%; text-align: start;">
+      <label>
+        playerName
+        <input [(ngModel)]="data.yourName" />
+      </label>
+      <label>
+        {{'Game.DragonGame.DragonName' | translate}}
+        <input [(ngModel)]="data.dragonName" />
+      </label>
+      <div class="flex-row gap space-between">
         <label>
-            playerName
-            <input [(ngModel)]="data.yourName" />
+          LvOffset
+          <input [(ngModel)]="data.lvOffset" type="number" min="0" style="width: 60px;" />
         </label>
         <label>
-            {{'Game.DragonGame.DragonName' | translate}}
-            <input [(ngModel)]="data.dragonName" />
+          {{'Game.DragonGame.Progress' | translate}}
+          <input [(ngModel)]="data.numVisits" type="number" min="0" style="width: 60px;" />
         </label>
+      </div>
+      <div class="flex-row gap space-between">
+        <label>
+          love
+          <input [(ngModel)]="data.love" type="number" min="0" style="width: 60px;" />
+        </label>
+        <label>
+          {{'Noun.Turn' | translate}}
+          <input [(ngModel)]="data.turn" type="number" min="0" max="999" style="width: 60px;" />
+        </label>
+      </div>
+      <label>
+        Money({{'Noun.ShellMoney' | translate}})
+        <input [(ngModel)]="data.food" type="number" min="0" style="width: 96px;" />
+      </label>
+      <div class="flex-row gap space-between">
+        <span>{{'Game.DragonGame.Maxhp' | translate}}</span>
+        <input [(ngModel)]="data.hp" type="number" min="1" style="width: 72px;" />
+        <span>/</span>
+        <input [(ngModel)]="data.Maxhp" type="number" min="1" style="width: 72px;" />
+      </div>
+      <label>
+        {{'Game.DragonGame.At' | translate}}
+        <input [(ngModel)]="data.at" type="number" min="1" style="width: 72px;" />
+      </label>
+      <label>
+        {{'Game.DragonGame.Df' | translate}}
+        <input [(ngModel)]="data.df" type="number" min="1" style="width: 72px;" />
+      </label>
+      <label>
+        {{'Game.DragonGame.Spd' | translate}}
+        <input [(ngModel)]="data.speed" type="number" min="1" style="width: 72px;" />
+      </label>
+      <details>
+        <summary>{{'Game.DragonGame.Element' | translate}}</summary>
         <div class="flex-row gap space-between">
-            <label>
-                LvOffset
-                <input [(ngModel)]="data.lvOffset" type="number" min="0" style="width: 60px;" />
-            </label>
-
-            <label>
-                {{'Game.DragonGame.Progress' | translate}}
-                <input [(ngModel)]="data.numVisits" type="number" min="0" style="width: 60px;" />
-            </label>
+          <label>
+            火水
+            <input [(ngModel)]="data.element1" type="number" min="-999" max="999" style="width: 60px;" />
+          </label>
+          <label>
+            風地
+            <input [(ngModel)]="data.element2" type="number" min="-999" max="999" style="width: 60px;" />
+          </label>
         </div>
-
-        <div class="flex-row gap space-between">
+      </details>
+      <details>
+        <summary>ivent</summary>
+        @for (text of [
+          '1: 開啟音樂',
+          '2: 孤龍寄養',
+          '3: 該次(visit)的後續事件',
+          '4: 性別, ON（雌性）OFF（雄性）',
+          '5: 貓咪飼料草',
+          '6: 貓事件主線',
+          '7: 貓事件失敗',
+          '8: 滅びの都ヒディール到訪',
+          '9: Game Clear',
+          '10: (未使用)',
+          '11: ハッキング二回目',
+          '12: 期間限定',
+          '13: ニステアイベント終了',
+          '14: 水晶ランタンイベント終了',
+          '15: 強制登出遊戲 (未實裝)',
+          '16: 遊戲登入(未實裝)',
+          '17: ウリア大砂漠地帯イベント'
+          ]; let index = $index; track $index;) {
+          <label>
+            <input type="checkbox" [ngModel]="getEventActive(index)"
+              (ngModelChange)="onEventChange(index, $event)" />
+            {{text}}
+          </label>
+          <br />
+        }
+      </details>
+      <details>
+        <summary>持有契約加護印(DragonChip1)</summary>
+        @for (dragonChip of dragonChips; let index = $index; track $index;) {
+          @if (dragonChip> 0) {
             <label>
-                love
-                <input [(ngModel)]="data.love" type="number" min="0" style="width: 60px;" />
-            </label>
-
-            <label>
-                {{'Noun.Turn' | translate}}
-                <input [(ngModel)]="data.turn" type="number" min="0" max="999" style="width: 60px;" />
-            </label>
-        </div>
-        <label>
-            Money({{'Noun.ShellMoney' | translate}})
-            <input [(ngModel)]="data.food" type="number" min="0" style="width: 96px;" />
-        </label>
-
-        <div class="flex-row gap space-between">
-            <span>{{'Game.DragonGame.Maxhp' | translate}}</span>
-
-            <input [(ngModel)]="data.hp" type="number" min="1" style="width: 72px;" />
-            <span>/</span>
-            <input [(ngModel)]="data.Maxhp" type="number" min="1" style="width: 72px;" />
-
-        </div>
-        <label>
-            {{'Game.DragonGame.At' | translate}}
-            <input [(ngModel)]="data.at" type="number" min="1" style="width: 72px;" />
-        </label>
-        <label>
-            {{'Game.DragonGame.Df' | translate}}
-            <input [(ngModel)]="data.df" type="number" min="1" style="width: 72px;" />
-        </label>
-        <label>
-            {{'Game.DragonGame.Spd' | translate}}
-            <input [(ngModel)]="data.speed" type="number" min="1" style="width: 72px;" />
-        </label>
-
-
-        <details>
-            <summary>{{'Game.DragonGame.Element' | translate}}</summary>
-            <div class="flex-row gap space-between">
-                <label>
-                    火水
-                    <input [(ngModel)]="data.element1" type="number" min="-999" max="999" style="width: 60px;" />
-                </label>
-                <label>
-                    風地
-                    <input [(ngModel)]="data.element2" type="number" min="-999" max="999" style="width: 60px;" />
-                </label>
-            </div>
-        </details>
-        <details>
-            <summary>ivent</summary>
-            @for (text of [
-            '1: 開啟音樂',
-            '2: 孤龍寄養',
-            '3: 該次(visit)的後續事件',
-            '4: 性別, ON（雌性）OFF（雄性）',
-            '5: 貓咪飼料草',
-            '6: 貓事件主線',
-            '7: 貓事件失敗',
-            '8: 滅びの都ヒディール到訪',
-            '9: Game Clear',
-            '10: (未使用)',
-            '11: ハッキング二回目',
-            '12: 期間限定',
-            '13: ニステアイベント終了',
-            '14: 水晶ランタンイベント終了',
-            '15: 強制登出遊戲 (未實裝)',
-            '16: 遊戲登入(未實裝)',
-            '17: ウリア大砂漠地帯イベント'
-            ]; let index = $index; track $index;) {
-            <label>
-                <input type="checkbox" [ngModel]="getEventActive(index)"
-                    (ngModelChange)="onEventChange(index, $event)" />
-
-                {{text}}
+              <input type="checkbox" [ngModel]="getDragonChip1Active(dragonChip)"
+                (ngModelChange)="onDragonChip1Change(dragonChip, $event)" />
+              {{('Data.DragonType.' + index + '.Title') | translate}}
             </label>
             <br />
-            }
-        </details>
-
-        <details>
-            <summary>持有契約加護印(DragonChip1)</summary>
-            @for (dragonChip of dragonChips; let index = $index; track $index;) {
-            @if (dragonChip> 0) {
+          }
+        }
+      </details>
+      <details>
+        <summary>生效契約加護印(DragonChip2)</summary>
+        <select [(ngModel)]="data.DragonChip2" >
+          @for (dragonChip of dragonChips; let index = $index; track $index;) {
+            <option [ngValue]="dragonChip" >
+              {{('Data.DragonType.' + index + '.Title') | translate}}
+            </option>
+          }
+        </select>
+      </details>
+      <details>
+        <summary>持有技能(magic)</summary>
+        @for (magic of magics; let index = $index; track $index;) {
+          @if (magic> 0) {
             <label>
-                <input type="checkbox" [ngModel]="getDragonChip1Active(dragonChip)"
-                    (ngModelChange)="onDragonChip1Change(dragonChip, $event)" />
-
-                {{('Data.DragonType.' + index + '.Title') | translate}}
+              <input type="checkbox" [ngModel]="getMagicActive(magic)"
+                (ngModelChange)="onMagicChange(magic, $event)" />
+              {{('Data.Skill.' + (index) + '.Title') | translate}}
             </label>
             <br />
-            }
-            }
-        </details>
-
-        <details>
-            <summary>生效契約加護印(DragonChip2)</summary>
-            <select [(ngModel)]="data.DragonChip2" >
-
-                @for (dragonChip of dragonChips; let index = $index; track $index;) {
-                <option [ngValue]="dragonChip" >
-                    {{('Data.DragonType.' + index + '.Title') | translate}}
-                </option>
-                }
-            </select>
-        </details>
-        <details>
-            <summary>持有技能(magic)</summary>
-            @for (magic of magics; let index = $index; track $index;) {
-            @if (magic> 0) {
+          }
+        }
+      </details>
+      <details>
+        <summary>裝備技能(magicS)</summary>
+        @for (magic of magics; let index = $index; track $index;) {
+          @if (magic> 0) {
             <label>
-                <input type="checkbox" [ngModel]="getMagicActive(magic)"
-                    (ngModelChange)="onMagicChange(magic, $event)" />
-
-                {{('Data.Skill.' + (index) + '.Title') | translate}}
+              <input type="checkbox" [ngModel]="getMagicSActive(magic)"
+                (ngModelChange)="onMagicSChange(magic, $event)" />
+              {{('Data.Skill.' + (index) + '.Title') | translate}}
             </label>
             <br />
-            }
-            }
-        </details>
-        <details>
-            <summary>裝備技能(magicS)</summary>
-            @for (magic of magics; let index = $index; track $index;) {
-            @if (magic> 0) {
-            <label>
-                <input type="checkbox" [ngModel]="getMagicSActive(magic)"
-                    (ngModelChange)="onMagicSChange(magic, $event)" />
-
-                {{('Data.Skill.' + (index) + '.Title') | translate}}
-            </label>
-            <br />
-            }
-            }
-        </details>
-        <details>
-            <summary>道具(item)</summary>
-            @for (i of data.item; let index = $index; track $index;) {
-            <label>
-                <input type="number" [(ngModel)]="data.item[index]" min="0" max="9" />
-                {{('Data.Item.' + (index) + '.Title') | translate}}
-            </label>
-            <br />
-            }
-        </details>
-        <details>
-            <summary>{{'Game.DragonGame.Bio' | translate}}</summary>
-
-            @for (index of [1,2,3,4,5,6,7,8,9]; track $index;) {
-            <label>
-                {{getBioText(index)}}
-                <input type="checkbox" [ngModel]="getBioActive(index)" (ngModelChange)="onBioChange(index, $event)" />
-            </label>
-            <br />
-            }
-        </details>
-
-        <br />
-
-        <span>DisplayText</span>
-        <hr class="full-width" />
-        <span>Lv: {{data.nowLv}}</span>
-        <span>{{'Game.DragonGame.Bio' | translate}}: {{stBioText}}</span>
-        <span>{{'Game.DragonGame.Element' | translate}}: {{data.elementText | translate}}</span>
+          }
+        }
+      </details>
+      <details>
+        <summary>道具(item)</summary>
+        @for (i of data.item; let index = $index; track $index;) {
+          <label>
+            <input type="number" [(ngModel)]="data.item[index]" min="0" max="9" />
+            {{('Data.Item.' + (index) + '.Title') | translate}}
+          </label>
+          <br />
+        }
+      </details>
+      <details>
+        <summary>{{'Game.DragonGame.Bio' | translate}}</summary>
+        @for (index of [1,2,3,4,5,6,7,8,9]; track $index;) {
+          <label>
+            {{getBioText(index)}}
+            <input type="checkbox" [ngModel]="getBioActive(index)" (ngModelChange)="onBioChange(index, $event)" />
+          </label>
+          <br />
+        }
+      </details>
+      <br />
+      <span>DisplayText</span>
+      <hr class="full-width" />
+      <span>Lv: {{data.nowLv}}</span>
+      <span>{{'Game.DragonGame.Bio' | translate}}: {{stBioText}}</span>
+      <span>{{'Game.DragonGame.Element' | translate}}: {{data.elementText | translate}}</span>
     </div>
     <button (click)="close()">Done</button>
-</div>
-<button *ngIf="!opened" (click)="opened = true;">S</button>
+  </div>
+}
+@if (!opened) {
+  <button (click)="opened = true;">S</button>
+}

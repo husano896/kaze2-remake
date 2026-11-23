@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { SeparateTextPipe } from '@/pipes/separate-text.pipe';
 import { LocalStorageKey } from '@/entities/LocalStorageKey';
 import { AppService } from '@/app/app.service';
@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 @Component({
     selector: 'app-gameover',
-    imports: [SeparateTextPipe, CommonModule],
+    imports: [SeparateTextPipe],
     templateUrl: './gameover.component.html',
     styleUrl: './gameover.component.scss'
 })

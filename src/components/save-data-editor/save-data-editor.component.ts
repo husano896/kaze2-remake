@@ -1,5 +1,5 @@
 import { AppService } from '@/app/app.service';
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,7 +8,7 @@ import * as _ from 'lodash-es';
 
 @Component({
     selector: 'app-save-data-editor',
-    imports: [CommonModule, FormsModule, TranslateModule],
+    imports: [FormsModule, TranslateModule],
     templateUrl: './save-data-editor.component.html',
     styleUrl: './save-data-editor.component.scss'
 })

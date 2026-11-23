@@ -1,5 +1,5 @@
 import { LocalStorageKey } from '@/entities/LocalStorageKey';
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
