@@ -41,6 +41,7 @@
     "@playwright/test": "^1.46.1",
     "@types/jasmine": "~5.1.0",
     "@types/lodash-es": "^4.17.12",
+    "dotenv": "^18.0.10",
     "istanbul-lib-instrument": "^6.0.3",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",
